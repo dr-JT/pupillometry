@@ -14,7 +14,7 @@
 
 pupil.smooth <- function(x, type = "hann", window = 5, hz = "", eye.recorded = ""){
   if (hz==""){
-    hz <- x$hz[1]
+    hz <- x$Hz[1]
   }
   window <- window/(hz/1000)
   x <- dplyr::group_by(x, Trial)

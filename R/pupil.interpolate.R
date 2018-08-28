@@ -15,7 +15,7 @@
 pupil.interpolate <- function(x, type = "cubic-spline", maxgap = Inf, hz = "", eye.recorded = ""){
   if (maxgap!=Inf){
     if (hz==""){
-      hz <- x$hz[1]
+      hz <- x$Hz[1]
     }
     maxgap <- maxgap/(hz/1000)
   }
