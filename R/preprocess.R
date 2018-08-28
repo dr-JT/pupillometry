@@ -76,6 +76,7 @@ preprocess <- function(import = "", pattern = "*.txt", export = "", taskname = "
         write.table(x[[i]], file = SaveAs, sep = "\t", row.names = FALSE, quote = FALSE)
       }
     } else {
+      preprocessing <- preprocessing.stage
       x <- lapply(x, readyToSave)
       for (i in 1:length(x)){
         subj <- x[[i]]$Subject[1]
@@ -96,6 +97,7 @@ preprocess <- function(import = "", pattern = "*.txt", export = "", taskname = "
       preprocessing <- paste(preprocessing.stage, "ds", sep = ".")
     }
     for (i in 1:length(x)){
+      preprocessing <- preprocessing.stage
       subj <- x[[i]]$Subject[1]
       SaveAs <- paste(export, "/", taskname, "_", subj, "_PupilData_", preprocessing, ".txt", sep = "")
       write.table(x[[i]], file = SaveAs, sep = "\t", row.names = FALSE, quote = FALSE)
