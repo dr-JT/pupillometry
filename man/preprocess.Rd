@@ -7,10 +7,11 @@
 preprocess(import = "", pattern = "default", export = "", taskname = "",
   eyetracker = "", trialmarker.message = "default",
   trialonset.message = "", targetonset.message = "", eye.recorded = "",
-  pretrial.duration = "", bc.duration = "", eye.use = "",
-  interpolate = FALSE, smooth = FALSE, smooth.window = "default",
-  downsample.Hz = "", bc = FALSE, subj.prefix = "default",
-  subset = "default", trial.exclude = c())
+  eye.use = "", pretrial.duration = "", bc.duration = "",
+  interpolate = FALSE, interpolate.type = "", smooth = FALSE,
+  smooth.type = "", smooth.window = "default", downsample.Hz = "",
+  bc = FALSE, subj.prefix = "default", subset = "default",
+  trial.exclude = c())
 }
 \arguments{
 \item{import}{Folder path to raw data files}
@@ -31,17 +32,21 @@ preprocess(import = "", pattern = "default", export = "", taskname = "",
 
 \item{eye.recorded}{Do you want to inclue the "left", "right', or "both" eyes?}
 
+\item{eye.use}{Which method of using left and right eye data? Average, missing, left, or right.}
+
 \item{pretrial.duration}{Duration of pre-trial baseline period in milliseconds}
 
 \item{bc.duration}{PreTarget duration to use for baseline correction}
 
-\item{eye.use}{Which method of using left and right eye data? Average, missing, left, or right.}
-
 \item{interpolate}{Do you want to do a linear interpolation over missing values?}
 
-\item{smooth}{Do you want to apply a moving average smoothing function (window = 5)?}
+\item{interpolate.type}{What type of interpolation to use? linear or cubic-spline}
 
-\item{smooth.window}{Window size of smoothing function default is 5}
+\item{smooth}{Do you want to apply a moving average smoothing function?}
+
+\item{smooth.type}{The type of smoothing function to apply. hann or moving window average (mwa)}
+
+\item{smooth.window}{Window size of smoothing function default is 11 milliseconds}
 
 \item{downsample.Hz}{The frequency you want to downsample to}
 

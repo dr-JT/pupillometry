@@ -4,10 +4,12 @@
 \alias{pupil.interpolate}
 \title{Pupil Preprocessing Function}
 \usage{
-pupil.interpolate(x, eye.recorded = "")
+pupil.interpolate(x, type = "cubic-spline", eye.recorded = "")
 }
 \arguments{
 \item{x}{dataframe}
+
+\item{type}{What type of interpolation to use? (default: cubic-spline)}
 
 \item{eye.recorded}{Is there pupil data for the left, right, or both eyes?}
 }
@@ -16,6 +18,6 @@ This function performs a linear interpolation over missing values.
 The 'zoo' package is a dependency
 }
 \examples{
-pupil.interpolate(x)
+pupil.interpolate(x, type = "cubic-spline", eye.recorded = "both")
 }
 \keyword{interpolate}

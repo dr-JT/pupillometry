@@ -11,13 +11,15 @@
 #' @param trialonset.message Message string that marks the start of a trial
 #' @param targetonset.message Message string that marks the target onset for baseline correction
 #' @param eye.recorded Do you want to inclue the "left", "right', or "both" eyes?
+#' @param eye.use Which method of using left and right eye data? Average, missing, left, or right.
 #' @param pretrial.duration Duration of pre-trial baseline period in milliseconds
 #' @param bc.duration PreTarget duration to use for baseline correction
 #' @param ms.conversion Conversion factor to convert timing to milliseconds
-#' @param eye.use Which method of using left and right eye data? Average, missing, left, or right.
 #' @param interpolate Do you want to do a linear interpolation over missing values?
-#' @param smooth Do you want to apply a moving average smoothing function (window = 5)?
-#' @param smooth.window Window size of smoothing function default is 5
+#' @param interpolate.type What type of interpolation to use? linear or cubic-spline
+#' @param smooth Do you want to apply a moving average smoothing function?
+#' @param smooth.type The type of smoothing function to apply. hann or moving window average (mwa)
+#' @param smooth.window Window size of smoothing function default is 11 milliseconds
 #' @param downsample.Hz The frequency you want to downsample to
 #' @param subj.prefix The prefix that comes before the subject number in the data file (including "-")
 #' @param subset Which columns in the raw data export file do you want to keep
@@ -29,8 +31,9 @@
 #'
 preprocess <- function(import = "", pattern = "default", export = "", taskname = "", eyetracker = "",
                        trialmarker.message = "default", trialonset.message = "", targetonset.message = "",
-                       eye.recorded = "", pretrial.duration = "", bc.duration = "",
-                       eye.use = "", interpolate = FALSE, smooth = FALSE, smooth.window = "default", downsample.Hz = "", bc = FALSE,
+                       eye.recorded = "", eye.use = "", pretrial.duration = "", bc.duration = "",
+                       interpolate = FALSE, interpolate.type = "", smooth = FALSE, smooth.type = "", smooth.window = "default",
+                       downsample.Hz = "", bc = FALSE,
                        subj.prefix = "default", subset = "default", trial.exclude = c()){
 
   ###############################
@@ -102,7 +105,7 @@ preprocess <- function(import = "", pattern = "default", export = "", taskname =
     pattern <- "*.txt"
   }
   if (smooth.window=="default") {
-    smooth.window <- 5
+    smooth.window <- 11
   }
 
   if (eyetracker=="smi") {
@@ -145,7 +148,7 @@ preprocess <- function(import = "", pattern = "default", export = "", taskname =
 
   ## Next, Interpolate data
   if (interpolate==TRUE){
-    data.list <- lapply(data.list, pupil.interpolate, eye.recorded = eye.recorded)
+    data.list <- lapply(data.list, pupil.interpolate, type = interpolate.type, eye.recorded = eye.recorded)
     ## Save data at this stage
     preprocessing.stage <- "interpolated"
     data.pre <- saveData(data.list, preprocessing.stage = preprocessing.stage)
@@ -153,7 +156,7 @@ preprocess <- function(import = "", pattern = "default", export = "", taskname =
 
   ## Next, Smooth data
   if (smooth==TRUE){
-    data.list <- lapply(data.list, pupil.smooth, eye.recorded = eye.recorded, window = smooth.window)
+    data.list <- lapply(data.list, pupil.smooth, type = smooth.type, window = smooth.window, eye.recorded = eye.recorded)
     ## Save data at this stage
     if (interpolate==TRUE){
       preprocessing.stage = "interpolated.smoothed"
