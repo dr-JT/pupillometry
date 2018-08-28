@@ -7,7 +7,7 @@
 pupil.smooth(x, type = "hann", window = 5, hz = "", eye.recorded = "")
 }
 \arguments{
-\item{x}{dataframe}
+\item{x}{xframe}
 
 \item{type}{The type of smoothing function to apply. Hann or moving window average}
 
@@ -15,10 +15,10 @@ pupil.smooth(x, type = "hann", window = 5, hz = "", eye.recorded = "")
 
 \item{hz}{The recording frequency (used to calculate window size)}
 
-\item{eye.recorded}{Is there pupil data for the left, right, or both eyes?}
+\item{eye.recorded}{Is there pupil x for the left, right, or both eyes?}
 }
 \description{
-This function performs a smoothing function over an array of data
+This function performs a smoothing function over an array of x
 The 'zoo' package is a dependency
 }
 \examples{

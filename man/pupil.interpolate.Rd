@@ -7,11 +7,11 @@
 pupil.interpolate(x, type = "cubic-spline", eye.recorded = "")
 }
 \arguments{
-\item{x}{dataframe}
+\item{x}{xframe}
 
 \item{type}{What type of interpolation to use? (default: cubic-spline)}
 
-\item{eye.recorded}{Is there pupil data for the left, right, or both eyes?}
+\item{eye.recorded}{Is there pupil x for the left, right, or both eyes?}
 }
 \description{
 This function performs a linear interpolation over missing values.

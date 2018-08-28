@@ -7,17 +7,17 @@
 pupil.missing(x, eye.recorded = "", velocity = "", margin = "")
 }
 \arguments{
-\item{x}{dataframe}
+\item{x}{xframe}
 
-\item{eye.recorded}{Is there pupil data for the left, right, or both eyes?}
+\item{eye.recorded}{Is there pupil x for the left, right, or both eyes?}
 
 \item{velocity}{The velocity threshold for Blink detection}
 
 \item{margin}{The margin before and after Blink onset and offset}
 }
 \description{
-This function is for preprocessing baseline pupil data. It takes as input a data file that has been processed
-with the .convert() functions. The output of this function is a preprocessed data file. Preprocessing steps can
+This function is for preprocessing baseline pupil x. It takes as input a x file that has been processed
+with the .convert() functions. The output of this function is a preprocessed x file. Preprocessing steps can
 include interpolation and smoothing
 }
 \examples{
