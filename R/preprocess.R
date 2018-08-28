@@ -19,6 +19,7 @@
 #' @param margin The margin before and after Blink onset and offset
 #' @param interpolate Do you want to do a linear interpolation over missing values?
 #' @param interpolate.type What type of interpolation to use? linear or cubic-spline
+#' @param interpolate.maxgap Maximum number of NAs to interpolate over. Anything gaps over this value will not be interpolated.
 #' @param smooth Do you want to apply a moving average smoothing function?
 #' @param smooth.type The type of smoothing function to apply. hann or moving window average (mwa)
 #' @param smooth.window Window size of smoothing function default is 5 milliseconds
@@ -36,7 +37,8 @@ preprocess <- function(import = "", pattern = "*.txt", export = "", taskname = "
                        eye.recorded = "", eye.use = "", eye.criteria = .9,
                        pretrial.duration = "", bc.duration = "",
                        velocity = "", margin = "",
-                       interpolate = FALSE, interpolate.type = "", smooth = FALSE, smooth.type = "", smooth.window = 5,
+                       interpolate = FALSE, interpolate.type = "", interpolate.maxgap = Inf,
+                       smooth = FALSE, smooth.type = "", smooth.window = 5,
                        downsample.Hz = "", bc = FALSE,
                        subj.prefix = "default", subset = "default", trial.exclude = c()){
 
@@ -147,7 +149,7 @@ preprocess <- function(import = "", pattern = "*.txt", export = "", taskname = "
 
   ## Next, Interpolate data
   if (interpolate==TRUE){
-    data.list <- lapply(data.list, pupil.interpolate, type = interpolate.type, eye.recorded = eye.recorded)
+    data.list <- lapply(data.list, pupil.interpolate, type = interpolate.type, maxgap = interpolate.maxgap, eye.recorded = eye.recorded)
     ## Save data at this stage
     preprocessing.stage <- "interpolated"
     data.pre <- saveData(data.list, preprocessing.stage = preprocessing.stage)
