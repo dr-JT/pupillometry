@@ -4,14 +4,14 @@
 \alias{preprocess}
 \title{Pupil Data Function}
 \usage{
-preprocess(import = "", pattern = "default", export = "", taskname = "",
+preprocess(import = "", pattern = "*.txt", export = "", taskname = "",
   eyetracker = "", trialmarker.message = "default",
   trialonset.message = "", targetonset.message = "", eye.recorded = "",
-  eye.use = "", pretrial.duration = "", bc.duration = "",
-  interpolate = FALSE, interpolate.type = "", smooth = FALSE,
-  smooth.type = "", smooth.window = "default", downsample.Hz = "",
-  bc = FALSE, subj.prefix = "default", subset = "default",
-  trial.exclude = c())
+  eye.use = "", eye.criteria = 0.9, pretrial.duration = "",
+  bc.duration = "", velocity = "", margin = "", interpolate = FALSE,
+  interpolate.type = "", smooth = FALSE, smooth.type = "",
+  smooth.window = 11, downsample.Hz = "", bc = FALSE,
+  subj.prefix = "default", subset = "default", trial.exclude = c())
 }
 \arguments{
 \item{import}{Folder path to raw data files}
@@ -34,9 +34,15 @@ preprocess(import = "", pattern = "default", export = "", taskname = "",
 
 \item{eye.use}{Which method of using left and right eye data? Average, missing, left, or right.}
 
+\item{eye.criteria}{If using the average method, then what is the criteria of how highly the two eyes need to correlate?}
+
 \item{pretrial.duration}{Duration of pre-trial baseline period in milliseconds}
 
 \item{bc.duration}{PreTarget duration to use for baseline correction}
+
+\item{velocity}{The velocity threshold for Blink detection}
+
+\item{margin}{The margin before and after Blink onset and offset}
 
 \item{interpolate}{Do you want to do a linear interpolation over missing values?}
 
@@ -55,8 +61,6 @@ preprocess(import = "", pattern = "default", export = "", taskname = "",
 \item{subset}{Which columns in the raw data export file do you want to keep}
 
 \item{trial.exclude}{Specify if ther are any trials to exclude. Trial number}
-
-\item{ms.conversion}{Conversion factor to convert timing to milliseconds}
 }
 \description{
 This function will perform preprocessing on an entire folder of data files. It takes as input a specified folder path

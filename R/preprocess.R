@@ -12,6 +12,7 @@
 #' @param targetonset.message Message string that marks the target onset for baseline correction
 #' @param eye.recorded Do you want to inclue the "left", "right', or "both" eyes?
 #' @param eye.use Which method of using left and right eye data? Average, missing, left, or right.
+#' @param eye.criteria If using the average method, then what is the criteria of how highly the two eyes need to correlate?
 #' @param pretrial.duration Duration of pre-trial baseline period in milliseconds
 #' @param bc.duration PreTarget duration to use for baseline correction
 #' @param velocity The velocity threshold for Blink detection
@@ -32,7 +33,8 @@
 #'
 preprocess <- function(import = "", pattern = "*.txt", export = "", taskname = "", eyetracker = "",
                        trialmarker.message = "default", trialonset.message = "", targetonset.message = "",
-                       eye.recorded = "", eye.use = "", pretrial.duration = "", bc.duration = "",
+                       eye.recorded = "", eye.use = "", eye.criteria = .9,
+                       pretrial.duration = "", bc.duration = "",
                        velocity = "", margin = "",
                        interpolate = FALSE, interpolate.type = "", smooth = FALSE, smooth.type = "", smooth.window = 11,
                        downsample.Hz = "", bc = FALSE,
@@ -52,7 +54,7 @@ preprocess <- function(import = "", pattern = "*.txt", export = "", taskname = "
   ## Set of functions that are performed every time the data set are saved.
   readyToSave <- function(x){
     ## Method to use to combine data streams for two eyes. Method options are: average, missing (least missing data), left, right
-    x <- eye.method(x, eye.recorded = eye.recorded, method = eye.use)
+    x <- eye.method(x, eye.recorded = eye.recorded, method = eye.use, cor.criteria = eye.criteria)
     ## Creates a column that specifies the current stimulus (based on Messages in the data)
     x <- set.stimuli(x)
     ## Sets the Timing column relative to the onset of each trial

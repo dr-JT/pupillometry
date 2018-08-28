@@ -4,12 +4,16 @@
 \alias{pupil.missing}
 \title{Preprocessnig Function}
 \usage{
-pupil.missing(x, eye.recorded = "")
+pupil.missing(x, eye.recorded = "", velocity = "", margin = "")
 }
 \arguments{
 \item{x}{dataframe}
 
 \item{eye.recorded}{Is there pupil data for the left, right, or both eyes?}
+
+\item{velocity}{The velocity threshold for Blink detection}
+
+\item{margin}{The margin before and after Blink onset and offset}
 }
 \description{
 This function is for preprocessing baseline pupil data. It takes as input a data file that has been processed

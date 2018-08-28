@@ -4,7 +4,7 @@
 \alias{eye.method}
 \title{Preprocessnig Function}
 \usage{
-eye.method(x, eye.recorded = "", method = "average")
+eye.method(x, eye.recorded = "", method = "average", cor.criteria = 0.9)
 }
 \arguments{
 \item{x}{dataframe}
@@ -12,6 +12,8 @@ eye.method(x, eye.recorded = "", method = "average")
 \item{eye.recorded}{Is there pupil data for the left, right, or both eyes?}
 
 \item{method}{Which method of using left and right eye data? Average, missing, left, or right.}
+
+\item{cor.criteria}{If using the average method, then what is the criteria of how highly the two eyes need to correlate?}
 }
 \description{
 This function is for preprocessing baseline pupil data. It takes as input a data file that has been processed
