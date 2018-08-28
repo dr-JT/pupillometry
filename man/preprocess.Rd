@@ -10,7 +10,7 @@ preprocess(import = "", pattern = "*.txt", export = "", taskname = "",
   eye.use = "", eye.criteria = 0.9, pretrial.duration = "",
   bc.duration = "", velocity = "", margin = "", interpolate = FALSE,
   interpolate.type = "", smooth = FALSE, smooth.type = "",
-  smooth.window = 11, downsample.Hz = "", bc = FALSE,
+  smooth.window = 5, downsample.Hz = "", bc = FALSE,
   subj.prefix = "default", subset = "default", trial.exclude = c())
 }
 \arguments{
@@ -52,7 +52,7 @@ preprocess(import = "", pattern = "*.txt", export = "", taskname = "",
 
 \item{smooth.type}{The type of smoothing function to apply. hann or moving window average (mwa)}
 
-\item{smooth.window}{Window size of smoothing function default is 11 milliseconds}
+\item{smooth.window}{Window size of smoothing function default is 5 milliseconds}
 
 \item{downsample.Hz}{The frequency you want to downsample to}
 

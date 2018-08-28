@@ -4,14 +4,14 @@
 \alias{pupil.smooth}
 \title{Pupil Preprocessing Function}
 \usage{
-pupil.smooth(x, type = "hann", window = 11, hz = "", eye.recorded = "")
+pupil.smooth(x, type = "hann", window = 5, hz = "", eye.recorded = "")
 }
 \arguments{
 \item{x}{dataframe}
 
 \item{type}{The type of smoothing function to apply. Hann or moving window average}
 
-\item{window}{The size of the smoothing window (default = 11). Value is in milliseconds}
+\item{window}{The size of the smoothing window (default = 5). Value is in milliseconds}
 
 \item{hz}{The recording frequency (used to calculate window size)}
 
