@@ -5,12 +5,14 @@
 #' include interpolation and smoothing
 #' @param x dataframe
 #' @param eye.recorded Is there pupil data for the left, right, or both eyes?
+#' @param velocity The velocity threshold for Blink detection
+#' @param margin The margin before and after Blink onset and offset
 #' @keywords preprocess
 #' @export
 #' @examples
 #' pupil.missing(x)
 
-pupil.missing <- function(x, eye.recorded = ""){
+pupil.missing <- function(x, eye.recorded = "", velocity = "", margin = ""){
   data.list <- data.frame()
   for (i in unique(x$Trial)[which(!is.na(unique(x$Trial)))]){
     ## Reduce baseline pupil data

@@ -14,7 +14,8 @@
 #' @param eye.use Which method of using left and right eye data? Average, missing, left, or right.
 #' @param pretrial.duration Duration of pre-trial baseline period in milliseconds
 #' @param bc.duration PreTarget duration to use for baseline correction
-#' @param ms.conversion Conversion factor to convert timing to milliseconds
+#' @param velocity The velocity threshold for Blink detection
+#' @param margin The margin before and after Blink onset and offset
 #' @param interpolate Do you want to do a linear interpolation over missing values?
 #' @param interpolate.type What type of interpolation to use? linear or cubic-spline
 #' @param smooth Do you want to apply a moving average smoothing function?
@@ -29,10 +30,11 @@
 #' @examples
 #'
 #'
-preprocess <- function(import = "", pattern = "default", export = "", taskname = "", eyetracker = "",
+preprocess <- function(import = "", pattern = "*.txt", export = "", taskname = "", eyetracker = "",
                        trialmarker.message = "default", trialonset.message = "", targetonset.message = "",
                        eye.recorded = "", eye.use = "", pretrial.duration = "", bc.duration = "",
-                       interpolate = FALSE, interpolate.type = "", smooth = FALSE, smooth.type = "", smooth.window = "default",
+                       velocity = "", margin = "",
+                       interpolate = FALSE, interpolate.type = "", smooth = FALSE, smooth.type = "", smooth.window = 11,
                        downsample.Hz = "", bc = FALSE,
                        subj.prefix = "default", subset = "default", trial.exclude = c()){
 
@@ -101,13 +103,6 @@ preprocess <- function(import = "", pattern = "default", export = "", taskname =
   ###############################
 
   #### ----- Set Defaults ----- ####
-  if (pattern=="default") {
-    pattern <- "*.txt"
-  }
-  if (smooth.window=="default") {
-    smooth.window <- 11
-  }
-
   if (eyetracker=="smi") {
     ## SMI uses a timing variable that is 1000*ms
     ms.conversion <- 1000
