@@ -4,12 +4,13 @@
 \alias{preprocess}
 \title{Pupil Data Function}
 \usage{
-preprocess(import = "", pattern = "*.txt", export = "", taskname = "",
-  eyetracker = "", trial.start = "", eye.recorded = "",
-  eyelink.include = "Time", downsample.Hz = "", ms.conversion = "",
-  trialonset.message = "", interpolate = FALSE, smooth = FALSE,
-  smooth.window = 5, eye.use = "average", bc = FALSE, bc.duration = 200,
-  pretrial.duration = 0, targetonset.message = "", subj.prefix = "-")
+preprocess(import = "", pattern = "default", export = "", taskname = "",
+  eyetracker = "", trialmarker.message = "default",
+  trialonset.message = "", targetonset.message = "", eye.recorded = "",
+  pretrial.duration = "", bc.duration = "", eye.use = "",
+  interpolate = FALSE, smooth = FALSE, smooth.window = "default",
+  downsample.Hz = "", bc = FALSE, subj.prefix = "default",
+  subset = "default", trial.exclude = c())
 }
 \arguments{
 \item{import}{Folder path to raw data files}
@@ -18,19 +19,23 @@ preprocess(import = "", pattern = "*.txt", export = "", taskname = "",
 
 \item{export}{Folder path to export preprocessed data to}
 
+\item{taskname}{Name of task - to be used in naming pre-processed files}
+
 \item{eyetracker}{Which eye-tracker was used to record data}
 
-\item{trial.start}{Message used in SMI experiment to mark StartTracking inline}
+\item{trialmarker.message}{Message used in SMI experiment to mark StartTracking inline}
+
+\item{trialonset.message}{Message string that marks the start of a trial}
+
+\item{targetonset.message}{Message string that marks the target onset for baseline correction}
 
 \item{eye.recorded}{Do you want to inclue the "left", "right', or "both" eyes?}
 
-\item{eyelink.include}{Which columns in the raw data export file do you want to keep}
+\item{pretrial.duration}{Duration of pre-trial baseline period in milliseconds}
 
-\item{downsample.Hz}{The frequency you want to downsample to}
+\item{bc.duration}{PreTarget duration to use for baseline correction}
 
-\item{ms.conversion}{Conversion factor to convert timing to milliseconds}
-
-\item{trialonset.message}{Message string that marks the start of a trial}
+\item{eye.use}{Which method of using left and right eye data? Average, missing, left, or right.}
 
 \item{interpolate}{Do you want to do a linear interpolation over missing values?}
 
@@ -38,15 +43,15 @@ preprocess(import = "", pattern = "*.txt", export = "", taskname = "",
 
 \item{smooth.window}{Window size of smoothing function default is 5}
 
-\item{eye.use}{Which method of using left and right eye data? Average, missing, left, or right.}
-
-\item{bc.duration}{PreTarget duration to use for baseline correction}
-
-\item{pretrial.duration}{Duration of pre-trial baseline period in milliseconds}
-
-\item{targetonset.message}{Message string that marks the target onset for baseline correction}
+\item{downsample.Hz}{The frequency you want to downsample to}
 
 \item{subj.prefix}{The prefix that comes before the subject number in the data file (including "-")}
+
+\item{subset}{Which columns in the raw data export file do you want to keep}
+
+\item{trial.exclude}{Specify if ther are any trials to exclude. Trial number}
+
+\item{ms.conversion}{Conversion factor to convert timing to milliseconds}
 }
 \description{
 This function will perform preprocessing on an entire folder of data files. It takes as input a specified folder path

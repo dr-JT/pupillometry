@@ -18,33 +18,26 @@ pupil.missing <- function(x, eye.recorded = ""){
 
     if (eye.recorded=="both"){
       data <- dplyr::mutate(data,
-                            L_Pupil_Diameter.mm = ifelse((L_Event=="Blink"|is.na(L_Event)|L_Pupil_Diameter.mm<=.5), NA, L_Pupil_Diameter.mm),
-                            R_Pupil_Diameter.mm = ifelse((R_Event=="Blink"|is.na(R_Event)|R_Pupil_Diameter.mm<=.5), NA, R_Pupil_Diameter.mm))
+                            L_Pupil_Diameter.mm = ifelse(L_Pupil_Diameter.mm==0, NA, L_Pupil_Diameter.mm),
+                            R_Pupil_Diameter.mm = ifelse(R_Pupil_Diameter.mm==0, NA, R_Pupil_Diameter.mm))
       left.missing <- length(is.na(data$L_Pupil_Diameter.mm)[is.na(data$L_Pupil_Diameter.mm)==TRUE])/length(is.na(data$L_Pupil_Diameter.mm))
-      left.cons_missing <- missing.consecutive(data$L_Pupil_Diameter.mm)
       right.missing <- length(is.na(data$R_Pupil_Diameter.mm)[is.na(data$R_Pupil_Diameter.mm)==TRUE])/length(is.na(data$R_Pupil_Diameter.mm))
-      right.cons_missing <- missing.consecutive(data$R_Pupil_Diameter.mm)
-      data <- dplyr::mutate(data, L_Missing.Total = left.missing, R_Missing.Total = right.missing,
-                            L_Missing.Consecutive = left.cons_missing, R_Missing.Consecutive = right.cons_missing)
+      data <- dplyr::mutate(data, L_Missing.Total = left.missing, R_Missing.Total = right.missing)
 
     } else if (eye.recorded=="left"){
       data <- dplyr::mutate(data,
-                            L_Pupil_Diameter.mm = ifelse((L_Event=="Blink"|is.na(L_Event)|L_Pupil_Diameter.mm<=.5), NA, L_Pupil_Diameter.mm),
+                            L_Pupil_Diameter.mm = ifelse(L_Pupil_Diameter.mm==0, NA, L_Pupil_Diameter.mm),
                             Eye = "Left")
       left.missing <- length(is.na(data$L_Pupil_Diameter.mm)[is.na(data$L_Pupil_Diameter.mm)==TRUE])/length(is.na(data$L_Pupil_Diameter.mm))
-      left.cons_missing <- missing.consecutive(data$L_Pupil_Diameter.mm)
-      data <- dplyr::mutate(data, L_Missing.Total = left.missing, L_Missing.Consecutive = left.cons_missing)
-      #data <- dplyr::rename(data, Missing.Total = L_Missing.Total, Missing.Consecutive = L_Missing.Consecutive)
+      data <- dplyr::mutate(data, L_Missing.Total = left.missing)
     } else if (eye.recorded=="right"){
       data <- dplyr::mutate(data,
-                            R_Pupil_Diameter.mm = ifelse((R_Event=="Blink"|is.na(R_Event)|R_Pupil_Diameter.mm<=.5), NA, R_Pupil_Diameter.mm),
+                            R_Pupil_Diameter.mm = ifelse(R_Pupil_Diameter.mm==0, NA, R_Pupil_Diameter.mm),
                             Eye = "Right")
       right.missing <- length(is.na(data$R_Pupil_Diameter.mm)[is.na(data$R_Pupil_Diameter.mm)==TRUE])/length(is.na(data$R_Pupil_Diameter.mm))
-      right.cons_missing <- missing.consecutive(data$R_Pupil_Diameter.mm)
-      data <- dplyr::mutate(data, R_Missing.Total = right.missing, R_Missing.Consecutive = right.cons_missing)
-      #data <- dplyr::rename(data, Missing.Total = R_Missing.Total, Missing.Consecutive = R_Missing.Consecutive)
+      data <- dplyr::mutate(data, R_Missing.Total = right.missing)
     }
-    data.list <- rbind(data.list,data)
+    data.list <- rbind(data.list, data)
   }
   return(data.list)
 }

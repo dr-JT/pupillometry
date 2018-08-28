@@ -5,31 +5,36 @@
 #' @param import Folder path to raw data files
 #' @param pattern Pattern to look for in data files
 #' @param export Folder path to export preprocessed data to
+#' @param taskname Name of task - to be used in naming pre-processed files
 #' @param eyetracker Which eye-tracker was used to record data
-#' @param trial.start Message used in SMI experiment to mark StartTracking inline
-#' @param eye.recorded Do you want to inclue the "left", "right', or "both" eyes?
-#' @param eyelink.include Which columns in the raw data export file do you want to keep
-#' @param downsample.Hz The frequency you want to downsample to
+#' @param trialmarker.message Message used in SMI experiment to mark StartTracking inline
 #' @param trialonset.message Message string that marks the start of a trial
 #' @param targetonset.message Message string that marks the target onset for baseline correction
+#' @param eye.recorded Do you want to inclue the "left", "right', or "both" eyes?
+#' @param pretrial.duration Duration of pre-trial baseline period in milliseconds
+#' @param bc.duration PreTarget duration to use for baseline correction
 #' @param ms.conversion Conversion factor to convert timing to milliseconds
 #' @param eye.use Which method of using left and right eye data? Average, missing, left, or right.
 #' @param interpolate Do you want to do a linear interpolation over missing values?
 #' @param smooth Do you want to apply a moving average smoothing function (window = 5)?
 #' @param smooth.window Window size of smoothing function default is 5
-#' @param bc.duration PreTarget duration to use for baseline correction
-#' @param pretrial.duration Duration of pre-trial baseline period in milliseconds
+#' @param downsample.Hz The frequency you want to downsample to
 #' @param subj.prefix The prefix that comes before the subject number in the data file (including "-")
+#' @param subset Which columns in the raw data export file do you want to keep
+#' @param trial.exclude Specify if ther are any trials to exclude. Trial number
 #' @keywords preprocess
 #' @export
 #' @examples
 #'
 #'
-preprocess <- function(import = "", pattern = "*.txt", export = "", taskname = "", eyetracker = "",
-                       trial.start = "", eye.recorded = "", eyelink.include = "Time", downsample.Hz = "",
-                       ms.conversion = "", trialonset.message = "", interpolate = FALSE, smooth = FALSE,
-                       smooth.window = 5, eye.use = "average", bc = FALSE, bc.duration = 200,
-                       pretrial.duration = 0, targetonset.message = "", subj.prefix = "-"){
+preprocess <- function(import = "", pattern = "default", export = "", taskname = "", eyetracker = "",
+                       trialmarker.message = "default", trialonset.message = "", targetonset.message = "",
+                       eye.recorded = "", pretrial.duration = "", bc.duration = "",
+                       eye.use = "", interpolate = FALSE, smooth = FALSE, smooth.window = "default", downsample.Hz = "", bc = FALSE,
+                       subj.prefix = "default", subset = "default", trial.exclude = c()){
+
+  ###############################
+  #### ----- Functions ----- ####
 
   ## Function to do baseline correction (allows for multiple baseline corrections in a trial)
   doBaselineCorrection <- function(x){
@@ -90,36 +95,47 @@ preprocess <- function(import = "", pattern = "*.txt", export = "", taskname = "
     }
   }
 
+  ###############################
+
+  #### ----- Set Defaults ----- ####
+  if (pattern=="default") {
+    pattern <- "*.txt"
+  }
+  if (smooth.window=="default") {
+    smooth.window <- 5
+  }
+
+  if (eyetracker=="smi") {
+    ## SMI uses a timing variable that is 1000*ms
+    ms.conversion <- 1000
+  }
+
+  if (eyetracker=="eyelink") {
+    ## EyeLink uses a timing variable in ms
+    ms.conversion <- 1
+  }
+
   ## How many baseline corrections were specificed?
   bc.iterations <- length(targetonset.message)
+  ##################################
 
+  #### ----- Create Tidy Raw Data ----- ####
   ## Get list of data files to be pre-processed
   filelist <- list.files(path = import, pattern = pattern, full.names = TRUE)
 
-  ## Read in the raw data file
-  if (eyetracker=="smi"){
-    ## SMI uses a timing variable that is 1000*ms
-    ms.conversion <- 1000
-    if (trial.start==""){
-      trial.start <- "# Message: StartTracking.bmp"
-    }
-    data.list <- lapply(filelist, read_smi, trial.start = trial.start, eye = eye.recorded, subj.prefix = subj.prefix)
-  } else if (eyetracker=="eyelink"){
-    ## EyeLink uses a timing variable in ms
-    ms.conversion <- 1
-    if (trial.start==""){
-      trial.start <- "TRIALID"
-    }
-    data.list <- lapply(filelist, read_eyelink, trial.start = trial.start, subset = eyelink.include, eye = eye.recorded)
-  }
-  ## Save Raw imported data
+  ## Convert messy to tidy
+  data.list <- lapply(filelist, tidy_eyetracker, eyetracker = eyetracker, trialmarker.message = trialmarker.message,
+                      eye = eye.recorded, subj.prefix = subj.prefix, subset = subset, trial.exclude = trial.exclude)
+
+  ## Save tidy data file
   for (i in 1:length(data.list)){
     subj <- data.list[[i]]$Subject[1]
     write.table(data.list[[i]], file = paste(export, "/", taskname, "_", subj, "_RawPupilData.txt", sep = ""),
                 sep = "\t", row.names = FALSE, quote = FALSE)
   }
+  ##########################################
 
-  ## Preprocessing procedures
+  #### ----- Preprocessing procedures ----- ####
 
   ## First of all, remove data during blinks and create columns of how much missing data each trial has. pupil.missing()
   data.list <- lapply(data.list, pupil.missing, eye.recorded = eye.recorded)
@@ -147,8 +163,11 @@ preprocess <- function(import = "", pattern = "*.txt", export = "", taskname = "
     data.pre <- saveData(data.list, preprocessing.stage = preprocessing.stage)
   }
 
-  ## End of the pre-processing pipeline - If downsampling has been specified then downsample data then SAVE
+  ##############################################
+
+  #### ----- Save Files ----- ####
   if (downsample.Hz>0){
     saveData.ds(data.pre, preprocessing.stage = preprocessing.stage)
   }
+  ################################
 }
