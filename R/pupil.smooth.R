@@ -4,7 +4,7 @@
 #' The 'zoo' package is a dependency
 #' @param x dataframe
 #' @param type The type of smoothing function to apply. Hann or moving window average
-#' @param window The size of the smoothing window (default = 11). Value is in milliseconds
+#' @param window The size of the smoothing window (default = 5). Value is in milliseconds
 #' @param hz The recording frequency (used to calculate window size)
 #' @param eye.recorded Is there pupil data for the left, right, or both eyes?
 #' @keywords smooth
@@ -12,7 +12,7 @@
 #' @examples
 #' pupil.smooth(x, type = "hann", window = 11, eye.recorded = "both")
 
-pupil.smooth <- function(x, type = "hann", window = 11, hz = "", eye.recorded = ""){
+pupil.smooth <- function(x, type = "hann", window = 5, hz = "", eye.recorded = ""){
   if (hz==""){
     hz <- x$hz[1]
   }

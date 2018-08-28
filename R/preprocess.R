@@ -21,7 +21,7 @@
 #' @param interpolate.type What type of interpolation to use? linear or cubic-spline
 #' @param smooth Do you want to apply a moving average smoothing function?
 #' @param smooth.type The type of smoothing function to apply. hann or moving window average (mwa)
-#' @param smooth.window Window size of smoothing function default is 11 milliseconds
+#' @param smooth.window Window size of smoothing function default is 5 milliseconds
 #' @param downsample.Hz The frequency you want to downsample to
 #' @param subj.prefix The prefix that comes before the subject number in the data file (including "-")
 #' @param subset Which columns in the raw data export file do you want to keep
@@ -36,7 +36,7 @@ preprocess <- function(import = "", pattern = "*.txt", export = "", taskname = "
                        eye.recorded = "", eye.use = "", eye.criteria = .9,
                        pretrial.duration = "", bc.duration = "",
                        velocity = "", margin = "",
-                       interpolate = FALSE, interpolate.type = "", smooth = FALSE, smooth.type = "", smooth.window = 11,
+                       interpolate = FALSE, interpolate.type = "", smooth = FALSE, smooth.type = "", smooth.window = 5,
                        downsample.Hz = "", bc = FALSE,
                        subj.prefix = "default", subset = "default", trial.exclude = c()){
 
