@@ -23,15 +23,15 @@ pupil.interpolate <- function(x, type = "cubic-spline", eye.recorded = ""){
                             R_Pupil_Diameter.mm = ifelse((R_Event=="Blink"|is.na(R_Event)), NA, R_Pupil_Diameter.mm))
       if (type == "cubic-spline") {
         data <- dplyr::mutate(data,
-                              L_Pupil_Diameter.mm = zoo::na.spline(L_Pupil_Diameter.mm, na.rm = FALSE),
+                              L_Pupil_Diameter.mm = zoo::na.spline(L_Pupil_Diameter.mm, na.rm = TRUE),
                               L_Pupil_Diameter.mm = ifelse(is.na(L_Pupil_Diameter.mm),NA,L_Pupil_Diameter.mm),
-                              R_Pupil_Diameter.mm = zoo::na.spline(R_Pupil_Diameter.mm, na.rm = FALSE),
+                              R_Pupil_Diameter.mm = zoo::na.spline(R_Pupil_Diameter.mm, na.rm = TRUE),
                               R_Pupil_Diameter.mm = ifelse(is.na(R_Pupil_Diameter.mm),NA,R_Pupil_Diameter.mm))
       } else if (type == "linear") {
         data <- dplyr::mutate(data,
-                              L_Pupil_Diameter.mm = zoo::na.approx(L_Pupil_Diameter.mm, na.rm = FALSE),
+                              L_Pupil_Diameter.mm = zoo::na.approx(L_Pupil_Diameter.mm, na.rm = TRUE),
                               L_Pupil_Diameter.mm = ifelse(is.na(L_Pupil_Diameter.mm),NA,L_Pupil_Diameter.mm),
-                              R_Pupil_Diameter.mm = zoo::na.approx(R_Pupil_Diameter.mm, na.rm = FALSE),
+                              R_Pupil_Diameter.mm = zoo::na.approx(R_Pupil_Diameter.mm, na.rm = TRUE),
                               R_Pupil_Diameter.mm = ifelse(is.na(R_Pupil_Diameter.mm),NA,R_Pupil_Diameter.mm))
       }
 
