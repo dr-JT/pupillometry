@@ -60,7 +60,6 @@ pupil.interpolate <- function(x, type = "cubic-spline", eye.recorded = ""){
       data <- dplyr::mutate(data,
                             R_Pupil_Diameter.mm = zoo::na.approx(R_Pupil_Diameter.mm, na.rm = FALSE))
     }
-
   }
   return(data)
 }
