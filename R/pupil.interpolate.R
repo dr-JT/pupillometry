@@ -26,6 +26,7 @@ pupil.interpolate <- function(x, type = "cubic-spline", eye.recorded = ""){
                          R_Pupil_Diameter.mm = zoo::na.spline(R_Pupil_Diameter.mm, na.rm = FALSE, x = index_right))
       x <- dplyr::select(x, -index_left, -index_right)
     } else if (type=="linear"){
+      x <- dplyr::group_by(x, Trial)
       x <- dplyr::mutate(x,
                          L_Pupil_Diameter.mm = zoo::na.approx(L_Pupil_Diameter.mm, na.rm = FALSE),
                          R_Pupil_Diameter.mm = zoo::na.approx(R_Pupil_Diameter.mm, na.rm = FALSE))
@@ -42,6 +43,7 @@ pupil.interpolate <- function(x, type = "cubic-spline", eye.recorded = ""){
                          L_Pupil_Diameter.mm = zoo::na.spline(L_Pupil_Diameter.mm, na.rm = FALSE, x = index_left))
       x <- dplyr::select(x, -index_left)
     } else if (type=="linear"){
+      x <- dplyr::group_by(x, Trial)
       x <- dplyr::mutate(x,
                          L_Pupil_Diameter.mm = zoo::na.approx(L_Pupil_Diameter.mm, na.rm = FALSE))
     }
@@ -57,6 +59,7 @@ pupil.interpolate <- function(x, type = "cubic-spline", eye.recorded = ""){
                          R_Pupil_Diameter.mm = zoo::na.spline(R_Pupil_Diameter.mm, na.rm = FALSE, x = index_right))
       x <- dplyr::select(x, -index_right)
     } else if (type=="linear"){
+      x <- dplyr::group_by(x, Trial)
       x <- dplyr::mutate(x,
                          R_Pupil_Diameter.mm = zoo::na.approx(R_Pupil_Diameter.mm, na.rm = FALSE))
     }
