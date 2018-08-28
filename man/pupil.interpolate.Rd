@@ -4,12 +4,17 @@
 \alias{pupil.interpolate}
 \title{Pupil Preprocessing Function}
 \usage{
-pupil.interpolate(x, type = "cubic-spline", eye.recorded = "")
+pupil.interpolate(x, type = "cubic-spline", maxgap = Inf, hz = "",
+  eye.recorded = "")
 }
 \arguments{
 \item{x}{xframe}
 
 \item{type}{What type of interpolation to use? (default: cubic-spline)}
+
+\item{maxgap}{Maximum number of NAs to interpolate over. Anything gaps over this value will not be interpolated.}
+
+\item{hz}{The recording frequency (used to calculate window size)}
 
 \item{eye.recorded}{Is there pupil x for the left, right, or both eyes?}
 }

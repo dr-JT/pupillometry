@@ -9,8 +9,8 @@ preprocess(import = "", pattern = "*.txt", export = "", taskname = "",
   trialonset.message = "", targetonset.message = "", eye.recorded = "",
   eye.use = "", eye.criteria = 0.9, pretrial.duration = "",
   bc.duration = "", velocity = "", margin = "", interpolate = FALSE,
-  interpolate.type = "", smooth = FALSE, smooth.type = "",
-  smooth.window = 5, downsample.Hz = "", bc = FALSE,
+  interpolate.type = "", interpolate.maxgap = Inf, smooth = FALSE,
+  smooth.type = "", smooth.window = 5, downsample.Hz = "", bc = FALSE,
   subj.prefix = "default", subset = "default", trial.exclude = c())
 }
 \arguments{
@@ -47,6 +47,8 @@ preprocess(import = "", pattern = "*.txt", export = "", taskname = "",
 \item{interpolate}{Do you want to do a linear interpolation over missing values?}
 
 \item{interpolate.type}{What type of interpolation to use? linear or cubic-spline}
+
+\item{interpolate.maxgap}{Maximum number of NAs to interpolate over. Anything gaps over this value will not be interpolated.}
 
 \item{smooth}{Do you want to apply a moving average smoothing function?}
 
