@@ -13,6 +13,18 @@
 #' eye.method(x)
 
 eye.method <- function(x, eye.recorded = "", method = "average", cor.criteria = .9){
+  x <- dplyr::group_by(x, Trial)
+  x <- dplyr::mutate(x, pupils.cor = stats::cor(L_Pupil_Diameter.mm, R_Pupil_Diameter.mm, use = "pairwise.complete.obs"),
+                     pupils.cor = ifelse(is.na(pupils.cor), 0, pupils.cor))
+  if (method=="average"){
+    x <- dplyr::mutate(x, Pupil_Diameter.mm = ifelse(!is.na(L_Pupil_Diameter.mm) & !is.na(R_Pupil_Diameter)))
+  }
+
+
+
+
+
+
   data.list <- data.frame()
   for (i in unique(x$Trial)[which(!is.na(unique(x$Trial)))]){
     ## Reduce baseline pupil data
@@ -64,10 +76,16 @@ eye.method <- function(x, eye.recorded = "", method = "average", cor.criteria = 
       }
 
     } else if (method=="left"){
+      eyes.corr <- stats::cor(data$L_Pupil_Diameter.mm,
+                              data$R_Pupil_Diameter.mm,
+                              use = "pairwise.complete.obs")
       data <- dplyr::mutate(data, Eye = "Left")
       data <- dplyr::rename(data, Pupil_Diameter.mm = L_Pupil_Diameter.mm,
                             Missing.Total = L_Missing.Total)
     } else if (method=="right"){
+      eyes.corr <- stats::cor(data$L_Pupil_Diameter.mm,
+                              data$R_Pupil_Diameter.mm,
+                              use = "pairwise.complete.obs")
       data <- dplyr::mutate(data, Eye = "Right")
       data <- dplyr::rename(data, Pupil_Diameter.mm = R_Pupil_Diameter.mm,
                             Missing.Total = R_Missing.Total)
