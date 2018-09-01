@@ -36,14 +36,14 @@ eye.method <- function(x, eye.recorded = "", method = "average", cor.criteria = 
                                     "left", "right"))
   } else if (method=="left"){
     x <- dplyr::mutate(x, Pupil_Diameter.mm = L_Pupil_Diameter.mm,
-                       Eye = "left")
-    x <- dplyr::rename(x, Missing.Total = L_Missing.Total, Eye_Event = L_Event)
+                       Eye = "left",
+                       Missing.Total = L_Missing.Total,
+                       Eye_Event = L_Event)
   } else if (method=="right"){
     x <- dplyr::mutate(x, Pupil_Diameter.mm = R_Pupil_Diameter.mm,
-                       Eye = "right")
-    x <- dplyr::rename(x, Missing.Total = R_Missing.Total, Eye_Event = R_Event)
+                       Eye = "right",
+                       Missing.Total = R_Missing.Total, Eye_Event = R_Event)
   }
-
   x <- dplyr::select(x, -L_Pupil_Diameter.mm, -R_Pupil_Diameter.mm,
                      -L_Missing.Total, -R_Missing.Total, -L_Event, -R_Event)
   x <- dplyr::ungroup(x)
