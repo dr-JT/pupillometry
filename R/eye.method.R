@@ -17,80 +17,35 @@ eye.method <- function(x, eye.recorded = "", method = "average", cor.criteria = 
   x <- dplyr::mutate(x, pupils.cor = stats::cor(L_Pupil_Diameter.mm, R_Pupil_Diameter.mm, use = "pairwise.complete.obs"),
                      pupils.cor = ifelse(is.na(pupils.cor), 0, pupils.cor))
   if (method=="average"){
-    x <- dplyr::mutate(x, Pupil_Diameter.mm = ifelse(!is.na(L_Pupil_Diameter.mm) & !is.na(R_Pupil_Diameter)))
+    x <- dplyr::mutate(x, Pupil_Diameter.mm = ifelse(!is.na(L_Pupil_Diameter.mm) & !is.na(R_Pupil_Diameter),
+                                                     ifelse(pupils.cor>=cor.criteria,
+                                                            sum(L_Pupil_Diameter.mm, R_Pupil_Diameter.mm)/2,
+                                                            ifelse(L_Missing.Total>=R_Missing.Total,
+                                                                   L_Pupil_Diameter.mm, R_Pupil_Diameter.mm)),
+                                                     ifelse(!is.na(L_Pupil_Diameter.mm), L_Pupil_Diameter,
+                                                            ifelse(!is.na(R_Pupil_Diameter.mm), R_Pupil_Diameter.mm,
+                                                                   NA))),
+                       Eye = ifelse(!is.na(L_Pupil_Diameter.mm) & !is.na(R_Pupil_Diameter), "average",
+                                    ifelse(!is.na(L_Pupil_Diameter.mm), "left",
+                                           ifelse(!is.na(R_Pupil_Diameter.mm), "right",
+                                                  NA))))
+  } else if (method=="missing"){
+    x <- dplyr::mutate(x, Pupil_Diameter.mm = ifelse(L_Missing.Total>=R_Missing.Total,
+                                                     L_Pupil_Diameter.mm, R_Pupil_Diameter.mm),
+                       Eye = ifelse(L_Missing.Total>=R_Missing.Total,
+                                    "left", "right"))
+  } else if (method=="left"){
+    x <- dplyr::mutate(x, Pupil_Diameter.mm = L_Pupil_Diameter.mm,
+                       Eye = "left")
+    x <- dplyr::rename(x, Missing.Total = L_Missing.Total, Eye_Event = L_Event)
+  } else if (method=="right"){
+    x <- dplyr::mutate(x, Pupil_Diameter.mm = R_Pupil_Diameter.mm,
+                       Eye = "right")
+    x <- dplyr::rename(x, Missing.Total = R_Missing.Total, Eye_Event = R_Event)
   }
 
-
-
-
-
-
-  data.list <- data.frame()
-  for (i in unique(x$Trial)[which(!is.na(unique(x$Trial)))]){
-    ## Reduce baseline pupil data
-    data <- dplyr::filter(x, Trial==i)
-
-    ## Preprocessing steps
-    if (method=="average"){
-      left.missing <- data$L_Missing.Total[1]
-      right.missing <- data$R_Missing.Total[1]
-
-      eyes.corr <- stats::cor(data$L_Pupil_Diameter.mm,
-                              data$R_Pupil_Diameter.mm,
-                              use = "pairwise.complete.obs")
-      if (is.na(eyes.corr)){
-        eyes.corr <- 0
-      }
-      if (eyes.corr>=cor.criteria){
-        data <- dplyr::mutate(data, Pupil_Diameter.mm = rowMeans(dplyr::select(data, L_Pupil_Diameter.mm, R_Pupil_Diameter.mm), na.rm = TRUE),
-                              Missing.Total = rowMeans(dplyr::select(data, L_Missing.Total, R_Missing.Total), na.rm = TRUE),
-                              Eye = "Average", Eyes.r = eyes.corr)
-        data <- dplyr::select(data, -L_Pupil_Diameter.mm, -R_Pupil_Diameter.mm,
-                              -L_Missing.Total, -R_Missing.Total)
-      } else {
-        if (left.missing<=right.missing){
-          data <- dplyr::mutate(data, Eye = "Left", Eyes.r = eyes.corr)
-          data <- dplyr::select(data, -R_Pupil_Diameter.mm, -R_Missing.Total)
-          data <- dplyr::rename(data, Pupil_Diameter.mm = L_Pupil_Diameter.mm,
-                                Missing.Total = L_Missing.Total)
-        } else {
-          data <- dplyr::mutate(data, Eye = "Right", Eyes.r = eyes.corr)
-          data <- dplyr::select(data, -L_Pupil_Diameter.mm, -L_Missing.Total)
-          data <- dplyr::rename(data, Pupil_Diameter.mm = R_Pupil_Diameter.mm,
-                                Missing.Total = R_Missing.Total)
-        }
-      }
-
-    } else if (method=="missing"){
-      left.missing <- data$L_Missing.Total[1]
-      right.missing <- data$R_Missing.Total[1]
-
-      if (left.missing<=right.missing){
-        data <- dplyr::mutate(data, Eye = "Left")
-        data <- dplyr::rename(data, Pupil_Diameter.mm = L_Pupil_Diameter.mm,
-                              Missing.Total = L_Missing.Total)
-      } else {
-        data <- dplyr::mutate(data, Eye = "Right")
-        data <- dplyr::rename(data, Pupil_Diameter.mm = R_Pupil_Diameter.mm,
-                              Missing.Total = R_Missing.Total)
-      }
-
-    } else if (method=="left"){
-      eyes.corr <- stats::cor(data$L_Pupil_Diameter.mm,
-                              data$R_Pupil_Diameter.mm,
-                              use = "pairwise.complete.obs")
-      data <- dplyr::mutate(data, Eye = "Left")
-      data <- dplyr::rename(data, Pupil_Diameter.mm = L_Pupil_Diameter.mm,
-                            Missing.Total = L_Missing.Total)
-    } else if (method=="right"){
-      eyes.corr <- stats::cor(data$L_Pupil_Diameter.mm,
-                              data$R_Pupil_Diameter.mm,
-                              use = "pairwise.complete.obs")
-      data <- dplyr::mutate(data, Eye = "Right")
-      data <- dplyr::rename(data, Pupil_Diameter.mm = R_Pupil_Diameter.mm,
-                            Missing.Total = R_Missing.Total)
-    }
-    data.list <- rbind(data.list,data.frame(data))
-  }
-  return(data.list)
+  x <- dplyr::select(x, -L_Pupil_Diameter.mm, -R_Pupil_Diameter.mm,
+                     -L_Missing.Total, -R_Missing.Total, -L_Event, -R_Event)
+  x <- dplyr::ungroup(x)
+  return(x)
 }
