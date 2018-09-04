@@ -4,8 +4,7 @@
 \alias{pupil.smooth}
 \title{Pupil Preprocessing Function}
 \usage{
-pupil.smooth(x, type = "hann", window = 5, hz = "",
-  eye.recorded = "")
+pupil.smooth(x, type = "hann", window = 5, hz = "", eye.recorded = "")
 }
 \arguments{
 \item{x}{xframe}

@@ -69,41 +69,36 @@ preprocess <- function(import = "", pattern = "*.txt", export = "", taskname = "
   saveData <- function(x, preprocessing.stage = ""){
     if (bc==TRUE){
       preprocessing <- paste(preprocessing.stage, "bc", sep = ".")
-      x <- lapply(x, readyToSave)
-      x <- lapply(x, doBaselineCorrection)
+      x <- readyToSave(x)
+      x <- doBaselineCorrection(x)
       ## Save file
-      for (i in 1:length(x)){
-        subj <- x[[i]]$Subject[1]
-        SaveAs <- paste(export, "/", taskname, "_", subj, "_PupilData_", preprocessing, ".txt", sep = "")
-        write.table(x[[i]], file = SaveAs, sep = "\t", row.names = FALSE, quote = FALSE)
-      }
+      subj <- x$Subject[1]
+      SaveAs <- paste(export, "/", taskname, "_", subj, "_PupilData_", preprocessing, ".txt", sep = "")
+      write.table(x, file = SaveAs, sep = "\t", row.names = FALSE, quote = FALSE)
     } else {
       preprocessing <- preprocessing.stage
-      x <- lapply(x, readyToSave)
-      for (i in 1:length(x)){
-        subj <- x[[i]]$Subject[1]
-        SaveAs <- paste(export, "/", taskname, "_", subj, "_PupilData_", preprocessing, ".txt", sep = "")
-        write.table(x[[i]], file = SaveAs, sep = "\t", row.names = FALSE, quote = FALSE)
-      }
+      x <- readyToSave(x)
+      ## Save file
+      subj <- x$Subject[1]
+      SaveAs <- paste(export, "/", taskname, "_", subj, "_PupilData_", preprocessing, ".txt", sep = "")
+      write.table(x, file = SaveAs, sep = "\t", row.names = FALSE, quote = FALSE)
     }
     return(x)
   }
 
   ## Sacve data at the end of pre-processing pipeline
   saveData.ds <- function(x, preprocessing.stage = ""){
-    x <- lapply(x, downsample, Hz = downsample.Hz)
+    x <- downsample(x, Hz = downsample.Hz)
     ## Save file
     if (bc==TRUE){
       preprocessing <- paste(preprocessing.stage, "bc.ds", sep = ".")
     } else {
       preprocessing <- paste(preprocessing.stage, "ds", sep = ".")
     }
-    for (i in 1:length(x)){
-      preprocessing <- preprocessing.stage
-      subj <- x[[i]]$Subject[1]
-      SaveAs <- paste(export, "/", taskname, "_", subj, "_PupilData_", preprocessing, ".txt", sep = "")
-      write.table(x[[i]], file = SaveAs, sep = "\t", row.names = FALSE, quote = FALSE)
-    }
+    preprocessing <- preprocessing.stage
+    subj <- x$Subject[1]
+    SaveAs <- paste(export, "/", taskname, "_", subj, "_PupilData_", preprocessing, ".txt", sep = "")
+    write.table(x, file = SaveAs, sep = "\t", row.names = FALSE, quote = FALSE)
   }
 
   ###############################
@@ -123,55 +118,54 @@ preprocess <- function(import = "", pattern = "*.txt", export = "", taskname = "
   bc.iterations <- length(targetonset.message)
   ##################################
 
-  #### ----- Create Tidy Raw Data ----- ####
+
   ## Get list of data files to be pre-processed
   filelist <- list.files(path = import, pattern = pattern, full.names = TRUE)
+  for (file in filelist){
+    #### ----- Create Tidy Raw Data ----- ####
 
-  ## Convert messy to tidy
-  data.list <- lapply(filelist, tidy_eyetracker, eyetracker = eyetracker, trialmarker.message = trialmarker.message,
-                      eye = eye.recorded, subj.prefix = subj.prefix, subset = subset, trial.exclude = trial.exclude)
-
-  ## Save tidy data file
-  for (i in 1:length(data.list)){
-    subj <- data.list[[i]]$Subject[1]
-    write.table(data.list[[i]], file = paste(export, "/", taskname, "_", subj, "_RawPupilData.txt", sep = ""),
+    ## Convert messy to tidy
+    data <- tidy_eyetracker(file, eyetracker = eyetracker, trialmarker.message = trialmarkder.message,
+                            eye = eye.recorded, subj.prefix = subj.prefix, subset = subset, trial.exclude = trial.exclude)
+    ## Save tidy data file
+    subj <- data$Subject[1]
+    write.table(data, file = paste(export, "/", taskname, "_", subj, "_RawPupilData.txt", sep = ""),
                 sep = "\t", row.names = FALSE, quote = FALSE)
-  }
-  ##########################################
+    ###########################################
 
-  #### ----- Preprocessing procedures ----- ####
+    #### ----- Preprocessing procedures ----- ####
 
-  ## First of all, remove data during blinks and create columns of how much missing data each trial has. pupil.missing()
-  data.list <- lapply(data.list, pupil.missing, eye.recorded = eye.recorded)
-  ## Save data at this stage
-  preprocessing.stage <- "naremoved"
-  data.pre <- saveData(data.list, preprocessing.stage = preprocessing.stage)
-
-  ## Next, Interpolate data
-  if (interpolate==TRUE){
-    data.list <- lapply(data.list, pupil.interpolate, type = interpolate.type, maxgap = interpolate.maxgap, eye.recorded = eye.recorded)
+    ## First of all, remove data during blinks and create columns of how much missing data each trial has. pupil.missing()
+    data <- pupil.missing(data, eye.recorded = eye.recorded)
     ## Save data at this stage
-    preprocessing.stage <- "interpolated"
-    data.pre <- saveData(data.list, preprocessing.stage = preprocessing.stage)
-  }
+    preprocessing.stage <- "naremoved"
+    data.end <- saveData(data, preprocessing.stage = preprocessing.stage)
 
-  ## Next, Smooth data
-  if (smooth==TRUE){
-    data.list <- lapply(data.list, pupil.smooth, type = smooth.type, window = smooth.window, eye.recorded = eye.recorded)
-    ## Save data at this stage
+    ## Next, Interpolate data
     if (interpolate==TRUE){
-      preprocessing.stage = "interpolated.smoothed"
-    } else {
-      preprocessing.stage = "smoothed"
+      data <- pupil.interpolate(data, type = interpolate.type, maxgap = interpolate.maxgap, eye.recorded = eye.recorded)
+      ## Save data at this stage
+      preprocessing.stage <- "interpolated"
+      data.end <- saveData(data, preprocessing.stage = preprocessing.stage)
     }
-    data.pre <- saveData(data.list, preprocessing.stage = preprocessing.stage)
-  }
 
-  ##############################################
+    ## Next, Smooth data
+    if (smooth==TRUE){
+      data <- pupil.smooth(data, type = smooth.type, window = smooth.window, eye.recorded = eye.recorded)
+      ## Save data at this stage
+      if (interpolate==TRUE){
+        preprocessing.stage = "interpolated.smoothed"
+      } else {
+        preprocessing.stage = "smoothed"
+      }
+      data.end <- saveData(data, preprocessing.stage = preprocessing.stage)
+    }
+    ##############################################
 
-  #### ----- Save Files ----- ####
-  if (downsample.Hz>0){
-    saveData.ds(data.pre, preprocessing.stage = preprocessing.stage)
+    #### ----- Downsample and Save ----- ####
+    if (downsample.Hz>0){
+      saveData.ds(data.end, preprocessing.stage = preprocessing.stage)
+    }
+    ################################
   }
-  ################################
 }

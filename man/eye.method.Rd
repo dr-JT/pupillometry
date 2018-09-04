@@ -4,8 +4,7 @@
 \alias{eye.method}
 \title{Preprocessnig Function}
 \usage{
-eye.method(x, eye.recorded = "", method = "average",
-  cor.criteria = 0.9)
+eye.method(x, eye.recorded = "", method = "average", cor.criteria = 0.9)
 }
 \arguments{
 \item{x}{dataframe}
