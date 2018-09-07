@@ -71,6 +71,11 @@ preprocess <- function(import = "", pattern = "*.txt", export = "", taskname = "
       preprocessing <- paste(preprocessing.stage, "bc", sep = ".")
       x <- readyToSave(x)
       x <- doBaselineCorrection(x)
+      # Downsample?
+      if (downsample.binlength>0){
+        preprocessing <- paste(preprocessing, "ds", sep = ".")
+        x <- downsample(x, bin.length = downsample.binlength)
+      }
       ## Save file
       subj <- x$Subject[1]
       SaveAs <- paste(export, "/", taskname, "_", subj, "_PupilData_", preprocessing, ".txt", sep = "")
@@ -78,27 +83,17 @@ preprocess <- function(import = "", pattern = "*.txt", export = "", taskname = "
     } else {
       preprocessing <- preprocessing.stage
       x <- readyToSave(x)
+      # Downsample?
+      if (downsample.binlength>0){
+        preprocessing <- paste(preprocessing, "ds", sep = ".")
+        x <- downsample(x, bin.length = downsample.binlength)
+      }
       ## Save file
       subj <- x$Subject[1]
       SaveAs <- paste(export, "/", taskname, "_", subj, "_PupilData_", preprocessing, ".txt", sep = "")
       write.table(x, file = SaveAs, sep = "\t", row.names = FALSE, quote = FALSE)
     }
     return(x)
-  }
-
-  ## Sacve data at the end of pre-processing pipeline
-  saveData.ds <- function(x, preprocessing.stage = ""){
-    x <- downsample(x, bin.length = downsample.binlength)
-    ## Save file
-    if (bc==TRUE){
-      preprocessing <- paste(preprocessing.stage, "bc.ds", sep = ".")
-    } else {
-      preprocessing <- paste(preprocessing.stage, "ds", sep = ".")
-    }
-    preprocessing <- preprocessing.stage
-    subj <- x$Subject[1]
-    SaveAs <- paste(export, "/", taskname, "_", subj, "_PupilData_", preprocessing, ".txt", sep = "")
-    write.table(x, file = SaveAs, sep = "\t", row.names = FALSE, quote = FALSE)
   }
 
   ###############################
@@ -139,14 +134,14 @@ preprocess <- function(import = "", pattern = "*.txt", export = "", taskname = "
     data <- pupil.missing(data, eye.recorded = eye.recorded)
     ## Save data at this stage
     preprocessing.stage <- "naremoved"
-    data.end <- saveData(data, preprocessing.stage = preprocessing.stage)
+    saveData(data, preprocessing.stage = preprocessing.stage)
 
     ## Next, Interpolate data
     if (interpolate==TRUE){
       data <- pupil.interpolate(data, type = interpolate.type, maxgap = interpolate.maxgap, eye.recorded = eye.recorded)
       ## Save data at this stage
       preprocessing.stage <- "interpolated"
-      data.end <- saveData(data, preprocessing.stage = preprocessing.stage)
+      saveData(data, preprocessing.stage = preprocessing.stage)
     }
 
     ## Next, Smooth data
@@ -158,14 +153,8 @@ preprocess <- function(import = "", pattern = "*.txt", export = "", taskname = "
       } else {
         preprocessing.stage = "smoothed"
       }
-      data.end <- saveData(data, preprocessing.stage = preprocessing.stage)
+      saveData(data, preprocessing.stage = preprocessing.stage)
     }
     ##############################################
-
-    #### ----- Downsample and Save ----- ####
-    if (downsample.binlength>0){
-      saveData.ds(data.end, preprocessing.stage = preprocessing.stage)
-    }
-    ################################
   }
 }
