@@ -23,7 +23,7 @@
 #' @param smooth Do you want to apply a moving average smoothing function?
 #' @param smooth.type The type of smoothing function to apply. hann or moving window average (mwa)
 #' @param smooth.window Window size of smoothing function default is 5 milliseconds
-#' @param downsample.Hz The frequency you want to downsample to
+#' @param downsample.binlength Length of bins to average
 #' @param subj.prefix The prefix that comes before the subject number in the data file (including "-")
 #' @param subset Which columns in the raw data export file do you want to keep
 #' @param trial.exclude Specify if ther are any trials to exclude. Trial number
@@ -39,7 +39,7 @@ preprocess <- function(import = "", pattern = "*.txt", export = "", taskname = "
                        velocity = "", margin = "",
                        interpolate = FALSE, interpolate.type = "", interpolate.maxgap = Inf,
                        smooth = FALSE, smooth.type = "", smooth.window = 5,
-                       downsample.Hz = "", bc = FALSE,
+                       downsample.binlength = "", bc = FALSE,
                        subj.prefix = "default", subset = "default", trial.exclude = c()){
 
   ###############################
@@ -88,7 +88,7 @@ preprocess <- function(import = "", pattern = "*.txt", export = "", taskname = "
 
   ## Sacve data at the end of pre-processing pipeline
   saveData.ds <- function(x, preprocessing.stage = ""){
-    x <- downsample(x, Hz = downsample.Hz)
+    x <- downsample(x, bin.length = downsample.binlength)
     ## Save file
     if (bc==TRUE){
       preprocessing <- paste(preprocessing.stage, "bc.ds", sep = ".")
@@ -163,7 +163,7 @@ preprocess <- function(import = "", pattern = "*.txt", export = "", taskname = "
     ##############################################
 
     #### ----- Downsample and Save ----- ####
-    if (downsample.Hz>0){
+    if (downsample.binlength>0){
       saveData.ds(data.end, preprocessing.stage = preprocessing.stage)
     }
     ################################

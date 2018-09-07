@@ -11,7 +11,7 @@ preprocess(import = "", pattern = "*.txt", export = "",
   pretrial.duration = "", bc.duration = "", velocity = "",
   margin = "", interpolate = FALSE, interpolate.type = "",
   interpolate.maxgap = Inf, smooth = FALSE, smooth.type = "",
-  smooth.window = 5, downsample.Hz = "", bc = FALSE,
+  smooth.window = 5, downsample.binlength = "", bc = FALSE,
   subj.prefix = "default", subset = "default", trial.exclude = c())
 }
 \arguments{
@@ -57,7 +57,7 @@ preprocess(import = "", pattern = "*.txt", export = "",
 
 \item{smooth.window}{Window size of smoothing function default is 5 milliseconds}
 
-\item{downsample.Hz}{The frequency you want to downsample to}
+\item{downsample.binlength}{Length of bins to average}
 
 \item{subj.prefix}{The prefix that comes before the subject number in the data file (including "-")}
 
