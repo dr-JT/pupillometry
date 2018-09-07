@@ -4,7 +4,8 @@
 \alias{baselinecorrect}
 \title{Pupil Data Function}
 \usage{
-baselinecorrect(x, bc.duration = 200, start.target = "", iteration = 1)
+baselinecorrect(x, bc.duration = 200, start.target = "",
+  iteration = 1)
 }
 \arguments{
 \item{x}{dataframe}

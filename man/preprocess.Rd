@@ -4,13 +4,14 @@
 \alias{preprocess}
 \title{Pupil Data Function}
 \usage{
-preprocess(import = "", pattern = "*.txt", export = "", taskname = "",
-  eyetracker = "", trialmarker.message = "default",
-  trialonset.message = "", targetonset.message = "", eye.recorded = "",
-  eye.use = "", eye.criteria = 0.9, pretrial.duration = "",
-  bc.duration = "", velocity = "", margin = "", interpolate = FALSE,
-  interpolate.type = "", interpolate.maxgap = Inf, smooth = FALSE,
-  smooth.type = "", smooth.window = 5, downsample.Hz = "", bc = FALSE,
+preprocess(import = "", pattern = "*.txt", export = "",
+  taskname = "", eyetracker = "", trialmarker.message = "default",
+  trialonset.message = "", targetonset.message = "",
+  eye.recorded = "", eye.use = "", eye.criteria = 0.9,
+  pretrial.duration = "", bc.duration = "", velocity = "",
+  margin = "", interpolate = FALSE, interpolate.type = "",
+  interpolate.maxgap = Inf, smooth = FALSE, smooth.type = "",
+  smooth.window = 5, downsample.Hz = "", bc = FALSE,
   subj.prefix = "default", subset = "default", trial.exclude = c())
 }
 \arguments{

@@ -4,11 +4,11 @@
 \alias{read_smi}
 \title{Messy to Tidy Raw Eye-Tracker Data File}
 \usage{
-read_smi(file, trial.start = "# Message: StartTracking.bmp", eye = "both",
-  subj.prefix = "-", trial.exclude = c())
+read_smi(file, trial.start = "# Message: StartTracking.bmp",
+  eye = "both", subj.prefix = "-", trial.exclude = c())
 
-read_smi(file, trial.start = "# Message: StartTracking.bmp", eye = "both",
-  subj.prefix = "-", trial.exclude = c())
+read_smi(file, trial.start = "# Message: StartTracking.bmp",
+  eye = "both", subj.prefix = "-", trial.exclude = c())
 }
 \arguments{
 \item{file}{A file path to the raw data export file}

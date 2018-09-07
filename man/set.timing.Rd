@@ -4,7 +4,8 @@
 \alias{set.timing}
 \title{Pupil Data Function}
 \usage{
-set.timing(x, start.trial = "", ms.conversion = 1, pretrial.duration = 0)
+set.timing(x, start.trial = "", ms.conversion = 1,
+  pretrial.duration = 0)
 }
 \arguments{
 \item{x}{dataframe}
