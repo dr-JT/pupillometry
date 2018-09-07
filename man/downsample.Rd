@@ -4,17 +4,17 @@
 \alias{downsample}
 \title{Pupil Preprocessing Function}
 \usage{
-downsample(x, Hz = "")
+downsample(x, bin.length = "")
 }
 \arguments{
 \item{x}{dataframe}
 
-\item{Hz}{The sampling frequency to reduce pupil data to}
+\item{bin.length}{Length of bins to average}
 }
 \description{
-This function will reduce the sampling fequency to a specified Hz
+This function will reduce the sampling fequency
 }
 \examples{
-downsample(x, Hz = 100)
+downsample(x, bin.length = 100)
 }
 \keyword{downsample}
