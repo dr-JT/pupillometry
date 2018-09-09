@@ -5,7 +5,7 @@
 \title{Messy to Tidy Raw Eye-Tracker Data File}
 \usage{
 tidy_eyetracker(file, eyetracker = "", trialmarker.message = "default",
-  eye = "", subj.prefix = "default", subset = "default",
+  eye.recorded = "", subj.prefix = "default", subset = "default",
   trial.exclude = c())
 }
 \arguments{
@@ -15,7 +15,7 @@ tidy_eyetracker(file, eyetracker = "", trialmarker.message = "default",
 
 \item{trialmarker.message}{Message used in SMI experiment to mark StartTracking inline}
 
-\item{eye}{Do you want to inclue the "left", "right', or "both" eyes?}
+\item{eye.recorded}{Do you want to inclue the "left", "right', or "both" eyes?}
 
 \item{subj.prefix}{The prefix that comes before the subject number in the data file (including "-")}
 

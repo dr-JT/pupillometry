@@ -7,9 +7,9 @@
 preprocess(import = "", pattern = "*.txt", export = "",
   taskname = "", eyetracker = "", trialmarker.message = "default",
   trialonset.message = "", targetonset.message = "",
-  eye.recorded = "", eye.use = "", eye.criteria = 0.9,
-  pretrial.duration = "", bc.duration = "", velocity = "",
-  margin = "", interpolate = FALSE, interpolate.type = "",
+  eye.recorded = "", eye.use = "", pretrial.duration = "",
+  bc.duration = "", velocity = "", margin = "",
+  interpolate = FALSE, interpolate.type = "",
   interpolate.maxgap = Inf, smooth = FALSE, smooth.type = "",
   smooth.window = 5, downsample.binlength = "", bc = FALSE,
   subj.prefix = "default", subset = "default", trial.exclude = c())
@@ -33,9 +33,7 @@ preprocess(import = "", pattern = "*.txt", export = "",
 
 \item{eye.recorded}{Do you want to inclue the "left", "right', or "both" eyes?}
 
-\item{eye.use}{Which method of using left and right eye data? Average, missing, left, or right.}
-
-\item{eye.criteria}{If using the average method, then what is the criteria of how highly the two eyes need to correlate?}
+\item{eye.use}{Which eye to use? Left or right}
 
 \item{pretrial.duration}{Duration of pre-trial baseline period in milliseconds}
 

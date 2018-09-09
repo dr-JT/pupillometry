@@ -4,8 +4,7 @@
 \alias{pupil.smooth}
 \title{Pupil Preprocessing Function}
 \usage{
-pupil.smooth(x, type = "hann", window = 5, hz = "",
-  eye.recorded = "")
+pupil.smooth(x, type = "hann", window = 5, hz = "")
 }
 \arguments{
 \item{x}{xframe}
@@ -15,8 +14,6 @@ pupil.smooth(x, type = "hann", window = 5, hz = "",
 \item{window}{The size of the smoothing window (default = 5). Value is in milliseconds}
 
 \item{hz}{The recording frequency (used to calculate window size)}
-
-\item{eye.recorded}{Is there pupil x for the left, right, or both eyes?}
 }
 \description{
 This function performs a smoothing function over an array of x
