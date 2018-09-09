@@ -7,7 +7,7 @@
 #' @param file A file path to the raw data export file
 #' @param eyetracker Which eye-tracker system was used to record data?
 #' @param trialmarker.message Message used in SMI experiment to mark StartTracking inline
-#' @param eye Do you want to inclue the "left", "right', or "both" eyes?
+#' @param eye.recorded Do you want to inclue the "left", "right', or "both" eyes?
 #' @param subj.prefix The prefix that comes before the subject number in the data file (including "-")
 #' @param subset Which columns in the raw data export file do you want to keep
 #' @param trial.exclude Specify if ther are any trials to exclude. Trial number
@@ -16,7 +16,7 @@
 #' @examples
 #' tidy_eyetracker(file = "path/filename.txt", subset = c(), message.column = "columnName", track.start = "# Message: StartTracking.bmp", eye = "both")
 
-tidy_eyetracker <- function(file, eyetracker = "", trialmarker.message = "default", eye = "",
+tidy_eyetracker <- function(file, eyetracker = "", trialmarker.message = "default", eye.recorded = "",
                             subj.prefix = "default", subset = "default", trial.exclude = c()){
 
   #### ----- Set Defaults ----- ####
@@ -65,7 +65,7 @@ tidy_eyetracker <- function(file, eyetracker = "", trialmarker.message = "defaul
     message.column <- names(data[4])
     ###################
     ## Add info from header, rename, set missing values and select subset of data ####
-    if (eye=="both"){
+    if (eye.recorded=="both"){
       data <- dplyr::mutate(data, Subject = subj, Hz = Hz, Head_Dist.cm = head.distance,
                             Message = ifelse(get(message.column)>=0,NA,get(message.column)),
                             L_Event_Info = ifelse((L_Event_Info=="-"|is.na(L_Event_Info)),NA, L_Event_Info),
@@ -74,20 +74,20 @@ tidy_eyetracker <- function(file, eyetracker = "", trialmarker.message = "defaul
                             R_Pupil_Diameter.mm = R_Pupil_Diameter_mm, R_Event = R_Event_Info)
       data <- dplyr::select(data, Subject, Hz, Head_Dist.cm, Time, Trial, Message, L_Pupil_Diameter.mm,
                             L_Event, R_Pupil_Diameter.mm, R_Event)
-    } else if (eye=="left"){
+    } else if (eye.recorded=="left"){
       data <- dplyr::mutate(data, Subject = subj, Hz = Hz, Head_Dist.cm = head.distance,
                             Message = ifelse(get(message.column)>=0,NA,get(message.column)),
                             L_Event_Info = ifelse((L_Event_Info=="-"|is.na(L_Event_Info)),NA, L_Event_Info))
-      data <- dplyr::rename(data, L_Pupil_Diameter.mm = L_Pupil_Diameter_mm, L_Event = L_Event_Info)
-      data <- dplyr::select(data, Subject, Hz, Head_Dist.cm, Time, Trial, Message, L_Pupil_Diameter.mm,
-                            L_Event)
-    } else if (eye=="right"){
+      data <- dplyr::rename(data, Pupil_Diameter.mm = L_Pupil_Diameter_mm, Event = L_Event_Info)
+      data <- dplyr::select(data, Subject, Hz, Head_Dist.cm, Time, Trial, Message, Pupil_Diameter.mm,
+                            Event)
+    } else if (eye.recorded=="right"){
       data <- dplyr::mutate(data, Subject = subj, Hz = Hz, Head_Dist.cm = head.distance,
                             Message = ifelse(get(message.column)>=0,NA,get(message.column)),
                             R_Event_Info = ifelse((R_Event_Info=="-"|is.na(R_Event_Info)),NA, R_Event_Info))
-      data <- dplyr::rename(data, R_Pupil_Diameter.mm = R_Pupil_Diameter_mm, R_Event = R_Event_Info)
-      data <- dplyr::select(data, Subject, Hz, Head_Dist.cm, Time, Trial, Message, R_Pupil_Diameter.mm,
-                            R_Event)
+      data <- dplyr::rename(data, Pupil_Diameter.mm = R_Pupil_Diameter_mm, Event = R_Event_Info)
+      data <- dplyr::select(data, Subject, Hz, Head_Dist.cm, Time, Trial, Message, Pupil_Diameter.mm,
+                            Event)
     }
     ###################
   }
@@ -101,7 +101,7 @@ tidy_eyetracker <- function(file, eyetracker = "", trialmarker.message = "defaul
                             "", data$RECORDING_SESSION_LABEL[1]))
     ###################
     ## Add subject, Hz, and event info. rename and select subset of data ####
-    if (eye=="both"){
+    if (eye.recorded=="both"){
       data <- dplyr::mutate(data, Subject = subj, Trial = NA,
                             L_Event = ifelse(LEFT_IN_BLINK==1,"Blink",
                                              ifelse(LEFT_IN_SACCADE==1,"Saccade",
@@ -113,20 +113,20 @@ tidy_eyetracker <- function(file, eyetracker = "", trialmarker.message = "defaul
                             R_Pupil_Diameter.mm = RIGHT_PUPIL_SIZE)
       data <- dplyr::select(data, Subject, Time, Trial, subset, Message, L_Pupil_Diameter.mm,
                             L_Event, R_Pupil_Diameter.mm, R_Event)
-    } else if (eye=="left"){
+    } else if (eye.recorded=="left"){
       data <- dplyr::mutate(data, Subject = subj, Trial = NA,
-                            L_Event = ifelse(LEFT_IN_BLINK==1,"Blink",
+                            Event = ifelse(LEFT_IN_BLINK==1,"Blink",
                                              ifelse(LEFT_IN_SACCADE==1,"Saccade",
                                                     ifelse(!is.na(LEFT_FIX_INDEX),"Fixation",NA))))
-      data <- dplyr::rename(data, Time = TIMESTAMP, Message = SAMPLE_MESSAGE, L_Pupil_Diameter.mm = LEFT_PUPIL_SIZE)
-      data <- dplyr::select(data, Subject, Time, Trial, subset, Message, L_Pupil_Diameter.mm, L_Event)
-    } else if (eye=="right"){
+      data <- dplyr::rename(data, Time = TIMESTAMP, Message = SAMPLE_MESSAGE, Pupil_Diameter.mm = LEFT_PUPIL_SIZE)
+      data <- dplyr::select(data, Subject, Time, Trial, subset, Message, Pupil_Diameter.mm, Event)
+    } else if (eye.recorded=="right"){
       data <- dplyr::mutate(data, Subject = subj, Trial = NA,
-                            R_Event = ifelse(RIGHT_IN_BLINK==1,"Blink",
+                            Event = ifelse(RIGHT_IN_BLINK==1,"Blink",
                                              ifelse(RIGHT_IN_SACCADE==1,"Saccade",
                                                     ifelse(!is.na(RIGHT_FIX_INDEX),"Fixation",NA))))
-      data <- dplyr::rename(data, Time = TIMESTAMP, Message = SAMPLE_MESSAGE, R_Pupil_Diameter.mm = RIGHT_PUPIL_SIZE)
-      data <- dplyr::select(data, Subject, Time, Trial, subset, Message, R_Pupil_Diameter.mm, R_Event)
+      data <- dplyr::rename(data, Time = TIMESTAMP, Message = SAMPLE_MESSAGE, Pupil_Diameter.mm = RIGHT_PUPIL_SIZE)
+      data <- dplyr::select(data, Subject, Time, Trial, subset, Message, Pupil_Diameter.mm, Event)
     }
     ###################
   }
