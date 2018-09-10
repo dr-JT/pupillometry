@@ -55,7 +55,11 @@ preprocess <- function(import = "", pattern = "*.txt", export = "", taskname = "
   ## Save data and do baseline correction first if bc==TRUE
   saveData <- function(x, preprocessing.stage = ""){
     if (bc==TRUE){
-      preprocessing <- paste(preprocessing.stage, "bc", sep = ".")
+      if (preprocessing.stage==""){
+        preprocessing <- "bc"
+      } else {
+        preprocessing <- paste(preprocessing.stage, "bc", sep = ".")
+      }
       x <- doBaselineCorrection(x)
       # Downsample?
       if (downsample.binlength>0){
@@ -70,7 +74,11 @@ preprocess <- function(import = "", pattern = "*.txt", export = "", taskname = "
       preprocessing <- preprocessing.stage
       # Downsample?
       if (downsample.binlength>0){
-        preprocessing <- paste(preprocessing, "ds", sep = ".")
+        if (preprocessing==""){
+          preprocessing <- "ds"
+        } else {
+          preprocessing <- paste(preprocessing, "ds", sep = ".")
+        }
         x <- pupil.downsample(x, bin.length = downsample.binlength)
       }
       ## Save file
