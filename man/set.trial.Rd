@@ -4,12 +4,12 @@
 \alias{set.trial}
 \title{Pupil Data Function}
 \usage{
-set.trial(x, startrecroding.message = "")
+set.trial(x, startrecording.message = "")
 }
 \arguments{
 \item{x}{dataframe}
 
-\item{startrecroding.message}{Message string that marks the start of a recorind}
+\item{startrecording.message}{Message string that marks the start of a recorind}
 }
 \description{
 This sets the trials relative to a message string in the data

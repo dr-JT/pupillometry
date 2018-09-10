@@ -13,5 +13,6 @@ set.trial <- function(x, startrecording.message = ""){
                      startrecording.time = ifelse(Message==startrecording.message, Time, NA),
                      startrecording.time = zoo::na.locf(startrecording.time),
                      Trial = dplyr::dense_rank(startrecording.time))
+  x <- dplyr::select(x, -startrecording.time)
   return(x)
 }

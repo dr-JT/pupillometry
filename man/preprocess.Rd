@@ -29,7 +29,7 @@ preprocess(import = "", pattern = "*.txt", export = "",
 
 \item{eye.use}{Which eye to use? Left or right}
 
-\item{hz}{At which frequency was pupil data sampled at? (only required for smoothing)}
+\item{hz}{At which frequency was pupil data sampled at? (only required for interpolation and smoothing)}
 
 \item{startrecording.message}{Message used in SMI experiment to mark StartTracking inline}
 
