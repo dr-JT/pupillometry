@@ -63,9 +63,37 @@ preprocess(import = import, pattern = pattern, export = export, taskname = task,
            subj.prefix = "default", subset = "default", trial.exclude = c())
 ```
 
-Different interpolation and smoothing options are available
+## Message Markers
+
+Your data file should conatain messages that mark the onset/offset of critical stimuli and events
+
+For preprocessing your data these are the message markers you need to know
+
+### startrecording.message
+
+Eye-tracking systems might use different defaults for how it marks the onset of recoring on a trial. This is not necessarily when the trial begins - simply whent he eye-tracker starts recording.
+
+The SMI default is : "# Message: StartTracking.bmp"
+
+This parameter can be set to "default". If you are not using the default message then you need to specify a string.
+
+### trialonset.message and pretrial.duration
+
+trialonset.message is the message that marks the onset of a trial.
+
+The pre-trial period is set relative to the timing of the trialonset.message
+
+For instance if pretrial.duration = 2000, then the 2000 milliseconds before trialonset.message will be marked as a pre-trial period.
+
+### baselineoffset.message
+
+baselineoffset.message is the message that marks the offset of the baseline period
+
+This will correspond to the message that is sent that marks the critical task period that needs to be baseline corrected
 
 ## pupil.interpolate()
+
+Different interpolation options are available
 
 ### type
 
@@ -77,6 +105,8 @@ Different interpolation and smoothing options are available
 * The maximum gap (in milliseconds) of missing pupil data that will not be interpolated over. Any gaps larger than this value will not be interpolated.
 
 ## pupil.smooth()
+
+Different smoothing options are available
 
 ### type
 
