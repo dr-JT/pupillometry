@@ -32,32 +32,34 @@ For each eyetracking file in a specified directory
 ### Example
 ```r
 ## Preprocessing parameters
+import <- "./rawdata"
+export <- "./preprocesseddata"
+task <- "PVT"
 pattern <- "*.txt"
 eyetracker <- "smi"
-trialonset.message <- "Beep"
-targetonset.message <- c("Asterisk1", "WaitDisplay", "Beep")
 eye.recorded <- "both"
 eye.use <- "left"
+hz = 250
+trialonset.message <- "Beep"
 pretrial.duration <- 2000
 interpolate <- TRUE
 interpolate.type <- "cubic-spline"
 interpolate.maxgap <- 300
-smooth <- TRUE
-smooth.type <- "hann"
-smooth.window <- 5
+smooth <- FALSE
 bc <- TRUE
+baselineoffset.message <- c("Asterisk1", "WaitDisplay", "Beep")
 bc.duration = 200
 downsample.binlength <- 20
 ############################
 
-preprocess(import = import.dir, pattern = pattern, export = output.dir, taskname = task, eyetracker = eyetracker, 
-           trialmarker.message = "default", trialonset.message = trialonset.message, targetonset.message = targetonset.message,
-           eye.recorded = eye.recorded, eye.use = eye.use,
-           pretrial.duration = pretrial.duration, bc.duration = bc.duration,
+preprocess(import = import, pattern = pattern, export = export, taskname = task, eyetracker = eyetracker, 
+           eye.recorded = eye.recorded, eye.use = eye.use, hz = hz,
+           startrecording.message = "default", trialonset.message = trialonset.message, pretrial.duration = pretrial.duration,
            velocity = "", margin = "",
            interpolate = interpolate, interpolate.type = interpolate.type, interpolate.maxgap = interpolate.maxgap,
-           smooth = smooth, smooth.type = smooth.type, smooth.window = smooth.window,
-           downsample.binlength = downsample.binlength, bc = bc,
+           smooth = smooth, smooth.type = "", smooth.window = "",
+           bc = bc, baselineoffset.message = baselineoffset.message, bc.duration = bc.duration,
+           downsample.binlength = downsample.binlength,
            subj.prefix = "default", subset = "default", trial.exclude = c())
 ```
 
