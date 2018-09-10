@@ -47,7 +47,7 @@ interpolate.type <- "cubic-spline"
 interpolate.maxgap <- 300
 smooth <- FALSE
 bc <- TRUE
-baselineoffset.message <- c("Asterisk1", "WaitDisplay", "Beep")
+baselineoffset.message <- "Target"
 bc.duration <- 200
 downsample.binlength <- 20
 ############################
