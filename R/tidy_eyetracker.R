@@ -19,7 +19,7 @@
 tidy_eyetracker <- function(file, eyetracker = "", trialmarker.message = "default", eye.recorded = "",
                             subj.prefix = "default", subset = "default", trial.exclude = c()){
 
-  #### ----- Set Defaults ----- ####
+  #### ----- SMI ----- ####
   if (eyetracker=="smi") {
     if (trialmarker.message=="default"){
       trialmarker.message <- "# Message: StartTracking.bmp"
