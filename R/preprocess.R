@@ -47,7 +47,7 @@ preprocess <- function(import = "", pattern = "*.txt", export = "", taskname = "
   ## Function to do baseline correction (allows for multiple baseline corrections in a trial)
   doBaselineCorrection <- function(x){
     for (i in 1:bc.iterations){
-      x <- baselinecorrect(x, bc.duration = bc.duration, start.target = targetonset.message[i], iteration = i)
+      x <- pupil.baselinecorrect(x, bc.duration = bc.duration, start.target = targetonset.message[i], iteration = i)
     }
     return(x)
   }
@@ -60,7 +60,7 @@ preprocess <- function(import = "", pattern = "*.txt", export = "", taskname = "
       # Downsample?
       if (downsample.binlength>0){
         preprocessing <- paste(preprocessing, "ds", sep = ".")
-        x <- downsample(x, bin.length = downsample.binlength)
+        x <- pupil.downsample(x, bin.length = downsample.binlength)
       }
       ## Save file
       subj <- x$Subject[1]
@@ -71,7 +71,7 @@ preprocess <- function(import = "", pattern = "*.txt", export = "", taskname = "
       # Downsample?
       if (downsample.binlength>0){
         preprocessing <- paste(preprocessing, "ds", sep = ".")
-        x <- downsample(x, bin.length = downsample.binlength)
+        x <- pupil.downsample(x, bin.length = downsample.binlength)
       }
       ## Save file
       subj <- x$Subject[1]
