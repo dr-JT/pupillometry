@@ -9,7 +9,7 @@
 #' @param eyetracker Which eye-tracker was used to record data
 #' @param eye.recorded Do you want to inclue the "left", "right', or "both" eyes?
 #' @param eye.use Which eye to use? Left or right
-#' @param hz At which frequency was pupil data sampled at? (only required for smoothing)
+#' @param hz At which frequency was pupil data sampled at? (only required for interpolation and smoothing)
 #' @param startrecording.message Message used in SMI experiment to mark StartTracking inline
 #' @param trialonset.message Message string that marks the start of a trial
 #' @param pretrial.duration Duration of pre-trial baseline period in milliseconds
