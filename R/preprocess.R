@@ -144,7 +144,7 @@ preprocess <- function(import = "", pattern = "*.txt", export = "", taskname = "
 
     ## Next, Interpolate data
     if (interpolate==TRUE){
-      data <- pupil.interpolate(data, type = interpolate.type, maxgap = interpolate.maxgap)
+      data <- pupil.interpolate(data, type = interpolate.type, maxgap = interpolate.maxgap, hz = hz)
       ## Save data at this stage
       saveData(data, preprocessing.stage = "interpolated")
     }
