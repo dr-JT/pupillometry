@@ -8,9 +8,9 @@
 #' @keywords baseline
 #' @export
 #' @examples
-#' baselinecorrect(file = "path/filename", baseline.duration = 2000, start.trial = "# Message: Target")
+#' pupil.baselinecorrect(file = "path/filename", baseline.duration = 2000, start.trial = "# Message: Target")
 
-baselinecorrect <- function(x, bc.duration = 200, start.target = "", iteration = 1){
+pupil.baselinecorrect <- function(x, bc.duration = 200, start.target = "", iteration = 1){
   start.timestamps <- x$Time[(grep(start.target, x$Message))]
   trials <- x$Trial[(grep(start.target, x$Message))]
   x <- dplyr::group_by(x, Trial)

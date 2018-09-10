@@ -6,9 +6,9 @@
 #' @keywords downsample
 #' @export
 #' @examples
-#' downsample(x, bin.length = 100)
+#' pupil.downsample(x, bin.length = 100)
 
-downsample <- function(x, bin.length = ""){
+pupil.downsample <- function(x, bin.length = ""){
   x <- dplyr::group_by(x, Subject, Trial)
   x <- dplyr::mutate(x, TimeBin = ifelse(min(Time)>=0, Time - min(Time), Time),
                      TimeBin = trunc((Time - min(Time))/bin.length))
