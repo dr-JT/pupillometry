@@ -122,7 +122,7 @@ preprocess <- function(import = "", pattern = "*.txt", export = "", taskname = "
     ## Correlate and select Eyes
     if (eye.recorded == "both"){
       # correlate eyes
-      data <- eyes.cor(data)
+      data <- pupil.cor(data)
       # remove either left or right eye
       if (eye.use=="left"){
         data <- dplyr::mutate(data, Pupil_Diameter.mm = L_Pupil_Diameter.mm,
