@@ -137,10 +137,10 @@ preprocess <- function(import = "", pattern = "*.txt", export = "", taskname = "
     }
 
     ## Creates a column that specifies the current stimulus (based on Messages in the data)
-    x <- set.stimuli(x)
+    data <- set.stimuli(data)
     ## Sets the Timing column relative to the onset of each trial
-    x <- set.timing(x, start.trial = trialonset.message,
-                    ms.conversion = ms.conversion, pretrial.duration = pretrial.duration)
+    data <- set.timing(data, start.trial = trialonset.message,
+                       ms.conversion = ms.conversion, pretrial.duration = pretrial.duration)
 
     ## Save data at this stage
     saveData(data, preprocessing.stage = "")
