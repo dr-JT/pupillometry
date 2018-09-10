@@ -71,21 +71,21 @@ tidy_eyetracker <- function(file, eyetracker = "", startrecording.message = "def
                             R_Event_Info = ifelse((R_Event_Info=="-"|is.na(R_Event_Info)),NA, R_Event_Info))
       data <- dplyr::rename(data, L_Pupil_Diameter.mm = L_Pupil_Diameter_mm, L_Event = L_Event_Info,
                             R_Pupil_Diameter.mm = R_Pupil_Diameter_mm, R_Event = R_Event_Info)
-      data <- dplyr::select(data, Subject, Hz, Head_Dist.cm, Time, Trial, Message, L_Pupil_Diameter.mm,
+      data <- dplyr::select(data, Subject, Head_Dist.cm, Time, Trial, Message, L_Pupil_Diameter.mm,
                             L_Event, R_Pupil_Diameter.mm, R_Event)
     } else if (eye.recorded=="left"){
       data <- dplyr::mutate(data, Subject = subj, Head_Dist.cm = head.distance,
                             Message = ifelse(get(message.column)>=0,NA,get(message.column)),
                             L_Event_Info = ifelse((L_Event_Info=="-"|is.na(L_Event_Info)),NA, L_Event_Info))
       data <- dplyr::rename(data, Pupil_Diameter.mm = L_Pupil_Diameter_mm, Event = L_Event_Info)
-      data <- dplyr::select(data, Subject, Hz, Head_Dist.cm, Time, Trial, Message, Pupil_Diameter.mm,
+      data <- dplyr::select(data, Subject, Head_Dist.cm, Time, Trial, Message, Pupil_Diameter.mm,
                             Event)
     } else if (eye.recorded=="right"){
       data <- dplyr::mutate(data, Subject = subj, Head_Dist.cm = head.distance,
                             Message = ifelse(get(message.column)>=0,NA,get(message.column)),
                             R_Event_Info = ifelse((R_Event_Info=="-"|is.na(R_Event_Info)),NA, R_Event_Info))
       data <- dplyr::rename(data, Pupil_Diameter.mm = R_Pupil_Diameter_mm, Event = R_Event_Info)
-      data <- dplyr::select(data, Subject, Hz, Head_Dist.cm, Time, Trial, Message, Pupil_Diameter.mm,
+      data <- dplyr::select(data, Subject, Head_Dist.cm, Time, Trial, Message, Pupil_Diameter.mm,
                             Event)
     }
     ###################
