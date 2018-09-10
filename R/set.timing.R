@@ -15,14 +15,8 @@ set.timing <- function(x, trialonset.message = "", ms.conversion = 1, pretrial.d
   x <- dplyr::group_by(x, Trial)
   x <- dplyr::mutate(x,
                      trialonset.time = ifelse(Message==trialonset.message, Time, NA),
-                     min = min(trialonset.time, na.rm = TRUE),
-                     trialonset.time = ifelse(trialonset.time!=min,NA,trialonset.time),
-                     trialonset.time = zoo::na.locf(trialonset.time),
-                     Time = (Time - trialstart.time)/ms.conversion,
-                     PreTrial = ifelse(Time>=pretrial.duration & Time<0,1,ifelse(Time>=0,0,NA)))
+                     min = min(trialonset.time, na.rm = TRUE))
   x <- dplyr::ungroup(x)
-  x <- dplyr::mutate(x, Trial = ifelse(Time>=pretrial.duration,Trial,0))
-  x <- dplyr::filter(x, Trial!=0, !is.na(Trial))
-  x <- dplyr::select(x, -trialstart.time)
+  x <- dplyr::select(x)
   return(x)
 }
