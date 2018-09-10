@@ -5,13 +5,13 @@
 \title{Pupil Data Function}
 \usage{
 preprocess(import = "", pattern = "*.txt", export = "",
-  taskname = "", eyetracker = "", trialmarker.message = "default",
-  trialonset.message = "", targetonset.message = "",
-  eye.recorded = "", eye.use = "", pretrial.duration = "",
-  bc.duration = "", velocity = "", margin = "",
-  interpolate = FALSE, interpolate.type = "",
+  taskname = "", eyetracker = "", eye.recorded = "", eye.use = "",
+  hz = "", startrecording.message = "default",
+  trialonset.message = "", pretrial.duration = "", velocity = "",
+  margin = "", interpolate = FALSE, interpolate.type = "",
   interpolate.maxgap = Inf, smooth = FALSE, smooth.type = "",
-  smooth.window = 5, downsample.binlength = "", bc = FALSE,
+  smooth.window = 5, bc = FALSE, baselineoffset.message = "",
+  bc.duration = "", downsample.binlength = "",
   subj.prefix = "default", subset = "default", trial.exclude = c())
 }
 \arguments{
@@ -25,19 +25,17 @@ preprocess(import = "", pattern = "*.txt", export = "",
 
 \item{eyetracker}{Which eye-tracker was used to record data}
 
-\item{trialmarker.message}{Message used in SMI experiment to mark StartTracking inline}
-
-\item{trialonset.message}{Message string that marks the start of a trial}
-
-\item{targetonset.message}{Message string that marks the target onset for baseline correction}
-
 \item{eye.recorded}{Do you want to inclue the "left", "right', or "both" eyes?}
 
 \item{eye.use}{Which eye to use? Left or right}
 
-\item{pretrial.duration}{Duration of pre-trial baseline period in milliseconds}
+\item{hz}{At which frequency was pupil data sampled at? (only required for smoothing)}
 
-\item{bc.duration}{PreTarget duration to use for baseline correction}
+\item{startrecording.message}{Message used in SMI experiment to mark StartTracking inline}
+
+\item{trialonset.message}{Message string that marks the start of a trial}
+
+\item{pretrial.duration}{Duration of pre-trial baseline period in milliseconds}
 
 \item{velocity}{The velocity threshold for Blink detection}
 
@@ -54,6 +52,12 @@ preprocess(import = "", pattern = "*.txt", export = "",
 \item{smooth.type}{The type of smoothing function to apply. hann or moving window average (mwa)}
 
 \item{smooth.window}{Window size of smoothing function default is 5 milliseconds}
+
+\item{bc}{Logical. Do baseline correction?}
+
+\item{baselineoffset.message}{Message string(s) that marks the offset of baseline period(s)}
+
+\item{bc.duration}{Duration baseline period(s) to use for correction}
 
 \item{downsample.binlength}{Length of bins to average}
 

@@ -7,13 +7,12 @@
 #' @param export Folder path to export preprocessed data to
 #' @param taskname Name of task - to be used in naming pre-processed files
 #' @param eyetracker Which eye-tracker was used to record data
-#' @param trialmarker.message Message used in SMI experiment to mark StartTracking inline
-#' @param trialonset.message Message string that marks the start of a trial
-#' @param targetonset.message Message string that marks the target onset for baseline correction
 #' @param eye.recorded Do you want to inclue the "left", "right', or "both" eyes?
 #' @param eye.use Which eye to use? Left or right
+#' @param hz At which frequency was pupil data sampled at? (only required for smoothing)
+#' @param startrecording.message Message used in SMI experiment to mark StartTracking inline
+#' @param trialonset.message Message string that marks the start of a trial
 #' @param pretrial.duration Duration of pre-trial baseline period in milliseconds
-#' @param bc.duration PreTarget duration to use for baseline correction
 #' @param velocity The velocity threshold for Blink detection
 #' @param margin The margin before and after Blink onset and offset
 #' @param interpolate Do you want to do a linear interpolation over missing values?
@@ -22,6 +21,9 @@
 #' @param smooth Do you want to apply a moving average smoothing function?
 #' @param smooth.type The type of smoothing function to apply. hann or moving window average (mwa)
 #' @param smooth.window Window size of smoothing function default is 5 milliseconds
+#' @param bc Logical. Do baseline correction?
+#' @param baselineoffset.message Message string(s) that marks the offset of baseline period(s)
+#' @param bc.duration Duration baseline period(s) to use for correction
 #' @param downsample.binlength Length of bins to average
 #' @param subj.prefix The prefix that comes before the subject number in the data file (including "-")
 #' @param subset Which columns in the raw data export file do you want to keep
@@ -32,25 +34,17 @@
 #'
 #'
 preprocess <- function(import = "", pattern = "*.txt", export = "", taskname = "", eyetracker = "",
-                       trialmarker.message = "default", trialonset.message = "", targetonset.message = "",
-                       eye.recorded = "", eye.use = "",
-                       pretrial.duration = "", bc.duration = "",
+                       eye.recorded = "", eye.use = "", hz = "",
+                       startrecording.message = "default", trialonset.message = "", pretrial.duration = "",
                        velocity = "", margin = "",
                        interpolate = FALSE, interpolate.type = "", interpolate.maxgap = Inf,
                        smooth = FALSE, smooth.type = "", smooth.window = 5,
-                       downsample.binlength = "", bc = FALSE,
+                       bc = FALSE, baselineoffset.message = "", bc.duration = "",
+                       downsample.binlength = "",
                        subj.prefix = "default", subset = "default", trial.exclude = c()){
 
   ###############################
   #### ----- Functions ----- ####
-
-  ## Function to do baseline correction (allows for multiple baseline corrections in a trial)
-  doBaselineCorrection <- function(x){
-    for (i in 1:bc.iterations){
-      x <- pupil.baselinecorrect(x, bc.duration = bc.duration, start.target = targetonset.message[i], iteration = i)
-    }
-    return(x)
-  }
 
   ## Save data and do baseline correction first if bc==TRUE
   saveData <- function(x, preprocessing.stage = ""){
@@ -60,7 +54,7 @@ preprocess <- function(import = "", pattern = "*.txt", export = "", taskname = "
       } else {
         preprocessing <- paste(preprocessing.stage, "bc", sep = ".")
       }
-      x <- doBaselineCorrection(x)
+      x <- pupil.baselinecorrect(x, baselineoffset.message = baselineoffset.message, bc.duration = bc.duration)
       # Downsample?
       if (downsample.binlength>0){
         preprocessing <- paste(preprocessing, "ds", sep = ".")
@@ -86,7 +80,6 @@ preprocess <- function(import = "", pattern = "*.txt", export = "", taskname = "
       SaveAs <- paste(export, "/", taskname, "_", subj, "_PupilData_", preprocessing, ".txt", sep = "")
       write.table(x, file = SaveAs, sep = "\t", row.names = FALSE, quote = FALSE)
     }
-    return(x)
   }
 
   ###############################
@@ -113,7 +106,7 @@ preprocess <- function(import = "", pattern = "*.txt", export = "", taskname = "
     #### ----- Create Tidy Raw Data ----- ####
 
     ## Convert messy to tidy
-    data <- tidy_eyetracker(file, eyetracker = eyetracker, trialmarker.message = trialmarker.message,
+    data <- tidy_eyetracker(file, eyetracker = eyetracker, startrecording.message = startrecording.message,
                             eye = eye.recorded, subj.prefix = subj.prefix, subset = subset,
                             trial.exclude = trial.exclude)
     ## Save tidy data file
@@ -162,7 +155,7 @@ preprocess <- function(import = "", pattern = "*.txt", export = "", taskname = "
 
     ## Next, Smooth data
     if (smooth==TRUE){
-      data <- pupil.smooth(data, type = smooth.type, window = smooth.window)
+      data <- pupil.smooth(data, type = smooth.type, window = smooth.window, hz = hz)
       ## Save data at this stage
       if (interpolate==TRUE){
         saveData(data, preprocessing.stage = "interpolated.smoothed")
