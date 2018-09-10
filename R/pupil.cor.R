@@ -11,6 +11,6 @@
 
 pupil.cor <- function(x){
   x <- dplyr::mutate(x, Pupils.r = stats::cor(L_Pupil_Diameter.mm, R_Pupil_Diameter.mm, use = "pairwise.complete.obs"),
-                     Pupils.r = ifelse(is.na(pupils.cor), 0, Pupils.r))
+                     Pupils.r = ifelse(is.na(Pupils.r), 0, Pupils.r))
   return(x)
 }
