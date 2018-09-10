@@ -95,10 +95,6 @@ preprocess <- function(import = "", pattern = "*.txt", export = "", taskname = "
     ms.conversion <- 1
   }
 
-  ## How many baseline corrections were specificed?
-  bc.iterations <- length(targetonset.message)
-  ##################################
-
 
   ## Get list of data files to be pre-processed
   filelist <- list.files(path = import, pattern = pattern, full.names = TRUE)
