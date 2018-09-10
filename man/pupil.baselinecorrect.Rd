@@ -4,17 +4,15 @@
 \alias{pupil.baselinecorrect}
 \title{Pupil Data Function}
 \usage{
-pupil.baselinecorrect(x, bc.duration = 200, start.target = "",
-  iteration = 1)
+pupil.baselinecorrect(x, baselineoffset.message = "",
+  bc.duration = 200)
 }
 \arguments{
 \item{x}{dataframe}
 
-\item{bc.duration}{Duration pre-trial baseline to use for correction}
+\item{baselineoffset.message}{Message string(s) that marks the offset of baseline period(s)}
 
-\item{start.target}{Stimulus that identifies the target onset}
-
-\item{iteration}{the nth time this data has been baseline corrected}
+\item{bc.duration}{Duration baseline period(s) to use for correction}
 }
 \description{
 This function applies a pre-trial baseline correction on the data
