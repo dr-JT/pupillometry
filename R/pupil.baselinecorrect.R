@@ -2,41 +2,34 @@
 #'
 #' This function applies a pre-trial baseline correction on the data
 #' @param x dataframe
-#' @param bc.duration Duration pre-trial baseline to use for correction
-#' @param start.target Stimulus that identifies the target onset
-#' @param iteration the nth time this data has been baseline corrected
+#' @param baselineoffset.message Message string(s) that marks the offset of baseline period(s)
+#' @param bc.duration Duration baseline period(s) to use for correction
 #' @keywords baseline
 #' @export
 #' @examples
 #' pupil.baselinecorrect(file = "path/filename", baseline.duration = 2000, start.trial = "# Message: Target")
 
-pupil.baselinecorrect <- function(x, bc.duration = 200, start.target = "", iteration = 1){
-  start.timestamps <- x$Time[(grep(start.target, x$Message))]
-  trials <- x$Trial[(grep(start.target, x$Message))]
+pupil.baselinecorrect <- function(x, baselineoffset.message = "", bc.duration = 200){
+  baselines.n <- length(baselineoffset.message)
   x <- dplyr::group_by(x, Trial)
-  if (iteration>1){
-    x <- dplyr::mutate(x, PreTarget = ifelse(!(Trial%in%trials), 0,
-                                             ifelse(Time>=start.timestamps[match(Trial,trials)]-bc.duration & Time<start.timestamps[match(Trial,trials)],
-                                                    1,0)),
-                       Target = ifelse(!(Trial%in%trials), 0,
-                                       ifelse(Target>=1,Target+1,ifelse(Time>=start.timestamps[match(Trial,trials)]
-                                                                        ,1,0))))
-  } else{
-    x <- dplyr::mutate(x, PreTarget = ifelse(!(Trial%in%trials), 0,
-                                             ifelse(Time>=start.timestamps[match(Trial,trials)]-bc.duration & Time<start.timestamps[match(Trial,trials)],
-                                                    1,0)),
-                       Target = ifelse(!(Trial%in%trials),0,
-                                       ifelse(Time>=start.timestamps[match(Trial,trials)],
-                                              1,0)))
+  x <- dplyr::mutate(x, PreTarget=0, Target=0)
+  for (message in baselineoffset.message){
+    n <- match(message, baselineoffset.message)
+    x <- dplyr::mutate(x,
+                       baselineoffset.time = ifelse(Message==message, Time, NA),
+                       baselineoffset.time = zoo::na.locf(baselineoffset.time),
+                       PreTarget = ifelse(Time >= (baselineoffset.time-bc.duration) & Time < baselineoffset.time, n, PreTarget),
+                       Target = ifelse(Time >= baselineoffset.time, n, PreTarget))
   }
-  z <- dplyr::filter(x, PreTarget==1)
-  z <- dplyr::group_by(z, Trial)
-  z <- dplyr::summarise(z, PreTarget.mean = mean(Pupil_Diameter.mm, na.rm = TRUE))
-  z <- dplyr::ungroup(z)
-  x <- merge(x, z, by = "Trial", all = TRUE)
-  x <- dplyr::mutate(x, Pupil_Diameter.mm = ifelse(Target==1, Pupil_Diameter.mm - PreTarget.mean, Pupil_Diameter.mm))
-  x <- dplyr::arrange(x, Subject, Trial, Time)
-  x <- dplyr::select(x, -PreTarget.mean)
+  x <- dplyr::group_by(x, Trial, PreTarget)
+  x <- dplyr::mutate(x,
+                     PreTarget.mean = ifelse(!is.na(PreTarget) & PreTarget>0, mean(Pupil_Diameter.mm, na.rm = TRUE), NA))
+  x <- dplyr::group_by(x, Trial)
+  x <- dplyr::mutate(x,
+                     PreTarget.mean = zoo::na.locf(PreTarget.mean),
+                     Pupil_Diameter_bc.mm = ifelse(!is.na(Target) & Target>0, Pupil_Diameter.mm - PreTarget.mean, NA))
+  x <- dplyr::ungroup()
+  x <- dplyr::select(x, -PreTarget.mean, -baselineoffset.time)
   return(x)
 }
 
