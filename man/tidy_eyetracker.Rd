@@ -4,16 +4,16 @@
 \alias{tidy_eyetracker}
 \title{Messy to Tidy Raw Eye-Tracker Data File}
 \usage{
-tidy_eyetracker(file, eyetracker = "", trialmarker.message = "default",
-  eye.recorded = "", subj.prefix = "default", subset = "default",
-  trial.exclude = c())
+tidy_eyetracker(file, eyetracker = "",
+  startrecording.message = "default", eye.recorded = "",
+  subj.prefix = "default", subset = "default", trial.exclude = c())
 }
 \arguments{
 \item{file}{A file path to the raw data export file}
 
 \item{eyetracker}{Which eye-tracker system was used to record data?}
 
-\item{trialmarker.message}{Message used in SMI experiment to mark StartTracking inline}
+\item{startrecording.message}{Message used in SMI experiment to mark StartTracking inline}
 
 \item{eye.recorded}{Do you want to inclue the "left", "right', or "both" eyes?}
 
