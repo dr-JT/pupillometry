@@ -17,6 +17,5 @@ set.timing <- function(x, trialonset.message = "", ms.conversion = 1, pretrial.d
                      trialonset.time = ifelse(Message==trialonset.message, Time, NA),
                      min = min(trialonset.time, na.rm = TRUE))
   x <- dplyr::ungroup(x)
-  x <- dplyr::select(x)
   return(x)
 }
