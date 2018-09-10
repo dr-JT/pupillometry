@@ -9,7 +9,7 @@
 
 set.stimuli <- function(x){
   x <- dplyr::group_by(x, Trial)
-  x <- dplyr::mutate(x, Stimulus = zoo::na.locf(Message))
+  x <- dplyr::mutate(x, Stimulus = zoo::na.locf(Message, na.rm = FALSE))
   x <- dplyr::ungroup(x)
   return(x)
 }

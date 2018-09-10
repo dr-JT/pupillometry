@@ -11,7 +11,7 @@
 set.trial <- function(x, startrecording.message = ""){
   x <- dplyr::mutate(x,
                      startrecording.time = ifelse(Message==startrecording.message, Time, NA),
-                     startrecording.time = zoo::na.locf(startrecording.time),
+                     startrecording.time = zoo::na.locf(startrecording.time, na.rm = FALSE),
                      Trial = dplyr::dense_rank(startrecording.time))
   x <- dplyr::select(x, -startrecording.time)
   return(x)

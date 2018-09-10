@@ -17,7 +17,7 @@ pupil.baselinecorrect <- function(x, baselineoffset.message = "", bc.duration = 
     n <- match(message, baselineoffset.message)
     x <- dplyr::mutate(x,
                        baselineoffset.time = ifelse(Message==message, Time, NA),
-                       baselineoffset.time = zoo::na.locf(baselineoffset.time),
+                       baselineoffset.time = zoo::na.locf(baselineoffset.time, na.rm = FALSE),
                        PreTarget = ifelse(Time >= (baselineoffset.time-bc.duration) & Time < baselineoffset.time, n, PreTarget),
                        Target = ifelse(Time >= baselineoffset.time, n, PreTarget))
   }
