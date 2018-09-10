@@ -4,13 +4,13 @@
 \alias{set.timing}
 \title{Pupil Data Function}
 \usage{
-set.timing(x, start.trial = "", ms.conversion = 1,
+set.timing(x, trialonset.message = "", ms.conversion = 1,
   pretrial.duration = 0)
 }
 \arguments{
 \item{x}{dataframe}
 
-\item{start.trial}{Message string that marks the start of a trial}
+\item{trialonset.message}{Message string that marks the start of a trial}
 
 \item{ms.conversion}{Conversion factor to convert timing to milliseconds}
 
