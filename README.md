@@ -39,7 +39,7 @@ pattern <- "*.txt"
 eyetracker <- "smi"
 eye.recorded <- "both"
 eye.use <- "left"
-hz = 250
+hz <- 250
 trialonset.message <- "Beep"
 pretrial.duration <- 2000
 interpolate <- TRUE
@@ -48,7 +48,7 @@ interpolate.maxgap <- 300
 smooth <- FALSE
 bc <- TRUE
 baselineoffset.message <- c("Asterisk1", "WaitDisplay", "Beep")
-bc.duration = 200
+bc.duration <- 200
 downsample.binlength <- 20
 ############################
 
