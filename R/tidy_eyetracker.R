@@ -6,7 +6,7 @@
 #' Supported Eye-Tracker Systems: Sensomotoric Instruments ("smi") and SR-Research EyeLink ("eyelink")
 #' @param file A file path to the raw data export file
 #' @param eyetracker Which eye-tracker system was used to record data?
-#' @param trialmarker.message Message used in SMI experiment to mark StartTracking inline
+#' @param startrecording.message Message used in SMI experiment to mark StartTracking inline
 #' @param eye.recorded Do you want to inclue the "left", "right', or "both" eyes?
 #' @param subj.prefix The prefix that comes before the subject number in the data file (including "-")
 #' @param subset Which columns in the raw data export file do you want to keep
@@ -16,13 +16,13 @@
 #' @examples
 #' tidy_eyetracker(file = "path/filename.txt", subset = c(), message.column = "columnName", track.start = "# Message: StartTracking.bmp", eye = "both")
 
-tidy_eyetracker <- function(file, eyetracker = "", trialmarker.message = "default", eye.recorded = "",
+tidy_eyetracker <- function(file, eyetracker = "", startrecording.message = "default", eye.recorded = "",
                             subj.prefix = "default", subset = "default", trial.exclude = c()){
 
   #### ----- SMI ----- ####
   if (eyetracker=="smi") {
-    if (trialmarker.message=="default"){
-      trialmarker.message <- "# Message: StartTracking.bmp"
+    if (startrecording.message=="default"){
+      startrecording.message <- "# Message: StartTracking.bmp"
     }
     if (subj.prefix=="default") {
       subj.prefix <- "-"
@@ -30,8 +30,8 @@ tidy_eyetracker <- function(file, eyetracker = "", trialmarker.message = "defaul
   }
 
   if (eyetracker=="eyelink") {
-    if (trialmarker.message=="default"){
-      trialmarker.message <- "TRIALID"
+    if (startrecording.message=="default"){
+      startrecording.message <- "TRIALID"
     }
     if (subset=="default"){
       subset <- "Time"
@@ -43,7 +43,6 @@ tidy_eyetracker <- function(file, eyetracker = "", trialmarker.message = "defaul
   if (eyetracker=="smi") {
     ## Import and grab data from the header ####
     header <- readr::read_table(file, col_names = FALSE)
-    Hz <- as.numeric(strsplit(header$X1[6], "\t")[[1]][2])
     samples.total <- as.numeric(strsplit(header$X1[10], "\t")[[1]][2])
     subj <- as.numeric(strsplit(strsplit(gsub(gsub("-$", "",
                                                    gsub('[0-9]', "",
@@ -66,7 +65,7 @@ tidy_eyetracker <- function(file, eyetracker = "", trialmarker.message = "defaul
     ###################
     ## Add info from header, rename, set missing values and select subset of data ####
     if (eye.recorded=="both"){
-      data <- dplyr::mutate(data, Subject = subj, Hz = Hz, Head_Dist.cm = head.distance,
+      data <- dplyr::mutate(data, Subject = subj, Head_Dist.cm = head.distance,
                             Message = ifelse(get(message.column)>=0,NA,get(message.column)),
                             L_Event_Info = ifelse((L_Event_Info=="-"|is.na(L_Event_Info)),NA, L_Event_Info),
                             R_Event_Info = ifelse((R_Event_Info=="-"|is.na(R_Event_Info)),NA, R_Event_Info))
@@ -75,14 +74,14 @@ tidy_eyetracker <- function(file, eyetracker = "", trialmarker.message = "defaul
       data <- dplyr::select(data, Subject, Hz, Head_Dist.cm, Time, Trial, Message, L_Pupil_Diameter.mm,
                             L_Event, R_Pupil_Diameter.mm, R_Event)
     } else if (eye.recorded=="left"){
-      data <- dplyr::mutate(data, Subject = subj, Hz = Hz, Head_Dist.cm = head.distance,
+      data <- dplyr::mutate(data, Subject = subj, Head_Dist.cm = head.distance,
                             Message = ifelse(get(message.column)>=0,NA,get(message.column)),
                             L_Event_Info = ifelse((L_Event_Info=="-"|is.na(L_Event_Info)),NA, L_Event_Info))
       data <- dplyr::rename(data, Pupil_Diameter.mm = L_Pupil_Diameter_mm, Event = L_Event_Info)
       data <- dplyr::select(data, Subject, Hz, Head_Dist.cm, Time, Trial, Message, Pupil_Diameter.mm,
                             Event)
     } else if (eye.recorded=="right"){
-      data <- dplyr::mutate(data, Subject = subj, Hz = Hz, Head_Dist.cm = head.distance,
+      data <- dplyr::mutate(data, Subject = subj, Head_Dist.cm = head.distance,
                             Message = ifelse(get(message.column)>=0,NA,get(message.column)),
                             R_Event_Info = ifelse((R_Event_Info=="-"|is.na(R_Event_Info)),NA, R_Event_Info))
       data <- dplyr::rename(data, Pupil_Diameter.mm = R_Pupil_Diameter_mm, Event = R_Event_Info)
@@ -132,31 +131,14 @@ tidy_eyetracker <- function(file, eyetracker = "", trialmarker.message = "defaul
   }
   #############################
 
-  ## Correctly set trial index ####
-  onsetTimes <- grep(trialmarker.message, data$Message)
-  data <- dplyr::mutate(data, Trial = NA)
-  for (i in 1:length(onsetTimes)){
-    if (i==length(onsetTimes)){
-      data <- dplyr::mutate(data, Trial = ifelse(row_number()>=(onsetTimes[i]) & row_number()<=length(data$Message),i,Trial))
-    } else {
-      data <- dplyr::mutate(data, Trial = ifelse(row_number()>=(onsetTimes[i]) & row_number()<onsetTimes[i+1],i,Trial))
-    }
-  }
-
   if (!is.null(trial.exclude)){
     data <- dplyr::filter(data, !(Trial %in% trial.exclude))
-    ## Correctly set trial index ####
-    onsetTimes <- grep(trialmarker.message, data$Message)
-    data <- dplyr::mutate(data, Trial = NA)
-    for (i in 1:length(onsetTimes)){
-      if (i==length(onsetTimes)){
-        data <- dplyr::mutate(data, Trial = ifelse(row_number()>=(onsetTimes[i]) & row_number()<=length(data$Message),i,Trial))
-      } else {
-        data <- dplyr::mutate(data, Trial = ifelse(row_number()>=(onsetTimes[i]) & row_number()<onsetTimes[i+1],i,Trial))
-      }
-    }
   }
-  ###################
+
+  ## Correctly set trial index ####
+  data <- set.trial(data, startrecording.message = startrecording.message)
+  ##################
+
   ## Remove "# Message: " from message string ####
   data$Message <- gsub("# Message: ", "", data$Message)
   return(data)

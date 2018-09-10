@@ -6,9 +6,9 @@
 #' @keywords set timing
 #' @export
 #' @examples
-#' set.timing(x, start.trial = "Fixation", ms.conversion = 1000)
+#' set.trial(x, start.trial = "Fixation", ms.conversion = 1000)
 
-set.timing <- function(x, startrecroding.message = ""){
+set.trial <- function(x, startrecroding.message = ""){
   x <- dplyr::mutate(x,
                      startrecording.time = ifelse(Message==startrecroding.message, Time, NA),
                      startrecording.time = ifelse(startrecording.time!=min(startrecording.time, na.rm = TRUE), NA, startrecording.time),
