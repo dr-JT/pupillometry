@@ -13,9 +13,6 @@
 
 pupil.interpolate <- function(x, type = "cubic-spline", maxgap = Inf, hz = ""){
   if (maxgap!=Inf){
-    if (hz==""){
-      hz <- x$Hz[1]
-    }
     maxgap <- maxgap/(hz/1000)
   }
   x <- dplyr::group_by(x, Trial)
