@@ -20,14 +20,16 @@ For each eyetracking file in a specified directory
 5. Choose to keep only left or right pupil data (If both eyes were recorded from)
 6. Set **Timing** variable to be relative to onset of each trial
 7. **Save** data at this stage*
-8. Choose whether to **interpolate** or not
+8. **Interpolate**
 9. **Save** data at this stage*
-10. Choose whether to **smooth** or not
-11. Choose whether to **baseline correct** or not
-12. Choose whether to **downsample** the data or not
-13. **Save** final pre-processing data
+10. **Smooth**
+11. **Save** data at this stage*
 
-\* When data is saved at these stages; if baseline correction and/or downsampling is specified, then these will occur prior to saving. What this does is saves a data file at each stage of preprocessing. That way you have a baseline corrected/downsampled file at each stage of pre-processing. This can be useful if you originally specified a pre-processing step, such as smoothing, but then later decide you do not want to use that pre-processing method - you will already have the pre-processed (including baseline correction/down sampling) data file prior to that step. Or you may wish to compare how your results change depending on what pre-processing steps you perform.
+\* When data is saved at these stages the following preprocessing steps may follow:
+1. **Baseline Correct**
+2. **Down Sample**
+
+What this does is saves a data file at each stage of preprocessing. That way you have a baseline corrected/downsampled file at each stage of pre-processing. This can be useful if you originally specified a pre-processing step, such as smoothing, but then later decide you do not want to use that pre-processing method - you will already have the pre-processed (including baseline correction/down sampling) data file prior to that step. Or you may wish to compare how your results change depending on what pre-processing steps you perform.
 
 ### Example
 ```r
