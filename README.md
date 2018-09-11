@@ -99,7 +99,7 @@ For instance if pretrial.duration = 2000, then the 2000 milliseconds before tria
 
 baselineoffset.message is the message that marks the offset of the baseline period
 
-This will correspond to the message that is sent that marks the critical task period that needs to be baseline corrected
+This will correspond to the message that marks the start of the critical task period that needs to be baseline corrected
 
 ## pupil.interpolate()
 
