@@ -34,8 +34,8 @@ What this does is saves a data file at each stage of preprocessing. That way you
 ### Example
 ```r
 ## Preprocessing parameters
-import <- "./rawdata"
-export <- "./preprocesseddata"
+import <- "./raw_data"
+export <- "./preprocessed_data"
 task <- "PVT"
 pattern <- "*.txt"
 eyetracker <- "smi"
