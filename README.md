@@ -3,6 +3,10 @@ An R Package to preprocess pupil data
 
 The package contains various functions for different steps in the preprocessing pipeline, such as interpolation or baseline correction.
 
+The pre-processing steps are based on what has commonly been used in the literature and suggested by 
+
+Mathôt, S., Fabius, J., Van Heusden, E., & Van der Stigchel, S. (2018). Safe and sensible preprocessing and baseline correction of pupil-size data. Behavior research methods, 50(1), 94-106.
+
 ## Eyetrackers
 
 Currently the package only supports data exported from BeGaze using an SMI eye-tracker. Other eye-trackers will be included in future updates.
