@@ -77,29 +77,27 @@ preprocess(import = import, pattern = pattern, export = export, taskname = task,
 
 Your data file should conatain messages that mark the onset/offset of critical stimuli and events
 
-For preprocessing your data these are the message markers you need to know
+For preprocess() these are the message markers you need to know
 
 ### startrecording.message
 
-Eye-tracking systems might use different defaults for how it marks the onset of recoring on a trial. This is not necessarily when the trial begins - simply whent he eye-tracker starts recording.
+Eye-tracking systems use different defaults for how it marks the start of recording on a trial. This is not necessarily when the trial begins - simply whent he eye-tracker starts recording.
 
 The SMI default is : "# Message: StartTracking.bmp"
 
-This parameter can be set to "default". If you are not using the default message then you need to specify a string.
+This parameter can be set to "default" to use the eyetracker default. If you are not using the default message then you need to specify the custom string you used.
 
 ### trialonset.message and pretrial.duration
 
-trialonset.message is the message that marks the onset of a trial.
+trialonset.message is the message that marks the onset of a trial. If you included a fixation at the start of every trial, then the trial onset should correspond to the stimulus after the fixation. The fixation period will be treated as a pre-trial period.
 
-The pre-trial period is set relative to the timing of the trialonset.message
+The duration of the pre-trial period is set relative to the timing of the trialonset.message
 
-For instance if pretrial.duration = 2000, then the 2000 milliseconds before trialonset.message will be marked as a pre-trial period.
+For instance if pretrial.duration = 2000, then the 2000 milliseconds before trialonset.message will be marked as a pre-trial period. This duration typically corresponds to the duration of the fixation period. It should definitely not exceed the startrecording.message.
 
 ### baselineoffset.message
 
-baselineoffset.message is the message that marks the offset of the baseline period
-
-This will correspond to the message that marks the start of the critical task period that needs to be baseline corrected
+baselineoffset.message is the message that marks the offset of the baseline period and the start of the critical task period that needs to be baseline corrected.
 
 ## pupil.interpolate()
 
