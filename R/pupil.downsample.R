@@ -11,9 +11,12 @@
 pupil.downsample <- function(x, bin.length = ""){
   x <- dplyr::group_by(x, Subject, Trial)
   x <- dplyr::mutate(x, TimeBin = ifelse(min(Time)>=0, Time - min(Time), Time),
-                     TimeBin = trunc((Time - min(Time))/bin.length))
+                     TimeBin = trunc((Time - min(Time))/bin.length),
+                     Time = TimeBin*bin.length)
   x <- dplyr::group_by(x, Subject, Trial, TimeBin)
   x <- dplyr::mutate(x, Pupil_Diameter.mm = mean(Pupil_Diameter.mm, na.rm = TRUE))
   x <- dplyr::ungroup(x)
+  x <- dplyr::select(x, -TimeBin)
+  x <- dplyr::distinct()
   return(x)
 }
