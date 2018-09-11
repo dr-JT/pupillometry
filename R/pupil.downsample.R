@@ -17,6 +17,6 @@ pupil.downsample <- function(x, bin.length = ""){
   x <- dplyr::mutate(x, Pupil_Diameter.mm = mean(Pupil_Diameter.mm, na.rm = TRUE))
   x <- dplyr::ungroup(x)
   x <- dplyr::select(x, -TimeBin)
-  x <- dplyr::distinct()
+  x <- dplyr::distinct(x)
   return(x)
 }
