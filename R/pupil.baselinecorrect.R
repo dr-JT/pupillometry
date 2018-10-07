@@ -27,8 +27,8 @@ pupil.baselinecorrect <- function(x, baselineoffset.message = "", bc.duration = 
                      PreTarget.mean = ifelse(!is.na(PreTarget) & PreTarget>0, mean(Pupil_Diameter.mm, na.rm = TRUE), NA))
   x <- dplyr::group_by(x, Trial)
   x <- dplyr::mutate(x,
-                     PreTarget.mean = zoo::na.locf(PreTarget.mean),
-                     Pupil_Diameter_bc.mm = ifelse(!is.na(Target) & Target>0, Pupil_Diameter.mm - PreTarget.mean, NA))
+                     PreTarget.mean = zoo::na.locf(PreTarget.mean, na.rm = FALSE),
+                     Pupil_Diameter_bc.mm = ifelse(!is.na(Target), Pupil_Diameter.mm - PreTarget.mean, NA))
   x <- dplyr::ungroup()
   x <- dplyr::select(x, -PreTarget.mean, -baselineoffset.time)
   return(x)
