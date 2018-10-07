@@ -58,7 +58,7 @@ preprocess <- function(import = "", pattern = "*.txt", export = "", taskname = "
       # Downsample?
       if (downsample.binlength>0){
         preprocessing <- paste(preprocessing, "ds", sep = ".")
-        x <- pupil.downsample(x, bin.length = downsample.binlength)
+        x <- pupil.downsample(x, bin.length = downsample.binlength, bc = bc)
       }
       ## Save file
       subj <- x$Subject[1]
@@ -73,7 +73,7 @@ preprocess <- function(import = "", pattern = "*.txt", export = "", taskname = "
         } else {
           preprocessing <- paste(preprocessing, "ds", sep = ".")
         }
-        x <- pupil.downsample(x, bin.length = downsample.binlength)
+        x <- pupil.downsample(x, bin.length = downsample.binlength, bc = bc)
       }
       ## Save file
       subj <- x$Subject[1]
