@@ -4,12 +4,14 @@
 \alias{pupil.downsample}
 \title{Pupil Preprocessing Function}
 \usage{
-pupil.downsample(x, bin.length = "")
+pupil.downsample(x, bin.length = "", bc = FALSE)
 }
 \arguments{
 \item{x}{dataframe}
 
 \item{bin.length}{Length of bins to average}
+
+\item{bc}{Logical. Was baseline correction done on the data? Is there a column labeled Pupil_Diameter_bc.mm?}
 }
 \description{
 This function will reduce the sampling fequency
