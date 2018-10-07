@@ -7,6 +7,7 @@
 #' @param file A file path to the raw data export file
 #' @param eyetracker Which eye-tracker system was used to record data?
 #' @param startrecording.message Message used in SMI experiment to mark StartTracking inline
+#' @param startrecording.match Should the message string be an "exact" match or a "pattern" match?
 #' @param eye.recorded Do you want to inclue the "left", "right', or "both" eyes?
 #' @param subj.prefix The prefix that comes before the subject number in the data file (including "-")
 #' @param subset Which columns in the raw data export file do you want to keep
@@ -16,8 +17,8 @@
 #' @examples
 #' tidy_eyetracker(file = "path/filename.txt", subset = c(), message.column = "columnName", track.start = "# Message: StartTracking.bmp", eye = "both")
 
-tidy_eyetracker <- function(file, eyetracker = "", startrecording.message = "default", eye.recorded = "",
-                            subj.prefix = "default", subset = "default", trial.exclude = c()){
+tidy_eyetracker <- function(file, eyetracker = "", startrecording.message = "default", startrecording.match = "exact",
+                            eye.recorded = "", subj.prefix = "default", subset = "default", trial.exclude = c()){
 
   #### ----- SMI ----- ####
   if (eyetracker=="smi") {
@@ -136,7 +137,7 @@ tidy_eyetracker <- function(file, eyetracker = "", startrecording.message = "def
   }
 
   ## Correctly set trial index ####
-  data <- set.trial(data, startrecording.message = startrecording.message)
+  data <- set.trial(data, startrecording.message = startrecording.message, match = startrecording.match)
   ##################
 
   ## Remove "# Message: " from message string ####

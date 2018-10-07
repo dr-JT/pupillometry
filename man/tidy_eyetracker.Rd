@@ -5,8 +5,9 @@
 \title{Messy to Tidy Raw Eye-Tracker Data File}
 \usage{
 tidy_eyetracker(file, eyetracker = "",
-  startrecording.message = "default", eye.recorded = "",
-  subj.prefix = "default", subset = "default", trial.exclude = c())
+  startrecording.message = "default", startrecording.match = "exact",
+  eye.recorded = "", subj.prefix = "default", subset = "default",
+  trial.exclude = c())
 }
 \arguments{
 \item{file}{A file path to the raw data export file}
@@ -14,6 +15,8 @@ tidy_eyetracker(file, eyetracker = "",
 \item{eyetracker}{Which eye-tracker system was used to record data?}
 
 \item{startrecording.message}{Message used in SMI experiment to mark StartTracking inline}
+
+\item{startrecording.match}{Should the message string be an "exact" match or a "pattern" match?}
 
 \item{eye.recorded}{Do you want to inclue the "left", "right', or "both" eyes?}
 

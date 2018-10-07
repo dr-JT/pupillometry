@@ -7,8 +7,9 @@
 preprocess(import = "", pattern = "*.txt", export = "",
   taskname = "", eyetracker = "", eye.recorded = "", eye.use = "",
   hz = "", startrecording.message = "default",
-  trialonset.message = "", pretrial.duration = "", velocity = "",
-  margin = "", interpolate = FALSE, interpolate.type = "",
+  startrecording.match = "exact", trialonset.message = "",
+  pretrial.duration = "", velocity = "", margin = "",
+  interpolate = FALSE, interpolate.type = "",
   interpolate.maxgap = Inf, smooth = FALSE, smooth.type = "",
   smooth.window = 5, bc = FALSE, baselineoffset.message = "",
   bc.duration = "", downsample.binlength = "",
@@ -32,6 +33,8 @@ preprocess(import = "", pattern = "*.txt", export = "",
 \item{hz}{At which frequency was pupil data sampled at? (only required for interpolation and smoothing)}
 
 \item{startrecording.message}{Message used in SMI experiment to mark StartTracking inline}
+
+\item{startrecording.match}{Should the message string be an "exact" match or a "pattern" match?}
 
 \item{trialonset.message}{Message string that marks the start of a trial}
 

@@ -11,6 +11,7 @@
 #' @param eye.use Which eye to use? Left or right
 #' @param hz At which frequency was pupil data sampled at? (only required for interpolation and smoothing)
 #' @param startrecording.message Message used in SMI experiment to mark StartTracking inline
+#' @param startrecording.match Should the message string be an "exact" match or a "pattern" match?
 #' @param trialonset.message Message string that marks the start of a trial
 #' @param pretrial.duration Duration of pre-trial baseline period in milliseconds
 #' @param velocity The velocity threshold for Blink detection
@@ -35,7 +36,8 @@
 #'
 preprocess <- function(import = "", pattern = "*.txt", export = "", taskname = "", eyetracker = "",
                        eye.recorded = "", eye.use = "", hz = "",
-                       startrecording.message = "default", trialonset.message = "", pretrial.duration = "",
+                       startrecording.message = "default",  startrecording.match = "exact",
+                       trialonset.message = "", pretrial.duration = "",
                        velocity = "", margin = "",
                        interpolate = FALSE, interpolate.type = "", interpolate.maxgap = Inf,
                        smooth = FALSE, smooth.type = "", smooth.window = 5,

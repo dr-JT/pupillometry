@@ -4,12 +4,14 @@
 \alias{set.trial}
 \title{Pupil Data Function}
 \usage{
-set.trial(x, startrecording.message = "")
+set.trial(x, startrecording.message = "", match = "exact")
 }
 \arguments{
 \item{x}{dataframe}
 
 \item{startrecording.message}{Message string that marks the start of a recorind}
+
+\item{match}{Should the message string be an "exact" match or a "pattern" match?}
 }
 \description{
 This sets the trials relative to a message string in the data
