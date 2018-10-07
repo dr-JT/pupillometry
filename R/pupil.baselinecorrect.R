@@ -29,7 +29,7 @@ pupil.baselinecorrect <- function(x, baselineoffset.message = "", bc.duration = 
   x <- dplyr::mutate(x,
                      PreTarget.mean = zoo::na.locf(PreTarget.mean, na.rm = FALSE),
                      Pupil_Diameter_bc.mm = ifelse(!is.na(Target), Pupil_Diameter.mm - PreTarget.mean, NA))
-  x <- dplyr::ungroup()
+  x <- dplyr::ungroup(x)
   x <- dplyr::select(x, -PreTarget.mean, -baselineoffset.time)
   return(x)
 }
