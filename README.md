@@ -50,27 +50,37 @@ eyetracker <- "smi"
 eye.recorded <- "both"
 eye.use <- "left"
 hz <- 250
+startrecording.message <- "default"
+startrecording.match <- "exact"
 trialonset.message <- "Beep"
 pretrial.duration <- 2000
+velocity <- ""
+margin <- ""
 interpolate <- TRUE
 interpolate.type <- "cubic-spline"
 interpolate.maxgap <- 300
 smooth <- FALSE
+smooth.type <- ""
+smooth.window <- ""
 bc <- TRUE
 baselineoffset.message <- "Target"
 bc.duration <- 200
 downsample.binlength <- 20
+subj.prefix <- "default"
+subset <- "default"
+trial.exclude <- c()
 ############################
 
 preprocess(import = import, pattern = pattern, export = export, taskname = task, eyetracker = eyetracker, 
            eye.recorded = eye.recorded, eye.use = eye.use, hz = hz,
-           startrecording.message = "default", trialonset.message = trialonset.message, pretrial.duration = pretrial.duration,
-           velocity = "", margin = "",
+           startrecording.message = startrecording.message, startrecording.match = startrecording.match,
+           trialonset.message = trialonset.message, pretrial.duration = pretrial.duration,
+           velocity = velocity, margin = margin,
            interpolate = interpolate, interpolate.type = interpolate.type, interpolate.maxgap = interpolate.maxgap,
-           smooth = smooth, smooth.type = "", smooth.window = "",
+           smooth = smooth, smooth.type = smooth.type, smooth.window = smooth.window,
            bc = bc, baselineoffset.message = baselineoffset.message, bc.duration = bc.duration,
            downsample.binlength = downsample.binlength,
-           subj.prefix = "default", subset = "default", trial.exclude = c())
+           subj.prefix = subj.prefix, subset = subset, trial.exclude = trial.exclude)
 ```
 
 ## Message Markers
