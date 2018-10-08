@@ -105,8 +105,8 @@ preprocess <- function(import = "", pattern = "*.txt", export = "", taskname = "
 
     ## Convert messy to tidy
     data <- tidy_eyetracker(file, eyetracker = eyetracker, startrecording.message = startrecording.message,
-                            eye = eye.recorded, subj.prefix = subj.prefix, subset = subset,
-                            trial.exclude = trial.exclude)
+                            startrecording.match = startrecording.match, eye = eye.recorded, 
+                            subj.prefix = subj.prefix, subset = subset, trial.exclude = trial.exclude)
     ## Save tidy data file
     subj <- data$Subject[1]
     write.table(data, file = paste(export, "/", taskname, "_", subj, "_RawPupilData.txt", sep = ""),
