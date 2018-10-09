@@ -4,9 +4,9 @@
 \alias{preprocess}
 \title{Pupil Data Function}
 \usage{
-preprocess(import = "", pattern = "*.txt", export = "",
-  taskname = "", eyetracker = "", eye.recorded = "", eye.use = "",
-  hz = "", startrecording.message = "default",
+preprocess(import = "", pattern = "*.txt", output = NULL,
+  export = "", taskname = "", eyetracker = "", eye.recorded = "",
+  eye.use = "", hz = "", startrecording.message = "default",
   startrecording.match = "exact", trialonset.message = "",
   pretrial.duration = "", velocity = "", margin = "",
   interpolate = FALSE, interpolate.type = "",
@@ -19,6 +19,8 @@ preprocess(import = "", pattern = "*.txt", export = "",
 \item{import}{Folder path to raw data files}
 
 \item{pattern}{Pattern to look for in data files}
+
+\item{output}{Folder path to output preprocessed data to}
 
 \item{export}{Folder path to export preprocessed data to}
 
@@ -66,7 +68,7 @@ preprocess(import = "", pattern = "*.txt", export = "",
 
 \item{subj.prefix}{The prefix that comes before the subject number in the data file (including "-")}
 
-\item{subset}{Which columns in the raw data export file do you want to keep}
+\item{subset}{Which columns in the raw data output file do you want to keep}
 
 \item{trial.exclude}{Specify if ther are any trials to exclude. Trial number}
 }

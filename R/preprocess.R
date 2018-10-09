@@ -4,6 +4,7 @@
 #' and outputs the preprocessed data to a specified folder path
 #' @param import Folder path to raw data files
 #' @param pattern Pattern to look for in data files
+#' @param output Folder path to output preprocessed data to
 #' @param export Folder path to export preprocessed data to
 #' @param taskname Name of task - to be used in naming pre-processed files
 #' @param eyetracker Which eye-tracker was used to record data
@@ -27,14 +28,14 @@
 #' @param bc.duration Duration baseline period(s) to use for correction
 #' @param downsample.binlength Length of bins to average
 #' @param subj.prefix The prefix that comes before the subject number in the data file (including "-")
-#' @param subset Which columns in the raw data export file do you want to keep
+#' @param subset Which columns in the raw data output file do you want to keep
 #' @param trial.exclude Specify if ther are any trials to exclude. Trial number
 #' @keywords preprocess
 #' @export
 #' @examples
 #'
 #'
-preprocess <- function(import = "", pattern = "*.txt", export = "", taskname = "", eyetracker = "",
+preprocess <- function(import = "", pattern = "*.txt", output = NULL, export = "", taskname = "", eyetracker = "",
                        eye.recorded = "", eye.use = "", hz = "",
                        startrecording.message = "default",  startrecording.match = "exact",
                        trialonset.message = "", pretrial.duration = "",
@@ -44,6 +45,10 @@ preprocess <- function(import = "", pattern = "*.txt", export = "", taskname = "
                        bc = FALSE, baselineoffset.message = "", bc.duration = "",
                        downsample.binlength = "",
                        subj.prefix = "default", subset = "default", trial.exclude = c()){
+
+  if (is.null(output)){
+    output <- export
+  }
 
   ###############################
   #### ----- Functions ----- ####
@@ -64,7 +69,7 @@ preprocess <- function(import = "", pattern = "*.txt", export = "", taskname = "
       }
       ## Save file
       subj <- x$Subject[1]
-      SaveAs <- paste(export, "/", taskname, "_", subj, "_PupilData_", preprocessing, ".txt", sep = "")
+      SaveAs <- paste(output, "/", taskname, "_", subj, "_PupilData_", preprocessing, ".txt", sep = "")
       write.table(x, file = SaveAs, sep = "\t", row.names = FALSE, quote = FALSE)
     } else {
       preprocessing <- preprocessing.stage
@@ -79,7 +84,7 @@ preprocess <- function(import = "", pattern = "*.txt", export = "", taskname = "
       }
       ## Save file
       subj <- x$Subject[1]
-      SaveAs <- paste(export, "/", taskname, "_", subj, "_PupilData_", preprocessing, ".txt", sep = "")
+      SaveAs <- paste(output, "/", taskname, "_", subj, "_PupilData_", preprocessing, ".txt", sep = "")
       write.table(x, file = SaveAs, sep = "\t", row.names = FALSE, quote = FALSE)
     }
   }
@@ -105,11 +110,11 @@ preprocess <- function(import = "", pattern = "*.txt", export = "", taskname = "
 
     ## Convert messy to tidy
     data <- tidy_eyetracker(file, eyetracker = eyetracker, startrecording.message = startrecording.message,
-                            startrecording.match = startrecording.match, eye = eye.recorded, 
+                            startrecording.match = startrecording.match, eye = eye.recorded,
                             subj.prefix = subj.prefix, subset = subset, trial.exclude = trial.exclude)
     ## Save tidy data file
     subj <- data$Subject[1]
-    write.table(data, file = paste(export, "/", taskname, "_", subj, "_RawPupilData.txt", sep = ""),
+    write.table(data, file = paste(output, "/", taskname, "_", subj, "_RawPupilData.txt", sep = ""),
                 sep = "\t", row.names = FALSE, quote = FALSE)
     ###########################################
 

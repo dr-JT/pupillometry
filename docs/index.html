@@ -109,39 +109,46 @@
 <h2 class="hasAnchor">
 <a href="#usage" class="anchor"></a>Usage</h2>
 <p><strong><code><a href="reference/preprocess.html">preprocess()</a></code> is a wrapper around the other functions to allow full preprocessing of pupil data using a single function.</strong></p>
-<p>As such, you will need to pass many arguments to the preprocess() function that specifies all the details and preprocessing options.</p>
+<p>As such, you will need to pass many arguments to the <code><a href="reference/preprocess.html">preprocess()</a></code> function that specifies all the details and preprocessing options.</p>
+<p><code><a href="reference/preprocess.html">preprocess()</a></code> will be performed on an entire <code>import</code> directory of raw data files that match a certain <code>pattern</code> and <code>output</code> the preprocessed files to a specified directory.</p>
 <p>The overall workflow of <code><a href="reference/preprocess.html">preprocess()</a></code> is:</p>
-<p>For each eyetracking file in a specified directory</p>
 <ol>
 <li>
-<strong>Convert</strong> “messy” raw data file to a standardized “tidy” raw data file</li>
+<strong>Import</strong> “messy” raw data files and convert to a standardized “tidy” raw data format. <code><a href="reference/tidy_eyetracker.html">tidy_eyetracker()</a></code>
+</li>
 <li>
-<strong>Save</strong> the “tidy” raw data file</li>
-<li>Set and evaluate amount of <strong>missing samples</strong> per trial</li>
-<li>Correlate left and right pupil size (If both eyes were recorded from)</li>
-<li>Choose to keep only left or right pupil data (If both eyes were recorded from)</li>
-<li>Set <strong>Timing</strong> variable to be relative to onset of each trial</li>
+<strong>Output</strong> the standardized “tidy” raw data file.</li>
+<li>Evaluate amount of <strong>missing samples</strong> per trial. <code><a href="reference/pupil.missing.html">pupil.missing()</a></code>
+</li>
+<li>Correlate left and right pupil size (if both eyes were recorded from). <code><a href="reference/pupil.cor.html">pupil.cor()</a></code>
+</li>
+<li>Keep either left or right pupil data (if both eyes were recorded from).</li>
+<li>Set <strong>Timing</strong> variable to be relative to onset of each trial. <code>pupil.timing()</code>
+</li>
 <li>
-<strong>Save</strong> data at this stage*</li>
-<li><strong>Interpolate</strong></li>
+<strong>Output</strong> data at this stage*</li>
+<li>If specified, <strong>Interpolate</strong>. <code><a href="reference/pupil.interpolate.html">pupil.interpolate()</a></code>
+</li>
 <li>
-<strong>Save</strong> data at this stage*</li>
-<li><strong>Smooth</strong></li>
+<strong>Output</strong> data at this stage*</li>
+<li>If specified, <strong>Smooth</strong>. <code><a href="reference/pupil.smooth.html">pupil.smooth()</a></code>
+</li>
 <li>
-<strong>Save</strong> data at this stage*</li>
+<strong>Output</strong> data at this stage*</li>
 </ol>
-<p>* When data is saved at these stages the following preprocessing steps may follow:</p>
+<p>* When data is outputed at these stages the following preprocessing steps will follow if they are specified:</p>
 <ol>
 <li><strong>Baseline Correct</strong></li>
 <li><strong>Down Sample</strong></li>
 </ol>
 <p>What this does is saves a data file at each stage of preprocessing. That way you have a baseline corrected/downsampled file at each stage of pre-processing. This can be useful if you originally specified a pre-processing step, such as smoothing, but then later decide you do not want to use that pre-processing method - you will already have the pre-processed (including baseline correction/down sampling) data file prior to that step. Or you may wish to compare how your results change depending on what pre-processing steps you perform.</p>
+<p>If there is a need, a future update might include an option to not save after each preprocessing step, but to only save at the very end.</p>
 <div id="example" class="section level3">
 <h3 class="hasAnchor">
 <a href="#example" class="anchor"></a>Example</h3>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="co">## Preprocessing parameters</span></a>
 <a class="sourceLine" id="cb1-2" data-line-number="2">import &lt;-<span class="st"> "./raw_data"</span></a>
-<a class="sourceLine" id="cb1-3" data-line-number="3">export &lt;-<span class="st"> "./preprocessed_data"</span></a>
+<a class="sourceLine" id="cb1-3" data-line-number="3">output &lt;-<span class="st"> "./preprocessed_data"</span></a>
 <a class="sourceLine" id="cb1-4" data-line-number="4">task &lt;-<span class="st"> "PVT"</span></a>
 <a class="sourceLine" id="cb1-5" data-line-number="5">pattern &lt;-<span class="st"> "*.txt"</span></a>
 <a class="sourceLine" id="cb1-6" data-line-number="6">eyetracker &lt;-<span class="st"> "smi"</span></a>
@@ -169,7 +176,7 @@
 <a class="sourceLine" id="cb1-28" data-line-number="28">trial.exclude &lt;-<span class="st"> </span><span class="kw">c</span>()</a>
 <a class="sourceLine" id="cb1-29" data-line-number="29"><span class="co">############################</span></a>
 <a class="sourceLine" id="cb1-30" data-line-number="30"></a>
-<a class="sourceLine" id="cb1-31" data-line-number="31"><span class="kw"><a href="reference/preprocess.html">preprocess</a></span>(<span class="dt">import =</span> import, <span class="dt">pattern =</span> pattern, <span class="dt">export =</span> export, <span class="dt">taskname =</span> task, <span class="dt">eyetracker =</span> eyetracker, </a>
+<a class="sourceLine" id="cb1-31" data-line-number="31"><span class="kw"><a href="reference/preprocess.html">preprocess</a></span>(<span class="dt">import =</span> import, <span class="dt">pattern =</span> pattern, <span class="dt">output =</span> output, <span class="dt">taskname =</span> task, <span class="dt">eyetracker =</span> eyetracker, </a>
 <a class="sourceLine" id="cb1-32" data-line-number="32">           <span class="dt">eye.recorded =</span> eye.recorded, <span class="dt">eye.use =</span> eye.use, <span class="dt">hz =</span> hz,</a>
 <a class="sourceLine" id="cb1-33" data-line-number="33">           <span class="dt">startrecording.message =</span> startrecording.message, <span class="dt">startrecording.match =</span> startrecording.match,</a>
 <a class="sourceLine" id="cb1-34" data-line-number="34">           <span class="dt">trialonset.message =</span> trialonset.message, <span class="dt">pretrial.duration =</span> pretrial.duration,</a>

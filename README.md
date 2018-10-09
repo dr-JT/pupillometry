@@ -18,35 +18,37 @@ Currently, `tidy_eyetracker()` only supports data exported from BeGaze using an 
 
 **`preprocess()` is a wrapper around the other functions to allow full preprocessing of pupil data using a single function.**
 
-As such, you will need to pass many arguments to the preprocess() function that specifies all the details and preprocessing options.
+As such, you will need to pass many arguments to the `preprocess()` function that specifies all the details and preprocessing options.
+
+`preprocess()` will be performed on an entire `import` directory of raw data files that match a certain `pattern` and `output` the preprocessed files to a specified directory.
 
 The overall workflow of `preprocess()` is:
 
-For each eyetracking file in a specified directory
+1. **Import** "messy" raw data files and convert to a standardized "tidy" raw data format. `tidy_eyetracker()`
+2. **Output** the standardized "tidy" raw data file.
+3. Evaluate amount of **missing samples** per trial. `pupil.missing()`
+4. Correlate left and right pupil size (if both eyes were recorded from). `pupil.cor()`
+5. Keep either left or right pupil data (if both eyes were recorded from).
+6. Set **Timing** variable to be relative to onset of each trial. `pupil.timing()`
+7. **Output** data at this stage*
+8. If specified, **Interpolate**. `pupil.interpolate()`
+9. **Output** data at this stage*
+10. If specified, **Smooth**. `pupil.smooth()`
+11. **Output** data at this stage*
 
-1. **Convert** "messy" raw data file to a standardized "tidy" raw data file
-2. **Save** the "tidy" raw data file
-3. Set and evaluate amount of **missing samples** per trial
-4. Correlate left and right pupil size (If both eyes were recorded from)
-5. Choose to keep only left or right pupil data (If both eyes were recorded from)
-6. Set **Timing** variable to be relative to onset of each trial
-7. **Save** data at this stage*
-8. **Interpolate**
-9. **Save** data at this stage*
-10. **Smooth**
-11. **Save** data at this stage*
-
-\* When data is saved at these stages the following preprocessing steps may follow:
+\* When data is outputed at these stages the following preprocessing steps will follow if they are specified:
 1. **Baseline Correct**
 2. **Down Sample**
 
 What this does is saves a data file at each stage of preprocessing. That way you have a baseline corrected/downsampled file at each stage of pre-processing. This can be useful if you originally specified a pre-processing step, such as smoothing, but then later decide you do not want to use that pre-processing method - you will already have the pre-processed (including baseline correction/down sampling) data file prior to that step. Or you may wish to compare how your results change depending on what pre-processing steps you perform.
 
+If there is a need, a future update might include an option to not save after each preprocessing step, but to only save at the very end.
+
 ### Example
 ```r
 ## Preprocessing parameters
 import <- "./raw_data"
-export <- "./preprocessed_data"
+output <- "./preprocessed_data"
 task <- "PVT"
 pattern <- "*.txt"
 eyetracker <- "smi"
@@ -74,7 +76,7 @@ subset <- "default"
 trial.exclude <- c()
 ############################
 
-preprocess(import = import, pattern = pattern, export = export, taskname = task, eyetracker = eyetracker, 
+preprocess(import = import, pattern = pattern, output = output, taskname = task, eyetracker = eyetracker, 
            eye.recorded = eye.recorded, eye.use = eye.use, hz = hz,
            startrecording.message = startrecording.message, startrecording.match = startrecording.match,
            trialonset.message = trialonset.message, pretrial.duration = pretrial.duration,
