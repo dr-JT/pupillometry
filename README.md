@@ -8,6 +8,12 @@ The pre-processing steps are based on what has commonly been used in the literat
 
 Mathôt, S., Fabius, J., Van Heusden, E., & Van der Stigchel, S. (2018). Safe and sensible preprocessing and baseline correction of pupil-size data. Behavior research methods, 50(1), 94-106.
 
+## Install
+
+```r
+devtools::install_github("dr-JT/pupillometry")
+```
+
 ## Eyetracker Support
 
 The format and organization of the raw data file will depend on the type of Eyetracker used. The `tidy_eyetracker()` function imports the "messy" raw data file and it's output is a "tidy" raw data file with standardized column and value labels to be used by the other functions. 
