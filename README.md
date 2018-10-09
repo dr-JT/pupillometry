@@ -20,7 +20,7 @@ Currently, `tidy_eyetracker()` only supports data exported from BeGaze using an 
 
 As such, you will need to pass many arguments to the `preprocess()` function that specifies all the details and preprocessing options.
 
-`preprocess()` will be performed on an entire `import` directory of raw data files that match a certain `pattern` and `output` the preprocessed files to a specified directory.
+`preprocess()` will be performed on an entire `import` directory of raw data files that match a certain `pattern`. At various stages of preprocessing the data will be saved to a specified `output` directory.
 
 The overall workflow of `preprocess()` is:
 
