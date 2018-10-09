@@ -1,0 +1,43 @@
+---
+title: "Message Markers"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+Your data file need to conatain messages that mark the onset/offset of trials, critical stimuli, and events.
+
+For `preprocess()` these are the message markers you need to know
+
+### `preprocess(startrecording.message = "")`
+
+Eye-tracking systems use different defaults for how it marks the start of recording on a trial. This is not necessarily when the trial begins - simply whent the eye-tracker starts recording.
+
+`startrecording.message` is used to correctly set the trial index in the data file using `set.trial()`.
+
+The SMI default is : "# Message: StartTracking.bmp"
+
+This parameter can be set to `preprocess(startrecording.message = "default")` to use the eyetracker default. If you are not using the default message then you need to specify the custom string you used.
+
+### `preprocess(startrecording.match = c("exact", "pattern"))`
+
+There is an additional parameter `startrecording.match` that specifies whether `startrecording.message` needs to be an `"exact"` or a `"pattern"` match. This simply allows more flexibility. Such as, if the start recording message is different on each trial "TRIALID [trial number]", then a `"pattern"` match will need to be used to correctl set the trial index.
+
+### `preprocess(trialonset.message = "")`
+
+`trialonset.message` is the message that marks the onset of a trial. If you included a fixation as an inter-trial-interval (ITI) at the start of every trial, then the **trial onset should correspond to the stimulus after the fixation or ITI stimulus**. The fixation (ITI) period will be treated as a pre-trial period.
+
+`trialonset.message` is used to set the timing relative to trial onset using `set.timing()`. Pre-trial periods will have a negative Time value. 
+
+### `preprocess(pretrial.duration = "")`
+
+The duration of the pre-trial period is set relative to the timing of the `trialonset.message` and that duration is specified by `pretrial.duration`.
+
+For instance if `preprocess(pretrial.duration = 2000)`, then the 2000 milliseconds before `trialonset.message` will be marked as a pre-trial period. This duration typically corresponds to the duration of the ITI period.
+
+### `preprocess(baselineoffset.message = "")`
+
+`baselineoffset.message` is the message that marks the offset of the baseline period and the start of the critical task period that needs to be baseline corrected.
+
+`baselineoffset.message` is used for baseline correction in `pupil.baselinecorrect()`.

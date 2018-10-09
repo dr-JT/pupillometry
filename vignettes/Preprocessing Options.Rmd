@@ -1,0 +1,45 @@
+---
+title: "Preprocessing Options"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+This article covers the various preprocessing options that are currently available
+
+## Interpolation
+
+`pupil.interpolate(tpye = c("linear", "cubic-spline"), maxgap = Inf, hz = "")`
+
+* type: What type of interpolation to use? (default: cubic-spline)
+
+    There are two interpolation types available, `"linear"` and `"cubic-spline"`.
+    
+* maxgap: Maximum duration (milliseconds) of NAs to interpolate over. Any gaps over this value will not be interpolated. (default: Inf)
+
+    This can be a good idea to avoid interpolating over large chunks of missing data. The default (Inf) does not have a maxgap limit. 
+    
+* hz: The recording frequency of the eyetracker. (Only needed if using maxgap)
+
+   If maxgap is specified, then you need to also specify the recording frequency of the eyetracker. This will be used to convert the maxgap in milliseconds to number of samples (rows) in the dataframe. 
+
+## Smoothing
+
+`pupil.smooth(type = c("hann", "mwa"), window = "", hz = "")
+
+* type: What type of smoothing to use? (default: "hann")
+
+    There are two smoothing types available, `"hann"` and `"mwa"`. 
+    
+    `"hann"` is a low-frequency hanning filter that retains the low frequency information. It is applied using `hanning()` from the [dplR package](https://www.rdocumentation.org/packages/dplR/versions/1.6.8/topics/hanning)
+    
+    `"mwa"` is a simple moving window average. It is applied using `rollapply()` from the [zoo package](https://www.rdocumentation.org/packages/zoo/versions/1.7-13/topics/rollapply)
+    
+* window: The duration (milliseconds) of the smoothing window
+
+* hz: The recording frequency of the eyetracker. 
+
+    This will be used to convert the window duration in milliseconds to number of samples (rows) in the dataframe. 
+
+

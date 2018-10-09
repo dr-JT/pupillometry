@@ -13,7 +13,7 @@ Imports:
     readr,
     stringr,
     zoo,
-    dplR
+    dplR,
 URL: https://github.com/dr-JT/pupillometry
 BugReports: https://github.com/dr-JT/pupillometry/issues
 Encoding: UTF-8
