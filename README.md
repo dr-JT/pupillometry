@@ -45,7 +45,7 @@ What this does is saves a data file at each stage of preprocessing. That way you
 If there is a need, a future update might include an option to not save after each preprocessing step, but to only save at the very end.
 
 ### Example
-```r
+```{r}
 ## Preprocessing parameters
 import <- "./raw_data"
 output <- "./preprocessed_data"
