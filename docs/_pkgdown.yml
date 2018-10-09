@@ -1,3 +1,8 @@
 template:
   parameters:
-  bootswatch: sandstone
+    bootswatch: sandstone
+    docsearch:
+      api_key: API_KEY
+      index_name: INDEX_NAME
+
+url: http://pkgdown.r-lib.org
