@@ -1,4 +1,4 @@
-# pupillometry
+# pupillometry <img src = "reference/figures/logo.png">
 
 An R Package to preprocess pupil data
 
