@@ -117,13 +117,14 @@
 <strong>Import</strong> “messy” raw data files and convert to a standardized “tidy” raw data format. <code><a href="reference/tidy_eyetracker.html">tidy_eyetracker()</a></code>
 </li>
 <li>
-<strong>Output</strong> the standardized “tidy” raw data file.</li>
+<strong>Output</strong> the standardized “tidy” raw data file. <code><a href="reference/set.stimuli.html">set.stimuli()</a></code>
+</li>
 <li>Evaluate amount of <strong>missing samples</strong> per trial. <code><a href="reference/pupil.missing.html">pupil.missing()</a></code>
 </li>
 <li>Correlate left and right pupil size (if both eyes were recorded from). <code><a href="reference/pupil.cor.html">pupil.cor()</a></code>
 </li>
 <li>Keep either left or right pupil data (if both eyes were recorded from).</li>
-<li>Set <strong>Timing</strong> variable to be relative to onset of each trial. <code>pupil.timing()</code>
+<li>Set <strong>Timing</strong> variable to be relative to onset of each trial. <code><a href="reference/set.trial.html">set.trial()</a></code> and <code><a href="reference/set.timing.html">set.timing()</a></code>
 </li>
 <li>
 <strong>Output</strong> data at this stage*</li>
@@ -138,8 +139,12 @@
 </ol>
 <p>* When data is outputed at these stages the following preprocessing steps will follow if they are specified:</p>
 <ol>
-<li><strong>Baseline Correct</strong></li>
-<li><strong>Down Sample</strong></li>
+<li>
+<strong>Baseline Correct</strong> <code><a href="reference/pupil.baselinecorrect.html">pupil.baselinecorrect()</a></code>
+</li>
+<li>
+<strong>Down Sample</strong> <code><a href="reference/pupil.downsample.html">pupil.downsample()</a></code>
+</li>
 </ol>
 <p>What this does is saves a data file at each stage of preprocessing. That way you have a baseline corrected/downsampled file at each stage of pre-processing. This can be useful if you originally specified a pre-processing step, such as smoothing, but then later decide you do not want to use that pre-processing method - you will already have the pre-processed (including baseline correction/down sampling) data file prior to that step. Or you may wish to compare how your results change depending on what pre-processing steps you perform.</p>
 <p>If there is a need, a future update might include an option to not save after each preprocessing step, but to only save at the very end.</p>
