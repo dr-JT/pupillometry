@@ -25,7 +25,7 @@ As such, you will need to pass many arguments to the `preprocess()` function tha
 The overall workflow of `preprocess()` is:
 
 1. **Import** "messy" raw data files and convert to a standardized "tidy" raw data format. `tidy_eyetracker()`
-2. **Output** the standardized "tidy" raw data file. `set.stimuli()`
+2. **Output** the standardized "tidy" raw data file.
 3. Evaluate amount of **missing samples** per trial. `pupil.missing()`
 4. Correlate left and right pupil size (if both eyes were recorded from). `pupil.cor()`
 5. Keep either left or right pupil data (if both eyes were recorded from).
