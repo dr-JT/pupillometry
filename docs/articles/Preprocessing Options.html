@@ -107,15 +107,17 @@
 <p><code><a href="../reference/pupil.interpolate.html">pupil.interpolate(tpye = c("linear", "cubic-spline"), maxgap = Inf, hz = "")</a></code></p>
 <ul>
 <li>
-<p>type: What type of interpolation to use? (default: cubic-spline)</p>
+<p><strong>type</strong>: What type of interpolation to use? (default: cubic-spline)</p>
 <p>There are two interpolation types available, <code>"linear"</code> and <code>"cubic-spline"</code>.</p>
+<p><code>"cubic-spline"</code> interpolation is applied using <code>na.spline()</code> from the <a href="https://www.rdocumentation.org/packages/zoo/versions/1.7-13/topics/rollapply">zoo package</a> and <code>spline()</code></p>
+<p><code>"linear"</code> interpolation is aplied using <code>na.approx()</code> from the <a href="https://www.rdocumentation.org/packages/zoo/versions/1.7-13/topics/rollapply">zoo package</a></p>
 </li>
 <li>
-<p>maxgap: Maximum duration (milliseconds) of NAs to interpolate over. Any gaps over this value will not be interpolated. (default: Inf)</p>
+<p><strong>maxgap</strong>: Maximum duration (milliseconds) of NAs to interpolate over. Any gaps over this value will not be interpolated. (default: Inf)</p>
 <p>This can be a good idea to avoid interpolating over large chunks of missing data. The default (Inf) does not have a maxgap limit.</p>
 </li>
 <li>
-<p>hz: The recording frequency of the eyetracker. (Only needed if using maxgap)</p>
+<p><strong>hz</strong>: The recording frequency of the eyetracker. (Only needed if using maxgap)</p>
 <p>If maxgap is specified, then you need to also specify the recording frequency of the eyetracker. This will be used to convert the maxgap in milliseconds to number of samples (rows) in the dataframe.</p>
 </li>
 </ul>
@@ -126,14 +128,14 @@
 <p>`pupil.smooth(type = c(“hann”, “mwa”), window = "“, hz =”")</p>
 <ul>
 <li>
-<p>type: What type of smoothing to use? (default: “hann”)</p>
+<p><strong>type</strong>: What type of smoothing to use? (default: “hann”)</p>
 <p>There are two smoothing types available, <code>"hann"</code> and <code>"mwa"</code>.</p>
 <p><code>"hann"</code> is a low-frequency hanning filter that retains the low frequency information. It is applied using <code>hanning()</code> from the <a href="https://www.rdocumentation.org/packages/dplR/versions/1.6.8/topics/hanning">dplR package</a></p>
 <p><code>"mwa"</code> is a simple moving window average. It is applied using <code>rollapply()</code> from the <a href="https://www.rdocumentation.org/packages/zoo/versions/1.7-13/topics/rollapply">zoo package</a></p>
 </li>
-<li><p>window: The duration (milliseconds) of the smoothing window</p></li>
+<li><p><strong>window</strong>: The duration (milliseconds) of the smoothing window</p></li>
 <li>
-<p>hz: The recording frequency of the eyetracker.</p>
+<p><strong>hz</strong>: The recording frequency of the eyetracker.</p>
 <p>This will be used to convert the window duration in milliseconds to number of samples (rows) in the dataframe.</p>
 </li>
 </ul>
