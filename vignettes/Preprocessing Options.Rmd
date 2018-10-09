@@ -30,7 +30,7 @@ This article covers the various preprocessing options that are currently availab
 
 ## Smoothing
 
-`pupil.smooth(type = c("hann", "mwa"), window = "", hz = "")
+`pupil.smooth(type = c("hann", "mwa"), window = "", hz = "")`
 
 * __type__: What type of smoothing to use? (default: "hann")
 
