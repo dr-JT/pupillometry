@@ -8,6 +8,12 @@ The pre-processing steps are based on what has commonly been used in the literat
 
 Mathôt, S., Fabius, J., Van Heusden, E., & Van der Stigchel, S. (2018). Safe and sensible preprocessing and baseline correction of pupil-size data. Behavior research methods, 50(1), 94-106.
 
+The main goal of this package is to provide:
+
+1) ease of use for pupillometry researchers
+
+2) flexibility in choosing which preprocessing methods and parameters are used. 
+
 ## Install
 
 ```r
@@ -93,3 +99,19 @@ preprocess(import = import, pattern = pattern, output = output, taskname = task,
            downsample.binlength = downsample.binlength,
            subj.prefix = subj.prefix, subset = subset, trial.exclude = trial.exclude)
 ```
+
+## Planned Updates
+
+* Add divisive baseline correction option
+
+* Add more flexibility to choose whether smoothing or interpolation should occur first
+
+* Add option to not save data file at every stage of preprocessing (reduces number of files that get created if storage space is an issue)
+
+* Add hampel filter option (maybe?)
+
+* Add greater support for SR Research EyeLink Eyetrackers
+
+* Add support for Tobii Eyetrackers
+
+* Add support for GazePoint Eyetrackers

@@ -101,6 +101,9 @@
 <p>The package contains various functions for different steps in the preprocessing pipeline, such as interpolation or baseline correction.</p>
 <p>The pre-processing steps are based on what has commonly been used in the literature and influenced by sensible preprocessing methods suggested by</p>
 <p>Mathôt, S., Fabius, J., Van Heusden, E., &amp; Van der Stigchel, S. (2018). Safe and sensible preprocessing and baseline correction of pupil-size data. Behavior research methods, 50(1), 94-106.</p>
+<p>The main goal of this package is to provide:</p>
+<p>1) ease of use for pupillometry researchers</p>
+<p>2) flexibility in choosing which preprocessing methods and parameters are used.</p>
 <div id="install" class="section level2">
 <h2 class="hasAnchor">
 <a href="#install" class="anchor"></a>Install</h2>
@@ -198,6 +201,19 @@
 <a class="sourceLine" id="cb2-39" data-line-number="39">           <span class="dt">downsample.binlength =</span> downsample.binlength,</a>
 <a class="sourceLine" id="cb2-40" data-line-number="40">           <span class="dt">subj.prefix =</span> subj.prefix, <span class="dt">subset =</span> subset, <span class="dt">trial.exclude =</span> trial.exclude)</a></code></pre></div>
 </div>
+</div>
+<div id="planned-updates" class="section level2">
+<h2 class="hasAnchor">
+<a href="#planned-updates" class="anchor"></a>Planned Updates</h2>
+<ul>
+<li><p>Add divisive baseline correction option</p></li>
+<li><p>Add more flexibility to choose whether smoothing or interpolation should occur first</p></li>
+<li><p>Add option to not save data file at every stage of preprocessing (reduces number of files that get created if storage space is an issue)</p></li>
+<li><p>Add hampel filter option (maybe?)</p></li>
+<li><p>Add greater support for SR Research EyeLink Eyetrackers</p></li>
+<li><p>Add support for Tobii Eyetrackers</p></li>
+<li><p>Add support for GazePoint Eyetrackers</p></li>
+</ul>
 </div>
 </div>
   </div>
