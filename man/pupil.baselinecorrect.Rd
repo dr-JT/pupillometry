@@ -5,7 +5,7 @@
 \title{Pupil Data Function}
 \usage{
 pupil.baselinecorrect(x, baselineoffset.message = "",
-  bc.duration = 200)
+  bc.duration = 200, bc.type = "subtractive")
 }
 \arguments{
 \item{x}{dataframe}
@@ -13,6 +13,8 @@ pupil.baselinecorrect(x, baselineoffset.message = "",
 \item{baselineoffset.message}{Message string(s) that marks the offset of baseline period(s)}
 
 \item{bc.duration}{Duration baseline period(s) to use for correction}
+
+\item{bc.type}{Do you want to use "subtractive" or "divisive" baseline correction? (default: "subtractive")}
 }
 \description{
 This function applies a pre-trial baseline correction on the data
