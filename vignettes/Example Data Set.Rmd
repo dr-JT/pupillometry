@@ -2,11 +2,13 @@
 title: "Example Data Set"
 ---
 
-### Script example for preprocessing raw data file "data/Raw Data/memoryload_11-1.txt"
+### Script example for preprocessing raw data file
 
 Download the [Example Data Set]() and run the script below
 
 Information about example data set:
+
+* Raw Data Filename: "memoryload_11-1.txt"
 
 * Eyetracker: SMI Red250 Mobile recorded at 250 Hz
 
