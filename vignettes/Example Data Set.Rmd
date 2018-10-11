@@ -4,7 +4,7 @@ title: "Example Data Set"
 
 ### Script example for preprocessing raw data file
 
-Download the [Example Data Set](http://englelab.gatech.edu/R/data/Example_memoryload.zip) and run the script below
+Download the [Example Data Set](http://englelab.gatech.edu/R/example_data/Example_memoryload.zip) and run the script below
 
 Information about example data set:
 
