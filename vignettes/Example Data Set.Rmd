@@ -1,0 +1,72 @@
+---
+title: "Example Data Set"
+---
+
+### Script example for preprocessing raw data file "data/Raw Data/memoryload_11-1.txt"
+
+Download the [Example Data Set]() and run the script below
+
+Information about example data set:
+
+* Eyetracker: SMI Red250 Mobile recorded at 250 Hz
+
+* Subject #: 11
+
+* Task: memoryload (a simple short term memory span task: set-sizes are 3,6, and 9)
+
+* Trial procedure: Fixation (1000 ms - pre-trial/ITI) ->
+* Loop for duration of setsize: [ ISI 1 (500 ms)-> Stimulus (1000 ms - presentation of memory item) -> ISI 2 (500 ms) ] ->
+* Delay (2000 ms) -> Recall -> Buffer
+
+```{r message = FALSE, warning = FALSE}
+# devtools::install_github("dr-JT/pupillometry")
+
+library(pupillometry)
+
+## Preprocessing Parameters ####
+import <- "data/Raw"
+output <- "data/Preprocessed"
+task <- "memoryload"
+pattern <- "*.txt"
+eyetracker <- "smi"
+eye.recorded <- "both"
+eye.use <- "left"
+hz <- 250
+startrecording.message <- "default"
+startrecording.match <- "exact"
+trialonset.message <- "ISI 1"
+pretrial.duration <- 500 # Intertrial interval (Fixation) was 1000 ms but setting the last 500 ms as pre-trial
+velocity <- ""
+margin <- ""
+interpolate <- TRUE
+interpolate.type <- "cubic-spline"
+interpolate.maxgap <- Inf
+smooth <- TRUE
+smooth.type <- "hann"
+smooth.window <- 100
+method.first <- "smooth"
+bc <- TRUE
+baselineoffset.message <- "ISI 1"
+bc.duration <- 200
+bc.type <- "subtractive"
+downsample.binlength <- 20
+subj.prefix <- "_"
+subj.suffix <- "-"
+subset <- "default"
+trial.exclude <- c()
+################################
+
+preprocess(import = import, pattern = pattern, output = output, taskname = task, eyetracker = eyetracker,
+           eye.recorded = eye.recorded, eye.use = eye.use, hz = hz,
+           startrecording.message = startrecording.message, startrecording.match = startrecording.match,
+           trialonset.message = trialonset.message, pretrial.duration = pretrial.duration,
+           velocity = velocity, margin = margin,
+           interpolate = interpolate, interpolate.type = interpolate.type, interpolate.maxgap = interpolate.maxgap,
+           smooth = smooth, smooth.type = smooth.type, smooth.window = smooth.window, method.first = method.first,
+           bc = bc, baselineoffset.message = baselineoffset.message, bc.duration = bc.duration, bc.type = bc.type,
+           downsample.binlength = downsample.binlength,
+           subj.prefix = subj.prefix, subj.suffix = subj.suffix,
+           subset = subset, trial.exclude = trial.exclude)
+
+```
+
