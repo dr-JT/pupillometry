@@ -22,8 +22,15 @@ eye.use <- "left"
 hz <- 250
 startrecording.message <- "default"
 startrecording.match <- "exact"
+
+# Even though ISI occurs multiple times (depending on the setsize) within a single trial,
+# it will identify only the first occurence as trialonset
 trialonset.message <- "ISI 1"
-pretrial.duration <- 500 # Intertrial interval (Fixation) was 1000 ms but setting the last 500 ms as pre-trial
+
+# Intertrial interval (Fixation) was 1000 ms but
+# I am choosing to set only the last 500 ms as pre-trial
+pretrial.duration <- 500
+
 velocity <- ""
 margin <- ""
 interpolate <- TRUE

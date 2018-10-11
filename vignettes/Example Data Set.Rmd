@@ -4,7 +4,7 @@ title: "Example Data Set"
 
 ### Script example for preprocessing raw data file
 
-Download the [Example Data Set]() and run the script below
+Download the [Example Data Set](http://englelab.gatech.edu/R/data/Example_memoryload.zip) and run the script below
 
 Information about example data set:
 
@@ -36,8 +36,15 @@ eye.use <- "left"
 hz <- 250
 startrecording.message <- "default"
 startrecording.match <- "exact"
-trialonset.message <- "ISI 1"
-pretrial.duration <- 500 # Intertrial interval (Fixation) was 1000 ms but setting the last 500 ms as pre-trial
+
+# Even though ISI occurs multiple times within a single trial (depending on the setsize), 
+# it will identify only the first occurence as trialonset
+trialonset.message <- "ISI 1" 
+
+# Intertrial interval (Fixation) was 1000 ms but 
+# I am choosing to set only the last 500 ms as pre-trial
+pretrial.duration <- 500
+
 velocity <- ""
 margin <- ""
 interpolate <- TRUE

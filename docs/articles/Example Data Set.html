@@ -107,7 +107,7 @@
 <div id="script-example-for-preprocessing-raw-data-file" class="section level3">
 <h3 class="hasAnchor">
 <a href="#script-example-for-preprocessing-raw-data-file" class="anchor"></a>Script example for preprocessing raw data file</h3>
-<p>Download the <a href="">Example Data Set</a> and run the script below</p>
+<p>Download the <a href="http://englelab.gatech.edu/R/data/Example_memoryload.zip">Example Data Set</a> and run the script below</p>
 <p>Information about example data set:</p>
 <ul>
 <li><p>Raw Data Filename: “memoryload_11-1.txt”</p></li>
@@ -133,39 +133,46 @@
 <a class="sourceLine" id="cb1-13" data-line-number="13">hz &lt;-<span class="st"> </span><span class="dv">250</span></a>
 <a class="sourceLine" id="cb1-14" data-line-number="14">startrecording.message &lt;-<span class="st"> "default"</span></a>
 <a class="sourceLine" id="cb1-15" data-line-number="15">startrecording.match &lt;-<span class="st"> "exact"</span></a>
-<a class="sourceLine" id="cb1-16" data-line-number="16">trialonset.message &lt;-<span class="st"> "ISI 1"</span></a>
-<a class="sourceLine" id="cb1-17" data-line-number="17">pretrial.duration &lt;-<span class="st"> </span><span class="dv">500</span> <span class="co"># Intertrial interval (Fixation) was 1000 ms but setting the last 500 ms as pre-trial</span></a>
-<a class="sourceLine" id="cb1-18" data-line-number="18">velocity &lt;-<span class="st"> ""</span></a>
-<a class="sourceLine" id="cb1-19" data-line-number="19">margin &lt;-<span class="st"> ""</span></a>
-<a class="sourceLine" id="cb1-20" data-line-number="20">interpolate &lt;-<span class="st"> </span><span class="ot">TRUE</span></a>
-<a class="sourceLine" id="cb1-21" data-line-number="21">interpolate.type &lt;-<span class="st"> "cubic-spline"</span></a>
-<a class="sourceLine" id="cb1-22" data-line-number="22">interpolate.maxgap &lt;-<span class="st"> </span><span class="ot">Inf</span></a>
-<a class="sourceLine" id="cb1-23" data-line-number="23">smooth &lt;-<span class="st"> </span><span class="ot">TRUE</span></a>
-<a class="sourceLine" id="cb1-24" data-line-number="24">smooth.type &lt;-<span class="st"> "hann"</span></a>
-<a class="sourceLine" id="cb1-25" data-line-number="25">smooth.window &lt;-<span class="st"> </span><span class="dv">100</span></a>
-<a class="sourceLine" id="cb1-26" data-line-number="26">method.first &lt;-<span class="st"> "smooth"</span></a>
-<a class="sourceLine" id="cb1-27" data-line-number="27">bc &lt;-<span class="st"> </span><span class="ot">TRUE</span></a>
-<a class="sourceLine" id="cb1-28" data-line-number="28">baselineoffset.message &lt;-<span class="st"> "ISI 1"</span></a>
-<a class="sourceLine" id="cb1-29" data-line-number="29">bc.duration &lt;-<span class="st"> </span><span class="dv">200</span></a>
-<a class="sourceLine" id="cb1-30" data-line-number="30">bc.type &lt;-<span class="st"> "subtractive"</span></a>
-<a class="sourceLine" id="cb1-31" data-line-number="31">downsample.binlength &lt;-<span class="st"> </span><span class="dv">20</span></a>
-<a class="sourceLine" id="cb1-32" data-line-number="32">subj.prefix &lt;-<span class="st"> "_"</span></a>
-<a class="sourceLine" id="cb1-33" data-line-number="33">subj.suffix &lt;-<span class="st"> "-"</span></a>
-<a class="sourceLine" id="cb1-34" data-line-number="34">subset &lt;-<span class="st"> "default"</span></a>
-<a class="sourceLine" id="cb1-35" data-line-number="35">trial.exclude &lt;-<span class="st"> </span><span class="kw">c</span>()</a>
-<a class="sourceLine" id="cb1-36" data-line-number="36"><span class="co">################################</span></a>
-<a class="sourceLine" id="cb1-37" data-line-number="37"></a>
-<a class="sourceLine" id="cb1-38" data-line-number="38"><span class="kw"><a href="../reference/preprocess.html">preprocess</a></span>(<span class="dt">import =</span> import, <span class="dt">pattern =</span> pattern, <span class="dt">output =</span> output, <span class="dt">taskname =</span> task, <span class="dt">eyetracker =</span> eyetracker,</a>
-<a class="sourceLine" id="cb1-39" data-line-number="39">           <span class="dt">eye.recorded =</span> eye.recorded, <span class="dt">eye.use =</span> eye.use, <span class="dt">hz =</span> hz,</a>
-<a class="sourceLine" id="cb1-40" data-line-number="40">           <span class="dt">startrecording.message =</span> startrecording.message, <span class="dt">startrecording.match =</span> startrecording.match,</a>
-<a class="sourceLine" id="cb1-41" data-line-number="41">           <span class="dt">trialonset.message =</span> trialonset.message, <span class="dt">pretrial.duration =</span> pretrial.duration,</a>
-<a class="sourceLine" id="cb1-42" data-line-number="42">           <span class="dt">velocity =</span> velocity, <span class="dt">margin =</span> margin,</a>
-<a class="sourceLine" id="cb1-43" data-line-number="43">           <span class="dt">interpolate =</span> interpolate, <span class="dt">interpolate.type =</span> interpolate.type, <span class="dt">interpolate.maxgap =</span> interpolate.maxgap,</a>
-<a class="sourceLine" id="cb1-44" data-line-number="44">           <span class="dt">smooth =</span> smooth, <span class="dt">smooth.type =</span> smooth.type, <span class="dt">smooth.window =</span> smooth.window, <span class="dt">method.first =</span> method.first,</a>
-<a class="sourceLine" id="cb1-45" data-line-number="45">           <span class="dt">bc =</span> bc, <span class="dt">baselineoffset.message =</span> baselineoffset.message, <span class="dt">bc.duration =</span> bc.duration, <span class="dt">bc.type =</span> bc.type,</a>
-<a class="sourceLine" id="cb1-46" data-line-number="46">           <span class="dt">downsample.binlength =</span> downsample.binlength,</a>
-<a class="sourceLine" id="cb1-47" data-line-number="47">           <span class="dt">subj.prefix =</span> subj.prefix, <span class="dt">subj.suffix =</span> subj.suffix,</a>
-<a class="sourceLine" id="cb1-48" data-line-number="48">           <span class="dt">subset =</span> subset, <span class="dt">trial.exclude =</span> trial.exclude)</a></code></pre></div>
+<a class="sourceLine" id="cb1-16" data-line-number="16"></a>
+<a class="sourceLine" id="cb1-17" data-line-number="17"><span class="co"># Even though ISI occurs multiple times within a single trial (depending on the setsize), </span></a>
+<a class="sourceLine" id="cb1-18" data-line-number="18"><span class="co"># it will identify only the first occurence as trialonset</span></a>
+<a class="sourceLine" id="cb1-19" data-line-number="19">trialonset.message &lt;-<span class="st"> "ISI 1"</span> </a>
+<a class="sourceLine" id="cb1-20" data-line-number="20"></a>
+<a class="sourceLine" id="cb1-21" data-line-number="21"><span class="co"># Intertrial interval (Fixation) was 1000 ms but </span></a>
+<a class="sourceLine" id="cb1-22" data-line-number="22"><span class="co"># I am choosing to set only the last 500 ms as pre-trial</span></a>
+<a class="sourceLine" id="cb1-23" data-line-number="23">pretrial.duration &lt;-<span class="st"> </span><span class="dv">500</span></a>
+<a class="sourceLine" id="cb1-24" data-line-number="24"></a>
+<a class="sourceLine" id="cb1-25" data-line-number="25">velocity &lt;-<span class="st"> ""</span></a>
+<a class="sourceLine" id="cb1-26" data-line-number="26">margin &lt;-<span class="st"> ""</span></a>
+<a class="sourceLine" id="cb1-27" data-line-number="27">interpolate &lt;-<span class="st"> </span><span class="ot">TRUE</span></a>
+<a class="sourceLine" id="cb1-28" data-line-number="28">interpolate.type &lt;-<span class="st"> "cubic-spline"</span></a>
+<a class="sourceLine" id="cb1-29" data-line-number="29">interpolate.maxgap &lt;-<span class="st"> </span><span class="ot">Inf</span></a>
+<a class="sourceLine" id="cb1-30" data-line-number="30">smooth &lt;-<span class="st"> </span><span class="ot">TRUE</span></a>
+<a class="sourceLine" id="cb1-31" data-line-number="31">smooth.type &lt;-<span class="st"> "hann"</span></a>
+<a class="sourceLine" id="cb1-32" data-line-number="32">smooth.window &lt;-<span class="st"> </span><span class="dv">100</span></a>
+<a class="sourceLine" id="cb1-33" data-line-number="33">method.first &lt;-<span class="st"> "smooth"</span></a>
+<a class="sourceLine" id="cb1-34" data-line-number="34">bc &lt;-<span class="st"> </span><span class="ot">TRUE</span></a>
+<a class="sourceLine" id="cb1-35" data-line-number="35">baselineoffset.message &lt;-<span class="st"> "ISI 1"</span></a>
+<a class="sourceLine" id="cb1-36" data-line-number="36">bc.duration &lt;-<span class="st"> </span><span class="dv">200</span></a>
+<a class="sourceLine" id="cb1-37" data-line-number="37">bc.type &lt;-<span class="st"> "subtractive"</span></a>
+<a class="sourceLine" id="cb1-38" data-line-number="38">downsample.binlength &lt;-<span class="st"> </span><span class="dv">20</span></a>
+<a class="sourceLine" id="cb1-39" data-line-number="39">subj.prefix &lt;-<span class="st"> "_"</span></a>
+<a class="sourceLine" id="cb1-40" data-line-number="40">subj.suffix &lt;-<span class="st"> "-"</span></a>
+<a class="sourceLine" id="cb1-41" data-line-number="41">subset &lt;-<span class="st"> "default"</span></a>
+<a class="sourceLine" id="cb1-42" data-line-number="42">trial.exclude &lt;-<span class="st"> </span><span class="kw">c</span>()</a>
+<a class="sourceLine" id="cb1-43" data-line-number="43"><span class="co">################################</span></a>
+<a class="sourceLine" id="cb1-44" data-line-number="44"></a>
+<a class="sourceLine" id="cb1-45" data-line-number="45"><span class="kw"><a href="../reference/preprocess.html">preprocess</a></span>(<span class="dt">import =</span> import, <span class="dt">pattern =</span> pattern, <span class="dt">output =</span> output, <span class="dt">taskname =</span> task, <span class="dt">eyetracker =</span> eyetracker,</a>
+<a class="sourceLine" id="cb1-46" data-line-number="46">           <span class="dt">eye.recorded =</span> eye.recorded, <span class="dt">eye.use =</span> eye.use, <span class="dt">hz =</span> hz,</a>
+<a class="sourceLine" id="cb1-47" data-line-number="47">           <span class="dt">startrecording.message =</span> startrecording.message, <span class="dt">startrecording.match =</span> startrecording.match,</a>
+<a class="sourceLine" id="cb1-48" data-line-number="48">           <span class="dt">trialonset.message =</span> trialonset.message, <span class="dt">pretrial.duration =</span> pretrial.duration,</a>
+<a class="sourceLine" id="cb1-49" data-line-number="49">           <span class="dt">velocity =</span> velocity, <span class="dt">margin =</span> margin,</a>
+<a class="sourceLine" id="cb1-50" data-line-number="50">           <span class="dt">interpolate =</span> interpolate, <span class="dt">interpolate.type =</span> interpolate.type, <span class="dt">interpolate.maxgap =</span> interpolate.maxgap,</a>
+<a class="sourceLine" id="cb1-51" data-line-number="51">           <span class="dt">smooth =</span> smooth, <span class="dt">smooth.type =</span> smooth.type, <span class="dt">smooth.window =</span> smooth.window, <span class="dt">method.first =</span> method.first,</a>
+<a class="sourceLine" id="cb1-52" data-line-number="52">           <span class="dt">bc =</span> bc, <span class="dt">baselineoffset.message =</span> baselineoffset.message, <span class="dt">bc.duration =</span> bc.duration, <span class="dt">bc.type =</span> bc.type,</a>
+<a class="sourceLine" id="cb1-53" data-line-number="53">           <span class="dt">downsample.binlength =</span> downsample.binlength,</a>
+<a class="sourceLine" id="cb1-54" data-line-number="54">           <span class="dt">subj.prefix =</span> subj.prefix, <span class="dt">subj.suffix =</span> subj.suffix,</a>
+<a class="sourceLine" id="cb1-55" data-line-number="55">           <span class="dt">subset =</span> subset, <span class="dt">trial.exclude =</span> trial.exclude)</a></code></pre></div>
 </div>
   </div>
 
