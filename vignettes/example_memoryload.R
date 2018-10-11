@@ -9,9 +9,11 @@
 ## Loop for duration of setsize: ISI 1 (500 ms)-> Stimulus (1000 ms - presentation of memory item) -> ISI 2 (500 ms) ->
 ## Delay (2000 ms) -> Recall -> Buffer
 
+library(pupillometry)
+
 ## Preprocessing Parameters ####
-import <- "data/Raw Data"
-output <- "data/Preprocessed Data"
+import <- "data/Raw"
+output <- "data/Preprocessed"
 task <- "memoryload"
 pattern <- "*.txt"
 eyetracker <- "smi"
@@ -29,7 +31,7 @@ interpolate.type <- "cubic-spline"
 interpolate.maxgap <- Inf
 smooth <- TRUE
 smooth.type <- "hann"
-smooth.window <- "100"
+smooth.window <- 100
 method.first <- "smooth"
 bc <- TRUE
 baselineoffset.message <- "ISI 1"

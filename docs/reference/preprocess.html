@@ -149,9 +149,11 @@ and outputs the preprocessed data to a specified folder path</p>
   <span class='kw'>pretrial.duration</span> <span class='kw'>=</span> <span class='st'>""</span>, <span class='kw'>velocity</span> <span class='kw'>=</span> <span class='st'>""</span>, <span class='kw'>margin</span> <span class='kw'>=</span> <span class='st'>""</span>,
   <span class='kw'>interpolate</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>interpolate.type</span> <span class='kw'>=</span> <span class='st'>""</span>,
   <span class='kw'>interpolate.maxgap</span> <span class='kw'>=</span> <span class='fl'>Inf</span>, <span class='kw'>smooth</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>smooth.type</span> <span class='kw'>=</span> <span class='st'>""</span>,
-  <span class='kw'>smooth.window</span> <span class='kw'>=</span> <span class='fl'>5</span>, <span class='kw'>bc</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>baselineoffset.message</span> <span class='kw'>=</span> <span class='st'>""</span>,
-  <span class='kw'>bc.duration</span> <span class='kw'>=</span> <span class='st'>""</span>, <span class='kw'>downsample.binlength</span> <span class='kw'>=</span> <span class='st'>""</span>,
-  <span class='kw'>subj.prefix</span> <span class='kw'>=</span> <span class='st'>"default"</span>, <span class='kw'>subset</span> <span class='kw'>=</span> <span class='st'>"default"</span>, <span class='kw'>trial.exclude</span> <span class='kw'>=</span> <span class='fu'>c</span>())</pre>
+  <span class='kw'>smooth.window</span> <span class='kw'>=</span> <span class='fl'>5</span>, <span class='kw'>method.first</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>bc</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>baselineoffset.message</span> <span class='kw'>=</span> <span class='st'>""</span>, <span class='kw'>bc.duration</span> <span class='kw'>=</span> <span class='st'>""</span>,
+  <span class='kw'>bc.type</span> <span class='kw'>=</span> <span class='st'>"subtractive"</span>, <span class='kw'>downsample.binlength</span> <span class='kw'>=</span> <span class='st'>""</span>,
+  <span class='kw'>subj.prefix</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>subj.suffix</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>subset</span> <span class='kw'>=</span> <span class='st'>"default"</span>,
+  <span class='kw'>trial.exclude</span> <span class='kw'>=</span> <span class='fu'>c</span>())</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -241,6 +243,10 @@ and outputs the preprocessed data to a specified folder path</p>
       <td><p>Window size of smoothing function default is 5 milliseconds</p></td>
     </tr>
     <tr>
+      <th>method.first</th>
+      <td><p>Should "smooth" or "interpolate" be applied first? (default: NULL)</p></td>
+    </tr>
+    <tr>
       <th>bc</th>
       <td><p>Logical. Do baseline correction?</p></td>
     </tr>
@@ -253,12 +259,20 @@ and outputs the preprocessed data to a specified folder path</p>
       <td><p>Duration baseline period(s) to use for correction</p></td>
     </tr>
     <tr>
+      <th>bc.type</th>
+      <td><p>Do you want to use "subtractive" or "divisive" baseline correction? (default: "subtractive")</p></td>
+    </tr>
+    <tr>
       <th>downsample.binlength</th>
       <td><p>Length of bins to average</p></td>
     </tr>
     <tr>
       <th>subj.prefix</th>
-      <td><p>The prefix that comes before the subject number in the data file (including "-")</p></td>
+      <td><p>The unique pattern prefix (letter(s) and/or symbol(s)) that comes before the subject number in the data file</p></td>
+    </tr>
+    <tr>
+      <th>subj.suffix</th>
+      <td><p>The unique pattern suffix (letter(s) or symbol(s)) that comes after the subject number in the data file</p></td>
     </tr>
     <tr>
       <th>subset</th>

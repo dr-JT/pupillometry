@@ -148,8 +148,8 @@ Supported Eye-Tracker Systems: Sensomotoric Instruments ("smi") and SR-Research 
 
     <pre class="usage"><span class='fu'>tidy_eyetracker</span>(<span class='no'>file</span>, <span class='kw'>eyetracker</span> <span class='kw'>=</span> <span class='st'>""</span>,
   <span class='kw'>startrecording.message</span> <span class='kw'>=</span> <span class='st'>"default"</span>, <span class='kw'>startrecording.match</span> <span class='kw'>=</span> <span class='st'>"exact"</span>,
-  <span class='kw'>eye.recorded</span> <span class='kw'>=</span> <span class='st'>""</span>, <span class='kw'>subj.prefix</span> <span class='kw'>=</span> <span class='st'>"default"</span>, <span class='kw'>subset</span> <span class='kw'>=</span> <span class='st'>"default"</span>,
-  <span class='kw'>trial.exclude</span> <span class='kw'>=</span> <span class='fu'>c</span>())</pre>
+  <span class='kw'>eye.recorded</span> <span class='kw'>=</span> <span class='st'>""</span>, <span class='kw'>subj.prefix</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>subj.suffix</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>subset</span> <span class='kw'>=</span> <span class='st'>"default"</span>, <span class='kw'>trial.exclude</span> <span class='kw'>=</span> <span class='fu'>c</span>())</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -176,7 +176,11 @@ Supported Eye-Tracker Systems: Sensomotoric Instruments ("smi") and SR-Research 
     </tr>
     <tr>
       <th>subj.prefix</th>
-      <td><p>The prefix that comes before the subject number in the data file (including "-")</p></td>
+      <td><p>The unique pattern prefix (letter(s) and/or symbol(s)) that comes before the subject number in the data file</p></td>
+    </tr>
+    <tr>
+      <th>subj.suffix</th>
+      <td><p>The unique pattern suffix (letter(s) or symbol(s)) that comes after the subject number in the data file</p></td>
     </tr>
     <tr>
       <th>subset</th>
