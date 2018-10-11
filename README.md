@@ -2,7 +2,7 @@
 
 An R Package to preprocess pupil data
 
-The package contains various functions for different steps in the preprocessing pipeline, such as interpolation or baseline correction.
+Preprocess pupil data with `preprocess()` - a wrapper around other functions that perform various steps in the preprocessing pipeline, such as interpolation or baseline correction.
 
 The pre-processing steps are based on what has commonly been used in the literature and influenced by sensible preprocessing methods suggested by
 
