@@ -98,7 +98,7 @@
 <a href="#pupillometry" class="anchor"></a>pupillometry <img src="reference/figures/logo_small.png" align="right">
 </h1></div>
 <p>An R Package to preprocess pupil data</p>
-<p>Preprocess pupil data with <code><a href="reference/preprocess.html">preprocess()</a></code> - a wrapper around other functions that perform various steps in the preprocessing pipeline, such as interpolation or baseline correction.</p>
+<p>The package contains various functions for different steps in the preprocessing pipeline, such as interpolation or baseline correction.</p>
 <p>The pre-processing steps are based on what has commonly been used in the literature and influenced by sensible preprocessing methods suggested by</p>
 <p>Mathôt, S., Fabius, J., Van Heusden, E., &amp; Van der Stigchel, S. (2018). Safe and sensible preprocessing and baseline correction of pupil-size data. Behavior research methods, 50(1), 94-106.</p>
 <p>The main goal of this package is to provide:</p>
@@ -107,7 +107,7 @@
 <div id="install" class="section level2">
 <h2 class="hasAnchor">
 <a href="#install" class="anchor"></a>Install</h2>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">devtools<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/devtools/topics/install_github">install_github</a></span>(<span class="st">"dr-JT/pupillometry"</span>)</code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1">devtools<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/devtools/topics/install_github">install_github</a></span>(<span class="st">"dr-JT/pupillometry"</span>)</a></code></pre></div>
 </div>
 <div id="eyetracker-support" class="section level2">
 <h2 class="hasAnchor">
@@ -160,46 +160,46 @@
 <div id="example" class="section level3">
 <h3 class="hasAnchor">
 <a href="#example" class="anchor"></a>Example</h3>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## Preprocessing parameters
-import &lt;-<span class="st"> "./raw_data"</span>
-output &lt;-<span class="st"> "./preprocessed_data"</span>
-task &lt;-<span class="st"> "PVT"</span>
-pattern &lt;-<span class="st"> "*.txt"</span>
-eyetracker &lt;-<span class="st"> "smi"</span>
-eye.recorded &lt;-<span class="st"> "both"</span>
-eye.use &lt;-<span class="st"> "left"</span>
-hz &lt;-<span class="st"> </span><span class="dv">250</span>
-startrecording.message &lt;-<span class="st"> "default"</span>
-startrecording.match &lt;-<span class="st"> "exact"</span>
-trialonset.message &lt;-<span class="st"> "Beep"</span>
-pretrial.duration &lt;-<span class="st"> </span><span class="dv">2000</span>
-velocity &lt;-<span class="st"> ""</span>
-margin &lt;-<span class="st"> ""</span>
-interpolate &lt;-<span class="st"> </span><span class="ot">TRUE</span>
-interpolate.type &lt;-<span class="st"> "cubic-spline"</span>
-interpolate.maxgap &lt;-<span class="st"> </span><span class="dv">300</span>
-smooth &lt;-<span class="st"> </span><span class="ot">FALSE</span>
-smooth.type &lt;-<span class="st"> ""</span>
-smooth.window &lt;-<span class="st"> ""</span>
-bc &lt;-<span class="st"> </span><span class="ot">TRUE</span>
-baselineoffset.message &lt;-<span class="st"> "Target"</span>
-bc.duration &lt;-<span class="st"> </span><span class="dv">200</span>
-downsample.binlength &lt;-<span class="st"> </span><span class="dv">20</span>
-subj.prefix &lt;-<span class="st"> "default"</span>
-subset &lt;-<span class="st"> "default"</span>
-trial.exclude &lt;-<span class="st"> </span><span class="kw">c</span>()
-############################
-
-<span class="kw"><a href="reference/preprocess.html">preprocess</a></span>(<span class="dt">import =</span> import, <span class="dt">pattern =</span> pattern, <span class="dt">output =</span> output, <span class="dt">taskname =</span> task, <span class="dt">eyetracker =</span> eyetracker, 
-           <span class="dt">eye.recorded =</span> eye.recorded, <span class="dt">eye.use =</span> eye.use, <span class="dt">hz =</span> hz,
-           <span class="dt">startrecording.message =</span> startrecording.message, <span class="dt">startrecording.match =</span> startrecording.match,
-           <span class="dt">trialonset.message =</span> trialonset.message, <span class="dt">pretrial.duration =</span> pretrial.duration,
-           <span class="dt">velocity =</span> velocity, <span class="dt">margin =</span> margin,
-           <span class="dt">interpolate =</span> interpolate, <span class="dt">interpolate.type =</span> interpolate.type, <span class="dt">interpolate.maxgap =</span> interpolate.maxgap,
-           <span class="dt">smooth =</span> smooth, <span class="dt">smooth.type =</span> smooth.type, <span class="dt">smooth.window =</span> smooth.window,
-           <span class="dt">bc =</span> bc, <span class="dt">baselineoffset.message =</span> baselineoffset.message, <span class="dt">bc.duration =</span> bc.duration,
-           <span class="dt">downsample.binlength =</span> downsample.binlength,
-           <span class="dt">subj.prefix =</span> subj.prefix, <span class="dt">subset =</span> subset, <span class="dt">trial.exclude =</span> trial.exclude)</code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="co">## Preprocessing parameters</span></a>
+<a class="sourceLine" id="cb2-2" data-line-number="2">import &lt;-<span class="st"> "./raw_data"</span></a>
+<a class="sourceLine" id="cb2-3" data-line-number="3">output &lt;-<span class="st"> "./preprocessed_data"</span></a>
+<a class="sourceLine" id="cb2-4" data-line-number="4">task &lt;-<span class="st"> "PVT"</span></a>
+<a class="sourceLine" id="cb2-5" data-line-number="5">pattern &lt;-<span class="st"> "*.txt"</span></a>
+<a class="sourceLine" id="cb2-6" data-line-number="6">eyetracker &lt;-<span class="st"> "smi"</span></a>
+<a class="sourceLine" id="cb2-7" data-line-number="7">eye.recorded &lt;-<span class="st"> "both"</span></a>
+<a class="sourceLine" id="cb2-8" data-line-number="8">eye.use &lt;-<span class="st"> "left"</span></a>
+<a class="sourceLine" id="cb2-9" data-line-number="9">hz &lt;-<span class="st"> </span><span class="dv">250</span></a>
+<a class="sourceLine" id="cb2-10" data-line-number="10">startrecording.message &lt;-<span class="st"> "default"</span></a>
+<a class="sourceLine" id="cb2-11" data-line-number="11">startrecording.match &lt;-<span class="st"> "exact"</span></a>
+<a class="sourceLine" id="cb2-12" data-line-number="12">trialonset.message &lt;-<span class="st"> "Beep"</span></a>
+<a class="sourceLine" id="cb2-13" data-line-number="13">pretrial.duration &lt;-<span class="st"> </span><span class="dv">2000</span></a>
+<a class="sourceLine" id="cb2-14" data-line-number="14">velocity &lt;-<span class="st"> ""</span></a>
+<a class="sourceLine" id="cb2-15" data-line-number="15">margin &lt;-<span class="st"> ""</span></a>
+<a class="sourceLine" id="cb2-16" data-line-number="16">interpolate &lt;-<span class="st"> </span><span class="ot">TRUE</span></a>
+<a class="sourceLine" id="cb2-17" data-line-number="17">interpolate.type &lt;-<span class="st"> "cubic-spline"</span></a>
+<a class="sourceLine" id="cb2-18" data-line-number="18">interpolate.maxgap &lt;-<span class="st"> </span><span class="dv">300</span></a>
+<a class="sourceLine" id="cb2-19" data-line-number="19">smooth &lt;-<span class="st"> </span><span class="ot">FALSE</span></a>
+<a class="sourceLine" id="cb2-20" data-line-number="20">smooth.type &lt;-<span class="st"> ""</span></a>
+<a class="sourceLine" id="cb2-21" data-line-number="21">smooth.window &lt;-<span class="st"> ""</span></a>
+<a class="sourceLine" id="cb2-22" data-line-number="22">bc &lt;-<span class="st"> </span><span class="ot">TRUE</span></a>
+<a class="sourceLine" id="cb2-23" data-line-number="23">baselineoffset.message &lt;-<span class="st"> "Target"</span></a>
+<a class="sourceLine" id="cb2-24" data-line-number="24">bc.duration &lt;-<span class="st"> </span><span class="dv">200</span></a>
+<a class="sourceLine" id="cb2-25" data-line-number="25">downsample.binlength &lt;-<span class="st"> </span><span class="dv">20</span></a>
+<a class="sourceLine" id="cb2-26" data-line-number="26">subj.prefix &lt;-<span class="st"> "default"</span></a>
+<a class="sourceLine" id="cb2-27" data-line-number="27">subset &lt;-<span class="st"> "default"</span></a>
+<a class="sourceLine" id="cb2-28" data-line-number="28">trial.exclude &lt;-<span class="st"> </span><span class="kw">c</span>()</a>
+<a class="sourceLine" id="cb2-29" data-line-number="29"><span class="co">############################</span></a>
+<a class="sourceLine" id="cb2-30" data-line-number="30"></a>
+<a class="sourceLine" id="cb2-31" data-line-number="31"><span class="kw"><a href="reference/preprocess.html">preprocess</a></span>(<span class="dt">import =</span> import, <span class="dt">pattern =</span> pattern, <span class="dt">output =</span> output, <span class="dt">taskname =</span> task, <span class="dt">eyetracker =</span> eyetracker, </a>
+<a class="sourceLine" id="cb2-32" data-line-number="32">           <span class="dt">eye.recorded =</span> eye.recorded, <span class="dt">eye.use =</span> eye.use, <span class="dt">hz =</span> hz,</a>
+<a class="sourceLine" id="cb2-33" data-line-number="33">           <span class="dt">startrecording.message =</span> startrecording.message, <span class="dt">startrecording.match =</span> startrecording.match,</a>
+<a class="sourceLine" id="cb2-34" data-line-number="34">           <span class="dt">trialonset.message =</span> trialonset.message, <span class="dt">pretrial.duration =</span> pretrial.duration,</a>
+<a class="sourceLine" id="cb2-35" data-line-number="35">           <span class="dt">velocity =</span> velocity, <span class="dt">margin =</span> margin,</a>
+<a class="sourceLine" id="cb2-36" data-line-number="36">           <span class="dt">interpolate =</span> interpolate, <span class="dt">interpolate.type =</span> interpolate.type, <span class="dt">interpolate.maxgap =</span> interpolate.maxgap,</a>
+<a class="sourceLine" id="cb2-37" data-line-number="37">           <span class="dt">smooth =</span> smooth, <span class="dt">smooth.type =</span> smooth.type, <span class="dt">smooth.window =</span> smooth.window,</a>
+<a class="sourceLine" id="cb2-38" data-line-number="38">           <span class="dt">bc =</span> bc, <span class="dt">baselineoffset.message =</span> baselineoffset.message, <span class="dt">bc.duration =</span> bc.duration,</a>
+<a class="sourceLine" id="cb2-39" data-line-number="39">           <span class="dt">downsample.binlength =</span> downsample.binlength,</a>
+<a class="sourceLine" id="cb2-40" data-line-number="40">           <span class="dt">subj.prefix =</span> subj.prefix, <span class="dt">subset =</span> subset, <span class="dt">trial.exclude =</span> trial.exclude)</a></code></pre></div>
 </div>
 </div>
 <div id="planned-updates" class="section level2">
