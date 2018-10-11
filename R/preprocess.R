@@ -150,7 +150,7 @@ preprocess <- function(import = "", pattern = "*.txt", output = NULL, export = "
                        ms.conversion = ms.conversion, pretrial.duration = pretrial.duration)
 
     ## Save data at this stage
-    saveData(data, preprocessing.stage = "")
+    saveData(data, preprocessing.stage = "na.removed")
 
     ## Next, Interpolate data
     if (interpolate==TRUE){
