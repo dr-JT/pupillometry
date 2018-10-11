@@ -11,16 +11,11 @@ preprocess(import = "", pattern = "*.txt", output = NULL,
   pretrial.duration = "", velocity = "", margin = "",
   interpolate = FALSE, interpolate.type = "",
   interpolate.maxgap = Inf, smooth = FALSE, smooth.type = "",
-<<<<<<< HEAD
-  smooth.window = 5, bc = FALSE, baselineoffset.message = "",
-  bc.duration = "", downsample.binlength = "", subj.prefix = NULL,
-  subj.suffix = NULL, subset = "default", trial.exclude = c())
-=======
   smooth.window = 5, method.first = NULL, bc = FALSE,
   baselineoffset.message = "", bc.duration = "",
-  downsample.binlength = "", subj.prefix = "default",
-  subset = "default", trial.exclude = c())
->>>>>>> reorder
+  bc.type = "subtractive", downsample.binlength = "",
+  subj.prefix = NULL, subj.suffix = NULL, subset = "default",
+  trial.exclude = c())
 }
 \arguments{
 \item{import}{Folder path to raw data files}
@@ -72,6 +67,8 @@ preprocess(import = "", pattern = "*.txt", output = NULL,
 \item{baselineoffset.message}{Message string(s) that marks the offset of baseline period(s)}
 
 \item{bc.duration}{Duration baseline period(s) to use for correction}
+
+\item{bc.type}{Do you want to use "subtractive" or "divisive" baseline correction? (default: "subtractive")}
 
 \item{downsample.binlength}{Length of bins to average}
 

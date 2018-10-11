@@ -60,17 +60,14 @@ preprocess <- function(import = "", pattern = "*.txt", output = NULL, export = "
   ## Save data and do baseline correction first if bc==TRUE
   saveData <- function(x, preprocessing.stage = ""){
     if (bc==TRUE){
-<<<<<<< HEAD
       preprocessing <- paste(preprocessing.stage, "bc", sep = ".")
       x <- pupil.baselinecorrect(x, baselineoffset.message = baselineoffset.message, bc.duration = bc.duration)
-=======
       if (preprocessing.stage==""){
         preprocessing <- "bc"
       } else {
         preprocessing <- paste(preprocessing.stage, "bc", sep = ".")
       }
       x <- pupil.baselinecorrect(x, baselineoffset.message = baselineoffset.message, bc.duration = bc.duration, bc.type = bc.type)
->>>>>>> bc.type
       # Downsample?
       if (downsample.binlength>0){
         preprocessing <- paste(preprocessing, "ds", sep = ".")
