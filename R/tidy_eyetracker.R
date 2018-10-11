@@ -44,6 +44,8 @@ tidy_eyetracker <- function(file, eyetracker = "", startrecording.message = "def
 
       subj <- stringr::str_split(x, pattern.suffix)[[1]][1]
       subj <- as.numeric(subj)
+    } else {
+      subj <- x
     }
     return(subj)
   }
