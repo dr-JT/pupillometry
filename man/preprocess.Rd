@@ -12,8 +12,8 @@ preprocess(import = "", pattern = "*.txt", output = NULL,
   interpolate = FALSE, interpolate.type = "",
   interpolate.maxgap = Inf, smooth = FALSE, smooth.type = "",
   smooth.window = 5, bc = FALSE, baselineoffset.message = "",
-  bc.duration = "", downsample.binlength = "",
-  subj.prefix = "default", subset = "default", trial.exclude = c())
+  bc.duration = "", downsample.binlength = "", subj.prefix = NULL,
+  subj.suffix = NULL, subset = "default", trial.exclude = c())
 }
 \arguments{
 \item{import}{Folder path to raw data files}
@@ -66,7 +66,9 @@ preprocess(import = "", pattern = "*.txt", output = NULL,
 
 \item{downsample.binlength}{Length of bins to average}
 
-\item{subj.prefix}{The prefix that comes before the subject number in the data file (including "-")}
+\item{subj.prefix}{The unique pattern prefix (letter(s) and/or symbol(s)) that comes before the subject number in the data file}
+
+\item{subj.suffix}{The unique pattern suffix (letter(s) or symbol(s)) that comes after the subject number in the data file}
 
 \item{subset}{Which columns in the raw data output file do you want to keep}
 

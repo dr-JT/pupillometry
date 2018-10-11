@@ -6,8 +6,8 @@
 \usage{
 tidy_eyetracker(file, eyetracker = "",
   startrecording.message = "default", startrecording.match = "exact",
-  eye.recorded = "", subj.prefix = "default", subset = "default",
-  trial.exclude = c())
+  eye.recorded = "", subj.prefix = NULL, subj.suffix = NULL,
+  subset = "default", trial.exclude = c())
 }
 \arguments{
 \item{file}{A file path to the raw data export file}
@@ -20,7 +20,9 @@ tidy_eyetracker(file, eyetracker = "",
 
 \item{eye.recorded}{Do you want to inclue the "left", "right', or "both" eyes?}
 
-\item{subj.prefix}{The prefix that comes before the subject number in the data file (including "-")}
+\item{subj.prefix}{The unique pattern prefix (letter(s) and/or symbol(s)) that comes before the subject number in the data file}
+
+\item{subj.suffix}{The unique pattern suffix (letter(s) or symbol(s)) that comes after the subject number in the data file}
 
 \item{subset}{Which columns in the raw data export file do you want to keep}
 
