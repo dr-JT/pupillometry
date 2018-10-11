@@ -11,9 +11,16 @@ preprocess(import = "", pattern = "*.txt", output = NULL,
   pretrial.duration = "", velocity = "", margin = "",
   interpolate = FALSE, interpolate.type = "",
   interpolate.maxgap = Inf, smooth = FALSE, smooth.type = "",
+<<<<<<< HEAD
   smooth.window = 5, bc = FALSE, baselineoffset.message = "",
   bc.duration = "", downsample.binlength = "", subj.prefix = NULL,
   subj.suffix = NULL, subset = "default", trial.exclude = c())
+=======
+  smooth.window = 5, method.first = NULL, bc = FALSE,
+  baselineoffset.message = "", bc.duration = "",
+  downsample.binlength = "", subj.prefix = "default",
+  subset = "default", trial.exclude = c())
+>>>>>>> reorder
 }
 \arguments{
 \item{import}{Folder path to raw data files}
@@ -57,6 +64,8 @@ preprocess(import = "", pattern = "*.txt", output = NULL,
 \item{smooth.type}{The type of smoothing function to apply. hann or moving window average (mwa)}
 
 \item{smooth.window}{Window size of smoothing function default is 5 milliseconds}
+
+\item{method.first}{Should "smooth" or "interpolate" be applied first? (default: NULL)}
 
 \item{bc}{Logical. Do baseline correction?}
 

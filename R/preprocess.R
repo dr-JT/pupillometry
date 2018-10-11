@@ -23,6 +23,7 @@
 #' @param smooth Do you want to apply a moving average smoothing function?
 #' @param smooth.type The type of smoothing function to apply. hann or moving window average (mwa)
 #' @param smooth.window Window size of smoothing function default is 5 milliseconds
+#' @param method.first Should "smooth" or "interpolate" be applied first? (default: NULL)
 #' @param bc Logical. Do baseline correction?
 #' @param baselineoffset.message Message string(s) that marks the offset of baseline period(s)
 #' @param bc.duration Duration baseline period(s) to use for correction
@@ -42,7 +43,7 @@ preprocess <- function(import = "", pattern = "*.txt", output = NULL, export = "
                        trialonset.message = "", pretrial.duration = "",
                        velocity = "", margin = "",
                        interpolate = FALSE, interpolate.type = "", interpolate.maxgap = Inf,
-                       smooth = FALSE, smooth.type = "", smooth.window = 5,
+                       smooth = FALSE, smooth.type = "", smooth.window = 5, method.first = NULL,
                        bc = FALSE, baselineoffset.message = "", bc.duration = "",
                        downsample.binlength = "",
                        subj.prefix = NULL, subj.suffix = NULL,
@@ -144,22 +145,32 @@ preprocess <- function(import = "", pattern = "*.txt", output = NULL, export = "
     ## Save data at this stage
     saveData(data, preprocessing.stage = "na.removed")
 
-    ## Next, Interpolate data
-    if (interpolate==TRUE){
-      data <- pupil.interpolate(data, type = interpolate.type, maxgap = interpolate.maxgap, hz = hz)
-      ## Save data at this stage
-      saveData(data, preprocessing.stage = "interpolated")
-    }
-
-    ## Next, Smooth data
-    if (smooth==TRUE){
-      data <- pupil.smooth(data, type = smooth.type, window = smooth.window, hz = hz)
-      ## Save data at this stage
+    if (is.null(method.first)){
+      ## Next, either interpolate or smooth
       if (interpolate==TRUE){
-        saveData(data, preprocessing.stage = "interpolated.smoothed")
-      } else {
+        data <- pupil.interpolate(data, type = interpolate.type, maxgap = interpolate.maxgap, hz = hz)
+        ## Save data at this stage
+        saveData(data, preprocessing.stage = "interpolated")
+      } else if (smooth==TRUE){
+        data <- pupil.smooth(data, type = smooth.type, window = smooth.window, hz = hz)
+        ## Save data at this stage
         saveData(data, preprocessing.stage = "smoothed")
       }
+    }
+    if (method.first == "interpolate"){
+      ## Next, Interpolate data
+      data <- pupil.interpolate(data, type = interpolate.type, maxgap = interpolate.maxgap, hz = hz)
+      ## Next, Smooth data
+      data <- pupil.smooth(data, type = smooth.type, window = smooth.window, hz = hz)
+      ## Save data at this stage
+      saveData(data, preprocessing.stage = "interpolated.smoothed")
+    } else if (method.first == "smooth"){
+      ## Next, Smooth data
+      data <- pupil.smooth(data, type = smooth.type, window = smooth.window, hz = hz)
+      ## Next, Interpolate data
+      data <- pupil.interpolate(data, type = interpolate.type, maxgap = interpolate.maxgap, hz = hz)
+      ## Save data at this stage
+      saveData(data, preprocessing.stage = "smoothed.interpolated")
     }
     ##############################################
   }
