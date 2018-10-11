@@ -102,10 +102,6 @@ preprocess(import = import, pattern = pattern, output = output, taskname = task,
 
 ## Planned Updates
 
-* Add divisive baseline correction option
-
-* Add more flexibility to choose whether smoothing or interpolation should occur first
-
 * Add option to not save data file at every stage of preprocessing (reduces number of files that get created if storage space is an issue)
 
 * Add hampel filter option (maybe?)

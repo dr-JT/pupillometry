@@ -134,9 +134,30 @@
       <small>Source: <a href='https://github.com/dr-JT/pupillometry/blob/master/NEWS.md'><code>NEWS.md</code></a></small>
     </div>
 
-    <div id="pupillometry-0-8" class="section level1">
+    <div id="pupillometry-0-8-1" class="section level1">
 <h1 class="page-header">
-<a href="#pupillometry-0-8" class="anchor"></a>pupillometry 0.8</h1>
+<a href="#pupillometry-0-8-1" class="anchor"></a>pupillometry 0.8.1</h1>
+<p>Updated: 10/11/2018</p>
+<ul>
+<li>
+<p>Added the option to do “divisive” baseline correction</p>
+<p>Paramaters added: <code><a href="../reference/preprocess.html">preprocess(bc.type = c("subtractive", "divisive"))</a></code> and <code><a href="../reference/pupil.baselinecorrect.html">pupil.baselinecorrect(bc.type = c("subtractive", "divisive"))</a></code></p>
+<p>Default: “subtractive”</p>
+</li>
+<li>
+<p>More flexibility to choose the ordering of interpolation and smoothing in <code><a href="../reference/preprocess.html">preprocess()</a></code></p>
+<p>Paramaters added: <code><a href="../reference/preprocess.html">preprocess(method.first = c("smooth", "interpolate"))</a></code></p>
+</li>
+<li>
+<p>More precise specifications to obtain Subject # from the file name.</p>
+<p>Paramaters added: <code><a href="../reference/preprocess.html">preprocess(subj.prefix = NULL, subj.suffix = NULL)</a></code> and <code><a href="../reference/tidy_eyetracker.html">tidy_eyetracker(subj.prefix = NULL, subj.suffix = NULL)</a></code></p>
+<p>If parameters are set as <code>NULL</code> (default), then the entire file name will be used as the Subject #. This is not ideal.</p>
+</li>
+</ul>
+</div>
+    <div id="pupillometry-0-8-0" class="section level1">
+<h1 class="page-header">
+<a href="#pupillometry-0-8-0" class="anchor"></a>pupillometry 0.8.0</h1>
 <p>Updated: 10/7/2018</p>
 <div id="new-features" class="section level2">
 <h2 class="hasAnchor">
@@ -163,7 +184,8 @@
     <div id="tocnav">
       <h2>Contents</h2>
       <ul class="nav nav-pills nav-stacked">
-        <li><a href="#pupillometry-0-8">0.8</a></li>
+        <li><a href="#pupillometry-0-8-1">0.8.1</a></li>
+        <li><a href="#pupillometry-0-8-0">0.8.0</a></li>
       </ul>
     </div>
   </div>
