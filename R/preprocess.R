@@ -27,7 +27,8 @@
 #' @param baselineoffset.message Message string(s) that marks the offset of baseline period(s)
 #' @param bc.duration Duration baseline period(s) to use for correction
 #' @param downsample.binlength Length of bins to average
-#' @param subj.prefix The prefix that comes before the subject number in the data file (including "-")
+#' @param subj.prefix The unique pattern prefix (letter(s) and/or symbol(s)) that comes before the subject number in the data file
+#' @param subj.suffix The unique pattern suffix (letter(s) or symbol(s)) that comes after the subject number in the data file
 #' @param subset Which columns in the raw data output file do you want to keep
 #' @param trial.exclude Specify if ther are any trials to exclude. Trial number
 #' @keywords preprocess
@@ -44,7 +45,8 @@ preprocess <- function(import = "", pattern = "*.txt", output = NULL, export = "
                        smooth = FALSE, smooth.type = "", smooth.window = 5,
                        bc = FALSE, baselineoffset.message = "", bc.duration = "",
                        downsample.binlength = "",
-                       subj.prefix = "default", subset = "default", trial.exclude = c()){
+                       subj.prefix = NULL, subj.suffix = NULL,
+                       subset = "default", trial.exclude = c()){
 
   if (is.null(output)){
     output <- export
@@ -111,7 +113,8 @@ preprocess <- function(import = "", pattern = "*.txt", output = NULL, export = "
     ## Convert messy to tidy
     data <- tidy_eyetracker(file, eyetracker = eyetracker, startrecording.message = startrecording.message,
                             startrecording.match = startrecording.match, eye = eye.recorded,
-                            subj.prefix = subj.prefix, subset = subset, trial.exclude = trial.exclude)
+                            subj.prefix = subj.prefix, subj.suffix = subj.suffix,
+                            subset = subset, trial.exclude = trial.exclude)
     ## Save tidy data file
     subj <- data$Subject[1]
     write.table(data, file = paste(output, "/", taskname, "_", subj, "_RawPupilData.txt", sep = ""),

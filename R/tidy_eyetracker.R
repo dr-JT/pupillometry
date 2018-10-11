@@ -9,7 +9,8 @@
 #' @param startrecording.message Message used in SMI experiment to mark StartTracking inline
 #' @param startrecording.match Should the message string be an "exact" match or a "pattern" match?
 #' @param eye.recorded Do you want to inclue the "left", "right', or "both" eyes?
-#' @param subj.prefix The prefix that comes before the subject number in the data file (including "-")
+#' @param subj.prefix The unique pattern prefix (letter(s) and/or symbol(s)) that comes before the subject number in the data file
+#' @param subj.suffix The unique pattern suffix (letter(s) or symbol(s)) that comes after the subject number in the data file
 #' @param subset Which columns in the raw data export file do you want to keep
 #' @param trial.exclude Specify if ther are any trials to exclude. Trial number
 #' @keywords tidy
@@ -18,15 +19,39 @@
 #' tidy_eyetracker(file = "path/filename.txt", subset = c(), message.column = "columnName", track.start = "# Message: StartTracking.bmp", eye = "both")
 
 tidy_eyetracker <- function(file, eyetracker = "", startrecording.message = "default", startrecording.match = "exact",
-                            eye.recorded = "", subj.prefix = "default", subset = "default", trial.exclude = c()){
+                            eye.recorded = "", subj.prefix = NULL, subj.suffix = NULL , subset = "default", trial.exclude = c()){
 
-  #### ----- SMI ----- ####
+  #### ----- Functions ----- ####
+  subj.extract <- function(x, prefix, suffix){
+    x <- stringr::str_split(x, "/")[[1]]
+    x <- x[length(x)]
+    if (!is.null(prefix)){
+      if (!is.null(suffix)){
+        pattern.prefix <- paste(prefix, "(?=\\d)", sep = "")
+        pattern.suffix <- paste("(?<=\\d)", suffix, sep = "")
+
+        subj <- stringr::str_split(x, pattern.prefix)[[1]][2]
+        subj <- stringr::str_split(subj, pattern.suffix)[[1]][1]
+        subj <- as.numeric(subj)
+      } else {
+        pattern.prefix <- paste(prefix, "(?=\\d)", sep = "")
+
+        subj <- stringr::str_split(x, pattern.prefix)[[1]][2]
+        subj <- as.numeric(subj)
+      }
+    } else if (!is.null(suffix)){
+      pattern.suffix <- paste("(?<=\\d)", suffix, sep = "")
+
+      subj <- stringr::str_split(x, pattern.suffix)[[1]][1]
+      subj <- as.numeric(subj)
+    }
+    return(subj)
+  }
+
+  #### ----- Set Defaults ----- ####
   if (eyetracker=="smi") {
     if (startrecording.message=="default"){
       startrecording.message <- "# Message: StartTracking.bmp"
-    }
-    if (subj.prefix=="default") {
-      subj.prefix <- "-"
     }
   }
 
@@ -45,10 +70,7 @@ tidy_eyetracker <- function(file, eyetracker = "", startrecording.message = "def
     ## Import and grab data from the header ####
     header <- readr::read_table(file, col_names = FALSE)
     samples.total <- as.numeric(strsplit(header$X1[10], "\t")[[1]][2])
-    subj <- as.numeric(strsplit(strsplit(gsub(gsub("-$", "",
-                                                   gsub('[0-9]', "",
-                                                        strsplit(header$X1[13], "\t")[[1]][2])), "",
-                                              strsplit(header$X1[13], "\t")[[1]][2]), subj.prefix)[[1]][1], "-")[[1]][1])
+    subj <- subj.extract(file, prefix = subj.prefix, suffix = subj.suffix)
     head.distance <- as.numeric(strsplit(header$X1[24], "\t")[[1]][2])/10
     ###################
     ## Import data and replace [ ] in column names ####
@@ -97,8 +119,7 @@ tidy_eyetracker <- function(file, eyetracker = "", startrecording.message = "def
   if (eyetracker=="eyelink") {
     ## Import and grab subject number ####
     data <- readr::read_delim(file, "\t", escape_double = FALSE, trim_ws = TRUE, na = ".")
-    subj <- as.numeric(gsub(gsub('[0-9]', "", data$RECORDING_SESSION_LABEL[1]),
-                            "", data$RECORDING_SESSION_LABEL[1]))
+    subj <- subj.extract(file, prefix = subj.prefix, suffix = subj.suffix)
     ###################
     ## Add subject, Hz, and event info. rename and select subset of data ####
     if (eye.recorded=="both"){
