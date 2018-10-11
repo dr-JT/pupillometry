@@ -27,6 +27,7 @@
 #' @param bc Logical. Do baseline correction?
 #' @param baselineoffset.message Message string(s) that marks the offset of baseline period(s)
 #' @param bc.duration Duration baseline period(s) to use for correction
+#' @param bc.type Do you want to use "subtractive" or "divisive" baseline correction? (default: "subtractive")
 #' @param downsample.binlength Length of bins to average
 #' @param subj.prefix The prefix that comes before the subject number in the data file (including "-")
 #' @param subset Which columns in the raw data output file do you want to keep
@@ -43,7 +44,7 @@ preprocess <- function(import = "", pattern = "*.txt", output = NULL, export = "
                        velocity = "", margin = "",
                        interpolate = FALSE, interpolate.type = "", interpolate.maxgap = Inf,
                        smooth = FALSE, smooth.type = "", smooth.window = 5, method.first = NULL,
-                       bc = FALSE, baselineoffset.message = "", bc.duration = "",
+                       bc = FALSE, baselineoffset.message = "", bc.duration = "", bc.type = "subtractive",
                        downsample.binlength = "",
                        subj.prefix = "default", subset = "default", trial.exclude = c()){
 
@@ -62,7 +63,7 @@ preprocess <- function(import = "", pattern = "*.txt", output = NULL, export = "
       } else {
         preprocessing <- paste(preprocessing.stage, "bc", sep = ".")
       }
-      x <- pupil.baselinecorrect(x, baselineoffset.message = baselineoffset.message, bc.duration = bc.duration)
+      x <- pupil.baselinecorrect(x, baselineoffset.message = baselineoffset.message, bc.duration = bc.duration, bc.type = bc.type)
       # Downsample?
       if (downsample.binlength>0){
         preprocessing <- paste(preprocessing, "ds", sep = ".")
