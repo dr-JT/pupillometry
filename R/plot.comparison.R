@@ -9,8 +9,8 @@
 
 plot.comparison <- function(import, trial){
   filelist <- list.files(import, pattern = "PupilData")
-  i <- filelist[stringr::str_which(filelist, "interpolated.smoothed")]
-  s <- filelist[stringr::str_which(filelist, "smoothed.interpolated")]
+  i <- filelist[stringr::str_which(filelist, "_interpolated")]
+  s <- filelist[stringr::str_which(filelist, "_smoothed")]
   na <- filelist[stringr::str_which(filelist, "naremoved")]
 
   if (length(i)>0){
