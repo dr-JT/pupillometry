@@ -163,8 +163,7 @@ preprocess <- function(import = "", pattern = "*.txt", output = NULL, export = "
         ## Save data at this stage
         saveData(data, preprocessing.stage = "smoothed")
       }
-    }
-    if (method.first == "interpolate"){
+    } else if (method.first == "interpolate"){
       ## Next, Interpolate data
       data <- pupil.interpolate(data, type = interpolate.type, maxgap = interpolate.maxgap, hz = hz)
       ## Next, Smooth data
