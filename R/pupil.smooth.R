@@ -12,7 +12,7 @@
 #' pupil.smooth(x, type = "hann", window = 11, eye.recorded = "both")
 
 pupil.smooth <- function(x, type = "hann", window = 5, hz = ""){
-  window <- window/(hz/1000)
+  window <- round(window/(1000/hz))
   x <- dplyr::group_by(x, Trial)
   if (type=="hann"){
     x <- dplyr::mutate(x,
