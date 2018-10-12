@@ -8,11 +8,11 @@
 #' @examples
 
 plot.comparison <- function(import, trial){
-  i <- readr::read_delim(paste(import, "memoryload_11_PupilData_interpolated.smoothed.bc.ds.txt"),
+  i <- readr::read_delim(paste(import, "memoryload_11_PupilData_interpolated.smoothed.bc.ds.txt", sep = "/"),
                          delim = "\t", escape_double = FALSE, trim_ws = TRUE)
-  s <- readr::read_delim(paste(import, "memoryload_11_PupilData_smoothed.interpolated.bc.ds.txt"),
+  s <- readr::read_delim(paste(import, "memoryload_11_PupilData_smoothed.interpolated.bc.ds.txt", sep = "/"),
                          delim = "\t", escape_double = FALSE, trim_ws = TRUE)
-  na <- readr::read_delim(paste(import, "memoryload_11_PupilData_naremoved.bc.ds.txt"),
+  na <- readr::read_delim(paste(import, "memoryload_11_PupilData_naremoved.bc.ds.txt", sep = "/"),
                           delim = "\t", escape_double = FALSE, trim_ws = TRUE)
 
   i <- dplyr::filter(i, Trial==trial)
