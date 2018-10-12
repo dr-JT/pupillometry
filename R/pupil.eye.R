@@ -17,31 +17,31 @@ pupil.eye <- function(x, eye.recorded = "", eye.use = "", missing.allowed = 1){
   ## Correlate and select Eyes
   if (eye.recorded == "both"){
     # correlate eyes
-    data <- pupil.cor(data)
+    x <- pupil.cor(x)
     # remove either left or right eye
     if (eye.use=="left"){
-      data <- dplyr::rename(data, Pupil_Diameter.mm = L_Pupil_Diameter.mm,
+      x <- dplyr::rename(x, Pupil_Diameter.mm = L_Pupil_Diameter.mm,
                             Missing.Total = L_Missing.Total,
                             Eye_Event = L_Event)
     } else if (eye.use=="right"){
-      data <- dplyr::rename(data, Pupil_Diameter.mm = R_Pupil_Diameter.mm,
+      x <- dplyr::rename(x, Pupil_Diameter.mm = R_Pupil_Diameter.mm,
                             Missing.Total = R_Missing.Total, Eye_Event = R_Event)
     }
-    data <- dplyr::select(data, -L_Pupil_Diameter.mm, -R_Pupil_Diameter.mm,
+    x <- dplyr::select(x, -L_Pupil_Diameter.mm, -R_Pupil_Diameter.mm,
                           -L_Missing.Total, -R_Missing.Total, -L_Event, -R_Event)
   } else if (eye.recorded=="left"){
-    data <- dplyr::rename(data, Pupil_Diameter.mm = L_Pupil_Diameter.mm,
+    x <- dplyr::rename(x, Pupil_Diameter.mm = L_Pupil_Diameter.mm,
                           Missing.Total = L_Missing.Total,
                           Eye_Event = L_Event)
-    data <- dplyr::select(data, -L_Pupil_Diameter.mm, -L_Missing.Total, -L_Event)
+    x <- dplyr::select(x, -L_Pupil_Diameter.mm, -L_Missing.Total, -L_Event)
   } else if (eye.recorded=="right"){
-    data <- dplyr::rename(data, Pupil_Diameter.mm = R_Pupil_Diameter.mm,
+    x <- dplyr::rename(x, Pupil_Diameter.mm = R_Pupil_Diameter.mm,
                           Missing.Total = R_Missing.Total,
                           Eye_Event = R_Event)
-    data <- dplyr::select(data, -R_Pupil_Diameter.mm, -R_Missing.Total, -R_Event)
+    x <- dplyr::select(x, -R_Pupil_Diameter.mm, -R_Missing.Total, -R_Event)
   }
 
-  data <- dplyr::filter(data, Missing.Total<=missing.allowed)
+  x <- dplyr::filter(x, Missing.Total<=missing.allowed)
 
   return(x)
 }
