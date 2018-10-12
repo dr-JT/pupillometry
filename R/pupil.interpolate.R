@@ -20,9 +20,7 @@ pupil.interpolate <- function(x, type = "cubic-spline", maxgap = Inf, hz = ""){
     x <- dplyr::mutate(x,
                        index = ifelse(is.na(Pupil_Diameter.mm), NA, dplyr::row_number()),
                        index = zoo::na.approx(index, na.rm = FALSE),
-                       Pupil_Diameter.mm = ifelse(Missing.Total<1,
-                                                  zoo::na.spline(Pupil_Diameter.mm, na.rm = FALSE, x = index, maxgap = maxgap),
-                                                  NA))
+                       Pupil_Diameter.mm = zoo::na.spline(Pupil_Diameter.mm, na.rm = FALSE, x = index, maxgap = maxgap))
     x <- dplyr::select(x, -index)
   } else if (type=="linear"){
     x <- dplyr::mutate(x,
