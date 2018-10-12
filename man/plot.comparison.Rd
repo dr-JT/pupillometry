@@ -4,7 +4,8 @@
 \alias{plot.comparison}
 \title{Testing Function}
 \usage{
-\method{plot}{comparison}(import, files = c(), labels = c(), trial)
+\method{plot}{comparison}(import, files = c(), labels = c(), trial,
+  title = "")
 }
 \arguments{
 \item{import}{Directory with preprocessed data files for comparison}

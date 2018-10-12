@@ -9,7 +9,7 @@
 #' @export plot.comparison
 #' @examples
 
-plot.comparison <- function(import, files = c(), labels = c(), trial){
+plot.comparison <- function(import, files = c(), labels = c(), trial, title = ""){
   data <- list()
   for (i in seq_along(files)){
     data[[i]] <- readr::read_delim(paste(import, files[i], sep = "/"), delim = "\t",
@@ -23,7 +23,7 @@ plot.comparison <- function(import, files = c(), labels = c(), trial){
   plot <- dplyr::filter(data, !is.na(Time))
   plot <- ggplot2::ggplot(plot, ggplot2::aes(x = Time, y = Pupil_Diameter.mm, color = Labels, shape = Labels)) +
     ggplot2::geom_point(alpha = .35) +
-    ggplot2::ggtitle(paste("Trial", trial, sep = " "))
+    ggplot2::ggtitle(title)
 
   return(plot)
 }
