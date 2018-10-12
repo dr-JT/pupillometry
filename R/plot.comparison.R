@@ -6,11 +6,12 @@
 #' @param labels Vector of labels for plotting.
 #' @param trial Which trial to filter on
 #' @param title Title the graph
+#' @param legend.title Title the legend
 #' @keywords
 #' @export plot.comparison
 #' @examples
 
-plot.comparison <- function(import, files = c(), labels = c(), trial, title = ""){
+plot.comparison <- function(import, files = c(), labels = c(), trial, title = "", legend.title = "Labels"){
   data <- list()
   for (i in seq_along(files)){
     data[[i]] <- readr::read_delim(paste(import, files[i], sep = "/"), delim = "\t",
@@ -25,7 +26,8 @@ plot.comparison <- function(import, files = c(), labels = c(), trial, title = ""
   plot <- ggplot2::ggplot(plot, ggplot2::aes(x = Time, y = Pupil_Diameter.mm, color = Labels, shape = Labels)) +
     ggplot2::geom_point(alpha = .35) +
     ggplot2::ggtitle(title) +
-    ggplot2::theme(plot.title = ggplot2::element_text(hjust = 0.5))
+    ggplot2::theme(plot.title = ggplot2::element_text(hjust = 0.5)) +
+    ggplot2::labs(color = legend.title, shape = legend.title)
 
   return(plot)
 }

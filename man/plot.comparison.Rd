@@ -5,7 +5,7 @@
 \title{Testing Function}
 \usage{
 \method{plot}{comparison}(import, files = c(), labels = c(), trial,
-  title = "")
+  title = "", legend.title = "Labels")
 }
 \arguments{
 \item{import}{Directory with preprocessed data files for comparison}
@@ -17,6 +17,8 @@
 \item{trial}{Which trial to filter on}
 
 \item{title}{Title the graph}
+
+\item{legend.title}{Title the legend}
 }
 \description{
 This function will print ggplot figures of na.removed, method.first = interpolate, and method.first = smooth
