@@ -23,7 +23,7 @@ pupil.smooth <- function(x, type = "hann", window = 5, hz = ""){
                                                   NA),
                        Pupil_Diameter.mm = dplR::hanning(hold, n = window),
                        Pupil_Diameter.mm = ifelse(is.na(Pupil_Diameter.mm),NA,Pupil_Diameter.mm))
-    x <- dplyr::select(-hold, -index)
+    x <- dplyr::select(x, -hold, -index)
   } else if (type=="mwa"){
     x <- dplyr::mutate(x,
                        Pupil_Diameter.mm = zoo::rollapply(Pupil_Diameter.mm,
