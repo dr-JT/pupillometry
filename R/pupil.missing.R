@@ -30,5 +30,6 @@ pupil.missing <- function(x, eye.recorded = "", velocity = "", margin = ""){
                        Missing.Total = sum(Missing.Total, na.rm = TRUE)/n())
   }
   x <- dplyr::ungroup(x)
+  x <- dplyr::filter(x, Missing.Total!=1)
   return(x)
 }

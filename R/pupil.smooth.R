@@ -18,20 +18,19 @@ pupil.smooth <- function(x, type = "hann", window = 5, hz = ""){
     x <- dplyr::mutate(x,
                        index = ifelse(is.na(Pupil_Diameter.mm), NA, dplyr::row_number()),
                        index = zoo::na.approx(index, na.rm = FALSE),
-                       hold = ifelse(Missing.Total<1,
-                                     zoo::na.spline(Pupil_Diameter.mm, na.rm = FALSE, x = index, maxgap = Inf),
-                                     NA),
+                       hold = zoo::na.spline(Pupil_Diameter.mm, na.rm = FALSE, x = index, maxgap = Inf),
                        hold = dplR::hanning(hold, n = window),
                        Pupil_Diameter.mm = ifelse(is.na(Pupil_Diameter.mm),NA,hold))
     x <- dplyr::select(x, -hold, -index)
   } else if (type=="mwa"){
     x <- dplyr::mutate(x,
-                       Pupil_Diameter.mm = zoo::rollapply(Pupil_Diameter.mm,
+                       hold = zoo::rollapply(Pupil_Diameter.mm,
                                                           width = window,
                                                           FUN = mean,
                                                           partial = TRUE,
                                                           na.rm = TRUE),
-                       Pupil_Diameter.mm = ifelse(is.na(Pupil_Diameter.mm),NA,Pupil_Diameter.mm))
+                       Pupil_Diameter.mm = ifelse(is.na(Pupil_Diameter.mm),NA,hold))
+    x <- dplyr::select(x, -hold)
   }
   x <- dplyr::ungroup(x)
   return(x)
