@@ -102,16 +102,16 @@ tidy_eyetracker <- function(file, eyetracker = "", startrecording.message = "def
       data <- dplyr::mutate(data, Subject = subj, Head_Dist.cm = head.distance,
                             Message = ifelse(get(message.column)>=0,NA,get(message.column)),
                             L_Event_Info = ifelse((L_Event_Info=="-"|is.na(L_Event_Info)),NA, L_Event_Info))
-      data <- dplyr::rename(data, Pupil_Diameter.mm = L_Pupil_Diameter_mm, Event = L_Event_Info)
-      data <- dplyr::select(data, Subject, Head_Dist.cm, Time, Trial, Message, Pupil_Diameter.mm,
-                            Event)
+      data <- dplyr::rename(data, L_Pupil_Diameter.mm = L_Pupil_Diameter_mm, L_Event = L_Event_Info)
+      data <- dplyr::select(data, Subject, Head_Dist.cm, Time, Trial, Message, L_Pupil_Diameter.mm,
+                            L_Event)
     } else if (eye.recorded=="right"){
       data <- dplyr::mutate(data, Subject = subj, Head_Dist.cm = head.distance,
                             Message = ifelse(get(message.column)>=0,NA,get(message.column)),
                             R_Event_Info = ifelse((R_Event_Info=="-"|is.na(R_Event_Info)),NA, R_Event_Info))
-      data <- dplyr::rename(data, Pupil_Diameter.mm = R_Pupil_Diameter_mm, Event = R_Event_Info)
-      data <- dplyr::select(data, Subject, Head_Dist.cm, Time, Trial, Message, Pupil_Diameter.mm,
-                            Event)
+      data <- dplyr::rename(data, R_Pupil_Diameter.mm = R_Pupil_Diameter_mm, R_Event = R_Event_Info)
+      data <- dplyr::select(data, Subject, Head_Dist.cm, Time, Trial, Message, R_Pupil_Diameter.mm,
+                            R_Event)
     }
     ###################
   }
@@ -155,13 +155,13 @@ tidy_eyetracker <- function(file, eyetracker = "", startrecording.message = "def
   }
   #############################
 
-  if (!is.null(trial.exclude)){
-    data <- dplyr::filter(data, !(Trial %in% trial.exclude))
-  }
-
   ## Correctly set trial index ####
   data <- set.trial(data, startrecording.message = startrecording.message, match = startrecording.match)
   ##################
+
+  if (!is.null(trial.exclude)){
+    data <- dplyr::filter(data, !(Trial %in% trial.exclude))
+  }
 
   ## Remove "# Message: " from message string ####
   data$Message <- gsub("# Message: ", "", data$Message)

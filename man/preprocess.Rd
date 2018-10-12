@@ -9,7 +9,7 @@ preprocess(import = "", pattern = "*.txt", output = NULL,
   eye.use = "", hz = "", startrecording.message = "default",
   startrecording.match = "exact", trialonset.message = "",
   pretrial.duration = "", velocity = "", margin = "",
-  interpolate = FALSE, interpolate.type = "",
+  missing.allowed = 1, interpolate = FALSE, interpolate.type = "",
   interpolate.maxgap = Inf, smooth = FALSE, smooth.type = "",
   smooth.window = 5, method.first = NULL, bc = FALSE,
   baselineoffset.message = "", bc.duration = "",
@@ -47,6 +47,8 @@ preprocess(import = "", pattern = "*.txt", output = NULL,
 \item{velocity}{The velocity threshold for Blink detection}
 
 \item{margin}{The margin before and after Blink onset and offset}
+
+\item{missing.allowed}{What proportion of missing data is allowed, on a trial-by-trial basis? (Default: 1)}
 
 \item{interpolate}{Do you want to do a linear interpolation over missing values?}
 

@@ -17,6 +17,7 @@
 #' @param pretrial.duration Duration of pre-trial baseline period in milliseconds
 #' @param velocity The velocity threshold for Blink detection
 #' @param margin The margin before and after Blink onset and offset
+#' @param missing.allowed What proportion of missing data is allowed, on a trial-by-trial basis? (Default: 1)
 #' @param interpolate Do you want to do a linear interpolation over missing values?
 #' @param interpolate.type What type of interpolation to use? linear or cubic-spline
 #' @param interpolate.maxgap Maximum number of NAs to interpolate over. Anything gaps over this value will not be interpolated.
@@ -42,7 +43,7 @@ preprocess <- function(import = "", pattern = "*.txt", output = NULL, export = "
                        eye.recorded = "", eye.use = "", hz = "",
                        startrecording.message = "default",  startrecording.match = "exact",
                        trialonset.message = "", pretrial.duration = "",
-                       velocity = "", margin = "",
+                       velocity = "", margin = "", missing.allowed = 1,
                        interpolate = FALSE, interpolate.type = "", interpolate.maxgap = Inf,
                        smooth = FALSE, smooth.type = "", smooth.window = 5, method.first = NULL,
                        bc = FALSE, baselineoffset.message = "", bc.duration = "", bc.type = "subtractive",
@@ -126,22 +127,8 @@ preprocess <- function(import = "", pattern = "*.txt", output = NULL, export = "
     ## First of all, remove data during blinks and create columns of how much missing data each trial has. pupil.missing()
     data <- pupil.missing(data, eye.recorded = eye.recorded)
 
-    ## Correlate and select Eyes
-    if (eye.recorded == "both"){
-      # correlate eyes
-      data <- pupil.cor(data)
-      # remove either left or right eye
-      if (eye.use=="left"){
-        data <- dplyr::mutate(data, Pupil_Diameter.mm = L_Pupil_Diameter.mm,
-                              Missing.Total = L_Missing.Total,
-                              Eye_Event = L_Event)
-      } else if (eye.use=="right"){
-        data <- dplyr::mutate(data, Pupil_Diameter.mm = R_Pupil_Diameter.mm,
-                              Missing.Total = R_Missing.Total, Eye_Event = R_Event)
-      }
-      data <- dplyr::select(data, -L_Pupil_Diameter.mm, -R_Pupil_Diameter.mm,
-                            -L_Missing.Total, -R_Missing.Total, -L_Event, -R_Event)
-    }
+    ## Select eyes and filter out trials with too much missing data
+    data <- pupil.eye(data, eye.recorded = eye.recorded, eye.use = eye.use, missing.allowed = missing.allowed)
 
     ## Creates a column that specifies the current stimulus (based on Messages in the data)
     data <- set.stimuli(data)
