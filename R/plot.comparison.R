@@ -44,6 +44,6 @@ plot.comparison <- function(import, trial){
   plot <- dplyr::bind_rows(list(i, s, na))
   plot <- dplyr::filter(plot, !is.na(Time))
   plot <- ggplot2::ggplot(plot, aes(x = Time, y = Pupil_Diameter.mm, color = First)) +
-    geom_point(alpha = .2)
+    geom_point(alpha = .35)
   return(plot)
 }
