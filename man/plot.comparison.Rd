@@ -4,10 +4,14 @@
 \alias{plot.comparison}
 \title{Testing Function}
 \usage{
-\method{plot}{comparison}(import, trial)
+\method{plot}{comparison}(import, files = c(), labels = c(), trial)
 }
 \arguments{
 \item{import}{Directory with preprocessed data files for comparison}
+
+\item{files}{Vector of files to be compared}
+
+\item{labels}{Vector of labels for plotting.}
 
 \item{trial}{Which trial to filter on}
 }
