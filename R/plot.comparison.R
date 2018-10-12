@@ -20,7 +20,7 @@ plot.comparison <- function(import, files = c(), labels = c(), trial){
   }
   data <- dplyr::bind_rows(data)
 
-  plot <- dplyr::filter(plot, !is.na(Time))
+  plot <- dplyr::filter(data, !is.na(Time))
   plot <- ggplot2::ggplot(plot, ggplot2::aes(x = Time, y = Pupil_Diameter.mm, color = Labels, shape = Labels)) +
     ggplot2::geom_point(alpha = .35)
   return(plot)
