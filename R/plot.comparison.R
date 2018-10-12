@@ -16,7 +16,7 @@ plot.comparison <- function(import, trial){
                           delim = "\t", escape_double = FALSE, trim_ws = TRUE)
 
   i <- dplyr::filter(i, Trial==trial)
-  i <- dplyt::mutate(i, First = "Interpolate")
+  i <- dplyr::mutate(i, First = "Interpolate")
   i <- dplyr::select(i, Time, First, Pupil_Diameter.mm)
   s <- dplyr::filter(s, Trial==trial)
   s <- dplyr::mutate(s, First = "Smooth")
