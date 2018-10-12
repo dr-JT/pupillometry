@@ -4,10 +4,10 @@
 \alias{plot.comparison}
 \title{Testing Function}
 \usage{
-plot.comparison(import, trial)
+\method{plot}{comparison}(import, trial)
 }
 \arguments{
-\item{import}{Import directory}
+\item{import}{Directory with preprocessed data files for comparison}
 
 \item{trial}{Which trial to filter on}
 }

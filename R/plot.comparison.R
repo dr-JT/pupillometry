@@ -4,7 +4,7 @@
 #' @param import Directory with preprocessed data files for comparison
 #' @param trial Which trial to filter on
 #' @keywords
-#' @export
+#' @export plot.comparison
 #' @examples
 
 plot.comparison <- function(import, trial){
