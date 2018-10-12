@@ -22,6 +22,8 @@ plot.comparison <- function(import, files = c(), labels = c(), trial){
 
   plot <- dplyr::filter(data, !is.na(Time))
   plot <- ggplot2::ggplot(plot, ggplot2::aes(x = Time, y = Pupil_Diameter.mm, color = Labels, shape = Labels)) +
-    ggplot2::geom_point(alpha = .35)
+    ggplot2::geom_point(alpha = .35) +
+    ggplot2::ggtitle(paste("Trial", trial, sep = " "))
+
   return(plot)
 }
