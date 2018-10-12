@@ -13,7 +13,7 @@ preprocess(import = "", pattern = "*.txt", output = NULL,
   interpolate.maxgap = Inf, smooth = FALSE, smooth.type = "",
   smooth.window = 5, method.first = NULL, bc = FALSE,
   baselineoffset.message = "", bc.duration = "",
-  bc.type = "subtractive", downsample.binlength = "",
+  bc.type = "subtractive", downsample.binlength = NULL,
   subj.prefix = NULL, subj.suffix = NULL, subset = "default",
   trial.exclude = c())
 }
@@ -72,7 +72,7 @@ preprocess(import = "", pattern = "*.txt", output = NULL,
 
 \item{bc.type}{Do you want to use "subtractive" or "divisive" baseline correction? (default: "subtractive")}
 
-\item{downsample.binlength}{Length of bins to average}
+\item{downsample.binlength}{Length of bins to average (default: NULL)}
 
 \item{subj.prefix}{The unique pattern prefix (letter(s) and/or symbol(s)) that comes before the subject number in the data file}
 

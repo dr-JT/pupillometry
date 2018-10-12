@@ -4,7 +4,7 @@
 \alias{pupil.downsample}
 \title{Pupil Preprocessing Function}
 \usage{
-pupil.downsample(x, bin.length = "", bc = FALSE)
+pupil.downsample(x, bin.length = NULL, bc = FALSE)
 }
 \arguments{
 \item{x}{dataframe}
