@@ -19,8 +19,8 @@ pupil.smooth <- function(x, type = "hann", window = 5, hz = ""){
                        index = ifelse(is.na(Pupil_Diameter.mm), NA, dplyr::row_number()),
                        index = zoo::na.approx(index, na.rm = FALSE),
                        hold = ifelse(Missing.Total<1,
-                                                  zoo::na.spline(hold, na.rm = FALSE, x = index, maxgap = Inf),
-                                                  NA),
+                                     zoo::na.spline(Pupil_Diameter.mm, na.rm = FALSE, x = index, maxgap = Inf),
+                                     NA),
                        Pupil_Diameter.mm = dplR::hanning(hold, n = window),
                        Pupil_Diameter.mm = ifelse(is.na(Pupil_Diameter.mm),NA,Pupil_Diameter.mm))
     x <- dplyr::select(x, -hold, -index)
