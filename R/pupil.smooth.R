@@ -16,7 +16,11 @@ pupil.smooth <- function(x, type = "hann", window = 5, hz = ""){
   x <- dplyr::group_by(x, Trial)
   if (type=="hann"){
     x <- dplyr::mutate(x,
-                       Pupil_Diameter.mm = zoo::na.approx(Pupil_Diameter.mm, na.rm = FALSE),
+                       index = ifelse(is.na(Pupil_Diameter.mm), NA, dplyr::row_number()),
+                       index = zoo::na.approx(index, na.rm = FALSE),
+                       Pupil_Diameter.mm = ifelse(Missing.Total<1,
+                                                  zoo::na.spline(Pupil_Diameter.mm, na.rm = FALSE, x = index, maxgap = Inf),
+                                                  NA),
                        Pupil_Diameter.mm = dplR::hanning(Pupil_Diameter.mm, n = window))
   } else if (type=="mwa"){
     x <- dplyr::mutate(x,
