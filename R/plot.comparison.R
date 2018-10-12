@@ -5,6 +5,7 @@
 #' @param files Vector of files to be compared
 #' @param labels Vector of labels for plotting.
 #' @param trial Which trial to filter on
+#' @param title Title the graph
 #' @keywords
 #' @export plot.comparison
 #' @examples
@@ -24,7 +25,7 @@ plot.comparison <- function(import, files = c(), labels = c(), trial, title = ""
   plot <- ggplot2::ggplot(plot, ggplot2::aes(x = Time, y = Pupil_Diameter.mm, color = Labels, shape = Labels)) +
     ggplot2::geom_point(alpha = .35) +
     ggplot2::ggtitle(title) +
-    theme(plot.title = element_text(hjust = 0.5))
+    ggplot2::theme(plot.title = ggplot2::element_text(hjust = 0.5))
 
   return(plot)
 }

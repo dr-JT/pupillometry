@@ -15,6 +15,8 @@
 \item{labels}{Vector of labels for plotting.}
 
 \item{trial}{Which trial to filter on}
+
+\item{title}{Title the graph}
 }
 \description{
 This function will print ggplot figures of na.removed, method.first = interpolate, and method.first = smooth
