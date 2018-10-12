@@ -15,7 +15,9 @@ pupil.smooth <- function(x, type = "hann", window = 5, hz = ""){
   window <- window/(hz/1000)
   x <- dplyr::group_by(x, Trial)
   if (type=="hann"){
-    x <- dplyr::mutate(x, Pupil_Diameter.mm = dplR::hanning(Pupil_Diameter.mm, n = window))
+    x <- dplyr::mutate(x,
+                       Pupil_Diameter.mm = zoo::na.approx(Pupil_Diameter.mm, na.rm = FALSE),
+                       Pupil_Diameter.mm = dplR::hanning(Pupil_Diameter.mm, n = window))
   } else if (type=="mwa"){
     x <- dplyr::mutate(x,
                        Pupil_Diameter.mm = zoo::rollapply(Pupil_Diameter.mm,
