@@ -10,7 +10,6 @@
 #' @examples
 
 plot.comparison <- function(import, files = c(), labels = c(), trial){
-
   data <- list()
   for (i in seq_along(files)){
     data[[i]] <- readr::read_delim(paste(import, files[i], sep = "/"), delim = "\t",
