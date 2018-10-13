@@ -131,6 +131,17 @@
 <a href="#usage" class="anchor"></a>Usage</h2>
 <p>There might be many comparisons you would like to make. For visual purposes it probably is best to not display more than three time-series on a graph at one time. You should also include a time-series in which no preprocessing has been performed, that is the <code>naremoved</code> file.</p>
 <p>Some comparisons you might want to make are different smoothing window sizes <code>smooth.window</code>, or different maxgap sizes <code>interpolate.maxgap</code>.</p>
+<p>To make the first plot displayed below:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/plot.comparison.html">plot.comparison</a></span>(<span class="dt">import =</span> <span class="st">"data/test"</span>, 
+                <span class="dt">files =</span> <span class="kw">c</span>(<span class="st">"Pitch_Discrimination_19_PupilData_interpolated_cubic-spline.txt"</span>,
+                          <span class="st">"Pitch_Discrimination_19_PupilData_interpolated_linear.txt"</span>,
+                          <span class="st">"Pitch_Discrimination_19_PupilData_naremoved.txt"</span>),
+                <span class="dt">labels =</span> <span class="kw">c</span>(<span class="st">"cubic-spline"</span>,
+                           <span class="st">"linear"</span>,
+                           <span class="st">"No Preprocessing"</span>), 
+                <span class="dt">trial =</span> <span class="dv">6</span>,
+                <span class="dt">title =</span> <span class="kw">paste</span>(<span class="st">"Trial"</span>, <span class="dv">6</span>, <span class="dt">sep =</span> <span class="st">" "</span>),
+                <span class="dt">legend.title =</span> <span class="st">"interpolation.type"</span>)</code></pre></div>
 </div>
 <div id="method-first" class="section level2">
 <h2 class="hasAnchor">
