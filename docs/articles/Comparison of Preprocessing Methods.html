@@ -107,13 +107,13 @@
 
     
     
-<p>One question you may have is, what parameters should I specify for each preprocessing method? This can be hard to determine if you are not familiar with working on time-series data such as EEG or pupil data.</p>
+<p>One question you may have is, what parameters should I specify for each preprocessing method? This can be hard to determine and it helps to have a visual aid.</p>
 <div id="plot-comparison" class="section level2">
 <h2 class="hasAnchor">
 <a href="#plot-comparison" class="anchor"></a><code><a href="../reference/plot.comparison.html">plot.comparison()</a></code>
 </h2>
 <p>With <code><a href="../reference/plot.comparison.html">plot.comparison()</a></code> you can visually compare how different preprocessing parameters change the shape of the pupil data.</p>
-<p>To use <code><a href="../reference/plot.comparison.html">plot.comparison()</a></code> you first need to create the preprocessed data files (from a single raw data file) with <code><a href="../reference/preprocess.html">preprocess()</a></code>. You may need to rename the file after running each <code><a href="../reference/preprocess.html">preprocess()</a></code> so that it doesn’t get overwritten.</p>
+<p>To use <code><a href="../reference/plot.comparison.html">plot.comparison()</a></code> you first need to create the preprocessed data files with different parameters (from a single raw data file) with <code><a href="../reference/preprocess.html">preprocess()</a></code>. You may need to rename the file after running each <code><a href="../reference/preprocess.html">preprocess()</a></code> so that it doesn’t get overwritten.</p>
 <p>Parameters:</p>
 <ul>
 <li><p><strong>import</strong>: The directory where the “test” comparison files are located</p></li>
@@ -129,8 +129,8 @@
 <div id="usage" class="section level2">
 <h2 class="hasAnchor">
 <a href="#usage" class="anchor"></a>Usage</h2>
-<p>There might be many comparisons you would like to make. For visual purposes it probably is best to not display more than three time-series on a graph at one time. You should also include a time-series in which no preprocessing has been performed, the <code>naremoved</code> file.</p>
-<p>You might want to compare different smoothing window sizes <code>smooth.window</code>, or different maxgap sizes <code>interpolate.maxgap</code>. Once you have created the data files using differrent preprocessing parameters, all you need to do is <code><a href="../reference/plot.comparison.html">plot.comparison()</a></code>.</p>
+<p>There might be many comparisons you would like to make. For visual purposes it probably is best to not display more than three time-series on a graph at one time. You should also include a time-series in which no preprocessing has been performed, that is the <code>naremoved</code> file.</p>
+<p>Some comparisons you might want to make are different smoothing window sizes <code>smooth.window</code>, or different maxgap sizes <code>interpolate.maxgap</code>.</p>
 </div>
 <div id="method-first" class="section level2">
 <h2 class="hasAnchor">
@@ -142,22 +142,22 @@
 <p>In all the figures, at some point the time-series “lines” might overlap considerably and it only looks like one color is there. In fact, all colored lines are present during those periods, they are just overlapping. If smoothing was applied, then <code>smooth.window = 500</code>.</p>
 <p>On Trial 6 there is a couple of “major” gaps of missing pupil data. You can see that if you use <code>cubic-spline</code> interpolation without smoothing, then the interpolated values are exaggerated and most likely unrealistic (see the period of 0 - 500 ms). It is very unlikely that pupil size is decreasing and then increasing by over 1 mm within a 500 ms interval. It is likely that the <code>cubic-spline</code> interpolation is modeling too much high frequency noise in the data. You can see that the <code>linear</code> interpolation does not suffer from the same problem. However, if there was truly a decrease during that interval then the <code>linear</code> interpolation is not capturing that.</p>
 <p>trial 6 fig.</p>
-<p><img src="man/figures/Trial6-interpolation.type.png" align="center"></p>
+<p><img src="reference/figures/Trial6-interpolation.type.png" align="center"></p>
 <hr>
 <p>Here is the same trial but with also smoothing applied. With either <code>method.first = "smooth"</code> (green line) or <code>method.first = "interpolate"</code> (pink line). Again it is clear that, unless smoothing is applied before a <code>cubic-spline</code> interpolation, then the data may become too distorted.</p>
-<p><img src="man/figures/Trial6--cubic-spline-hann.png" align="center"></p>
+<p><img src="reference/figures/Trial6--cubic-spline-hann.png" align="center"></p>
 <p><br><br></p>
 <hr>
 <p>There is not as big of a difference for <code>linear</code> interpolation. Visually, it does still seem slightly better to apply <code>method.first = "smooth"</code> as well.</p>
-<p><img src="man/figures/Trial6--linear-hann.type.png" align="center"></p>
+<p><img src="reference/figures/Trial6--linear-hann.type.png" align="center"></p>
 <p><br><br></p>
 <hr>
 <p>And here is Trial 6 if you were to do smoothing but no interpolation</p>
-<p><img src="man/figures/Trial6-smooth.type.png" align="center"></p>
+<p><img src="reference/figures/Trial6-smooth.type.png" align="center"></p>
 <p><br><br></p>
 <hr>
 <p>Trial 2 shows a similar pattern. It seems that with larger gaps of missing data the extreme exaggeration of the <code>cubic-spline</code> interpolation gets worse.</p>
-<p><img src="man/figures/Trial2--cubic-spline-hann.png" align="center"></p>
+<p><img src="reference/figures/Trial2--cubic-spline-hann.png" align="center"></p>
 </div>
   </div>
 
