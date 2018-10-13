@@ -1,6 +1,6 @@
 ## Script example for preprocessing raw data file "data/Raw Data/memoryload_11-1.txt"
 
-# devtools::install_github("dr-JT/pupillometry")
+devtools::install_github("dr-JT/pupillometry")
 
 ## Eyetracker: SMI Red250 Mobile recorded at 250 Hz
 ## Subject #: 11

@@ -4,21 +4,19 @@ title: "Example Data Set"
 
 ### Script example for preprocessing raw data file
 
-Download the [Example Data Set](http://englelab.gatech.edu/R/example_data/Example_memoryload.zip) and run the script below
+Download the [Example Data Set](http://englelab.gatech.edu/R/example_data/Example_Pitch.zip) and run the script below
 
 Information about example data set:
 
-* Raw Data Filename: "memoryload_11-1.txt"
+* Raw Data Filename: "pitch_discrimination_11-1_001 Samples"
 
 * Eyetracker: SMI Red250 Mobile recorded at 250 Hz
 
 * Subject #: 11
 
-* Task: memoryload (a simple short term memory span task: set-sizes are 3,6, and 9)
+* Task: Pitch Discrimination
 
-* Trial procedure: Fixation (1000 ms - pre-trial/ITI) ->
-* Loop for duration of setsize: [ ISI 1 (500 ms)-> Stimulus (1000 ms - presentation of memory item) -> ISI 2 (500 ms) ] ->
-* Delay (2000 ms) -> Recall -> Buffer
+* Trial Procedure: Fixation (Pre-trial - 2000 ms) -> Tone 1 (200 ms) -> Inter-stimulus Interval (ISI - 500 ms) -> Tone 2 (200 ms) -> Response Screen (Until response)
 
 ```{r message = FALSE, warning = FALSE}
 # devtools::install_github("dr-JT/pupillometry")
@@ -27,23 +25,31 @@ library(pupillometry)
 
 ## Preprocessing Parameters ####
 import <- "data/Raw"
-output <- "data/Preprocessed"
-task <- "memoryload"
 pattern <- "*.txt"
+output <- "data/Preprocessed"
+task <- "Pitch_Discrimination"
 eyetracker <- "smi"
+
+# Eyetrackers save the subject # information in different ways and is not always easy to obtain
+# The most versatile method is to extract it from the datafile name. You need to identify a 
+# unique subj.prefix pattern and subj.suffix pattern that surrounds the subject # in the 
+# datafile name. In this case it would be 
+subj.prefix <- "n_" # There are multiple underscores in this datafile name so it needs to be more specific "n_"
+subj.suffix <- "-"
+
+subset <- "default"
+trial.exclude <- c()
+
 eye.recorded <- "both"
 eye.use <- "left"
 hz <- 250
 startrecording.message <- "default"
 startrecording.match <- "exact"
+trialonset.message <- "Tone 1" 
 
-# Even though ISI occurs multiple times within a single trial (depending on the setsize), 
-# it will identify only the first occurence as trialonset
-trialonset.message <- "ISI 1" 
-
-# Intertrial interval (Fixation) was 1000 ms but 
-# I am choosing to set only the last 500 ms as pre-trial
-pretrial.duration <- 500
+# Intertrial interval (Fixation) was 2000 ms but 
+# I am choosing to set only the last 1000 ms as pre-trial
+pretrial.duration <- 1000
 
 velocity <- ""
 margin <- ""
@@ -55,17 +61,15 @@ smooth.type <- "hann"
 smooth.window <- 100
 method.first <- "smooth"
 bc <- TRUE
-baselineoffset.message <- "ISI 1"
+baselineoffset.message <- "Tone 1"
 bc.duration <- 200
 bc.type <- "subtractive"
 downsample.binlength <- 20
-subj.prefix <- "_"
-subj.suffix <- "-"
-subset <- "default"
-trial.exclude <- c()
 ################################
 
 preprocess(import = import, pattern = pattern, output = output, taskname = task, eyetracker = eyetracker,
+           subj.prefix = subj.prefix, subj.suffix = subj.suffix,
+           subset = subset, trial.exclude = trial.exclude,
            eye.recorded = eye.recorded, eye.use = eye.use, hz = hz,
            startrecording.message = startrecording.message, startrecording.match = startrecording.match,
            trialonset.message = trialonset.message, pretrial.duration = pretrial.duration,
@@ -73,9 +77,7 @@ preprocess(import = import, pattern = pattern, output = output, taskname = task,
            interpolate = interpolate, interpolate.type = interpolate.type, interpolate.maxgap = interpolate.maxgap,
            smooth = smooth, smooth.type = smooth.type, smooth.window = smooth.window, method.first = method.first,
            bc = bc, baselineoffset.message = baselineoffset.message, bc.duration = bc.duration, bc.type = bc.type,
-           downsample.binlength = downsample.binlength,
-           subj.prefix = subj.prefix, subj.suffix = subj.suffix,
-           subset = subset, trial.exclude = trial.exclude)
+           downsample.binlength = downsample.binlength)
 
 ```
 

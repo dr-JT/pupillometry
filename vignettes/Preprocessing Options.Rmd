@@ -6,7 +6,11 @@ title: "Preprocessing Options"
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-This article covers the various preprocessing options that are currently available
+Besides baseline correction, the two main preprocessing methods the pupillometry package offers are interpolation and smoothing (also referred to as filtering). 
+
+Interpolation is a method to replace missing values in a time-series. There are various ways one can go about replacing missing values. In pupillometry research, two commonly used methods for interpolation are **linear interpolation** and **cubic-spline** interpolation.
+
+Smoothing is a method that attempts to reduce noise in a time-series signal by reducing high frequency changes (sudden increase or decrease in values). In pupillometry research, the two commonly used methods smoothing are **moving window average** and **hanning**. Both are very similar and essentially filters out high frequency patterns in the data - thus they are often referred to as low-pass or low frequency filters.
 
 ## Interpolation
 
@@ -16,9 +20,13 @@ This article covers the various preprocessing options that are currently availab
 
     There are two interpolation types available, `"linear"` and `"cubic-spline"`.
     
-    `"cubic-spline"` interpolation is applied using `na.spline()` from the [zoo package](https://www.rdocumentation.org/packages/zoo/versions/1.7-13/topics/rollapply) and `spline()`
-    
     `"linear"` interpolation is aplied using `na.approx()` from the [zoo package](https://www.rdocumentation.org/packages/zoo/versions/1.7-13/topics/rollapply)
+    
+    Linear interpolation uses a linear trend to replace missing values. Linear produces a straight line through missing values, which is most likely not the true underlying trend.
+    
+    `"cubic-spline"` interpolation is applied using `na.spline()` from the [zoo package](https://www.rdocumentation.org/packages/zoo/versions/1.7-13/topics/rollapply) and `spline()`.
+    
+    Spline interpolation uses low-degree polynomials in each of the intervals, and chooses the polynomial pieces such that they fit smoothly together. The resulting function is called a spline. [Wikipedia](https://en.wikipedia.org/wiki/Interpolation). Cubic-spline produces smoother interpolats than a linear function, and may provide a better representation of the true underlying trend. However, more caution needs to be used when applying a cubic-spline. For instance, the article [Comparison of Preprocessing Methods]() demonstrates that smoothing needs to be performed before applying a cubic-spline interpolation.
     
 * __maxgap__: Maximum duration (milliseconds) of NAs to interpolate over. Any gaps over this value will not be interpolated. (default: Inf)
 

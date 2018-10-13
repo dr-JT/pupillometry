@@ -9,11 +9,11 @@ preprocess(import = "", pattern = "*.txt", output = NULL,
   eye.use = "", hz = "", startrecording.message = "default",
   startrecording.match = "exact", trialonset.message = "",
   pretrial.duration = "", velocity = "", margin = "",
-  interpolate = FALSE, interpolate.type = "",
+  missing.allowed = 1, interpolate = FALSE, interpolate.type = "",
   interpolate.maxgap = Inf, smooth = FALSE, smooth.type = "",
   smooth.window = 5, method.first = NULL, bc = FALSE,
   baselineoffset.message = "", bc.duration = "",
-  bc.type = "subtractive", downsample.binlength = "",
+  bc.type = "subtractive", downsample.binlength = NULL,
   subj.prefix = NULL, subj.suffix = NULL, subset = "default",
   trial.exclude = c())
 }
@@ -48,6 +48,8 @@ preprocess(import = "", pattern = "*.txt", output = NULL,
 
 \item{margin}{The margin before and after Blink onset and offset}
 
+\item{missing.allowed}{What proportion of missing data is allowed, on a trial-by-trial basis? (Default: 1)}
+
 \item{interpolate}{Do you want to do a linear interpolation over missing values?}
 
 \item{interpolate.type}{What type of interpolation to use? linear or cubic-spline}
@@ -70,7 +72,7 @@ preprocess(import = "", pattern = "*.txt", output = NULL,
 
 \item{bc.type}{Do you want to use "subtractive" or "divisive" baseline correction? (default: "subtractive")}
 
-\item{downsample.binlength}{Length of bins to average}
+\item{downsample.binlength}{Length of bins to average (default: NULL)}
 
 \item{subj.prefix}{The unique pattern prefix (letter(s) and/or symbol(s)) that comes before the subject number in the data file}
 
