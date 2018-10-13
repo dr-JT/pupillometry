@@ -27,7 +27,8 @@ plot.comparison <- function(import, files = c(), labels = c(), trial, title = ""
     ggplot2::geom_point(alpha = .35) +
     ggplot2::ggtitle(title) +
     ggplot2::theme(plot.title = ggplot2::element_text(hjust = 0.5)) +
-    ggplot2::labs(color = legend.title, shape = legend.title)
+    ggplot2::labs(color = legend.title, shape = legend.title) +
+    ggplot2::xlab("Time (ms)")
 
   return(plot)
 }
