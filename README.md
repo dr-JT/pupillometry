@@ -59,45 +59,50 @@ If there is a need, a future update might include an option to not save after ea
 ### Example
 ```r
 ## Preprocessing parameters
-import <- "./raw_data"
-output <- "./preprocessed_data"
-task <- "PVT"
+import <- "data/Raw"
 pattern <- "*.txt"
+output <- "data/Preprocessed"
+task <- "Pitch_Discrimination"
 eyetracker <- "smi"
+subj.prefix <- "n_"
+subj.suffix <- "-"
+subset <- "default"
+trial.exclude <- c()
 eye.recorded <- "both"
 eye.use <- "left"
 hz <- 250
 startrecording.message <- "default"
 startrecording.match <- "exact"
-trialonset.message <- "Beep"
-pretrial.duration <- 2000
+trialonset.message <- "Tone 1" 
+pretrial.duration <- 1000
 velocity <- ""
 margin <- ""
+missing.allowed <- .75
 interpolate <- TRUE
 interpolate.type <- "cubic-spline"
-interpolate.maxgap <- 300
-smooth <- FALSE
-smooth.type <- ""
-smooth.window <- ""
+interpolate.maxgap <- 750
+smooth <- TRUE
+smooth.type <- "hann"
+smooth.window <- 500
+method.first <- "smooth"
 bc <- TRUE
-baselineoffset.message <- "Target"
+baselineoffset.message <- "Tone 1"
 bc.duration <- 200
+bc.type <- "subtractive"
 downsample.binlength <- 20
-subj.prefix <- "default"
-subset <- "default"
-trial.exclude <- c()
 ############################
 
-preprocess(import = import, pattern = pattern, output = output, taskname = task, eyetracker = eyetracker, 
+preprocess(import = import, pattern = pattern, output = output, taskname = task, eyetracker = eyetracker,
+           subj.prefix = subj.prefix, subj.suffix = subj.suffix,
+           subset = subset, trial.exclude = trial.exclude,
            eye.recorded = eye.recorded, eye.use = eye.use, hz = hz,
            startrecording.message = startrecording.message, startrecording.match = startrecording.match,
            trialonset.message = trialonset.message, pretrial.duration = pretrial.duration,
-           velocity = velocity, margin = margin,
+           velocity = velocity, margin = margin, missing.allowed = missing.allowed,
            interpolate = interpolate, interpolate.type = interpolate.type, interpolate.maxgap = interpolate.maxgap,
-           smooth = smooth, smooth.type = smooth.type, smooth.window = smooth.window,
-           bc = bc, baselineoffset.message = baselineoffset.message, bc.duration = bc.duration,
-           downsample.binlength = downsample.binlength,
-           subj.prefix = subj.prefix, subset = subset, trial.exclude = trial.exclude)
+           smooth = smooth, smooth.type = smooth.type, smooth.window = smooth.window, method.first = method.first,
+           bc = bc, baselineoffset.message = baselineoffset.message, bc.duration = bc.duration, bc.type = bc.type,
+           downsample.binlength = downsample.binlength)
 ```
 
 ## Planned Updates

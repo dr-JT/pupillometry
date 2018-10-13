@@ -6,13 +6,13 @@ title: "Comparison of Preprocessing Methods"
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-One question you may have is, what parameters should I specify for each preprocessing method? This can be hard to determine if you are not familiar with working on time-series data such as EEG or pupil data.
+One question you may have is, what parameters should I specify for each preprocessing method? This can be hard to determine and it helps to have a visual aid.
 
 ## `plot.comparison()`
 
 With `plot.comparison()` you can visually compare how different preprocessing parameters change the shape of the pupil data.
 
-To use `plot.comparison()` you first need to create the preprocessed data files (from a single raw data file) with `preprocess()`. You may need to rename the file after running each `preprocess()` so that it doesn't get overwritten. 
+To use `plot.comparison()` you first need to create the preprocessed data files with different parameters (from a single raw data file) with `preprocess()`. You may need to rename the file after running each `preprocess()` so that it doesn't get overwritten. 
 
 Parameters:
 
@@ -34,9 +34,9 @@ Parameters:
 
 ## Usage
 
-There might be many comparisons you would like to make. For visual purposes it probably is best to not display more than three time-series on a graph at one time. You should also include a time-series in which no preprocessing has been performed, the `naremoved` file.
+There might be many comparisons you would like to make. For visual purposes it probably is best to not display more than three time-series on a graph at one time. You should also include a time-series in which no preprocessing has been performed, that is the `naremoved` file.
 
-You might want to compare different smoothing window sizes `smooth.window`, or different maxgap sizes `interpolate.maxgap`. Once you have created the data files using differrent preprocessing parameters, all you need to do is `plot.comparison()`. 
+Some comparisons you might want to make are different smoothing window sizes `smooth.window`, or different maxgap sizes `interpolate.maxgap`.
 
 ## method.first
 
@@ -54,13 +54,13 @@ On Trial 6 there is a couple of "major" gaps of missing pupil data. You can see 
 
 trial 6 fig.
 
-<img src="man/figures/Trial6-interpolation.type.png" align = "center" />
+<img src="reference/figures/Trial6-interpolation.type.png" align = "center" />
 
 ********
 
 Here is the same trial but with also smoothing applied. With either `method.first = "smooth"` (green line) or `method.first = "interpolate"` (pink line). Again it is clear that, unless smoothing is applied before a `cubic-spline` interpolation, then the data may become too distorted. 
 
-<img src="man/figures/Trial6--cubic-spline-hann.png" align = "center" />
+<img src="reference/figures/Trial6--cubic-spline-hann.png" align = "center" />
 
 <br><br>
 
@@ -68,7 +68,7 @@ Here is the same trial but with also smoothing applied. With either `method.firs
 
 There is not as big of a difference for `linear` interpolation. Visually, it does still seem slightly better to apply `method.first = "smooth"` as well. 
 
-<img src="man/figures/Trial6--linear-hann.type.png" align = "center" />
+<img src="reference/figures/Trial6--linear-hann.type.png" align = "center" />
 
 <br><br>
 
@@ -76,7 +76,7 @@ There is not as big of a difference for `linear` interpolation. Visually, it doe
 
 And here is Trial 6 if you were to do smoothing but no interpolation
 
-<img src="man/figures/Trial6-smooth.type.png" align = "center" />
+<img src="reference/figures/Trial6-smooth.type.png" align = "center" />
 
 <br><br>
 
@@ -84,7 +84,7 @@ And here is Trial 6 if you were to do smoothing but no interpolation
 
 Trial 2 shows a similar pattern. It seems that with larger gaps of missing data the extreme exaggeration of the `cubic-spline` interpolation gets worse.
 
-<img src="man/figures/Trial2--cubic-spline-hann.png" align = "center" />
+<img src="reference/figures/Trial2--cubic-spline-hann.png" align = "center" />
 
 
 
