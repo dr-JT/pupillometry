@@ -52,8 +52,6 @@ In all the figures, at some point the time-series "lines" might overlap consider
 
 On Trial 6 there is a couple of "major" gaps of missing pupil data. You can see that if you use `cubic-spline` interpolation without smoothing, then the interpolated values are exaggerated and most likely unrealistic (see the period of 0 - 500 ms). It is very unlikely that pupil size is decreasing and then increasing by over 1 mm within a 500 ms interval. It is likely that the `cubic-spline` interpolation is modeling too much high frequency noise in the data. You can see that the `linear` interpolation does not suffer from the same problem. However, if there was truly a decrease during that interval then the `linear` interpolation is not capturing that.
 
-trial 6 fig.
-
 <img src="../reference/figures/Trial6-interpolation.type.png" align = "center" />
 
 ********
@@ -68,7 +66,7 @@ Here is the same trial but with also smoothing applied. With either `method.firs
 
 There is not as big of a difference for `linear` interpolation. Visually, it does still seem slightly better to apply `method.first = "smooth"` as well. 
 
-<img src="../reference/figures/Trial6--linear-hann.type.png" align = "center" />
+<img src="../reference/figures/Trial6--linear-hann.png" align = "center" />
 
 <br><br>
 
