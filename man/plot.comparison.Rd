@@ -23,3 +23,4 @@
 \description{
 This function will print ggplot figures of na.removed, method.first = interpolate, and method.first = smooth
 }
+\keyword{plot}
