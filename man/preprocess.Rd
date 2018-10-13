@@ -5,17 +5,16 @@
 \title{Pupil Data Function}
 \usage{
 preprocess(import = "", pattern = "*.txt", output = NULL,
-  export = "", taskname = "", eyetracker = "", eye.recorded = "",
-  eye.use = "", hz = "", startrecording.message = "default",
-  startrecording.match = "exact", trialonset.message = "",
-  pretrial.duration = "", velocity = "", margin = "",
-  missing.allowed = 1, interpolate = FALSE, interpolate.type = "",
-  interpolate.maxgap = Inf, smooth = FALSE, smooth.type = "",
-  smooth.window = 5, method.first = NULL, bc = FALSE,
-  baselineoffset.message = "", bc.duration = "",
-  bc.type = "subtractive", downsample.binlength = NULL,
-  subj.prefix = NULL, subj.suffix = NULL, subset = "default",
-  trial.exclude = c())
+  export = "", taskname = "", eyetracker = "", subj.prefix = NULL,
+  subj.suffix = NULL, subset = "default", trial.exclude = c(),
+  eye.recorded = "", eye.use = "", hz = "",
+  startrecording.message = "default", startrecording.match = "exact",
+  trialonset.message = "", pretrial.duration = "", velocity = "",
+  margin = "", missing.allowed = 1, interpolate = FALSE,
+  interpolate.type = "", interpolate.maxgap = Inf, smooth = FALSE,
+  smooth.type = "", smooth.window = 5, method.first = NULL,
+  bc = FALSE, baselineoffset.message = "", bc.duration = "",
+  bc.type = "subtractive", downsample.binlength = NULL)
 }
 \arguments{
 \item{import}{Folder path to raw data files}
@@ -29,6 +28,14 @@ preprocess(import = "", pattern = "*.txt", output = NULL,
 \item{taskname}{Name of task - to be used in naming pre-processed files}
 
 \item{eyetracker}{Which eye-tracker was used to record data}
+
+\item{subj.prefix}{The unique pattern prefix (letter(s) and/or symbol(s)) that comes before the subject number in the data file}
+
+\item{subj.suffix}{The unique pattern suffix (letter(s) or symbol(s)) that comes after the subject number in the data file}
+
+\item{subset}{Which columns in the raw data output file do you want to keep}
+
+\item{trial.exclude}{Specify if ther are any trials to exclude. Trial number}
 
 \item{eye.recorded}{Do you want to inclue the "left", "right', or "both" eyes?}
 
@@ -73,14 +80,6 @@ preprocess(import = "", pattern = "*.txt", output = NULL,
 \item{bc.type}{Do you want to use "subtractive" or "divisive" baseline correction? (default: "subtractive")}
 
 \item{downsample.binlength}{Length of bins to average (default: NULL)}
-
-\item{subj.prefix}{The unique pattern prefix (letter(s) and/or symbol(s)) that comes before the subject number in the data file}
-
-\item{subj.suffix}{The unique pattern suffix (letter(s) or symbol(s)) that comes after the subject number in the data file}
-
-\item{subset}{Which columns in the raw data output file do you want to keep}
-
-\item{trial.exclude}{Specify if ther are any trials to exclude. Trial number}
 }
 \description{
 This function will perform preprocessing on an entire folder of data files. It takes as input a specified folder path

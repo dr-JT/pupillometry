@@ -8,6 +8,10 @@
 #' @param export Folder path to export preprocessed data to
 #' @param taskname Name of task - to be used in naming pre-processed files
 #' @param eyetracker Which eye-tracker was used to record data
+#' @param subj.prefix The unique pattern prefix (letter(s) and/or symbol(s)) that comes before the subject number in the data file
+#' @param subj.suffix The unique pattern suffix (letter(s) or symbol(s)) that comes after the subject number in the data file
+#' @param subset Which columns in the raw data output file do you want to keep
+#' @param trial.exclude Specify if ther are any trials to exclude. Trial number
 #' @param eye.recorded Do you want to inclue the "left", "right', or "both" eyes?
 #' @param eye.use Which eye to use? Left or right
 #' @param hz At which frequency was pupil data sampled at? (only required for interpolation and smoothing)
@@ -30,16 +34,13 @@
 #' @param bc.duration Duration baseline period(s) to use for correction
 #' @param bc.type Do you want to use "subtractive" or "divisive" baseline correction? (default: "subtractive")
 #' @param downsample.binlength Length of bins to average (default: NULL)
-#' @param subj.prefix The unique pattern prefix (letter(s) and/or symbol(s)) that comes before the subject number in the data file
-#' @param subj.suffix The unique pattern suffix (letter(s) or symbol(s)) that comes after the subject number in the data file
-#' @param subset Which columns in the raw data output file do you want to keep
-#' @param trial.exclude Specify if ther are any trials to exclude. Trial number
 #' @keywords preprocess
 #' @export
 #' @examples
 #'
 #'
 preprocess <- function(import = "", pattern = "*.txt", output = NULL, export = "", taskname = "", eyetracker = "",
+                       subj.prefix = NULL, subj.suffix = NULL, subset = "default", trial.exclude = c(),
                        eye.recorded = "", eye.use = "", hz = "",
                        startrecording.message = "default",  startrecording.match = "exact",
                        trialonset.message = "", pretrial.duration = "",
@@ -47,9 +48,7 @@ preprocess <- function(import = "", pattern = "*.txt", output = NULL, export = "
                        interpolate = FALSE, interpolate.type = "", interpolate.maxgap = Inf,
                        smooth = FALSE, smooth.type = "", smooth.window = 5, method.first = NULL,
                        bc = FALSE, baselineoffset.message = "", bc.duration = "", bc.type = "subtractive",
-                       downsample.binlength = NULL,
-                       subj.prefix = NULL, subj.suffix = NULL,
-                       subset = "default", trial.exclude = c()){
+                       downsample.binlength = NULL){
 
   if (is.null(output)){
     output <- export
