@@ -1,7 +1,8 @@
-pandoc: 2.2.3.2
+pandoc: 1.19.2.1
 pkgdown: 1.1.0
 pkgdown_sha: ~
 articles:
+  Comparison of Preprocessing Methods: Comparison of Preprocessing Methods.html
   Example Data Set: Example Data Set.html
   Message Markers: Message Markers.html
   Preprocessing Options: Preprocessing Options.html

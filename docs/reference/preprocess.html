@@ -93,6 +93,9 @@ and outputs the preprocessed data to a specified folder path" />
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
+      <a href="../articles/Comparison of Preprocessing Methods.html">Comparison of Preprocessing Methods</a>
+    </li>
+    <li>
       <a href="../articles/Example Data Set.html">Example Data Set</a>
     </li>
     <li>
@@ -146,17 +149,16 @@ and outputs the preprocessed data to a specified folder path</p>
     </div>
 
     <pre class="usage"><span class='fu'>preprocess</span>(<span class='kw'>import</span> <span class='kw'>=</span> <span class='st'>""</span>, <span class='kw'>pattern</span> <span class='kw'>=</span> <span class='st'>"*.txt"</span>, <span class='kw'>output</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>export</span> <span class='kw'>=</span> <span class='st'>""</span>, <span class='kw'>taskname</span> <span class='kw'>=</span> <span class='st'>""</span>, <span class='kw'>eyetracker</span> <span class='kw'>=</span> <span class='st'>""</span>, <span class='kw'>eye.recorded</span> <span class='kw'>=</span> <span class='st'>""</span>,
-  <span class='kw'>eye.use</span> <span class='kw'>=</span> <span class='st'>""</span>, <span class='kw'>hz</span> <span class='kw'>=</span> <span class='st'>""</span>, <span class='kw'>startrecording.message</span> <span class='kw'>=</span> <span class='st'>"default"</span>,
-  <span class='kw'>startrecording.match</span> <span class='kw'>=</span> <span class='st'>"exact"</span>, <span class='kw'>trialonset.message</span> <span class='kw'>=</span> <span class='st'>""</span>,
-  <span class='kw'>pretrial.duration</span> <span class='kw'>=</span> <span class='st'>""</span>, <span class='kw'>velocity</span> <span class='kw'>=</span> <span class='st'>""</span>, <span class='kw'>margin</span> <span class='kw'>=</span> <span class='st'>""</span>,
-  <span class='kw'>interpolate</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>interpolate.type</span> <span class='kw'>=</span> <span class='st'>""</span>,
-  <span class='kw'>interpolate.maxgap</span> <span class='kw'>=</span> <span class='fl'>Inf</span>, <span class='kw'>smooth</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>smooth.type</span> <span class='kw'>=</span> <span class='st'>""</span>,
-  <span class='kw'>smooth.window</span> <span class='kw'>=</span> <span class='fl'>5</span>, <span class='kw'>method.first</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>bc</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>baselineoffset.message</span> <span class='kw'>=</span> <span class='st'>""</span>, <span class='kw'>bc.duration</span> <span class='kw'>=</span> <span class='st'>""</span>,
-  <span class='kw'>bc.type</span> <span class='kw'>=</span> <span class='st'>"subtractive"</span>, <span class='kw'>downsample.binlength</span> <span class='kw'>=</span> <span class='st'>""</span>,
-  <span class='kw'>subj.prefix</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>subj.suffix</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>subset</span> <span class='kw'>=</span> <span class='st'>"default"</span>,
-  <span class='kw'>trial.exclude</span> <span class='kw'>=</span> <span class='fu'>c</span>())</pre>
+  <span class='kw'>export</span> <span class='kw'>=</span> <span class='st'>""</span>, <span class='kw'>taskname</span> <span class='kw'>=</span> <span class='st'>""</span>, <span class='kw'>eyetracker</span> <span class='kw'>=</span> <span class='st'>""</span>, <span class='kw'>subj.prefix</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>subj.suffix</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>subset</span> <span class='kw'>=</span> <span class='st'>"default"</span>, <span class='kw'>trial.exclude</span> <span class='kw'>=</span> <span class='fu'>c</span>(),
+  <span class='kw'>eye.recorded</span> <span class='kw'>=</span> <span class='st'>""</span>, <span class='kw'>eye.use</span> <span class='kw'>=</span> <span class='st'>""</span>, <span class='kw'>hz</span> <span class='kw'>=</span> <span class='st'>""</span>,
+  <span class='kw'>startrecording.message</span> <span class='kw'>=</span> <span class='st'>"default"</span>, <span class='kw'>startrecording.match</span> <span class='kw'>=</span> <span class='st'>"exact"</span>,
+  <span class='kw'>trialonset.message</span> <span class='kw'>=</span> <span class='st'>""</span>, <span class='kw'>pretrial.duration</span> <span class='kw'>=</span> <span class='st'>""</span>, <span class='kw'>velocity</span> <span class='kw'>=</span> <span class='st'>""</span>,
+  <span class='kw'>margin</span> <span class='kw'>=</span> <span class='st'>""</span>, <span class='kw'>missing.allowed</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>interpolate</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>interpolate.type</span> <span class='kw'>=</span> <span class='st'>""</span>, <span class='kw'>interpolate.maxgap</span> <span class='kw'>=</span> <span class='fl'>Inf</span>, <span class='kw'>smooth</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>smooth.type</span> <span class='kw'>=</span> <span class='st'>""</span>, <span class='kw'>smooth.window</span> <span class='kw'>=</span> <span class='fl'>5</span>, <span class='kw'>method.first</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>bc</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>baselineoffset.message</span> <span class='kw'>=</span> <span class='st'>""</span>, <span class='kw'>bc.duration</span> <span class='kw'>=</span> <span class='st'>""</span>,
+  <span class='kw'>bc.type</span> <span class='kw'>=</span> <span class='st'>"subtractive"</span>, <span class='kw'>downsample.binlength</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -184,6 +186,22 @@ and outputs the preprocessed data to a specified folder path</p>
     <tr>
       <th>eyetracker</th>
       <td><p>Which eye-tracker was used to record data</p></td>
+    </tr>
+    <tr>
+      <th>subj.prefix</th>
+      <td><p>The unique pattern prefix (letter(s) and/or symbol(s)) that comes before the subject number in the data file</p></td>
+    </tr>
+    <tr>
+      <th>subj.suffix</th>
+      <td><p>The unique pattern suffix (letter(s) or symbol(s)) that comes after the subject number in the data file</p></td>
+    </tr>
+    <tr>
+      <th>subset</th>
+      <td><p>Which columns in the raw data output file do you want to keep</p></td>
+    </tr>
+    <tr>
+      <th>trial.exclude</th>
+      <td><p>Specify if ther are any trials to exclude. Trial number</p></td>
     </tr>
     <tr>
       <th>eye.recorded</th>
@@ -220,6 +238,10 @@ and outputs the preprocessed data to a specified folder path</p>
     <tr>
       <th>margin</th>
       <td><p>The margin before and after Blink onset and offset</p></td>
+    </tr>
+    <tr>
+      <th>missing.allowed</th>
+      <td><p>What proportion of missing data is allowed, on a trial-by-trial basis? (Default: 1)</p></td>
     </tr>
     <tr>
       <th>interpolate</th>
@@ -267,23 +289,7 @@ and outputs the preprocessed data to a specified folder path</p>
     </tr>
     <tr>
       <th>downsample.binlength</th>
-      <td><p>Length of bins to average</p></td>
-    </tr>
-    <tr>
-      <th>subj.prefix</th>
-      <td><p>The unique pattern prefix (letter(s) and/or symbol(s)) that comes before the subject number in the data file</p></td>
-    </tr>
-    <tr>
-      <th>subj.suffix</th>
-      <td><p>The unique pattern suffix (letter(s) or symbol(s)) that comes after the subject number in the data file</p></td>
-    </tr>
-    <tr>
-      <th>subset</th>
-      <td><p>Which columns in the raw data output file do you want to keep</p></td>
-    </tr>
-    <tr>
-      <th>trial.exclude</th>
-      <td><p>Specify if ther are any trials to exclude. Trial number</p></td>
+      <td><p>Length of bins to average (default: NULL)</p></td>
     </tr>
     </table>
     

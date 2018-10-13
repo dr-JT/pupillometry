@@ -53,6 +53,7 @@ pretrial.duration <- 1000
 
 velocity <- ""
 margin <- ""
+missing.allowed <- .75
 interpolate <- TRUE
 interpolate.type <- "cubic-spline"
 interpolate.maxgap <- Inf

@@ -55,6 +55,9 @@
   </a>
   <ul class="dropdown-menu" role="menu">
 <li>
+      <a href="../articles/Comparison%20of%20Preprocessing%20Methods.html">Comparison of Preprocessing Methods</a>
+    </li>
+    <li>
       <a href="../articles/Example%20Data%20Set.html">Example Data Set</a>
     </li>
     <li>
@@ -104,7 +107,9 @@
 
     
     
-<p>This article covers the various preprocessing options that are currently available</p>
+<p>Besides baseline correction, the two main preprocessing methods the pupillometry package offers are interpolation and smoothing (also referred to as filtering).</p>
+<p>Interpolation is a method to replace missing values in a time-series. There are various ways one can go about replacing missing values. In pupillometry research, two commonly used methods for interpolation are <strong>linear interpolation</strong> and <strong>cubic-spline</strong> interpolation.</p>
+<p>Smoothing is a method that attempts to reduce noise in a time-series signal by reducing high frequency changes (sudden increase or decrease in values). In pupillometry research, the two commonly used methods smoothing are <strong>moving window average</strong> and <strong>hanning</strong>. Both are very similar and essentially filters out high frequency patterns in the data - thus they are often referred to as low-pass or low frequency filters.</p>
 <div id="interpolation" class="section level2">
 <h2 class="hasAnchor">
 <a href="#interpolation" class="anchor"></a>Interpolation</h2>
@@ -113,18 +118,18 @@
 <li>
 <p><strong>type</strong>: What type of interpolation to use? (default: cubic-spline)</p>
 <p>There are two interpolation types available, <code>"linear"</code> and <code>"cubic-spline"</code>.</p>
-<p><code>"cubic-spline"</code> interpolation is applied using <code>na.spline()</code> from the <a href="https://www.rdocumentation.org/packages/zoo/versions/1.7-13/topics/rollapply">zoo package</a> and <code>spline()</code></p>
 <p><code>"linear"</code> interpolation is aplied using <code>na.approx()</code> from the <a href="https://www.rdocumentation.org/packages/zoo/versions/1.7-13/topics/rollapply">zoo package</a></p>
+<p>Linear interpolation uses a linear trend to replace missing values. Linear produces a straight line through missing values, which is most likely not the true underlying trend.</p>
+<p><code>"cubic-spline"</code> interpolation is applied using <code>na.spline()</code> from the <a href="https://www.rdocumentation.org/packages/zoo/versions/1.7-13/topics/rollapply">zoo package</a> and <code>spline()</code>.</p>
+<p>Spline interpolation uses low-degree polynomials in each of the intervals, and chooses the polynomial pieces such that they fit smoothly together. The resulting function is called a spline. <a href="https://en.wikipedia.org/wiki/Interpolation">Wikipedia</a>. Cubic-spline produces smoother interpolats than a linear function, and may provide a better representation of the true underlying trend. However, more caution needs to be used when applying a cubic-spline. For instance, the article <a href="">Comparison of Preprocessing Methods</a> demonstrates that smoothing needs to be performed before applying a cubic-spline interpolation.</p>
 </li>
 <li>
 <p><strong>maxgap</strong>: Maximum duration (milliseconds) of NAs to interpolate over. Any gaps over this value will not be interpolated. (default: Inf)</p>
 <p>This can be a good idea to avoid interpolating over large chunks of missing data. The default (Inf) does not have a maxgap limit.</p>
 </li>
-<li>
-<p><strong>hz</strong>: The recording frequency of the eyetracker. (Only needed if using maxgap)</p>
-<p>If maxgap is specified, then you need to also specify the recording frequency of the eyetracker. This will be used to convert the maxgap in milliseconds to number of samples (rows) in the dataframe.</p>
-</li>
+<li><p><strong>hz</strong>: The recording frequency of the eyetracker. (Only needed if using maxgap)</p></li>
 </ul>
+<p>If maxgap is specified, then you need to also specify the recording frequency of the eyetracker. This will be used to convert the maxgap in milliseconds to number of samples (rows) in the dataframe.</p>
 </div>
 <div id="smoothing" class="section level2">
 <h2 class="hasAnchor">

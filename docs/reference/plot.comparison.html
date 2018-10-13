@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Messy to Tidy Raw Eye-Tracker Data File — tidy_eyetracker • pupillometry</title>
+<title>Testing Function — plot.comparison • pupillometry</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -36,12 +36,9 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/jquery.mark.min.js" integrity="sha256-4HLtjeVgH0eIB3aZ9mLYF6E8oU5chNdjU6p6rrXpl9U=" crossorigin="anonymous"></script>
 
 
-<meta property="og:title" content="Messy to Tidy Raw Eye-Tracker Data File — tidy_eyetracker" />
+<meta property="og:title" content="Testing Function — plot.comparison" />
 
-<meta property="og:description" content="This function converts a &quot;messy&quot; raw eye-tracker data file to a &quot;tidy&quot; raw data file.
-Different eye-trackers will save the raw data file using completely different organizations and naming conventions
-This function will create a &quot;tidy&quot; raw data file that has a standard organization and naming convention, regardless of which eye-tracker was used.
-Supported Eye-Tracker Systems: Sensomotoric Instruments (&quot;smi&quot;) and SR-Research EyeLink (&quot;eyelink&quot;)" />
+<meta property="og:description" content="This function will print ggplot figures of na.removed, method.first = interpolate, and method.first = smooth" />
 
 <meta property="og:image" content="https://dr-jt.github.io/pupillometry/logo.png" />
 <meta name="twitter:card" content="summary" />
@@ -138,77 +135,57 @@ Supported Eye-Tracker Systems: Sensomotoric Instruments (&quot;smi&quot;) and SR
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Messy to Tidy Raw Eye-Tracker Data File</h1>
-    <small class="dont-index">Source: <a href='https://github.com/dr-JT/pupillometry/blob/master/R/tidy_eyetracker.R'><code>R/tidy_eyetracker.R</code></a></small>
-    <div class="hidden name"><code>tidy_eyetracker.Rd</code></div>
+    <h1>Testing Function</h1>
+    <small class="dont-index">Source: <a href='https://github.com/dr-JT/pupillometry/blob/master/R/plot.comparison.R'><code>R/plot.comparison.R</code></a></small>
+    <div class="hidden name"><code>plot.comparison.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>This function converts a "messy" raw eye-tracker data file to a "tidy" raw data file.
-Different eye-trackers will save the raw data file using completely different organizations and naming conventions
-This function will create a "tidy" raw data file that has a standard organization and naming convention, regardless of which eye-tracker was used.
-Supported Eye-Tracker Systems: Sensomotoric Instruments ("smi") and SR-Research EyeLink ("eyelink")</p>
+    <p>This function will print ggplot figures of na.removed, method.first = interpolate, and method.first = smooth</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>tidy_eyetracker</span>(<span class='no'>file</span>, <span class='kw'>eyetracker</span> <span class='kw'>=</span> <span class='st'>""</span>,
-  <span class='kw'>startrecording.message</span> <span class='kw'>=</span> <span class='st'>"default"</span>, <span class='kw'>startrecording.match</span> <span class='kw'>=</span> <span class='st'>"exact"</span>,
-  <span class='kw'>eye.recorded</span> <span class='kw'>=</span> <span class='st'>""</span>, <span class='kw'>subj.prefix</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>subj.suffix</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>subset</span> <span class='kw'>=</span> <span class='st'>"default"</span>, <span class='kw'>trial.exclude</span> <span class='kw'>=</span> <span class='fu'>c</span>())</pre>
+    <pre class="usage"><span class='co'># S3 method for comparison</span>
+<span class='fu'>plot</span>(<span class='no'>import</span>, <span class='kw'>files</span> <span class='kw'>=</span> <span class='fu'>c</span>(), <span class='kw'>labels</span> <span class='kw'>=</span> <span class='fu'>c</span>(), <span class='no'>trial</span>,
+  <span class='kw'>title</span> <span class='kw'>=</span> <span class='st'>""</span>, <span class='kw'>legend.title</span> <span class='kw'>=</span> <span class='st'>"Labels"</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>file</th>
-      <td><p>A file path to the raw data export file</p></td>
+      <th>import</th>
+      <td><p>Directory with preprocessed data files for comparison</p></td>
     </tr>
     <tr>
-      <th>eyetracker</th>
-      <td><p>Which eye-tracker system was used to record data?</p></td>
+      <th>files</th>
+      <td><p>Vector of files to be compared</p></td>
     </tr>
     <tr>
-      <th>startrecording.message</th>
-      <td><p>Message used in SMI experiment to mark StartTracking inline</p></td>
+      <th>labels</th>
+      <td><p>Vector of labels for plotting.</p></td>
     </tr>
     <tr>
-      <th>startrecording.match</th>
-      <td><p>Should the message string be an "exact" match or a "pattern" match?</p></td>
+      <th>trial</th>
+      <td><p>Which trial to filter on</p></td>
     </tr>
     <tr>
-      <th>eye.recorded</th>
-      <td><p>Do you want to inclue the "left", "right', or "both" eyes?</p></td>
+      <th>title</th>
+      <td><p>Title the graph</p></td>
     </tr>
     <tr>
-      <th>subj.prefix</th>
-      <td><p>The unique pattern prefix (letter(s) and/or symbol(s)) that comes before the subject number in the data file</p></td>
-    </tr>
-    <tr>
-      <th>subj.suffix</th>
-      <td><p>The unique pattern suffix (letter(s) or symbol(s)) that comes after the subject number in the data file</p></td>
-    </tr>
-    <tr>
-      <th>subset</th>
-      <td><p>Which columns in the raw data export file do you want to keep</p></td>
-    </tr>
-    <tr>
-      <th>trial.exclude</th>
-      <td><p>Specify if ther are any trials to exclude. Trial number</p></td>
+      <th>legend.title</th>
+      <td><p>Title the legend</p></td>
     </tr>
     </table>
     
 
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>tidy_eyetracker</span>(<span class='kw'>file</span> <span class='kw'>=</span> <span class='st'>"path/filename.txt"</span>, <span class='kw'>subset</span> <span class='kw'>=</span> <span class='fu'>c</span>(), <span class='kw'>message.column</span> <span class='kw'>=</span> <span class='st'>"columnName"</span>, <span class='kw'>track.start</span> <span class='kw'>=</span> <span class='st'>"# Message: StartTracking.bmp"</span>, <span class='kw'>eye</span> <span class='kw'>=</span> <span class='st'>"both"</span>)</div><div class='output co'>#&gt; <span class='error'>Error in tidy_eyetracker(file = "path/filename.txt", subset = c(), message.column = "columnName",     track.start = "# Message: StartTracking.bmp", eye = "both"): argument 5 matches multiple formal arguments</span></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-            
-      <li><a href="#examples">Examples</a></li>
-    </ul>
+                </ul>
 
   </div>
 </div>

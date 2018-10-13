@@ -54,13 +54,13 @@ On Trial 6 there is a couple of "major" gaps of missing pupil data. You can see 
 
 trial 6 fig.
 
-<br><br>
+<img src="man/figures/Trial6-interpolation.type.png" align = "center" />
 
 ********
 
 Here is the same trial but with also smoothing applied. With either `method.first = "smooth"` (green line) or `method.first = "interpolate"` (pink line). Again it is clear that, unless smoothing is applied before a `cubic-spline` interpolation, then the data may become too distorted. 
 
-trial 6 fig.
+<img src="man/figures/Trial6--cubic-spline-hann.png" align = "center" />
 
 <br><br>
 
@@ -68,7 +68,7 @@ trial 6 fig.
 
 There is not as big of a difference for `linear` interpolation. Visually, it does still seem slightly better to apply `method.first = "smooth"` as well. 
 
-trial 6 fig.
+<img src="man/figures/Trial6--linear-hann.type.png" align = "center" />
 
 <br><br>
 
@@ -76,7 +76,7 @@ trial 6 fig.
 
 And here is Trial 6 if you were to do smoothing but no interpolation
 
-trial 6 fig.
+<img src="man/figures/Trial6-smooth.type.png" align = "center" />
 
 <br><br>
 
@@ -84,7 +84,7 @@ trial 6 fig.
 
 Trial 2 shows a similar pattern. It seems that with larger gaps of missing data the extreme exaggeration of the `cubic-spline` interpolation gets worse.
 
-trial 2 figs.
+<img src="man/figures/Trial2--cubic-spline-hann.png" align = "center" />
 
 
 

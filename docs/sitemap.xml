@@ -4,6 +4,9 @@
     <loc>https://dr-jt.github.io/pupillometry//index.html</loc>
   </url>
   <url>
+    <loc>https://dr-jt.github.io/pupillometry//reference/plot.comparison.html</loc>
+  </url>
+  <url>
     <loc>https://dr-jt.github.io/pupillometry//reference/preprocess.html</loc>
   </url>
   <url>
@@ -14,6 +17,9 @@
   </url>
   <url>
     <loc>https://dr-jt.github.io/pupillometry//reference/pupil.downsample.html</loc>
+  </url>
+  <url>
+    <loc>https://dr-jt.github.io/pupillometry//reference/pupil.eye.html</loc>
   </url>
   <url>
     <loc>https://dr-jt.github.io/pupillometry//reference/pupil.interpolate.html</loc>
@@ -35,6 +41,9 @@
   </url>
   <url>
     <loc>https://dr-jt.github.io/pupillometry//reference/tidy_eyetracker.html</loc>
+  </url>
+  <url>
+    <loc>https://dr-jt.github.io/pupillometry//articles/Comparison of Preprocessing Methods.html</loc>
   </url>
   <url>
     <loc>https://dr-jt.github.io/pupillometry//articles/Example Data Set.html</loc>
