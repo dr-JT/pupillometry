@@ -1,0 +1,60 @@
+# devtools::install_github("dr-JT/pupillometry")
+
+library(pupillometry)
+
+## Preprocessing Parameters ####
+import <- "test/Raw"
+pattern <- "*.txt"
+output <- "test"
+task <- "Pitch_Discrimination"
+eyetracker <- "smi"
+
+# Eyetrackers save the subject # information in different ways and is not always easy to obtain
+# The most versatile method is to extract it from the datafile name. You need to identify a
+# unique subj.prefix pattern and subj.suffix pattern that surrounds the subject # in the
+# datafile name. In this case it would be
+subj.prefix <- "n_" # There are multiple underscores in this datafile name so it needs to be more specific "n_"
+subj.suffix <- "-"
+
+subset <- "default"
+trial.exclude <- c()
+
+eye.recorded <- "both"
+eye.use <- "left"
+hz <- 250
+startrecording.message <- "default"
+startrecording.match <- "exact"
+trialonset.message <- "Tone 1"
+
+# Intertrial interval (Fixation) was 2000 ms but
+# I am choosing to set only the last 1000 ms as pre-trial
+pretrial.duration <- 1000
+
+velocity <- ""
+margin <- ""
+missing.allowed <- .75
+interpolate <- TRUE
+interpolate.type <- "cubic-spline"
+interpolate.maxgap <- Inf
+smooth <- TRUE
+smooth.type <- "hann"
+smooth.window <- 100
+method.first <- "smooth"
+bc <- TRUE
+baselineoffset.message <- "Tone 1"
+bc.duration <- 200
+bc.type <- "subtractive"
+downsample.binlength <- 20
+################################
+
+preprocess(import = import, pattern = pattern, output = output, taskname = task, eyetracker = eyetracker,
+           subj.prefix = subj.prefix, subj.suffix = subj.suffix,
+           subset = subset, trial.exclude = trial.exclude,
+           eye.recorded = eye.recorded, eye.use = eye.use, hz = hz,
+           startrecording.message = startrecording.message, startrecording.match = startrecording.match,
+           trialonset.message = trialonset.message, pretrial.duration = pretrial.duration,
+           velocity = velocity, margin = margin, missing.allowed = missing.allowed,
+           interpolate = interpolate, interpolate.type = interpolate.type, interpolate.maxgap = interpolate.maxgap,
+           smooth = smooth, smooth.type = smooth.type, smooth.window = smooth.window, method.first = method.first,
+           bc = bc, baselineoffset.message = baselineoffset.message, bc.duration = bc.duration, bc.type = bc.type,
+           downsample.binlength = downsample.binlength)

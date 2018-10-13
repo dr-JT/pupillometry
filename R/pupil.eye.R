@@ -21,20 +21,20 @@ pupil.eye <- function(x, eye.recorded = "", eye.use = ""){
     if (eye.use=="left"){
       x <- dplyr::rename(x,
                          Pupil_Diameter.mm = L_Pupil_Diameter.mm,
-                         Eye_Event = L_Event)
+                         Event = L_Event)
       x <- dplyr::select(x, -R_Pupil_Diameter.mm, -R_Event)
     } else if (eye.use=="right"){
       x <- dplyr::rename(x,
                          Pupil_Diameter.mm = R_Pupil_Diameter.mm,
-                         Eye_Event = R_Event)
+                         Event = R_Event)
       x <- dplyr::select(x, -L_Pupil_Diameter.mm, -L_Event)
     }
   } else if (eye.recorded=="left"){
     x <- dplyr::rename(x, Pupil_Diameter.mm = L_Pupil_Diameter.mm,
-                          Eye_Event = L_Event)
+                          Event = L_Event)
   } else if (eye.recorded=="right"){
     x <- dplyr::rename(x, Pupil_Diameter.mm = R_Pupil_Diameter.mm,
-                          Eye_Event = R_Event)
+                          Event = R_Event)
   }
   return(x)
 }
