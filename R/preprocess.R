@@ -17,6 +17,7 @@
 #' @param pretrial.duration Duration of pre-trial baseline period in milliseconds
 #' @param velocity The velocity threshold for Blink detection
 #' @param margin The margin before and after Blink onset and offset
+#' @param missing.allowed What proportion of missing data is allowed, on a trial-by-trial basis? (Default: 1)
 #' @param interpolate Do you want to do a linear interpolation over missing values?
 #' @param interpolate.type What type of interpolation to use? linear or cubic-spline
 #' @param interpolate.maxgap Maximum number of NAs to interpolate over. Anything gaps over this value will not be interpolated.
@@ -28,7 +29,7 @@
 #' @param baselineoffset.message Message string(s) that marks the offset of baseline period(s)
 #' @param bc.duration Duration baseline period(s) to use for correction
 #' @param bc.type Do you want to use "subtractive" or "divisive" baseline correction? (default: "subtractive")
-#' @param downsample.binlength Length of bins to average
+#' @param downsample.binlength Length of bins to average (default: NULL)
 #' @param subj.prefix The unique pattern prefix (letter(s) and/or symbol(s)) that comes before the subject number in the data file
 #' @param subj.suffix The unique pattern suffix (letter(s) or symbol(s)) that comes after the subject number in the data file
 #' @param subset Which columns in the raw data output file do you want to keep
@@ -42,11 +43,11 @@ preprocess <- function(import = "", pattern = "*.txt", output = NULL, export = "
                        eye.recorded = "", eye.use = "", hz = "",
                        startrecording.message = "default",  startrecording.match = "exact",
                        trialonset.message = "", pretrial.duration = "",
-                       velocity = "", margin = "",
+                       velocity = "", margin = "", missing.allowed = 1,
                        interpolate = FALSE, interpolate.type = "", interpolate.maxgap = Inf,
                        smooth = FALSE, smooth.type = "", smooth.window = 5, method.first = NULL,
                        bc = FALSE, baselineoffset.message = "", bc.duration = "", bc.type = "subtractive",
-                       downsample.binlength = "",
+                       downsample.binlength = NULL,
                        subj.prefix = NULL, subj.suffix = NULL,
                        subset = "default", trial.exclude = c()){
 
@@ -69,7 +70,7 @@ preprocess <- function(import = "", pattern = "*.txt", output = NULL, export = "
       }
       x <- pupil.baselinecorrect(x, baselineoffset.message = baselineoffset.message, bc.duration = bc.duration, bc.type = bc.type)
       # Downsample?
-      if (downsample.binlength>0){
+      if (!is.null(downsample.binlength)){
         preprocessing <- paste(preprocessing, "ds", sep = ".")
         x <- pupil.downsample(x, bin.length = downsample.binlength, bc = bc)
       }
@@ -80,7 +81,7 @@ preprocess <- function(import = "", pattern = "*.txt", output = NULL, export = "
     } else {
       preprocessing <- preprocessing.stage
       # Downsample?
-      if (downsample.binlength>0){
+      if (!is.null(downsample.binlength)){
         preprocessing <- paste(preprocessing, "ds", sep = ".")
         x <- pupil.downsample(x, bin.length = downsample.binlength, bc = bc)
       }
@@ -126,22 +127,8 @@ preprocess <- function(import = "", pattern = "*.txt", output = NULL, export = "
     ## First of all, remove data during blinks and create columns of how much missing data each trial has. pupil.missing()
     data <- pupil.missing(data, eye.recorded = eye.recorded)
 
-    ## Correlate and select Eyes
-    if (eye.recorded == "both"){
-      # correlate eyes
-      data <- pupil.cor(data)
-      # remove either left or right eye
-      if (eye.use=="left"){
-        data <- dplyr::mutate(data, Pupil_Diameter.mm = L_Pupil_Diameter.mm,
-                              Missing.Total = L_Missing.Total,
-                              Eye_Event = L_Event)
-      } else if (eye.use=="right"){
-        data <- dplyr::mutate(data, Pupil_Diameter.mm = R_Pupil_Diameter.mm,
-                              Missing.Total = R_Missing.Total, Eye_Event = R_Event)
-      }
-      data <- dplyr::select(data, -L_Pupil_Diameter.mm, -R_Pupil_Diameter.mm,
-                            -L_Missing.Total, -R_Missing.Total, -L_Event, -R_Event)
-    }
+    ## Select eyes and filter out trials with too much missing data
+    data <- pupil.eye(data, eye.recorded = eye.recorded, eye.use = eye.use, missing.allowed = missing.allowed)
 
     ## Creates a column that specifies the current stimulus (based on Messages in the data)
     data <- set.stimuli(data)
@@ -150,7 +137,7 @@ preprocess <- function(import = "", pattern = "*.txt", output = NULL, export = "
                        ms.conversion = ms.conversion, pretrial.duration = pretrial.duration)
 
     ## Save data at this stage
-    saveData(data, preprocessing.stage = "na.removed")
+    saveData(data, preprocessing.stage = "naremoved")
 
     if (is.null(method.first)){
       ## Next, either interpolate or smooth
@@ -163,8 +150,7 @@ preprocess <- function(import = "", pattern = "*.txt", output = NULL, export = "
         ## Save data at this stage
         saveData(data, preprocessing.stage = "smoothed")
       }
-    }
-    if (method.first == "interpolate"){
+    } else if (method.first == "interpolate"){
       ## Next, Interpolate data
       data <- pupil.interpolate(data, type = interpolate.type, maxgap = interpolate.maxgap, hz = hz)
       ## Next, Smooth data

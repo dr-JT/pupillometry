@@ -13,16 +13,14 @@
 
 pupil.interpolate <- function(x, type = "cubic-spline", maxgap = Inf, hz = ""){
   if (maxgap!=Inf){
-    maxgap <- maxgap/(hz/1000)
+    maxgap <- round(maxgap/(1000/hz))
   }
   x <- dplyr::group_by(x, Trial)
   if (type=="cubic-spline"){
     x <- dplyr::mutate(x,
                        index = ifelse(is.na(Pupil_Diameter.mm), NA, dplyr::row_number()),
                        index = zoo::na.approx(index, na.rm = FALSE),
-                       Pupil_Diameter.mm = ifelse(Missing.Total<1,
-                                                  zoo::na.spline(Pupil_Diameter.mm, na.rm = FALSE, x = index, maxgap = maxgap),
-                                                  NA))
+                       Pupil_Diameter.mm = zoo::na.spline(Pupil_Diameter.mm, na.rm = FALSE, x = index, maxgap = maxgap))
     x <- dplyr::select(x, -index)
   } else if (type=="linear"){
     x <- dplyr::mutate(x,
