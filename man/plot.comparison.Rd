@@ -25,6 +25,5 @@ This function will print ggplot figures of na.removed, method.first = interpolat
 }
 \examples{
 
-
 }
 \keyword{plot}

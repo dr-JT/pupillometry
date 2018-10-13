@@ -7,7 +7,7 @@
 pupil.interpolate(x, type = "cubic-spline", maxgap = Inf, hz = "")
 }
 \arguments{
-\item{x}{xframe}
+\item{x}{dataframe}
 
 \item{type}{What type of interpolation to use? (default: cubic-spline)}
 

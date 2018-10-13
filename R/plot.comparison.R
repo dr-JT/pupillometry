@@ -11,7 +11,7 @@
 #' @export plot.comparison
 #' @examples
 #'
-#'
+
 plot.comparison <- function(import, files = c(), labels = c(), trial, title = "", legend.title = "Labels"){
   data <- list()
   for (i in seq_along(files)){
