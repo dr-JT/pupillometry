@@ -16,6 +16,7 @@ Imports:
     stringr,
     zoo,
     dplR,
+    ggplot2,
 URL: https://github.com/dr-JT/pupillometry, https://dr-jt.github.io/pupillometry/index.html
 BugReports: https://github.com/dr-JT/pupillometry/issues
 Encoding: UTF-8
