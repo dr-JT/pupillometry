@@ -152,6 +152,8 @@ preprocess <- function(import = "", pattern = "*.txt", output = NULL, export = "
     } else if (method.first == "interpolate"){
       ## Next, Interpolate data
       data <- pupil.interpolate(data, type = interpolate.type, maxgap = interpolate.maxgap, hz = hz)
+      ## Save data at this stage
+      saveData(data, preprocessing.stage = "interpolated")
       ## Next, Smooth data
       data <- pupil.smooth(data, type = smooth.type, window = smooth.window, hz = hz)
       ## Save data at this stage
@@ -159,6 +161,8 @@ preprocess <- function(import = "", pattern = "*.txt", output = NULL, export = "
     } else if (method.first == "smooth"){
       ## Next, Smooth data
       data <- pupil.smooth(data, type = smooth.type, window = smooth.window, hz = hz)
+      ## Save data at this stage
+      saveData(data, preprocessing.stage = "smoothed")
       ## Next, Interpolate data
       data <- pupil.interpolate(data, type = interpolate.type, maxgap = interpolate.maxgap, hz = hz)
       ## Save data at this stage
