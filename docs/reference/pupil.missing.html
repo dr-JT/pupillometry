@@ -150,7 +150,7 @@ include interpolation and smoothing</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>pupil.missing</span>(<span class='no'>x</span>, <span class='kw'>eye.recorded</span> <span class='kw'>=</span> <span class='st'>""</span>, <span class='kw'>velocity</span> <span class='kw'>=</span> <span class='st'>""</span>, <span class='kw'>margin</span> <span class='kw'>=</span> <span class='st'>""</span>)</pre>
+    <pre class="usage"><span class='fu'>pupil.missing</span>(<span class='no'>x</span>, <span class='kw'>missing.allowed</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>velocity</span> <span class='kw'>=</span> <span class='st'>""</span>, <span class='kw'>margin</span> <span class='kw'>=</span> <span class='st'>""</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -160,8 +160,8 @@ include interpolation and smoothing</p>
       <td><p>xframe</p></td>
     </tr>
     <tr>
-      <th>eye.recorded</th>
-      <td><p>Is there pupil x for the left, right, or both eyes?</p></td>
+      <th>missing.allowed</th>
+      <td><p>What proportion of missing data is allowed, per trial?</p></td>
     </tr>
     <tr>
       <th>velocity</th>

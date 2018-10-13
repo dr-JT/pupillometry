@@ -6,13 +6,12 @@
 #' @param x xframe
 #' @param eye.recorded Is there pupil x for the left, right, or both eyes?
 #' @param eye.use Which eye to use? Left or right
-#' @param missing.allowed What proportion of missing data is allowed, per trial?
 #' @keywords pupil
 #' @export
 #' @examples
 #'
 
-pupil.eye <- function(x, eye.recorded = "", eye.use = "", missing.allowed = 1){
+pupil.eye <- function(x, eye.recorded = "", eye.use = ""){
 
   ## Correlate and select Eyes
   if (eye.recorded == "both"){
@@ -42,8 +41,5 @@ pupil.eye <- function(x, eye.recorded = "", eye.use = "", missing.allowed = 1){
                           Eye_Event = R_Event)
     x <- dplyr::select(x, -R_Pupil_Diameter.mm, -R_Missing.Total, -R_Event)
   }
-
-  x <- dplyr::filter(x, Missing.Total<=missing.allowed)
-
   return(x)
 }

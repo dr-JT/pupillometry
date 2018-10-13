@@ -1,3 +1,19 @@
+# pupillometry 0.8.2
+
+Updated: 10/13/2018
+
+* Important update that fixes several bugs
+
+* Smoothing function was also interpolating. This has been fixed. 
+
+* Added `plot.comparison()` to visually compare different preprocessing parameters in a convenient way
+
+* Added `pupil.eye()` to simplify selecting which eye to use in the final output.
+
+* Added parameter `missing.allowed` to `preprocess()` and `pupil.missing()` to filter out trials with too much missing data.
+
+* Other bug fixes and minor changes
+
 # pupillometry 0.8.1
 
 Updated: 10/11/2018

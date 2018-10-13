@@ -4,7 +4,7 @@
 \alias{pupil.eye}
 \title{Preprocessnig Function}
 \usage{
-pupil.eye(x, eye.recorded = "", eye.use = "", missing.allowed = 1)
+pupil.eye(x, eye.recorded = "", eye.use = "")
 }
 \arguments{
 \item{x}{xframe}
@@ -12,8 +12,6 @@ pupil.eye(x, eye.recorded = "", eye.use = "", missing.allowed = 1)
 \item{eye.recorded}{Is there pupil x for the left, right, or both eyes?}
 
 \item{eye.use}{Which eye to use? Left or right}
-
-\item{missing.allowed}{What proportion of missing data is allowed, per trial?}
 }
 \description{
 If both eyes were recorded from, then this function will correlate the timeseries pupil data from both eyes

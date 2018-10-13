@@ -4,12 +4,12 @@
 \alias{pupil.missing}
 \title{Preprocessnig Function}
 \usage{
-pupil.missing(x, eye.recorded = "", velocity = "", margin = "")
+pupil.missing(x, missing.allowed = 1, velocity = "", margin = "")
 }
 \arguments{
 \item{x}{xframe}
 
-\item{eye.recorded}{Is there pupil x for the left, right, or both eyes?}
+\item{missing.allowed}{What proportion of missing data is allowed, per trial?}
 
 \item{velocity}{The velocity threshold for Blink detection}
 
