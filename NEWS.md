@@ -1,4 +1,4 @@
-# pupillometry 0.1.2
+# pupillometry 0.2.0
 
 Updated: 10/13/2018
 
