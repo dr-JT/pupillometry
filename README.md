@@ -1,8 +1,8 @@
 # pupillometry <img src = "man/figures/logo_small.png" align = "right" />
 
-An R Package to preprocess pupil data
+> An R Package to preprocess pupil data
 
-The package contains various functions for different steps in the preprocessing pipeline, such as interpolation or baseline correction.
+The package contains various functions for different steps in the preprocessing pipeline, such as interpolation, smoothing, and baseline correction.
 
 The pre-processing steps are based on what has commonly been used in the literature and influenced by sensible preprocessing methods suggested by
 
@@ -116,3 +116,7 @@ preprocess(import = import, pattern = pattern, output = output, taskname = task,
 * Add support for Tobii Eyetrackers
 
 * Add support for GazePoint Eyetrackers
+
+## Citation
+
+> Tsukahara, J.S. (2018). pupillometry: An R Package to Preprocess Pupil Data. Retrieved from https://dr-jt.github.io/pupillometry
