@@ -1,4 +1,4 @@
-# pupillometry 0.8.2
+# pupillometry 0.1.2
 
 Updated: 10/13/2018
 
@@ -14,7 +14,7 @@ Updated: 10/13/2018
 
 * Other bug fixes and minor changes
 
-# pupillometry 0.8.1
+# pupillometry 0.1.1
 
 Updated: 10/11/2018
 
@@ -35,7 +35,7 @@ Updated: 10/11/2018
     If parameters are set as `NULL` (default), then the entire file name will be used as the Subject #. This is not ideal.
 
 
-# pupillometry 0.8.0
+# pupillometry 0.1.0
 
 Updated: 10/7/2018
 
