@@ -38,7 +38,7 @@ pupil.baselinecorrect <- function(x, baselineoffset.message = "", bc.duration = 
   }
 
   x <- dplyr::ungroup(x)
-  x <- dplyr::select(x, -PreTarget.mean, -baselineoffset.time)
+  x <- dplyr::select(x, -PreTarget.mean, -baselineoffset.time, -min)
   return(x)
 }
 
