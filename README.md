@@ -66,6 +66,7 @@ task <- "Pitch_Discrimination"
 eyetracker <- "smi"
 subj.prefix <- "n_"
 subj.suffix <- "-"
+gazedata.include <- FALSE
 subset <- "default"
 trial.exclude <- c()
 eye.recorded <- "both"
@@ -94,7 +95,7 @@ downsample.binlength <- 20
 
 preprocess(import = import, pattern = pattern, output = output, taskname = task, eyetracker = eyetracker,
            subj.prefix = subj.prefix, subj.suffix = subj.suffix,
-           subset = subset, trial.exclude = trial.exclude,
+           gazedata.include = gazedata.include, subset = subset, trial.exclude = trial.exclude,
            eye.recorded = eye.recorded, eye.use = eye.use, hz = hz,
            startrecording.message = startrecording.message, startrecording.match = startrecording.match,
            trialonset.message = trialonset.message, pretrial.duration = pretrial.duration,
