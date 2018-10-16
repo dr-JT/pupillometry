@@ -12,8 +12,7 @@
 pupil.downsample <- function(x, bin.length = NULL, bc = FALSE){
   x <- dplyr::group_by(x, Trial)
   x <- dplyr::mutate(x,
-                     TimeBin = ifelse(min(Time)>=0, Time - min(Time), Time),
-                     TimeBin = trunc((Time - min(Time))/bin.length),
+                     TimeBin = trunc(Time/bin.length),
                      TimeBin = ifelse(Time<0, TimeBin - 1, TimeBin),
                      Time = TimeBin*bin.length)
   x <- dplyr::group_by(x, Trial, TimeBin)
