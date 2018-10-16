@@ -150,7 +150,8 @@ This function will also remove trials with too much missing data, specified by `
     
     </div>
 
-    <pre class="usage"><span class='fu'>pupil.eye</span>(<span class='no'>x</span>, <span class='kw'>eye.recorded</span> <span class='kw'>=</span> <span class='st'>""</span>, <span class='kw'>eye.use</span> <span class='kw'>=</span> <span class='st'>""</span>)</pre>
+    <pre class="usage"><span class='fu'>pupil.eye</span>(<span class='no'>x</span>, <span class='kw'>eye.recorded</span> <span class='kw'>=</span> <span class='st'>""</span>, <span class='kw'>eye.use</span> <span class='kw'>=</span> <span class='st'>""</span>,
+  <span class='kw'>gazedata.include</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -166,6 +167,10 @@ This function will also remove trials with too much missing data, specified by `
     <tr>
       <th>eye.use</th>
       <td><p>Which eye to use? Left or right</p></td>
+    </tr>
+    <tr>
+      <th>gazedata.include</th>
+      <td><p>Logical. Include columns for x and y coordinates of eye gaze? (Default: FALSE)</p></td>
     </tr>
     </table>
     

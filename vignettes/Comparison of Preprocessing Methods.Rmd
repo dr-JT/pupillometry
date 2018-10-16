@@ -60,7 +60,7 @@ Here are some examples from `plot.comparison()` that demonstrate important diffe
 
 From these examples, it can be seen that if you are gonig to apply a `cubic-spline` interpolation, then you should apply smoothing `smooth = TRUE` and it is important that you choose `method.first = "smooth"`. Otherwise the data get overly distorted if you apply interpolation first (see Trial 6).
 
-These data come from a pitch discrimination task as described in the [Example Data Set]() article. Time = 0 is the onset of the first tone.
+These data come from a pitch discrimination task as described in the [Example Data Set](https://dr-jt.github.io/pupillometry/articles/Example%20Data%20Set.html) article. Time = 0 is the onset of the first tone.
 
 ********
 
