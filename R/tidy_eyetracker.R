@@ -1,4 +1,4 @@
-#' Messy to Tidy Raw Eye-Tracker Data File
+#' Convert "messy" raw data file to "tidy" raw data file
 #'
 #' This function converts a "messy" raw eye-tracker data file to a "tidy" raw data file.
 #' Different eye-trackers will save the raw data file using completely different organizations and naming conventions

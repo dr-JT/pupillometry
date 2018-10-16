@@ -2,7 +2,7 @@
 % Please edit documentation in R/pupil.cor.R
 \name{pupil.cor}
 \alias{pupil.cor}
-\title{Preprocessnig Function}
+\title{Add column that is the correlation between left and rigth eyes}
 \usage{
 pupil.cor(x)
 }

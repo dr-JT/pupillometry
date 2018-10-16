@@ -1,4 +1,4 @@
-#' Pupil Preprocessing Function
+#' Downsample pupil data
 #'
 #' This function will reduce the sampling fequency
 #' @param x dataframe

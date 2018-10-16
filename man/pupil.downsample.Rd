@@ -2,7 +2,7 @@
 % Please edit documentation in R/pupil.downsample.R
 \name{pupil.downsample}
 \alias{pupil.downsample}
-\title{Pupil Preprocessing Function}
+\title{Downsample pupil data}
 \usage{
 pupil.downsample(x, bin.length = NULL, bc = FALSE)
 }

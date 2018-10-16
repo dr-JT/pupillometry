@@ -1,4 +1,4 @@
-#' Pupil Data Function
+#' Apply baseline correction
 #'
 #' This function applies a pre-trial baseline correction on the data
 #' @param x dataframe

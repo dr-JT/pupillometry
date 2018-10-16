@@ -2,7 +2,7 @@
 % Please edit documentation in R/tidy_eyetracker.R
 \name{tidy_eyetracker}
 \alias{tidy_eyetracker}
-\title{Messy to Tidy Raw Eye-Tracker Data File}
+\title{Convert "messy" raw data file to "tidy" raw data file}
 \usage{
 tidy_eyetracker(file, eyetracker = "",
   startrecording.message = "default", startrecording.match = "exact",

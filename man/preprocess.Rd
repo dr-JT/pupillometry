@@ -2,7 +2,7 @@
 % Please edit documentation in R/preprocess.R
 \name{preprocess}
 \alias{preprocess}
-\title{Pupil Data Function}
+\title{Preprocess pupil data using this single function}
 \usage{
 preprocess(import = "", pattern = "*.txt", output = NULL,
   export = "", taskname = "", eyetracker = "", subj.prefix = NULL,

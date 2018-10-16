@@ -1,4 +1,4 @@
-#' Preprocessnig Function
+#' Evaluate the amount of missing data
 #'
 #' This function is for preprocessing baseline pupil x. It takes as input a x file that has been processed
 #' with the .convert() functions. The output of this function is a preprocessed x file. Preprocessing steps can

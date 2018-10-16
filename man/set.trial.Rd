@@ -2,7 +2,7 @@
 % Please edit documentation in R/set.trial.R
 \name{set.trial}
 \alias{set.trial}
-\title{Pupil Data Function}
+\title{Set correct trial indexing}
 \usage{
 set.trial(x, startrecording.message = "", match = "exact")
 }

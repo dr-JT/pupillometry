@@ -2,7 +2,7 @@
 % Please edit documentation in R/set.timing.R
 \name{set.timing}
 \alias{set.timing}
-\title{Pupil Data Function}
+\title{Set timing relative to trial-onset}
 \usage{
 set.timing(x, trialonset.message = "", ms.conversion = 1,
   pretrial.duration = 0)

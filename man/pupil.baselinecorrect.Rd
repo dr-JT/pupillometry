@@ -2,7 +2,7 @@
 % Please edit documentation in R/pupil.baselinecorrect.R
 \name{pupil.baselinecorrect}
 \alias{pupil.baselinecorrect}
-\title{Pupil Data Function}
+\title{Apply baseline correction}
 \usage{
 pupil.baselinecorrect(x, baselineoffset.message = "",
   bc.duration = 200, bc.type = "subtractive")

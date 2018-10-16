@@ -1,4 +1,4 @@
-#' Testing Function
+#' Visually compare timeseries that used different preprocessing mehtods/parameters
 #'
 #' This function will print ggplot figures of na.removed, method.first = interpolate, and method.first = smooth
 #' @param import Directory with preprocessed data files for comparison

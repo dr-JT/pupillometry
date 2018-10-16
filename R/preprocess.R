@@ -1,4 +1,4 @@
-#' Pupil Data Function
+#' Preprocess pupil data using this single function
 #'
 #' This function will perform preprocessing on an entire folder of data files. It takes as input a specified folder path
 #' and outputs the preprocessed data to a specified folder path

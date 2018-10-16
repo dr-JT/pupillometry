@@ -1,4 +1,4 @@
-#' Pupil Data Function
+#' Set timing relative to trial-onset
 #'
 #' This sets the timing variable relative to the onset of each trial
 #' @param x dataframe

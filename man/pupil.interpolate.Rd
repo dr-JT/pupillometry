@@ -2,7 +2,7 @@
 % Please edit documentation in R/pupil.interpolate.R
 \name{pupil.interpolate}
 \alias{pupil.interpolate}
-\title{Pupil Preprocessing Function}
+\title{Apply interpolation}
 \usage{
 pupil.interpolate(x, type = "cubic-spline", maxgap = Inf, hz = "")
 }

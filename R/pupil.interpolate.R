@@ -1,4 +1,4 @@
-#' Pupil Preprocessing Function
+#' Apply interpolation
 #'
 #' This function performs a linear interpolation over missing values.
 #' The 'zoo' package is a dependency

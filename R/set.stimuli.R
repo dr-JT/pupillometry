@@ -1,4 +1,4 @@
-#' Indexing Function
+#' Create a column of current stimulus period
 #'
 #' This function will create a column that indexes the stimuli within each trial
 #' @param x dataframe

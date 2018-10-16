@@ -2,7 +2,7 @@
 % Please edit documentation in R/pupil.missing.R
 \name{pupil.missing}
 \alias{pupil.missing}
-\title{Preprocessnig Function}
+\title{Evaluate the amount of missing data}
 \usage{
 pupil.missing(x, missing.allowed = 1, velocity = "", margin = "")
 }

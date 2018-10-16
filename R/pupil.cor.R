@@ -1,4 +1,4 @@
-#' Preprocessnig Function
+#' Add column that is the correlation between left and rigth eyes
 #'
 #' This function is for preprocessing baseline pupil data. It takes as input a data file that has been processed
 #' with the .convert() functions. The output of this function is a preprocessed data file. Preprocessing steps can

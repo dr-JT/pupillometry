@@ -1,4 +1,4 @@
-#' Pupil Preprocessing Function
+#' Apply smoothing/low frequency filter
 #'
 #' This function performs a smoothing function over an array of x
 #' The 'zoo' package is a dependency

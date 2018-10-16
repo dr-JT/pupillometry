@@ -2,7 +2,7 @@
 % Please edit documentation in R/pupil.smooth.R
 \name{pupil.smooth}
 \alias{pupil.smooth}
-\title{Pupil Preprocessing Function}
+\title{Apply smoothing/low frequency filter}
 \usage{
 pupil.smooth(x, type = "hann", window = 5, hz = "")
 }

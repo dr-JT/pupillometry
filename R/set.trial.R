@@ -1,4 +1,4 @@
-#' Pupil Data Function
+#' Set correct trial indexing
 #'
 #' This sets the trials relative to a message string in the data
 #' @param x dataframe

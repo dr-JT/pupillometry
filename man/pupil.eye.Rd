@@ -2,7 +2,7 @@
 % Please edit documentation in R/pupil.eye.R
 \name{pupil.eye}
 \alias{pupil.eye}
-\title{Preprocessnig Function}
+\title{Select eye to keep for analysis}
 \usage{
 pupil.eye(x, eye.recorded = "", eye.use = "",
   gazedata.include = FALSE)

@@ -2,7 +2,7 @@
 % Please edit documentation in R/set.stimuli.R
 \name{set.stimuli}
 \alias{set.stimuli}
-\title{Indexing Function}
+\title{Create a column of current stimulus period}
 \usage{
 set.stimuli(x)
 }

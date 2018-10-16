@@ -1,4 +1,4 @@
-#' Preprocessnig Function
+#' Select eye to keep for analysis
 #'
 #' If both eyes were recorded from, then this function will correlate the timeseries pupil data from both eyes
 #' and select only one eye data to keep for further preprocessing and output.

@@ -2,7 +2,7 @@
 % Please edit documentation in R/plot.comparison.R
 \name{plot.comparison}
 \alias{plot.comparison}
-\title{Testing Function}
+\title{Visually compare timeseries that used different preprocessing mehtods/parameters}
 \usage{
 \method{plot}{comparison}(import, files = c(), labels = c(), trial,
   title = "", legend.title = "Labels")
