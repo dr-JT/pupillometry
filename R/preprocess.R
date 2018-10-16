@@ -10,7 +10,7 @@
 #' @param eyetracker Which eye-tracker was used to record data
 #' @param subj.prefix The unique pattern prefix (letter(s) and/or symbol(s)) that comes before the subject number in the data file
 #' @param subj.suffix The unique pattern suffix (letter(s) or symbol(s)) that comes after the subject number in the data file
-#' @param gazedata Logical. Include columns for x and y coordinates of eye gaze? (Default: FALSE)
+#' @param gazedata.include Logical. Include columns for x and y coordinates of eye gaze? (Default: FALSE)
 #' @param subset Which columns in the raw data output file do you want to keep
 #' @param trial.exclude Specify if ther are any trials to exclude. Trial number
 #' @param eye.recorded Do you want to inclue the "left", "right', or "both" eyes?
@@ -41,7 +41,8 @@
 #'
 #'
 preprocess <- function(import = "", pattern = "*.txt", output = NULL, export = "", taskname = "", eyetracker = "",
-                       subj.prefix = NULL, subj.suffix = NULL, gazedata = FALSE, subset = "default", trial.exclude = c(),
+                       subj.prefix = NULL, subj.suffix = NULL,
+                       gazedata.include = FALSE, subset = "default", trial.exclude = c(),
                        eye.recorded = "", eye.use = "", hz = "",
                        startrecording.message = "default",  startrecording.match = "exact",
                        trialonset.message = "", pretrial.duration = "",
@@ -115,7 +116,7 @@ preprocess <- function(import = "", pattern = "*.txt", output = NULL, export = "
     data <- tidy_eyetracker(file, eyetracker = eyetracker, startrecording.message = startrecording.message,
                             startrecording.match = startrecording.match, eye = eye.recorded,
                             subj.prefix = subj.prefix, subj.suffix = subj.suffix,
-                            subset = subset, trial.exclude = trial.exclude, gazedata = gazedata)
+                            subset = subset, trial.exclude = trial.exclude, gazedata.include = gazedata.include)
     ## Save tidy data file
     subj <- data$Subject[1]
     write.table(data, file = paste(output, "/", taskname, "_", subj, "_RawPupilData.txt", sep = ""),
@@ -125,7 +126,7 @@ preprocess <- function(import = "", pattern = "*.txt", output = NULL, export = "
     #### ----- Preprocessing procedures ----- ####
 
     ## Select eyes and filter out trials with too much missing data
-    data <- pupil.eye(data, eye.recorded = eye.recorded, eye.use = eye.use, gazedata = gazedata)
+    data <- pupil.eye(data, eye.recorded = eye.recorded, eye.use = eye.use, gazedata.include = gazedata.include)
 
     ## First of all, remove data during blinks and create columns of how much missing data each trial has. pupil.missing()
     data <- pupil.missing(data, missing.allowed = missing.allowed)

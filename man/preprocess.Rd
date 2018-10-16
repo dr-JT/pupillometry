@@ -6,8 +6,8 @@
 \usage{
 preprocess(import = "", pattern = "*.txt", output = NULL,
   export = "", taskname = "", eyetracker = "", subj.prefix = NULL,
-  subj.suffix = NULL, subset = "default", trial.exclude = c(),
-  eye.recorded = "", eye.use = "", hz = "",
+  subj.suffix = NULL, gazedata.include = FALSE, subset = "default",
+  trial.exclude = c(), eye.recorded = "", eye.use = "", hz = "",
   startrecording.message = "default", startrecording.match = "exact",
   trialonset.message = "", pretrial.duration = "", velocity = "",
   margin = "", missing.allowed = 1, interpolate = FALSE,
@@ -32,6 +32,8 @@ preprocess(import = "", pattern = "*.txt", output = NULL,
 \item{subj.prefix}{The unique pattern prefix (letter(s) and/or symbol(s)) that comes before the subject number in the data file}
 
 \item{subj.suffix}{The unique pattern suffix (letter(s) or symbol(s)) that comes after the subject number in the data file}
+
+\item{gazedata.include}{Logical. Include columns for x and y coordinates of eye gaze? (Default: FALSE)}
 
 \item{subset}{Which columns in the raw data output file do you want to keep}
 

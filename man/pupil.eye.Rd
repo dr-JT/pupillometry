@@ -4,7 +4,8 @@
 \alias{pupil.eye}
 \title{Preprocessnig Function}
 \usage{
-pupil.eye(x, eye.recorded = "", eye.use = "")
+pupil.eye(x, eye.recorded = "", eye.use = "",
+  gazedata.include = FALSE)
 }
 \arguments{
 \item{x}{xframe}
@@ -12,6 +13,8 @@ pupil.eye(x, eye.recorded = "", eye.use = "")
 \item{eye.recorded}{Is there pupil x for the left, right, or both eyes?}
 
 \item{eye.use}{Which eye to use? Left or right}
+
+\item{gazedata.include}{Logical. Include columns for x and y coordinates of eye gaze? (Default: FALSE)}
 }
 \description{
 If both eyes were recorded from, then this function will correlate the timeseries pupil data from both eyes
