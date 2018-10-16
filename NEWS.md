@@ -12,6 +12,8 @@ Updated: 10/13/2018
 
 * Added parameter `missing.allowed` to `preprocess()` and `pupil.missing()` to filter out trials with too much missing data.
 
+* Added `gazedata.include()` parameter to import and output gaze position x and y coordinates from original raw data file
+
 * Other bug fixes and minor changes
 
 # pupillometry 0.1.1
