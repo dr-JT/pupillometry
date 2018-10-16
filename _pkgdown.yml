@@ -10,4 +10,25 @@ template:
       api_key: API_KEY
       index_name: INDEX_NAME
 
-
+reference:
+- title: Preprocessing Methods
+  contents:
+  - preprocess
+  - pupil.smooth
+  - pupil.interpolate
+  - pupil.baselinecorrect
+  - pupil.downsample
+- title: Evaluate Data
+  - pupil.cor
+  - pupil.missing
+- title: tidy Data
+  contents:
+  - tidy_eyetracker
+  - set.stimuli
+  - set.trial
+  - set.timing
+  - pupil.eye
+- title: Visualize
+  contents:
+  - plot.comparison
+  
