@@ -7,7 +7,7 @@
 tidy_eyetracker(file, eyetracker = "",
   startrecording.message = "default", startrecording.match = "exact",
   eye.recorded = "", subj.prefix = NULL, subj.suffix = NULL,
-  subset = "default", trial.exclude = c(), gazedata = FALSE)
+  subset = "default", trial.exclude = c(), gazedata.include = FALSE)
 }
 \arguments{
 \item{file}{A file path to the raw data export file}
@@ -28,7 +28,7 @@ tidy_eyetracker(file, eyetracker = "",
 
 \item{trial.exclude}{Specify if ther are any trials to exclude. Trial number}
 
-\item{gazedata}{Logical. Include columns for x and y coordinates of eye gaze? (Default: FALSE)}
+\item{gazedata.include}{Logical. Include columns for x and y coordinates of eye gaze? (Default: FALSE)}
 }
 \description{
 This function converts a "messy" raw eye-tracker data file to a "tidy" raw data file.

@@ -13,7 +13,7 @@
 #' @param subj.suffix The unique pattern suffix (letter(s) or symbol(s)) that comes after the subject number in the data file
 #' @param subset Which columns in the raw data export file do you want to keep
 #' @param trial.exclude Specify if ther are any trials to exclude. Trial number
-#' @param gazedata Logical. Include columns for x and y coordinates of eye gaze? (Default: FALSE)
+#' @param gazedata.include Logical. Include columns for x and y coordinates of eye gaze? (Default: FALSE)
 #' @keywords tidy
 #' @export
 #' @examples
@@ -21,7 +21,7 @@
 
 tidy_eyetracker <- function(file, eyetracker = "", startrecording.message = "default", startrecording.match = "exact",
                             eye.recorded = "", subj.prefix = NULL, subj.suffix = NULL , subset = "default", trial.exclude = c(),
-                            gazedata = FALSE){
+                            gazedata.include = FALSE){
 
   #### ----- Functions ----- ####
   subj.extract <- function(x, prefix, suffix){
@@ -98,7 +98,7 @@ tidy_eyetracker <- function(file, eyetracker = "", startrecording.message = "def
                             R_Event_Info = ifelse((R_Event_Info=="-"|is.na(R_Event_Info)),NA, R_Event_Info))
       data <- dplyr::rename(data, L_Pupil_Diameter.mm = L_Pupil_Diameter_mm, L_Event = L_Event_Info,
                             R_Pupil_Diameter.mm = R_Pupil_Diameter_mm, R_Event = R_Event_Info)
-      if (gazedata==TRUE){
+      if (gazedata.include==TRUE){
         data <- dplyr::rename(data,
                               L_Gaze_Position.x = L_POR_X_px, L_Gaze_Position.y = L_POR_Y_px,
                               R_Gaze_Position.x = R_POR_X_px, R_Gaze_Position.y = R_POR_Y_px,
@@ -116,7 +116,7 @@ tidy_eyetracker <- function(file, eyetracker = "", startrecording.message = "def
                             Message = ifelse(get(message.column)>=0,NA,get(message.column)),
                             L_Event_Info = ifelse((L_Event_Info=="-"|is.na(L_Event_Info)),NA, L_Event_Info))
       data <- dplyr::rename(data, L_Pupil_Diameter.mm = L_Pupil_Diameter_mm, L_Event = L_Event_Info)
-      if (gazedata==TRUE){
+      if (gazedata.include==TRUE){
         data <- dplyr::rename(data,
                               L_Gaze_Position.x = L_POR_X_px, L_Gaze_Position.y = L_POR_Y_px,
                               Gaze.quality = Timing)
@@ -133,7 +133,7 @@ tidy_eyetracker <- function(file, eyetracker = "", startrecording.message = "def
                             Message = ifelse(get(message.column)>=0,NA,get(message.column)),
                             R_Event_Info = ifelse((R_Event_Info=="-"|is.na(R_Event_Info)),NA, R_Event_Info))
       data <- dplyr::rename(data, R_Pupil_Diameter.mm = R_Pupil_Diameter_mm, R_Event = R_Event_Info)
-      if (gazedata==TRUE){
+      if (gazedata.include==TRUE){
         data <- dplyr::rename(data,
                               R_Gaze_Position.x = R_POR_X_px, R_Gaze_Position.y = R_POR_Y_px,
                               Gaze.quality = Timing)
