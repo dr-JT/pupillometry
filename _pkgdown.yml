@@ -19,6 +19,7 @@ reference:
   - pupil.baselinecorrect
   - pupil.downsample
 - title: Evaluate Data
+  contents:
   - pupil.cor
   - pupil.missing
 - title: tidy Data
