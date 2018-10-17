@@ -10,7 +10,7 @@ Your data file need to conatain messages that mark the onset/offset of trials, c
 
 For `preprocess()` these are the message markers you need to know
 
-### `preprocess(startrecording.message = "")`
+### `startrecording.message = ""`
 
 Eye-tracking systems use different defaults for how it marks the start of recording on a trial. This is not necessarily when the trial begins - simply whent the eye-tracker starts recording.
 
@@ -20,37 +20,35 @@ The SMI default is : "StartTracking.bmp"
 
 This parameter can be set to `preprocess(startrecording.message = "default")` to use the eyetracker default. If you are not using the default message then you need to specify the custom string you used.
 
-### `preprocess(startrecording.match = c("exact", "pattern"))`
+### `startrecording.match = c("exact", "pattern")`
 
 There is an additional parameter `startrecording.match` that specifies whether `startrecording.message` needs to be an `"exact"` or a `"pattern"` match. This simply allows more flexibility. Such as, if the start recording message is different on each trial "TRIALID [trial number]", then a `"pattern"` match will need to be used to correctl set the trial index.
 
-### `preprocess(trialonset.message = "")`
+### `trialonset.message = ""`
 
 `trialonset.message` is the message that marks the onset of a trial. If you included a fixation as an inter-trial-interval (ITI) at the start of every trial, then the **trial onset should correspond to the stimulus after the fixation or ITI stimulus**. The fixation (ITI) period will be treated as a pre-trial period.
 
 `trialonset.message` is used to set the timing relative to trial onset using `set.timing()`. Pre-trial periods will have a negative Time value. 
 
-### `preprocess(pretrial.duration = "")`
+### `trialonset.match = ""`
+
+There is an additional parameter `trialonset.match` that specifies whether `trialonset.message` needs to be an `"exact"` or a `"pattern"` match. This simply allows more flexibility in how researchers may have included message markers in their task. `"pattern"` should be used if the `trialonset.message` marker is different on every trial (this can happen if the message includes information about the trial number). Within a trial, `trialonset.match` will only take the first match that occurs as the `trialonset.message`. 
+
+Such as, if the start recording message is different on each trial "TRIALID [trial number]", then a `"pattern"` match will need to be used to correctl set the trial index.
+
+### `pretrial.duration = ""`
 
 The duration of the pre-trial period is set relative to the timing of the `trialonset.message` and that duration is specified by `pretrial.duration`.
 
 For instance if `preprocess(pretrial.duration = 2000)`, then the 2000 milliseconds before `trialonset.message` will be marked as a pre-trial period. This duration typically corresponds to the duration of the ITI period.
 
-### `preprocess(baselineoffset.message = "")`
+### `baselineoffset.message = ""`
 
 `baselineoffset.message` is the message that marks the offset of the baseline period and the start of the critical task period that needs to be baseline corrected.
 
 `baselineoffset.message` is used for baseline correction in `pupil.baselinecorrect()`.
 
-### `match = c("exact", "pattern")`
+### `baselineoffset.match = ""`
 
-For each of the message marker parameters there is a corresponding parameter to indicate whether the string you specified is an "exact" match or if it is "pattern" match.
-
-A "pattern" match will search for any message markers that contain the string. For `trialonset` and `baselineoffset`, it will use the first occurence of a match.
-
-For each message marker the match parameter is specified as such:
-
-`startrecording.match = "pattern"`
-`trialonset.match = "pattern"`
-`baselineoffset.match = "pattern"`
+There is an additional parameter `baselineoffset.match` that specifies whether `baselineoffset.message` needs to be an `"exact"` or a `"pattern"` match. This simply allows more flexibility in how researchers may have included message markers in their task. `"pattern"` should be used if the `baselineoffset.message` marker is different on every trial (this can happen if the message includes information about the trial number). Within a trial, `baselineoffset.match` will only take the first match that occurs as the `baselineoffset.message`. 
 
