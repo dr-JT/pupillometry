@@ -51,7 +51,7 @@ preprocess <- function(import = "", pattern = "*.txt", output = NULL, export = "
                        velocity = "", margin = "", missing.allowed = 1,
                        interpolate = FALSE, interpolate.type = "", interpolate.maxgap = Inf,
                        smooth = FALSE, smooth.type = "", smooth.window = 5, method.first = NULL,
-                       bc = FALSE, baselineoffset.message = "", bc.duration = "", bc.type = "subtractive",
+                       bc = FALSE, baselineoffset.message = "", baselineoffset.match = "exact", bc.duration = "", bc.type = "subtractive",
                        downsample.binlength = NULL){
 
   if (is.null(output)){

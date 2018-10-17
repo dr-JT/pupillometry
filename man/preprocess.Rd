@@ -14,8 +14,9 @@ preprocess(import = "", pattern = "*.txt", output = NULL,
   missing.allowed = 1, interpolate = FALSE, interpolate.type = "",
   interpolate.maxgap = Inf, smooth = FALSE, smooth.type = "",
   smooth.window = 5, method.first = NULL, bc = FALSE,
-  baselineoffset.message = "", bc.duration = "",
-  bc.type = "subtractive", downsample.binlength = NULL)
+  baselineoffset.message = "", baselineoffset.match = "exact",
+  bc.duration = "", bc.type = "subtractive",
+  downsample.binlength = NULL)
 }
 \arguments{
 \item{import}{Folder path to raw data files}
@@ -80,13 +81,13 @@ preprocess(import = "", pattern = "*.txt", output = NULL,
 
 \item{baselineoffset.message}{Message string(s) that marks the offset of baseline period(s)}
 
+\item{baselineoffset.match}{Message string(s) that marks the offset of baseline period(s)}
+
 \item{bc.duration}{Duration baseline period(s) to use for correction}
 
 \item{bc.type}{Do you want to use "subtractive" or "divisive" baseline correction? (default: "subtractive")}
 
 \item{downsample.binlength}{Length of bins to average (default: NULL)}
-
-\item{baselineoffset.match}{Message string(s) that marks the offset of baseline period(s)}
 }
 \description{
 This function will perform preprocessing on an entire folder of data files. It takes as input a specified folder path
