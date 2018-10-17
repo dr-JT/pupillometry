@@ -137,7 +137,7 @@ preprocess <- function(import = "", pattern = "*.txt", output = NULL, export = "
     if (gazedata.include==TRUE){
       gazedata <- dplyr::select(data, Subject, Head_Dist.cm, Time, Trial, Message, Event, Stimulus,
                                 PreTrial, Gaze_Position.x, Gaze_Position.y)
-      data <- dplyr::select(data, -Gaze_Position.x, -GazePosition.y)
+      data <- dplyr::select(data, -Gaze_Position.x, -Gaze_Position.y)
 
       ## Save gazedata
       write.table(gazedata, file = paste(output, "/", taskname, "_", subj, "_EyeGazeData.txt", sep = ""),
