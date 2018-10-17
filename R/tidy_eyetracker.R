@@ -55,7 +55,7 @@ tidy_eyetracker <- function(file, eyetracker = "", startrecording.message = "def
   #### ----- Set Defaults ----- ####
   if (eyetracker=="smi") {
     if (startrecording.message=="default"){
-      startrecording.message <- "# Message: StartTracking.bmp"
+      startrecording.message <- "StartTracking.bmp"
     }
   }
 
@@ -187,6 +187,9 @@ tidy_eyetracker <- function(file, eyetracker = "", startrecording.message = "def
   }
   #############################
 
+  ## Remove "# Message: " from message string ####
+  data$Message <- gsub("# Message: ", "", data$Message)
+
   ## Correctly set trial index ####
   data <- set.trial(data, startrecording.message = startrecording.message, match = startrecording.match)
   ##################
@@ -194,8 +197,5 @@ tidy_eyetracker <- function(file, eyetracker = "", startrecording.message = "def
   if (!is.null(trial.exclude)){
     data <- dplyr::filter(data, !(Trial %in% trial.exclude))
   }
-
-  ## Remove "# Message: " from message string ####
-  data$Message <- gsub("# Message: ", "", data$Message)
   return(data)
 }
