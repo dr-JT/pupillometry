@@ -116,7 +116,7 @@ preprocess <- function(import = "", pattern = "*.txt", output = NULL, export = "
                             subset = subset, trial.exclude = trial.exclude, gazedata.include = gazedata.include)
     ## Save tidy data file
     subj <- data$Subject[1]
-    write.table(data, file = paste(output, "/", taskname, "_", subj, "_RawPupilData.txt", sep = ""),
+    write.table(data, file = paste(output, "/", taskname, "_", subj, "_PupilData.txt", sep = ""),
                 sep = "\t", row.names = FALSE, quote = FALSE)
     ###########################################
 
@@ -133,6 +133,16 @@ preprocess <- function(import = "", pattern = "*.txt", output = NULL, export = "
     ## Sets the Timing column relative to the onset of each trial
     data <- set.timing(data, trialonset.message = trialonset.message, match = trialonset.match,
                        ms.conversion = ms.conversion, pretrial.duration = pretrial.duration)
+
+    if (gazedata.include==TRUE){
+      gazedata <- dplyr::select(data, Subject, Head_Dist.cm, Time, Trial, Message, Event, Stimulus,
+                                PreTrial, PreTarget, Target, Gaze_Position.x, Gaze_Position.y)
+      data <- dplyr::select(data, -Gaze_Position.x, -GazePosition.y)
+
+      ## Save gazedata
+      write.table(gazedata, file = paste(output, "/", taskname, "_", subj, "_EyeGazeData.txt", sep = ""),
+                  sep = "\t", row.names = FALSE, quote = FALSE)
+    }
 
     ## Save data at this stage
     saveData(data, preprocessing.stage = "naremoved")
