@@ -41,3 +41,16 @@ For instance if `preprocess(pretrial.duration = 2000)`, then the 2000 millisecon
 `baselineoffset.message` is the message that marks the offset of the baseline period and the start of the critical task period that needs to be baseline corrected.
 
 `baselineoffset.message` is used for baseline correction in `pupil.baselinecorrect()`.
+
+### `match = c("exact", "pattern")`
+
+For each of the message marker parameters there is a corresponding parameter to indicate whether the string you specified is an "exact" match or if it is "pattern" match.
+
+A "pattern" match will search for any message markers that contain the string. For `trialonset` and `baselineoffset`, it will use the first occurence of a match.
+
+For each message marker the match parameter is specified as such:
+
+`startrecording.match = "pattern"`
+`trialonset.match = "pattern"`
+`baselineoffset.match = "pattern"`
+

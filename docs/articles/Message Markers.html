@@ -145,6 +145,15 @@
 <p><code>baselineoffset.message</code> is the message that marks the offset of the baseline period and the start of the critical task period that needs to be baseline corrected.</p>
 <p><code>baselineoffset.message</code> is used for baseline correction in <code><a href="../reference/pupil.baselinecorrect.html">pupil.baselinecorrect()</a></code>.</p>
 </div>
+<div id="match-cexact-pattern" class="section level3">
+<h3 class="hasAnchor">
+<a href="#match-cexact-pattern" class="anchor"></a><code>match = c("exact", "pattern")</code>
+</h3>
+<p>For each of the message marker parameters there is a corresponding parameter to indicate whether the string you specified is an “exact” match or if it is “pattern” match.</p>
+<p>A “pattern” match will search for any message markers that contain the string. For <code>trialonset</code> and <code>baselineoffset</code>, it will use the first occurence of a match.</p>
+<p>For each message marker the match parameter is specified as such:</p>
+<p><code>startrecording.match = "pattern"</code> <code>trialonset.match = "pattern"</code> <code>baselineoffset.match = "pattern"</code></p>
+</div>
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

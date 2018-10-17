@@ -185,35 +185,38 @@
 <a class="sourceLine" id="cb2-15" data-line-number="15">startrecording.message &lt;-<span class="st"> "default"</span></a>
 <a class="sourceLine" id="cb2-16" data-line-number="16">startrecording.match &lt;-<span class="st"> "exact"</span></a>
 <a class="sourceLine" id="cb2-17" data-line-number="17">trialonset.message &lt;-<span class="st"> "Tone 1"</span> </a>
-<a class="sourceLine" id="cb2-18" data-line-number="18">pretrial.duration &lt;-<span class="st"> </span><span class="dv">1000</span></a>
-<a class="sourceLine" id="cb2-19" data-line-number="19">velocity &lt;-<span class="st"> ""</span></a>
-<a class="sourceLine" id="cb2-20" data-line-number="20">margin &lt;-<span class="st"> ""</span></a>
-<a class="sourceLine" id="cb2-21" data-line-number="21">missing.allowed &lt;-<span class="st"> </span><span class="fl">.75</span></a>
-<a class="sourceLine" id="cb2-22" data-line-number="22">interpolate &lt;-<span class="st"> </span><span class="ot">TRUE</span></a>
-<a class="sourceLine" id="cb2-23" data-line-number="23">interpolate.type &lt;-<span class="st"> "cubic-spline"</span></a>
-<a class="sourceLine" id="cb2-24" data-line-number="24">interpolate.maxgap &lt;-<span class="st"> </span><span class="dv">750</span></a>
-<a class="sourceLine" id="cb2-25" data-line-number="25">smooth &lt;-<span class="st"> </span><span class="ot">TRUE</span></a>
-<a class="sourceLine" id="cb2-26" data-line-number="26">smooth.type &lt;-<span class="st"> "hann"</span></a>
-<a class="sourceLine" id="cb2-27" data-line-number="27">smooth.window &lt;-<span class="st"> </span><span class="dv">500</span></a>
-<a class="sourceLine" id="cb2-28" data-line-number="28">method.first &lt;-<span class="st"> "smooth"</span></a>
-<a class="sourceLine" id="cb2-29" data-line-number="29">bc &lt;-<span class="st"> </span><span class="ot">TRUE</span></a>
-<a class="sourceLine" id="cb2-30" data-line-number="30">baselineoffset.message &lt;-<span class="st"> "Tone 1"</span></a>
-<a class="sourceLine" id="cb2-31" data-line-number="31">bc.duration &lt;-<span class="st"> </span><span class="dv">200</span></a>
-<a class="sourceLine" id="cb2-32" data-line-number="32">bc.type &lt;-<span class="st"> "subtractive"</span></a>
-<a class="sourceLine" id="cb2-33" data-line-number="33">downsample.binlength &lt;-<span class="st"> </span><span class="dv">20</span></a>
-<a class="sourceLine" id="cb2-34" data-line-number="34"><span class="co">############################</span></a>
-<a class="sourceLine" id="cb2-35" data-line-number="35"></a>
-<a class="sourceLine" id="cb2-36" data-line-number="36"><span class="kw"><a href="reference/preprocess.html">preprocess</a></span>(<span class="dt">import =</span> import, <span class="dt">pattern =</span> pattern, <span class="dt">output =</span> output, <span class="dt">taskname =</span> task, <span class="dt">eyetracker =</span> eyetracker,</a>
-<a class="sourceLine" id="cb2-37" data-line-number="37">           <span class="dt">subj.prefix =</span> subj.prefix, <span class="dt">subj.suffix =</span> subj.suffix,</a>
-<a class="sourceLine" id="cb2-38" data-line-number="38">           <span class="dt">gazedata.include =</span> gazedata.include, <span class="dt">subset =</span> subset, <span class="dt">trial.exclude =</span> trial.exclude,</a>
-<a class="sourceLine" id="cb2-39" data-line-number="39">           <span class="dt">eye.recorded =</span> eye.recorded, <span class="dt">eye.use =</span> eye.use, <span class="dt">hz =</span> hz,</a>
-<a class="sourceLine" id="cb2-40" data-line-number="40">           <span class="dt">startrecording.message =</span> startrecording.message, <span class="dt">startrecording.match =</span> startrecording.match,</a>
-<a class="sourceLine" id="cb2-41" data-line-number="41">           <span class="dt">trialonset.message =</span> trialonset.message, <span class="dt">pretrial.duration =</span> pretrial.duration,</a>
-<a class="sourceLine" id="cb2-42" data-line-number="42">           <span class="dt">velocity =</span> velocity, <span class="dt">margin =</span> margin, <span class="dt">missing.allowed =</span> missing.allowed,</a>
-<a class="sourceLine" id="cb2-43" data-line-number="43">           <span class="dt">interpolate =</span> interpolate, <span class="dt">interpolate.type =</span> interpolate.type, <span class="dt">interpolate.maxgap =</span> interpolate.maxgap,</a>
-<a class="sourceLine" id="cb2-44" data-line-number="44">           <span class="dt">smooth =</span> smooth, <span class="dt">smooth.type =</span> smooth.type, <span class="dt">smooth.window =</span> smooth.window, <span class="dt">method.first =</span> method.first,</a>
-<a class="sourceLine" id="cb2-45" data-line-number="45">           <span class="dt">bc =</span> bc, <span class="dt">baselineoffset.message =</span> baselineoffset.message, <span class="dt">bc.duration =</span> bc.duration, <span class="dt">bc.type =</span> bc.type,</a>
-<a class="sourceLine" id="cb2-46" data-line-number="46">           <span class="dt">downsample.binlength =</span> downsample.binlength)</a></code></pre></div>
+<a class="sourceLine" id="cb2-18" data-line-number="18">trialonset.match &lt;-<span class="st"> "exact"</span></a>
+<a class="sourceLine" id="cb2-19" data-line-number="19">pretrial.duration &lt;-<span class="st"> </span><span class="dv">1000</span></a>
+<a class="sourceLine" id="cb2-20" data-line-number="20">velocity &lt;-<span class="st"> ""</span></a>
+<a class="sourceLine" id="cb2-21" data-line-number="21">margin &lt;-<span class="st"> ""</span></a>
+<a class="sourceLine" id="cb2-22" data-line-number="22">missing.allowed &lt;-<span class="st"> </span><span class="fl">.75</span></a>
+<a class="sourceLine" id="cb2-23" data-line-number="23">interpolate &lt;-<span class="st"> </span><span class="ot">TRUE</span></a>
+<a class="sourceLine" id="cb2-24" data-line-number="24">interpolate.type &lt;-<span class="st"> "cubic-spline"</span></a>
+<a class="sourceLine" id="cb2-25" data-line-number="25">interpolate.maxgap &lt;-<span class="st"> </span><span class="dv">750</span></a>
+<a class="sourceLine" id="cb2-26" data-line-number="26">smooth &lt;-<span class="st"> </span><span class="ot">TRUE</span></a>
+<a class="sourceLine" id="cb2-27" data-line-number="27">smooth.type &lt;-<span class="st"> "hann"</span></a>
+<a class="sourceLine" id="cb2-28" data-line-number="28">smooth.window &lt;-<span class="st"> </span><span class="dv">500</span></a>
+<a class="sourceLine" id="cb2-29" data-line-number="29">method.first &lt;-<span class="st"> "smooth"</span></a>
+<a class="sourceLine" id="cb2-30" data-line-number="30">bc &lt;-<span class="st"> </span><span class="ot">TRUE</span></a>
+<a class="sourceLine" id="cb2-31" data-line-number="31">baselineoffset.message &lt;-<span class="st"> "Tone 1"</span></a>
+<a class="sourceLine" id="cb2-32" data-line-number="32">baselineoffset.match &lt;-<span class="st"> "exact"</span></a>
+<a class="sourceLine" id="cb2-33" data-line-number="33">bc.duration &lt;-<span class="st"> </span><span class="dv">200</span></a>
+<a class="sourceLine" id="cb2-34" data-line-number="34">bc.type &lt;-<span class="st"> "subtractive"</span></a>
+<a class="sourceLine" id="cb2-35" data-line-number="35">downsample.binlength &lt;-<span class="st"> </span><span class="dv">20</span></a>
+<a class="sourceLine" id="cb2-36" data-line-number="36"><span class="co">############################</span></a>
+<a class="sourceLine" id="cb2-37" data-line-number="37"></a>
+<a class="sourceLine" id="cb2-38" data-line-number="38"><span class="kw"><a href="reference/preprocess.html">preprocess</a></span>(<span class="dt">import =</span> import, <span class="dt">pattern =</span> pattern, <span class="dt">output =</span> output, <span class="dt">taskname =</span> task, <span class="dt">eyetracker =</span> eyetracker,</a>
+<a class="sourceLine" id="cb2-39" data-line-number="39">           <span class="dt">subj.prefix =</span> subj.prefix, <span class="dt">subj.suffix =</span> subj.suffix,</a>
+<a class="sourceLine" id="cb2-40" data-line-number="40">           <span class="dt">gazedata.include =</span> gazedata.include, <span class="dt">subset =</span> subset, <span class="dt">trial.exclude =</span> trial.exclude,</a>
+<a class="sourceLine" id="cb2-41" data-line-number="41">           <span class="dt">eye.recorded =</span> eye.recorded, <span class="dt">eye.use =</span> eye.use, <span class="dt">hz =</span> hz,</a>
+<a class="sourceLine" id="cb2-42" data-line-number="42">           <span class="dt">startrecording.message =</span> startrecording.message, <span class="dt">startrecording.match =</span> startrecording.match,</a>
+<a class="sourceLine" id="cb2-43" data-line-number="43">           <span class="dt">trialonset.message =</span> trialonset.message, <span class="dt">trialonset.match =</span> trialonset.match, <span class="dt">pretrial.duration =</span> pretrial.duration,</a>
+<a class="sourceLine" id="cb2-44" data-line-number="44">           <span class="dt">velocity =</span> velocity, <span class="dt">margin =</span> margin, <span class="dt">missing.allowed =</span> missing.allowed,</a>
+<a class="sourceLine" id="cb2-45" data-line-number="45">           <span class="dt">interpolate =</span> interpolate, <span class="dt">interpolate.type =</span> interpolate.type, <span class="dt">interpolate.maxgap =</span> interpolate.maxgap,</a>
+<a class="sourceLine" id="cb2-46" data-line-number="46">           <span class="dt">smooth =</span> smooth, <span class="dt">smooth.type =</span> smooth.type, <span class="dt">smooth.window =</span> smooth.window, <span class="dt">method.first =</span> method.first,</a>
+<a class="sourceLine" id="cb2-47" data-line-number="47">           <span class="dt">bc =</span> bc, <span class="dt">baselineoffset.message =</span> baselineoffset.message, <span class="dt">baselineoffset.match =</span> baselineoffset.match,</a>
+<a class="sourceLine" id="cb2-48" data-line-number="48">           <span class="dt">bc.duration =</span> bc.duration, <span class="dt">bc.type =</span> bc.type,</a>
+<a class="sourceLine" id="cb2-49" data-line-number="49">           <span class="dt">downsample.binlength =</span> downsample.binlength)</a></code></pre></div>
 </div>
 </div>
 <div id="planned-updates" class="section level2">

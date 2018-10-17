@@ -75,6 +75,7 @@ hz <- 250
 startrecording.message <- "default"
 startrecording.match <- "exact"
 trialonset.message <- "Tone 1" 
+trialonset.match <- "exact"
 pretrial.duration <- 1000
 velocity <- ""
 margin <- ""
@@ -88,6 +89,7 @@ smooth.window <- 500
 method.first <- "smooth"
 bc <- TRUE
 baselineoffset.message <- "Tone 1"
+baselineoffset.match <- "exact"
 bc.duration <- 200
 bc.type <- "subtractive"
 downsample.binlength <- 20
@@ -98,11 +100,12 @@ preprocess(import = import, pattern = pattern, output = output, taskname = task,
            gazedata.include = gazedata.include, subset = subset, trial.exclude = trial.exclude,
            eye.recorded = eye.recorded, eye.use = eye.use, hz = hz,
            startrecording.message = startrecording.message, startrecording.match = startrecording.match,
-           trialonset.message = trialonset.message, pretrial.duration = pretrial.duration,
+           trialonset.message = trialonset.message, trialonset.match = trialonset.match, pretrial.duration = pretrial.duration,
            velocity = velocity, margin = margin, missing.allowed = missing.allowed,
            interpolate = interpolate, interpolate.type = interpolate.type, interpolate.maxgap = interpolate.maxgap,
            smooth = smooth, smooth.type = smooth.type, smooth.window = smooth.window, method.first = method.first,
-           bc = bc, baselineoffset.message = baselineoffset.message, bc.duration = bc.duration, bc.type = bc.type,
+           bc = bc, baselineoffset.message = baselineoffset.message, baselineoffset.match = baselineoffset.match,
+           bc.duration = bc.duration, bc.type = bc.type,
            downsample.binlength = downsample.binlength)
 ```
 
