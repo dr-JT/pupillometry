@@ -13,7 +13,7 @@ set.trial <- function(x, startrecording.message = "", match = "exact"){
   if (match=="exact"){
     x <- dplyr::mutate(x, startrecording.time = ifelse(Message==startrecording.message, Time, NA))
   } else if (match=="pattern"){
-    x <- dplyr::mutate(x, startrecording.time = ifelse(stringr::str_detect(startrecording.message, Message), Time, NA))
+    x <- dplyr::mutate(x, startrecording.time = ifelse(stringr::str_detect(Message, startrecording.message), Time, NA))
   }
   x <- dplyr::mutate(x,
                      startrecording.time = zoo::na.locf(startrecording.time, na.rm = FALSE),

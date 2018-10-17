@@ -17,7 +17,7 @@ set.timing <- function(x, trialonset.message = "", ms.conversion = 1, pretrial.d
   if (match=="exact"){
     x <- dplyr::mutate(x, trialonset.time = ifelse(Message==trialonset.message, Time, NA))
   } else if (match=="pattern"){
-    x <- dplyr::mutate(x, trialonset.time = ifelse(stringr::str_detect(trialonset.message, Message), Time, NA))
+    x <- dplyr::mutate(x, trialonset.time = ifelse(stringr::str_detect(Message, trialonset.message), Time, NA))
   }
   x <- dplyr::mutate(x,
                      min = min(trialonset.time, na.rm = TRUE),
