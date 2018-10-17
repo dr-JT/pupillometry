@@ -5,19 +5,24 @@
 #' @param baselineoffset.message Message string(s) that marks the offset of baseline period(s)
 #' @param bc.duration Duration baseline period(s) to use for correction
 #' @param bc.type Do you want to use "subtractive" or "divisive" baseline correction? (default: "subtractive")
+#' @param match Should the message string be an "exact" match or a "pattern" match?
 #' @keywords baseline
 #' @export
 #' @examples
 #' pupil.baselinecorrect(file = "path/filename", baseline.duration = 2000, start.trial = "# Message: Target")
 
-pupil.baselinecorrect <- function(x, baselineoffset.message = "", bc.duration = 200, bc.type = "subtractive"){
+pupil.baselinecorrect <- function(x, baselineoffset.message = "", bc.duration = 200, bc.type = "subtractive", match = "exact"){
   baselines.n <- length(baselineoffset.message)
   x <- dplyr::group_by(x, Trial)
   x <- dplyr::mutate(x, PreTarget=0, Target=0)
   for (message in baselineoffset.message){
     n <- match(message, baselineoffset.message)
+    if (match=="exact"){
+      x <- dplyr::mutate(x, baselineoffset.time = ifelse(Message==baselineoffset.message, Time, NA))
+    } else if (match=="pattern"){
+      x <- dplyr::mutate(x, baselineoffset.time = ifelse(stringr::str_detect(baselineoffset.message, Message), Time, NA))
+    }
     x <- dplyr::mutate(x,
-                       baselineoffset.time = ifelse(Message==message, Time, NA),
                        min = min(baselineoffset.time, na.rm = TRUE),
                        baselineoffset.time = ifelse(is.na(baselineoffset.time) | baselineoffset.time!=min,NA,baselineoffset.time),
                        baselineoffset.time = zoo::na.locf(baselineoffset.time, na.rm = FALSE),

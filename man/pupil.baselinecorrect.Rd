@@ -5,7 +5,7 @@
 \title{Apply baseline correction}
 \usage{
 pupil.baselinecorrect(x, baselineoffset.message = "",
-  bc.duration = 200, bc.type = "subtractive")
+  bc.duration = 200, bc.type = "subtractive", match = "exact")
 }
 \arguments{
 \item{x}{dataframe}
@@ -15,6 +15,8 @@ pupil.baselinecorrect(x, baselineoffset.message = "",
 \item{bc.duration}{Duration baseline period(s) to use for correction}
 
 \item{bc.type}{Do you want to use "subtractive" or "divisive" baseline correction? (default: "subtractive")}
+
+\item{match}{Should the message string be an "exact" match or a "pattern" match?}
 }
 \description{
 This function applies a pre-trial baseline correction on the data

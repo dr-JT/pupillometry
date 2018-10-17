@@ -5,16 +5,21 @@
 #' @param trialonset.message Message string that marks the start of a trial
 #' @param ms.conversion Conversion factor to convert timing to milliseconds
 #' @param pretrial.duration Duration of pre-trial baseline period in milliseconds
+#' @param match Should the message string be an "exact" match or a "pattern" match?
 #' @keywords set timing
 #' @export
 #' @examples
 #' set.timing(x, start.trial = "Fixation", ms.conversion = 1000)
 
-set.timing <- function(x, trialonset.message = "", ms.conversion = 1, pretrial.duration = 0){
+set.timing <- function(x, trialonset.message = "", ms.conversion = 1, pretrial.duration = 0, match = "exact"){
   pretrial.duration <- abs(pretrial.duration)*-1
   x <- dplyr::group_by(x, Trial)
+  if (match=="exact"){
+    x <- dplyr::mutate(x, trialonset.time = ifelse(Message==trialonset.message, Time, NA))
+  } else if (match=="pattern"){
+    x <- dplyr::mutate(x, trialonset.time = ifelse(stringr::str_detect(trialonset.message, Message), Time, NA))
+  }
   x <- dplyr::mutate(x,
-                     trialonset.time = ifelse(Message==trialonset.message, Time, NA),
                      min = min(trialonset.time, na.rm = TRUE),
                      trialonset.time = ifelse(is.na(trialonset.time) | trialonset.time!=min,NA,trialonset.time),
                      trialonset.time = zoo::na.locf(trialonset.time, na.rm = FALSE),

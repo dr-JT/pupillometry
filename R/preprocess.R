@@ -19,6 +19,7 @@
 #' @param startrecording.message Message used in SMI experiment to mark StartTracking inline
 #' @param startrecording.match Should the message string be an "exact" match or a "pattern" match?
 #' @param trialonset.message Message string that marks the start of a trial
+#' @param trialonset.match Should the message string be an "exact" match or a "pattern" match?
 #' @param pretrial.duration Duration of pre-trial baseline period in milliseconds
 #' @param velocity The velocity threshold for Blink detection
 #' @param margin The margin before and after Blink onset and offset
@@ -32,6 +33,7 @@
 #' @param method.first Should "smooth" or "interpolate" be applied first? (default: NULL)
 #' @param bc Logical. Do baseline correction?
 #' @param baselineoffset.message Message string(s) that marks the offset of baseline period(s)
+#' @param baselineoffset.match Message string(s) that marks the offset of baseline period(s)
 #' @param bc.duration Duration baseline period(s) to use for correction
 #' @param bc.type Do you want to use "subtractive" or "divisive" baseline correction? (default: "subtractive")
 #' @param downsample.binlength Length of bins to average (default: NULL)
@@ -45,7 +47,7 @@ preprocess <- function(import = "", pattern = "*.txt", output = NULL, export = "
                        gazedata.include = FALSE, subset = "default", trial.exclude = c(),
                        eye.recorded = "", eye.use = "", hz = "",
                        startrecording.message = "default",  startrecording.match = "exact",
-                       trialonset.message = "", pretrial.duration = "",
+                       trialonset.message = "", trialonset.match = "exact", pretrial.duration = "",
                        velocity = "", margin = "", missing.allowed = 1,
                        interpolate = FALSE, interpolate.type = "", interpolate.maxgap = Inf,
                        smooth = FALSE, smooth.type = "", smooth.window = 5, method.first = NULL,
@@ -63,13 +65,8 @@ preprocess <- function(import = "", pattern = "*.txt", output = NULL, export = "
   saveData <- function(x, preprocessing.stage = ""){
     if (bc==TRUE){
       preprocessing <- paste(preprocessing.stage, "bc", sep = ".")
-      x <- pupil.baselinecorrect(x, baselineoffset.message = baselineoffset.message, bc.duration = bc.duration)
-      if (preprocessing.stage==""){
-        preprocessing <- "bc"
-      } else {
-        preprocessing <- paste(preprocessing.stage, "bc", sep = ".")
-      }
-      x <- pupil.baselinecorrect(x, baselineoffset.message = baselineoffset.message, bc.duration = bc.duration, bc.type = bc.type)
+      x <- pupil.baselinecorrect(x, baselineoffset.message = baselineoffset.message, match = baselineoffset.match,
+                                 bc.duration = bc.duration, bc.type = bc.type)
       # Downsample?
       if (!is.null(downsample.binlength)){
         preprocessing <- paste(preprocessing, "ds", sep = ".")
@@ -134,7 +131,7 @@ preprocess <- function(import = "", pattern = "*.txt", output = NULL, export = "
     ## Creates a column that specifies the current stimulus (based on Messages in the data)
     data <- set.stimuli(data)
     ## Sets the Timing column relative to the onset of each trial
-    data <- set.timing(data, trialonset.message = trialonset.message,
+    data <- set.timing(data, trialonset.message = trialonset.message, match = trialonset.match,
                        ms.conversion = ms.conversion, pretrial.duration = pretrial.duration)
 
     ## Save data at this stage
