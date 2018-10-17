@@ -153,12 +153,14 @@ and outputs the preprocessed data to a specified folder path</p>
   <span class='kw'>subj.suffix</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>gazedata.include</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>subset</span> <span class='kw'>=</span> <span class='st'>"default"</span>,
   <span class='kw'>trial.exclude</span> <span class='kw'>=</span> <span class='fu'>c</span>(), <span class='kw'>eye.recorded</span> <span class='kw'>=</span> <span class='st'>""</span>, <span class='kw'>eye.use</span> <span class='kw'>=</span> <span class='st'>""</span>, <span class='kw'>hz</span> <span class='kw'>=</span> <span class='st'>""</span>,
   <span class='kw'>startrecording.message</span> <span class='kw'>=</span> <span class='st'>"default"</span>, <span class='kw'>startrecording.match</span> <span class='kw'>=</span> <span class='st'>"exact"</span>,
-  <span class='kw'>trialonset.message</span> <span class='kw'>=</span> <span class='st'>""</span>, <span class='kw'>pretrial.duration</span> <span class='kw'>=</span> <span class='st'>""</span>, <span class='kw'>velocity</span> <span class='kw'>=</span> <span class='st'>""</span>,
-  <span class='kw'>margin</span> <span class='kw'>=</span> <span class='st'>""</span>, <span class='kw'>missing.allowed</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>interpolate</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>interpolate.type</span> <span class='kw'>=</span> <span class='st'>""</span>, <span class='kw'>interpolate.maxgap</span> <span class='kw'>=</span> <span class='fl'>Inf</span>, <span class='kw'>smooth</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>smooth.type</span> <span class='kw'>=</span> <span class='st'>""</span>, <span class='kw'>smooth.window</span> <span class='kw'>=</span> <span class='fl'>5</span>, <span class='kw'>method.first</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>bc</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>baselineoffset.message</span> <span class='kw'>=</span> <span class='st'>""</span>, <span class='kw'>bc.duration</span> <span class='kw'>=</span> <span class='st'>""</span>,
-  <span class='kw'>bc.type</span> <span class='kw'>=</span> <span class='st'>"subtractive"</span>, <span class='kw'>downsample.binlength</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
+  <span class='kw'>trialonset.message</span> <span class='kw'>=</span> <span class='st'>""</span>, <span class='kw'>trialonset.match</span> <span class='kw'>=</span> <span class='st'>"exact"</span>,
+  <span class='kw'>pretrial.duration</span> <span class='kw'>=</span> <span class='st'>""</span>, <span class='kw'>velocity</span> <span class='kw'>=</span> <span class='st'>""</span>, <span class='kw'>margin</span> <span class='kw'>=</span> <span class='st'>""</span>,
+  <span class='kw'>missing.allowed</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>interpolate</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>interpolate.type</span> <span class='kw'>=</span> <span class='st'>""</span>,
+  <span class='kw'>interpolate.maxgap</span> <span class='kw'>=</span> <span class='fl'>Inf</span>, <span class='kw'>smooth</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>smooth.type</span> <span class='kw'>=</span> <span class='st'>""</span>,
+  <span class='kw'>smooth.window</span> <span class='kw'>=</span> <span class='fl'>5</span>, <span class='kw'>method.first</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>bc</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>baselineoffset.message</span> <span class='kw'>=</span> <span class='st'>""</span>, <span class='kw'>baselineoffset.match</span> <span class='kw'>=</span> <span class='st'>"exact"</span>,
+  <span class='kw'>bc.duration</span> <span class='kw'>=</span> <span class='st'>""</span>, <span class='kw'>bc.type</span> <span class='kw'>=</span> <span class='st'>"subtractive"</span>,
+  <span class='kw'>downsample.binlength</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -232,6 +234,10 @@ and outputs the preprocessed data to a specified folder path</p>
       <td><p>Message string that marks the start of a trial</p></td>
     </tr>
     <tr>
+      <th>trialonset.match</th>
+      <td><p>Should the message string be an "exact" match or a "pattern" match?</p></td>
+    </tr>
+    <tr>
       <th>pretrial.duration</th>
       <td><p>Duration of pre-trial baseline period in milliseconds</p></td>
     </tr>
@@ -281,6 +287,10 @@ and outputs the preprocessed data to a specified folder path</p>
     </tr>
     <tr>
       <th>baselineoffset.message</th>
+      <td><p>Message string(s) that marks the offset of baseline period(s)</p></td>
+    </tr>
+    <tr>
+      <th>baselineoffset.match</th>
       <td><p>Message string(s) that marks the offset of baseline period(s)</p></td>
     </tr>
     <tr>
