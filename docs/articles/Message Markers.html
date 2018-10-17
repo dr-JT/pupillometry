@@ -131,9 +131,9 @@
 <p><code>trialonset.message</code> is the message that marks the onset of a trial. If you included a fixation as an inter-trial-interval (ITI) at the start of every trial, then the <strong>trial onset should correspond to the stimulus after the fixation or ITI stimulus</strong>. The fixation (ITI) period will be treated as a pre-trial period.</p>
 <p><code>trialonset.message</code> is used to set the timing relative to trial onset using <code><a href="../reference/set.timing.html">set.timing()</a></code>. Pre-trial periods will have a negative Time value.</p>
 </div>
-<div id="trialonset-match" class="section level3">
+<div id="trialonset-match-cexact-pattern" class="section level3">
 <h3 class="hasAnchor">
-<a href="#trialonset-match" class="anchor"></a><code>trialonset.match = ""</code>
+<a href="#trialonset-match-cexact-pattern" class="anchor"></a><code>trialonset.match = c("exact", "pattern")</code>
 </h3>
 <p>There is an additional parameter <code>trialonset.match</code> that specifies whether <code>trialonset.message</code> needs to be an <code>"exact"</code> or a <code>"pattern"</code> match. This simply allows more flexibility in how researchers may have included message markers in their task. <code>"pattern"</code> should be used if the <code>trialonset.message</code> marker is different on every trial (this can happen if the message includes information about the trial number). Within a trial, <code>trialonset.match</code> will only take the first match that occurs as the <code>trialonset.message</code>.</p>
 <p>Such as, if the start recording message is different on each trial “TRIALID [trial number]”, then a <code>"pattern"</code> match will need to be used to correctl set the trial index.</p>
@@ -152,9 +152,9 @@
 <p><code>baselineoffset.message</code> is the message that marks the offset of the baseline period and the start of the critical task period that needs to be baseline corrected.</p>
 <p><code>baselineoffset.message</code> is used for baseline correction in <code><a href="../reference/pupil.baselinecorrect.html">pupil.baselinecorrect()</a></code>.</p>
 </div>
-<div id="baselineoffset-match" class="section level3">
+<div id="baselineoffset-match-cexact-pattern" class="section level3">
 <h3 class="hasAnchor">
-<a href="#baselineoffset-match" class="anchor"></a><code>baselineoffset.match = ""</code>
+<a href="#baselineoffset-match-cexact-pattern" class="anchor"></a><code>baselineoffset.match = c("exact", "pattern")</code>
 </h3>
 <p>There is an additional parameter <code>baselineoffset.match</code> that specifies whether <code>baselineoffset.message</code> needs to be an <code>"exact"</code> or a <code>"pattern"</code> match. This simply allows more flexibility in how researchers may have included message markers in their task. <code>"pattern"</code> should be used if the <code>baselineoffset.message</code> marker is different on every trial (this can happen if the message includes information about the trial number). Within a trial, <code>baselineoffset.match</code> will only take the first match that occurs as the <code>baselineoffset.message</code>.</p>
 </div>

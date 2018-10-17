@@ -30,7 +30,7 @@ There is an additional parameter `startrecording.match` that specifies whether `
 
 `trialonset.message` is used to set the timing relative to trial onset using `set.timing()`. Pre-trial periods will have a negative Time value. 
 
-### `trialonset.match = ""`
+### `trialonset.match = c("exact", "pattern")`
 
 There is an additional parameter `trialonset.match` that specifies whether `trialonset.message` needs to be an `"exact"` or a `"pattern"` match. This simply allows more flexibility in how researchers may have included message markers in their task. `"pattern"` should be used if the `trialonset.message` marker is different on every trial (this can happen if the message includes information about the trial number). Within a trial, `trialonset.match` will only take the first match that occurs as the `trialonset.message`. 
 
@@ -48,7 +48,7 @@ For instance if `preprocess(pretrial.duration = 2000)`, then the 2000 millisecon
 
 `baselineoffset.message` is used for baseline correction in `pupil.baselinecorrect()`.
 
-### `baselineoffset.match = ""`
+### `baselineoffset.match = c("exact", "pattern")`
 
 There is an additional parameter `baselineoffset.match` that specifies whether `baselineoffset.message` needs to be an `"exact"` or a `"pattern"` match. This simply allows more flexibility in how researchers may have included message markers in their task. `"pattern"` should be used if the `baselineoffset.message` marker is different on every trial (this can happen if the message includes information about the trial number). Within a trial, `baselineoffset.match` will only take the first match that occurs as the `baselineoffset.message`. 
 
