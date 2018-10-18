@@ -37,7 +37,7 @@ pupil.baselinecorrect <- function(x, baselineoffset.message = "", bc.duration = 
                      PreTarget.mean = ifelse(is.na(PreTarget) | PreTarget==0, NA, PreTarget.mean))
   x <- dplyr::group_by(x, Trial)
   x <- dplyr::mutate(x, PreTarget.mean = zoo::na.locf(PreTarget.mean, na.rm = FALSE))
-  x <- dplyr::mutate(x, PreTarget.mean = ifelse(Target > 0, NA, PreTarget.mean))
+  x <- dplyr::mutate(x, PreTarget.mean = ifelse(PreTarget > Target, NA, PreTarget.mean))
   x <- dplyr::mutate(x, PreTarget.mean = zoo::na.locf(PreTarget.mean, na.rm = FALSE))
   if (bc.type=="subtractive"){
     x <- dplyr::mutate(x, Pupil_Diameter_bc.mm = Pupil_Diameter.mm - PreTarget.mean)
