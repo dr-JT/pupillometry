@@ -18,9 +18,9 @@ pupil.baselinecorrect <- function(x, baselineoffset.message = "", bc.duration = 
   for (message in baselineoffset.message){
     n <- match(message, baselineoffset.message)
     if (match=="exact"){
-      x <- dplyr::mutate(x, baselineoffset.time = ifelse(Message==baselineoffset.message, Time, NA))
+      x <- dplyr::mutate(x, baselineoffset.time = ifelse(Message==message, Time, NA))
     } else if (match=="pattern"){
-      x <- dplyr::mutate(x, baselineoffset.time = ifelse(stringr::str_detect(Message, baselineoffset.message), Time, NA))
+      x <- dplyr::mutate(x, baselineoffset.time = ifelse(stringr::str_detect(Message, message), Time, NA))
     }
     x <- dplyr::mutate(x,
                        min = min(baselineoffset.time, na.rm = TRUE),
