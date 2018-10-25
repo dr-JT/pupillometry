@@ -128,6 +128,10 @@ preprocess <- function(import = "", pattern = "*.txt", output = NULL, export = "
     ## First of all, remove data during blinks and create columns of how much missing data each trial has. pupil.missing()
     data <- pupil.missing(data, missing.allowed = missing.allowed)
 
+    if (nrow(data)==0){
+      next
+    }
+
     ## Creates a column that specifies the current stimulus (based on Messages in the data)
     data <- set.stimuli(data)
     ## Sets the Timing column relative to the onset of each trial
