@@ -16,7 +16,7 @@ pupil.missing <- function(x, missing.allowed = 1, velocity = "", margin = ""){
   x <- dplyr::group_by(x, Trial)
   x <- dplyr::mutate(x,
                      Pupil_Diameter.mm = ifelse(Event=="Blink"|is.na(Event)|Pupil_Diameter.mm==0, NA, Pupil_Diameter.mm),
-                     Missing.Total = ifelse(is.na(Pupil_Diameter.mm), 1, NA),
+                     Missing.Total = ifelse(is.na(Pupil_Diameter.mm), 1, 0),
                      Missing.Total = sum(Missing.Total, na.rm = TRUE)/n())
   x <- dplyr::ungroup(x)
   x <- dplyr::filter(x, Missing.Total<=missing.allowed)
