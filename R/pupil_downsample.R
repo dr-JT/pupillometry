@@ -4,22 +4,12 @@
 #' @param x dataframe
 #' @param bin.length Length of bins to average
 #' @param bc Logical. Was baseline correction done on the data? Is there a column labeled Pupil_Diameter_bc.mm?
-#'
-#' @templateVar fun pupil.downsample
-#' @template template-depr_fun
-NULL
-
-#' @templateVar old pupil.downsample
-#' @templateVar new pupil_downsample
-#' @template template-depr_pkg
-#'
 #' @keywords downsample
 #' @export
 #' @examples
-#' pupil.downsample(x, bin.length = 100)
+#' pupil_downsample(x, bin.length = 100)
 
-pupil.downsample <- function(x, bin.length = NULL, bc = FALSE){
-  .Deprecated("pupil_downsample")
+pupil_downsample <- function(x, bin.length = NULL, bc = FALSE){
   x <- dplyr::group_by(x, Trial)
   x <- dplyr::mutate(x,
                      TimeBin = trunc(Time/bin.length),
