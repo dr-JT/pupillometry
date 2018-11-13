@@ -132,16 +132,16 @@
 <p>There might be many comparisons you would like to make. For visual purposes it probably is best to not display more than three time-series on a graph at one time. You should also include a time-series in which no preprocessing has been performed, that is the <code>naremoved</code> file.</p>
 <p>Some comparisons you might want to make are different smoothing window sizes <code>smooth.window</code>, or different maxgap sizes <code>interpolate.maxgap</code>.</p>
 <p>To make the first plot displayed below:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw"><a href="../reference/plot.comparison.html">plot.comparison</a></span>(<span class="dt">import =</span> <span class="st">"data/test"</span>, </a>
-<a class="sourceLine" id="cb1-2" data-line-number="2">                <span class="dt">files =</span> <span class="kw">c</span>(<span class="st">"Pitch_Discrimination_19_PupilData_interpolated_cubic-spline.txt"</span>,</a>
-<a class="sourceLine" id="cb1-3" data-line-number="3">                          <span class="st">"Pitch_Discrimination_19_PupilData_interpolated_linear.txt"</span>,</a>
-<a class="sourceLine" id="cb1-4" data-line-number="4">                          <span class="st">"Pitch_Discrimination_19_PupilData_naremoved.txt"</span>),</a>
-<a class="sourceLine" id="cb1-5" data-line-number="5">                <span class="dt">labels =</span> <span class="kw">c</span>(<span class="st">"cubic-spline"</span>,</a>
-<a class="sourceLine" id="cb1-6" data-line-number="6">                           <span class="st">"linear"</span>,</a>
-<a class="sourceLine" id="cb1-7" data-line-number="7">                           <span class="st">"No Preprocessing"</span>), </a>
-<a class="sourceLine" id="cb1-8" data-line-number="8">                <span class="dt">trial =</span> <span class="dv">6</span>,</a>
-<a class="sourceLine" id="cb1-9" data-line-number="9">                <span class="dt">title =</span> <span class="kw">paste</span>(<span class="st">"Trial"</span>, <span class="dv">6</span>, <span class="dt">sep =</span> <span class="st">" "</span>),</a>
-<a class="sourceLine" id="cb1-10" data-line-number="10">                <span class="dt">legend.title =</span> <span class="st">"interpolation.type"</span>)</a></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/plot.comparison.html">plot.comparison</a></span>(<span class="dt">import =</span> <span class="st">"data/test"</span>, 
+                <span class="dt">files =</span> <span class="kw">c</span>(<span class="st">"Pitch_Discrimination_19_PupilData_interpolated_cubic-spline.txt"</span>,
+                          <span class="st">"Pitch_Discrimination_19_PupilData_interpolated_linear.txt"</span>,
+                          <span class="st">"Pitch_Discrimination_19_PupilData_naremoved.txt"</span>),
+                <span class="dt">labels =</span> <span class="kw">c</span>(<span class="st">"cubic-spline"</span>,
+                           <span class="st">"linear"</span>,
+                           <span class="st">"No Preprocessing"</span>), 
+                <span class="dt">trial =</span> <span class="dv">6</span>,
+                <span class="dt">title =</span> <span class="kw">paste</span>(<span class="st">"Trial"</span>, <span class="dv">6</span>, <span class="dt">sep =</span> <span class="st">" "</span>),
+                <span class="dt">legend.title =</span> <span class="st">"interpolation.type"</span>)</code></pre></div>
 </div>
 <div id="method-first" class="section level2">
 <h2 class="hasAnchor">
@@ -151,23 +151,27 @@
 <p>These data come from a pitch discrimination task as described in the <a href="https://dr-jt.github.io/pupillometry/articles/Example%20Data%20Set.html">Example Data Set</a> article. Time = 0 is the onset of the first tone.</p>
 <hr>
 <p>In all the figures, at some point the time-series “lines” might overlap considerably and it only looks like one color is there. In fact, all colored lines are present during those periods, they are just overlapping. If smoothing was applied, then <code>smooth.window = 500</code>.</p>
-<p>On Trial 6 there is a couple of “major” gaps of missing pupil data. You can see that if you use <code>cubic-spline</code> interpolation without smoothing, then the interpolated values are exaggerated and most likely unrealistic (see the period of 0 - 500 ms). It is very unlikely that pupil size is decreasing and then increasing by over 1 mm within a 500 ms interval. It is likely that the <code>cubic-spline</code> interpolation is modeling too much high frequency noise in the data. You can see that the <code>linear</code> interpolation does not suffer from the same problem. However, if there was truly a decrease during that interval then the <code>linear</code> interpolation is not capturing that.</p>
+<p>On Trial 6 there are a couple of “major” gaps of missing pupil data. You can see that if you use <code>cubic-spline</code> interpolation without smoothing (<em>Figure 1</em>), then the interpolated values are exaggerated and most likely unrealistic (see the period of 0 - 500 ms). It is very unlikely that pupil size is decreasing and then increasing by over 1 mm within a 500 ms interval. Thee <code>cubic-spline</code> interpolation might be modeling too much high frequency noise in the data. You can see that the <code>linear</code> interpolation does not suffer from the same problem. However, if there was truly a decrease during that interval then the <code>linear</code> interpolation is not capturing that.</p>
 <p><img src="../reference/figures/Trial6-interpolation.type.png" align="center"></p>
+<p><em>Figure 1</em></p>
 <hr>
-<p>Here is the same trial but with also smoothing applied. With either <code>method.first = "smooth"</code> (green line) or <code>method.first = "interpolate"</code> (pink line). Again it is clear that, unless smoothing is applied before a <code>cubic-spline</code> interpolation, then the data may become too distorted.</p>
+<p><em>Figure 2</em> shows the same trial but with smoothing applied. With either <code>method.first = "smooth"</code> (<strong>green line</strong>) or <code>method.first = "interpolate"</code> (<strong>pink line</strong>). Both lines used <strong>cubic-spline interpolation</strong>, the only difference is whether smoothing was applied first or not. You can see that applying smoothing before a cubice-spline interpolation avoids the issue seen in <em>Figure 1</em> and the pink line in <em>Figure 2</em>.</p>
 <p><img src="../reference/figures/Trial6--cubic-spline-hann.png" align="center"></p>
 <p><br><br></p>
 <hr>
-<p>There is not as big of a difference for <code>linear</code> interpolation. Visually, it does still seem slightly better to apply <code>method.first = "smooth"</code> as well.</p>
+<p>There is not as big of a difference for <code>linear</code> interpolation.</p>
+<p>For <code>linear</code> interpolation, the issue of applying smoothing first or not is not as big of an issue (<em>Figure 3</em>).</p>
 <p><img src="../reference/figures/Trial6--linear-hann.png" align="center"></p>
 <p><br><br></p>
 <hr>
-<p>And here is Trial 6 if you were to do smoothing but no interpolation</p>
+<p>And here is Trial 6 if you were to do smoothing but no interpolation (<em>Figure 4</em>)</p>
 <p><img src="../reference/figures/Trial6-smooth.type.png" align="center"></p>
 <p><br><br></p>
 <hr>
-<p>Trial 2 shows a similar pattern. It seems that with larger gaps of missing data the extreme exaggeration of the <code>cubic-spline</code> interpolation gets worse.</p>
+<p>Trial 2 shows a similar pattern when you use cubic-spline interpolation (<em>Figure 5</em>).</p>
 <p><img src="../reference/figures/Trial2--cubic-spline-hann.png" align="center"></p>
+<hr>
+<p>These comparisons demonstrate the importance of being careful what types of preprocessing paramteres you specify. Based on this small sample of data it is suggested, that if you are going to apply an interpolation method, that you first apply smoothing.</p>
 </div>
   </div>
 

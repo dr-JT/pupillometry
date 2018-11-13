@@ -66,13 +66,15 @@ These data come from a pitch discrimination task as described in the [Example Da
 
 In all the figures, at some point the time-series "lines" might overlap considerably and it only looks like one color is there. In fact, all colored lines are present during those periods, they are just overlapping. If smoothing was applied, then `smooth.window = 500`.
 
-On Trial 6 there is a couple of "major" gaps of missing pupil data. You can see that if you use `cubic-spline` interpolation without smoothing, then the interpolated values are exaggerated and most likely unrealistic (see the period of 0 - 500 ms). It is very unlikely that pupil size is decreasing and then increasing by over 1 mm within a 500 ms interval. It is likely that the `cubic-spline` interpolation is modeling too much high frequency noise in the data. You can see that the `linear` interpolation does not suffer from the same problem. However, if there was truly a decrease during that interval then the `linear` interpolation is not capturing that.
+On Trial 6 there are a couple of "major" gaps of missing pupil data. You can see that if you use `cubic-spline` interpolation without smoothing (*Figure 1*), then the interpolated values are exaggerated and most likely unrealistic (see the period of 0 - 500 ms). It is very unlikely that pupil size is decreasing and then increasing by over 1 mm within a 500 ms interval. Thee `cubic-spline` interpolation might be modeling too much high frequency noise in the data. You can see that the `linear` interpolation does not suffer from the same problem. However, if there was truly a decrease during that interval then the `linear` interpolation is not capturing that.
 
 <img src="../reference/figures/Trial6-interpolation.type.png" align = "center" />
 
+*Figure 1*
+
 ********
 
-Here is the same trial but with also smoothing applied. With either `method.first = "smooth"` (green line) or `method.first = "interpolate"` (pink line). Again it is clear that, unless smoothing is applied before a `cubic-spline` interpolation, then the data may become too distorted. 
+*Figure 2* shows the same trial but with smoothing applied. With either `method.first = "smooth"` (**green line**) or `method.first = "interpolate"` (**pink line**). Both lines used **cubic-spline interpolation**, the only difference is whether smoothing was applied first or not. You can see that applying smoothing before a cubice-spline interpolation avoids the issue seen in *Figure 1* and the pink line in *Figure 2*.
 
 <img src="../reference/figures/Trial6--cubic-spline-hann.png" align = "center" />
 
@@ -80,7 +82,9 @@ Here is the same trial but with also smoothing applied. With either `method.firs
 
 ********
 
-There is not as big of a difference for `linear` interpolation. Visually, it does still seem slightly better to apply `method.first = "smooth"` as well. 
+There is not as big of a difference for `linear` interpolation. 
+
+For `linear` interpolation, the issue of applying smoothing first or not is not as big of an issue (*Figure 3*).
 
 <img src="../reference/figures/Trial6--linear-hann.png" align = "center" />
 
@@ -88,7 +92,7 @@ There is not as big of a difference for `linear` interpolation. Visually, it doe
 
 ********
 
-And here is Trial 6 if you were to do smoothing but no interpolation
+And here is Trial 6 if you were to do smoothing but no interpolation (*Figure 4*)
 
 <img src="../reference/figures/Trial6-smooth.type.png" align = "center" />
 
@@ -96,9 +100,13 @@ And here is Trial 6 if you were to do smoothing but no interpolation
 
 ********
 
-Trial 2 shows a similar pattern. It seems that with larger gaps of missing data the extreme exaggeration of the `cubic-spline` interpolation gets worse.
+Trial 2 shows a similar pattern when you use cubic-spline interpolation (*Figure 5*).
 
 <img src="../reference/figures/Trial2--cubic-spline-hann.png" align = "center" />
+
+********
+
+These comparisons demonstrate the importance of being careful what types of preprocessing paramteres you specify. Based on this small sample of data it is suggested, that if you are going to apply an interpolation method, that you first apply smoothing.
 
 
 

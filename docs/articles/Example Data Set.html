@@ -119,56 +119,56 @@
 <li><p>Task: Pitch Discrimination</p></li>
 <li><p>Trial Procedure: Fixation (Pre-trial - 2000 ms) -&gt; Tone 1 (200 ms) -&gt; Inter-stimulus Interval (ISI - 500 ms) -&gt; Tone 2 (200 ms) -&gt; Response Screen (Until response)</p></li>
 </ul>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="co"># devtools::install_github("dr-JT/pupillometry")</span></a>
-<a class="sourceLine" id="cb1-2" data-line-number="2"></a>
-<a class="sourceLine" id="cb1-3" data-line-number="3"><span class="kw">library</span>(pupillometry)</a>
-<a class="sourceLine" id="cb1-4" data-line-number="4"></a>
-<a class="sourceLine" id="cb1-5" data-line-number="5"><span class="co">## Preprocessing Parameters ####</span></a>
-<a class="sourceLine" id="cb1-6" data-line-number="6">import &lt;-<span class="st"> "data/Raw"</span></a>
-<a class="sourceLine" id="cb1-7" data-line-number="7">output &lt;-<span class="st"> "data/Preprocessed"</span></a>
-<a class="sourceLine" id="cb1-8" data-line-number="8">task &lt;-<span class="st"> "Pitch_Discrimination"</span></a>
-<a class="sourceLine" id="cb1-9" data-line-number="9">eyetracker &lt;-<span class="st"> "smi"</span></a>
-<a class="sourceLine" id="cb1-10" data-line-number="10"></a>
-<a class="sourceLine" id="cb1-11" data-line-number="11"><span class="co"># Eyetrackers save the subject # information in different ways and is not always easy to obtain</span></a>
-<a class="sourceLine" id="cb1-12" data-line-number="12"><span class="co"># The most versatile method is to extract it from the datafile name. You need to identify a </span></a>
-<a class="sourceLine" id="cb1-13" data-line-number="13"><span class="co"># unique subj.prefix pattern and subj.suffix pattern that surrounds the subject # in the </span></a>
-<a class="sourceLine" id="cb1-14" data-line-number="14"><span class="co"># datafile name. In this case it would be </span></a>
-<a class="sourceLine" id="cb1-15" data-line-number="15">subj.prefix &lt;-<span class="st"> "n_"</span> <span class="co"># There are multiple underscores in this datafile name so it needs to be more specific "n_"</span></a>
-<a class="sourceLine" id="cb1-16" data-line-number="16">subj.suffix &lt;-<span class="st"> "-"</span></a>
-<a class="sourceLine" id="cb1-17" data-line-number="17"></a>
-<a class="sourceLine" id="cb1-18" data-line-number="18">eye.recorded &lt;-<span class="st"> "both"</span></a>
-<a class="sourceLine" id="cb1-19" data-line-number="19">eye.use &lt;-<span class="st"> "left"</span></a>
-<a class="sourceLine" id="cb1-20" data-line-number="20">hz &lt;-<span class="st"> </span><span class="dv">250</span></a>
-<a class="sourceLine" id="cb1-21" data-line-number="21">trialonset.message &lt;-<span class="st"> "Tone 1"</span> </a>
-<a class="sourceLine" id="cb1-22" data-line-number="22"></a>
-<a class="sourceLine" id="cb1-23" data-line-number="23"><span class="co"># Intertrial interval (Fixation) was 2000 ms but </span></a>
-<a class="sourceLine" id="cb1-24" data-line-number="24"><span class="co"># I am choosing to set only the last 1000 ms as pre-trial</span></a>
-<a class="sourceLine" id="cb1-25" data-line-number="25">pretrial.duration &lt;-<span class="st"> </span><span class="dv">1000</span></a>
-<a class="sourceLine" id="cb1-26" data-line-number="26"></a>
-<a class="sourceLine" id="cb1-27" data-line-number="27">missing.allowed &lt;-<span class="st"> </span><span class="fl">.75</span></a>
-<a class="sourceLine" id="cb1-28" data-line-number="28">interpolate &lt;-<span class="st"> </span><span class="ot">TRUE</span></a>
-<a class="sourceLine" id="cb1-29" data-line-number="29">interpolate.type &lt;-<span class="st"> "cubic-spline"</span></a>
-<a class="sourceLine" id="cb1-30" data-line-number="30">interpolate.maxgap &lt;-<span class="st"> </span><span class="dv">750</span></a>
-<a class="sourceLine" id="cb1-31" data-line-number="31">smooth &lt;-<span class="st"> </span><span class="ot">TRUE</span></a>
-<a class="sourceLine" id="cb1-32" data-line-number="32">smooth.type &lt;-<span class="st"> "hann"</span></a>
-<a class="sourceLine" id="cb1-33" data-line-number="33">smooth.window &lt;-<span class="st"> </span><span class="dv">100</span></a>
-<a class="sourceLine" id="cb1-34" data-line-number="34">method.first &lt;-<span class="st"> "smooth"</span></a>
-<a class="sourceLine" id="cb1-35" data-line-number="35">bc &lt;-<span class="st"> </span><span class="ot">TRUE</span></a>
-<a class="sourceLine" id="cb1-36" data-line-number="36">baselineoffset.message &lt;-<span class="st"> "Tone 1"</span></a>
-<a class="sourceLine" id="cb1-37" data-line-number="37">bc.duration &lt;-<span class="st"> </span><span class="dv">200</span></a>
-<a class="sourceLine" id="cb1-38" data-line-number="38">bc.type &lt;-<span class="st"> "subtractive"</span></a>
-<a class="sourceLine" id="cb1-39" data-line-number="39">downsample.binlength &lt;-<span class="st"> </span><span class="dv">20</span></a>
-<a class="sourceLine" id="cb1-40" data-line-number="40"><span class="co">################################</span></a>
-<a class="sourceLine" id="cb1-41" data-line-number="41"></a>
-<a class="sourceLine" id="cb1-42" data-line-number="42"><span class="kw"><a href="../reference/preprocess.html">preprocess</a></span>(<span class="dt">import =</span> import, <span class="dt">output =</span> output, <span class="dt">taskname =</span> task, <span class="dt">eyetracker =</span> eyetracker,</a>
-<a class="sourceLine" id="cb1-43" data-line-number="43">           <span class="dt">subj.prefix =</span> subj.prefix, <span class="dt">subj.suffix =</span> subj.suffix,</a>
-<a class="sourceLine" id="cb1-44" data-line-number="44">           <span class="dt">eye.recorded =</span> eye.recorded, <span class="dt">eye.use =</span> eye.use, <span class="dt">hz =</span> hz,</a>
-<a class="sourceLine" id="cb1-45" data-line-number="45">           <span class="dt">trialonset.message =</span> trialonset.message, <span class="dt">pretrial.duration =</span> pretrial.duration,</a>
-<a class="sourceLine" id="cb1-46" data-line-number="46">           <span class="dt">missing.allowed =</span> missing.allowed,</a>
-<a class="sourceLine" id="cb1-47" data-line-number="47">           <span class="dt">interpolate =</span> interpolate, <span class="dt">interpolate.type =</span> interpolate.type, <span class="dt">interpolate.maxgap =</span> interpolate.maxgap,</a>
-<a class="sourceLine" id="cb1-48" data-line-number="48">           <span class="dt">smooth =</span> smooth, <span class="dt">smooth.type =</span> smooth.type, <span class="dt">smooth.window =</span> smooth.window, <span class="dt">method.first =</span> method.first,</a>
-<a class="sourceLine" id="cb1-49" data-line-number="49">           <span class="dt">bc =</span> bc, <span class="dt">baselineoffset.message =</span> baselineoffset.message, <span class="dt">bc.duration =</span> bc.duration, <span class="dt">bc.type =</span> bc.type,</a>
-<a class="sourceLine" id="cb1-50" data-line-number="50">           <span class="dt">downsample.binlength =</span> downsample.binlength)</a></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># devtools::install_github("dr-JT/pupillometry")</span>
+
+<span class="kw">library</span>(pupillometry)
+
+## Preprocessing Parameters ####
+import &lt;-<span class="st"> "data/Raw"</span>
+output &lt;-<span class="st"> "data/Preprocessed"</span>
+task &lt;-<span class="st"> "Pitch_Discrimination"</span>
+eyetracker &lt;-<span class="st"> "smi"</span>
+
+<span class="co"># Eyetrackers save the subject # information in different ways and is not always easy to obtain</span>
+<span class="co"># The most versatile method is to extract it from the datafile name. You need to identify a </span>
+<span class="co"># unique subj.prefix pattern and subj.suffix pattern that surrounds the subject # in the </span>
+<span class="co"># datafile name. In this case it would be </span>
+subj.prefix &lt;-<span class="st"> "n_"</span> <span class="co"># There are multiple underscores in this datafile name so it needs to be more specific "n_"</span>
+subj.suffix &lt;-<span class="st"> "-"</span>
+
+eye.recorded &lt;-<span class="st"> "both"</span>
+eye.use &lt;-<span class="st"> "left"</span>
+hz &lt;-<span class="st"> </span><span class="dv">250</span>
+trialonset.message &lt;-<span class="st"> "Tone 1"</span> 
+
+<span class="co"># Intertrial interval (Fixation) was 2000 ms but </span>
+<span class="co"># I am choosing to set only the last 1000 ms as pre-trial</span>
+pretrial.duration &lt;-<span class="st"> </span><span class="dv">1000</span>
+
+missing.allowed &lt;-<span class="st"> </span>.<span class="dv">75</span>
+interpolate &lt;-<span class="st"> </span><span class="ot">TRUE</span>
+interpolate.type &lt;-<span class="st"> "cubic-spline"</span>
+interpolate.maxgap &lt;-<span class="st"> </span><span class="dv">750</span>
+smooth &lt;-<span class="st"> </span><span class="ot">TRUE</span>
+smooth.type &lt;-<span class="st"> "hann"</span>
+smooth.window &lt;-<span class="st"> </span><span class="dv">100</span>
+method.first &lt;-<span class="st"> "smooth"</span>
+bc &lt;-<span class="st"> </span><span class="ot">TRUE</span>
+baselineoffset.message &lt;-<span class="st"> "Tone 1"</span>
+bc.duration &lt;-<span class="st"> </span><span class="dv">200</span>
+bc.type &lt;-<span class="st"> "subtractive"</span>
+downsample.binlength &lt;-<span class="st"> </span><span class="dv">20</span>
+################################
+
+<span class="kw"><a href="../reference/preprocess.html">preprocess</a></span>(<span class="dt">import =</span> import, <span class="dt">output =</span> output, <span class="dt">taskname =</span> task, <span class="dt">eyetracker =</span> eyetracker,
+           <span class="dt">subj.prefix =</span> subj.prefix, <span class="dt">subj.suffix =</span> subj.suffix,
+           <span class="dt">eye.recorded =</span> eye.recorded, <span class="dt">eye.use =</span> eye.use, <span class="dt">hz =</span> hz,
+           <span class="dt">trialonset.message =</span> trialonset.message, <span class="dt">pretrial.duration =</span> pretrial.duration,
+           <span class="dt">missing.allowed =</span> missing.allowed,
+           <span class="dt">interpolate =</span> interpolate, <span class="dt">interpolate.type =</span> interpolate.type, <span class="dt">interpolate.maxgap =</span> interpolate.maxgap,
+           <span class="dt">smooth =</span> smooth, <span class="dt">smooth.type =</span> smooth.type, <span class="dt">smooth.window =</span> smooth.window, <span class="dt">method.first =</span> method.first,
+           <span class="dt">bc =</span> bc, <span class="dt">baselineoffset.message =</span> baselineoffset.message, <span class="dt">bc.duration =</span> bc.duration, <span class="dt">bc.type =</span> bc.type,
+           <span class="dt">downsample.binlength =</span> downsample.binlength)</code></pre></div>
 </div>
   </div>
 

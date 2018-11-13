@@ -127,11 +127,9 @@
 <p><strong>maxgap</strong>: Maximum duration (milliseconds) of NAs to interpolate over. Any gaps over this value will not be interpolated. (default: Inf)</p>
 <p>This can be a good idea to avoid interpolating over large chunks of missing data. The default (Inf) does not have a maxgap limit.</p>
 </li>
-<li>
-<p><strong>hz</strong>: The recording frequency of the eyetracker. (Only needed if using maxgap)</p>
-<p>If maxgap is specified, then you need to also specify the recording frequency of the eyetracker. This will be used to convert the maxgap in milliseconds to number of samples (rows) in the dataframe.</p>
-</li>
+<li><p><strong>hz</strong>: The recording frequency of the eyetracker. (Only needed if using maxgap)</p></li>
 </ul>
+<p>If maxgap is specified, then you need to also specify the recording frequency of the eyetracker. This will be used to convert the maxgap in milliseconds to number of samples (rows) in the dataframe.</p>
 </div>
 <div id="smoothing" class="section level2">
 <h2 class="hasAnchor">
