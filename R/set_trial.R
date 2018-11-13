@@ -4,22 +4,12 @@
 #' @param x dataframe
 #' @param startrecording.message Message string that marks the start of a recorind
 #' @param match Should the message string be an "exact" match or a "pattern" match?
-#'
-#' @templateVar fun set.trial
-#' @template template-depr_fun
-NULL
-
-#' @templateVar old set.trial
-#' @templateVar new set_trial
-#' @template template-depr_pkg
-#'
 #' @keywords set timing
 #' @export
 #' @examples
-#' set.trial(x, start.trial = "Fixation", ms.conversion = 1000)
+#' set_trial(x, start.trial = "Fixation", ms.conversion = 1000)
 
-set.trial <- function(x, startrecording.message = "", match = "exact"){
-  .Deprecated("set_trial")
+set_trial <- function(x, startrecording.message = "", match = "exact"){
   if (match=="exact"){
     x <- dplyr::mutate(x, startrecording.time = ifelse(Message==startrecording.message, Time, NA))
   } else if (match=="pattern"){
