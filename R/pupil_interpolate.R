@@ -6,22 +6,12 @@
 #' @param type What type of interpolation to use? (default: cubic-spline)
 #' @param maxgap Maximum number of NAs to interpolate over. Anything gaps over this value will not be interpolated.
 #' @param hz The recording frequency (used to calculate window size)
-#'
-#' @templateVar fun pupil.interpolate
-#' @template template-depr_fun
-NULL
-
-#' @templateVar old pupil.interpolate
-#' @templateVar new pupil_interpolate
-#' @template template-depr_pkg
-#'
 #' @keywords interpolate
 #' @export
 #' @examples
-#' pupil.interpolate(x, type = "cubic-spline", eye.recorded = "both")
+#' pupil_interpolate(x, type = "cubic-spline", eye.recorded = "both")
 
-pupil.interpolate <- function(x, type = "cubic-spline", maxgap = Inf, hz = ""){
-  .Deprecated("pupil_interpolate")
+pupil_interpolate <- function(x, type = "cubic-spline", maxgap = Inf, hz = ""){
   if (maxgap!=Inf){
     maxgap <- round(maxgap/(1000/hz))
   }
