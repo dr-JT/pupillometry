@@ -14,22 +14,22 @@ reference:
 - title: Preprocessing Methods
   contents:
   - preprocess
-  - pupil.smooth
-  - pupil.interpolate
-  - pupil.baselinecorrect
-  - pupil.downsample
+  - pupil_smooth
+  - pupil_interpolate
+  - pupil_baselinecorrect
+  - pupil_downsample
 - title: Evaluate Data
   contents:
-  - pupil.cor
-  - pupil.missing
+  - pupil_cor
+  - pupil_missing
 - title: tidy Data
   contents:
   - tidy_eyetracker
-  - set.stimuli
-  - set.trial
-  - set.timing
-  - pupil.eye
+  - set_stimuli
+  - set_trial
+  - set_timing
+  - pupil_eye
 - title: Visualize
   contents:
-  - plot.comparison
-  
+  - plot_comparison
+
