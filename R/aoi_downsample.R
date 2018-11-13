@@ -3,23 +3,13 @@
 #' This function will reduce the sampling fequency
 #' @param x dataframe
 #' @param bin.length Length of bins to average
-#' @param aoi_col Column names that contain aoi measures
-#'
-#' #' @templateVar fun aoi.downsample
-#' @template template-depr_fun
-NULL
-
-#' @templateVar old aoi.downsample
-#' @templateVar new aoi_downsample
-#' @template template-depr_pkg
-#'
+#' @param aoi.col Column names that contain aoi measures
 #' @keywords downsample
 #' @export
 #' @examples
-#' aoi.downsample(x, bin.length = 100)
+#' aoi_downsample(x, bin.length = 100)
 
-aoi.downsample <- function(x, bin.length = NULL, aoi_col = c()){
-  .Deprecated("aoi_downsample")
+aoi_downsample <- function(x, bin.length = NULL, aoi.col = c()){
   x <- dplyr::group_by(x, Trial)
   x <- dplyr::mutate(x,
                      TimeBin = trunc(Time/bin.length),
@@ -27,7 +17,7 @@ aoi.downsample <- function(x, bin.length = NULL, aoi_col = c()){
                      Time = TimeBin*bin.length)
   x <- dplyr::group_by(x, Trial, TimeBin)
 
-  for (aoi in aoi_col){
+  for (aoi in aoi.col){
     colnames(x)[which(colnames(x)==aoi)] <- "placeholder"
     x <- dplyr::mutate(x, placeholder = mean(placeholder, na.rm = TRUE))
     colnames(x)[which(colnames(x)=="placeholder")] <- aoi
