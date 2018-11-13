@@ -78,6 +78,8 @@ On Trial 6 there are a couple of "major" gaps of missing pupil data. You can see
 
 <img src="../reference/figures/Trial6--cubic-spline-hann.png" align = "center" />
 
+*Figrue 2*
+
 <br><br>
 
 ********
@@ -88,6 +90,8 @@ For `linear` interpolation, the issue of applying smoothing first or not is not 
 
 <img src="../reference/figures/Trial6--linear-hann.png" align = "center" />
 
+*Figure 3*
+
 <br><br>
 
 ********
@@ -96,6 +100,8 @@ And here is Trial 6 if you were to do smoothing but no interpolation (*Figure 4*
 
 <img src="../reference/figures/Trial6-smooth.type.png" align = "center" />
 
+*Figure 4*
+
 <br><br>
 
 ********
@@ -103,6 +109,8 @@ And here is Trial 6 if you were to do smoothing but no interpolation (*Figure 4*
 Trial 2 shows a similar pattern when you use cubic-spline interpolation (*Figure 5*).
 
 <img src="../reference/figures/Trial2--cubic-spline-hann.png" align = "center" />
+
+*Figure 5*
 
 ********
 

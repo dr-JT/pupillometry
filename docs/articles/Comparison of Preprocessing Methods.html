@@ -157,19 +157,23 @@
 <hr>
 <p><em>Figure 2</em> shows the same trial but with smoothing applied. With either <code>method.first = "smooth"</code> (<strong>green line</strong>) or <code>method.first = "interpolate"</code> (<strong>pink line</strong>). Both lines used <strong>cubic-spline interpolation</strong>, the only difference is whether smoothing was applied first or not. You can see that applying smoothing before a cubice-spline interpolation avoids the issue seen in <em>Figure 1</em> and the pink line in <em>Figure 2</em>.</p>
 <p><img src="../reference/figures/Trial6--cubic-spline-hann.png" align="center"></p>
+<p><em>Figrue 2</em></p>
 <p><br><br></p>
 <hr>
 <p>There is not as big of a difference for <code>linear</code> interpolation.</p>
 <p>For <code>linear</code> interpolation, the issue of applying smoothing first or not is not as big of an issue (<em>Figure 3</em>).</p>
 <p><img src="../reference/figures/Trial6--linear-hann.png" align="center"></p>
+<p><em>Figure 3</em></p>
 <p><br><br></p>
 <hr>
 <p>And here is Trial 6 if you were to do smoothing but no interpolation (<em>Figure 4</em>)</p>
 <p><img src="../reference/figures/Trial6-smooth.type.png" align="center"></p>
+<p><em>Figure 4</em></p>
 <p><br><br></p>
 <hr>
 <p>Trial 2 shows a similar pattern when you use cubic-spline interpolation (<em>Figure 5</em>).</p>
 <p><img src="../reference/figures/Trial2--cubic-spline-hann.png" align="center"></p>
+<p><em>Figure 5</em></p>
 <hr>
 <p>These comparisons demonstrate the importance of being careful what types of preprocessing paramteres you specify. Based on this small sample of data it is suggested, that if you are going to apply an interpolation method, that you first apply smoothing.</p>
 </div>
