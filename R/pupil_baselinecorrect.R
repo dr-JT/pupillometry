@@ -6,22 +6,12 @@
 #' @param bc.duration Duration baseline period(s) to use for correction
 #' @param bc.type Do you want to use "subtractive" or "divisive" baseline correction? (default: "subtractive")
 #' @param match Should the message string be an "exact" match or a "pattern" match?
-#'
-#' @templateVar fun pupil.baselinecorrect
-#' @template template-depr_fun
-NULL
-
-#' @templateVar old pupil.baselinecorrect
-#' @templateVar new pupil_baselinecorrect
-#' @template template-depr_pkg
-#'
 #' @keywords baseline
 #' @export
 #' @examples
-#' pupil.baselinecorrect(file = "path/filename", baseline.duration = 2000, start.trial = "# Message: Target")
+#' pupil_baselinecorrect(file = "path/filename", baseline.duration = 2000, start.trial = "# Message: Target")
 
-pupil.baselinecorrect <- function(x, baselineoffset.message = "", bc.duration = 200, bc.type = "subtractive", match = "exact"){
-  .Deprecated("pupil_baselinecorrect")
+pupil_baselinecorrect <- function(x, baselineoffset.message = "", bc.duration = 200, bc.type = "subtractive", match = "exact"){
   baselines.n <- length(baselineoffset.message)
   x <- dplyr::group_by(x, Trial)
   x <- dplyr::mutate(x, PreTarget=0, Target=0)
