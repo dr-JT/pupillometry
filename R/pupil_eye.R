@@ -7,22 +7,13 @@
 #' @param eye.recorded Is there pupil x for the left, right, or both eyes?
 #' @param eye.use Which eye to use? Left or right
 #' @param gazedata.include Logical. Include columns for x and y coordinates of eye gaze? (Default: FALSE)
-#'
-#' @templateVar fun pupil.eye
-#' @template template-depr_fun
-NULL
-
-#' @templateVar old pupil.eye
-#' @templateVar new pupil_eye
-#' @template template-depr_pkg
-#'
 #' @keywords pupil
 #' @export
 #' @examples
 #'
 
-pupil.eye <- function(x, eye.recorded = "", eye.use = "", gazedata.include = FALSE){
-  .Deprecated("pupil_eye")
+pupil_eye <- function(x, eye.recorded = "", eye.use = "", gazedata.include = FALSE){
+
   ## Correlate and select Eyes
   if (eye.recorded == "both"){
     # correlate eyes
