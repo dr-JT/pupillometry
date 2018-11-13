@@ -65,12 +65,12 @@ preprocess <- function(import = "", pattern = "*.txt", output = NULL, export = "
   saveData <- function(x, preprocessing.stage = ""){
     if (bc==TRUE){
       preprocessing <- paste(preprocessing.stage, "bc", sep = ".")
-      x <- pupil.baselinecorrect(x, baselineoffset.message = baselineoffset.message, match = baselineoffset.match,
+      x <- pupil_baselinecorrect(x, baselineoffset.message = baselineoffset.message, match = baselineoffset.match,
                                  bc.duration = bc.duration, bc.type = bc.type)
       # Downsample?
       if (!is.null(downsample.binlength)){
         preprocessing <- paste(preprocessing, "ds", sep = ".")
-        x <- pupil.downsample(x, bin.length = downsample.binlength, bc = bc)
+        x <- pupil_downsample(x, bin.length = downsample.binlength, bc = bc)
       }
       ## Save file
       subj <- x$Subject[1]
@@ -81,7 +81,7 @@ preprocess <- function(import = "", pattern = "*.txt", output = NULL, export = "
       # Downsample?
       if (!is.null(downsample.binlength)){
         preprocessing <- paste(preprocessing, "ds", sep = ".")
-        x <- pupil.downsample(x, bin.length = downsample.binlength, bc = bc)
+        x <- pupil_downsample(x, bin.length = downsample.binlength, bc = bc)
       }
       ## Save file
       subj <- x$Subject[1]
@@ -123,19 +123,19 @@ preprocess <- function(import = "", pattern = "*.txt", output = NULL, export = "
     #### ----- Preprocessing procedures ----- ####
 
     ## Select eyes and filter out trials with too much missing data
-    data <- pupil.eye(data, eye.recorded = eye.recorded, eye.use = eye.use, gazedata.include = gazedata.include)
+    data <- pupil_eye(data, eye.recorded = eye.recorded, eye.use = eye.use, gazedata.include = gazedata.include)
 
-    ## First of all, remove data during blinks and create columns of how much missing data each trial has. pupil.missing()
-    data <- pupil.missing(data, missing.allowed = missing.allowed)
+    ## First of all, remove data during blinks and create columns of how much missing data each trial has. pupil_missing()
+    data <- pupil_missing(data, missing.allowed = missing.allowed)
 
     if (nrow(data)==0){
       next
     }
 
     ## Creates a column that specifies the current stimulus (based on Messages in the data)
-    data <- set.stimuli(data)
+    data <- set_stimuli(data)
     ## Sets the Timing column relative to the onset of each trial
-    data <- set.timing(data, trialonset.message = trialonset.message, match = trialonset.match,
+    data <- set_timing(data, trialonset.message = trialonset.message, match = trialonset.match,
                        ms.conversion = ms.conversion, pretrial.duration = pretrial.duration)
 
     if (gazedata.include==TRUE){
@@ -158,30 +158,30 @@ preprocess <- function(import = "", pattern = "*.txt", output = NULL, export = "
     if (is.null(method.first)){
       ## Next, either interpolate or smooth
       if (interpolate==TRUE){
-        data <- pupil.interpolate(data, type = interpolate.type, maxgap = interpolate.maxgap, hz = hz)
+        data <- pupil_interpolate(data, type = interpolate.type, maxgap = interpolate.maxgap, hz = hz)
         ## Save data at this stage
         saveData(data, preprocessing.stage = "interpolated")
       } else if (smooth==TRUE){
-        data <- pupil.smooth(data, type = smooth.type, window = smooth.window, hz = hz)
+        data <- pupil_smooth(data, type = smooth.type, window = smooth.window, hz = hz)
         ## Save data at this stage
         saveData(data, preprocessing.stage = "smoothed")
       }
     } else if (method.first == "interpolate"){
       ## Next, Interpolate data
-      data <- pupil.interpolate(data, type = interpolate.type, maxgap = interpolate.maxgap, hz = hz)
+      data <- pupil_interpolate(data, type = interpolate.type, maxgap = interpolate.maxgap, hz = hz)
       ## Save data at this stage
       saveData(data, preprocessing.stage = "interpolated")
       ## Next, Smooth data
-      data <- pupil.smooth(data, type = smooth.type, window = smooth.window, hz = hz)
+      data <- pupil_smooth(data, type = smooth.type, window = smooth.window, hz = hz)
       ## Save data at this stage
       saveData(data, preprocessing.stage = "interpolated.smoothed")
     } else if (method.first == "smooth"){
       ## Next, Smooth data
-      data <- pupil.smooth(data, type = smooth.type, window = smooth.window, hz = hz)
+      data <- pupil_smooth(data, type = smooth.type, window = smooth.window, hz = hz)
       ## Save data at this stage
       saveData(data, preprocessing.stage = "smoothed")
       ## Next, Interpolate data
-      data <- pupil.interpolate(data, type = interpolate.type, maxgap = interpolate.maxgap, hz = hz)
+      data <- pupil_interpolate(data, type = interpolate.type, maxgap = interpolate.maxgap, hz = hz)
       ## Save data at this stage
       saveData(data, preprocessing.stage = "smoothed.interpolated")
     }
