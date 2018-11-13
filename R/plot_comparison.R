@@ -7,22 +7,12 @@
 #' @param trial Which trial to filter on
 #' @param title Title the graph
 #' @param legend.title Title the legend
-#'
-#' @templateVar fun plot.comparison
-#' @template template-depr_fun
-NULL
-
-#' @templateVar old plot.comparison
-#' @templateVar new plot_comparison
-#' @template template-depr_pkg
-#'
 #' @keywords plot
-#' @export plot.comparison
+#' @export plot_comparison
 #' @examples
 #'
 
-plot.comparison <- function(import, files = c(), labels = c(), trial, title = "", legend.title = "Labels"){
-  .Deprecated("plot_comparison")
+plot_comparison <- function(import, files = c(), labels = c(), trial, title = "", legend.title = "Labels"){
   data <- list()
   for (i in seq_along(files)){
     data[[i]] <- readr::read_delim(paste(import, files[i], sep = "/"), delim = "\t",

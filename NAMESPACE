@@ -3,6 +3,7 @@
 export(aoi.downsample)
 export(aoi_downsample)
 export(plot.comparison)
+export(plot_comparison)
 export(preprocess)
 export(pupil.baselinecorrect)
 export(pupil.cor)
