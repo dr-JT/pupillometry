@@ -6,22 +6,12 @@
 #' @param type The type of smoothing function to apply. Hann or moving window average
 #' @param window The size of the smoothing window (default = 5). Value is in milliseconds
 #' @param hz The recording frequency (used to calculate window size)
-#'
-#' @templateVar fun pupil.smooth
-#' @template template-depr_fun
-NULL
-
-#' @templateVar old pupil.smooth
-#' @templateVar new pupil_smooth
-#' @template template-depr_pkg
-#'
 #' @keywords smooth
 #' @export
 #' @examples
-#' pupil.smooth(x, type = "hann", window = 11, eye.recorded = "both")
+#' pupil_smooth(x, type = "hann", window = 11, eye.recorded = "both")
 
-pupil.smooth <- function(x, type = "hann", window = 5, hz = ""){
-  .Deprecated("pupil_smooth")
+pupil_smooth <- function(x, type = "hann", window = 5, hz = ""){
   window <- round(window/(1000/hz))
   x <- dplyr::group_by(x, Trial)
   if (type=="hann"){
