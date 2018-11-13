@@ -191,7 +191,7 @@ tidy_eyetracker <- function(file, eyetracker = "", startrecording.message = "def
   data$Message <- gsub("# Message: ", "", data$Message)
 
   ## Correctly set trial index ####
-  data <- set.trial(data, startrecording.message = startrecording.message, match = startrecording.match)
+  data <- set_trial(data, startrecording.message = startrecording.message, match = startrecording.match)
   ##################
 
   if (!is.null(trial.exclude)){
