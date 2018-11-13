@@ -4,22 +4,12 @@
 #' with the .convert() functions. The output of this function is a preprocessed data file. Preprocessing steps can
 #' include interpolation and smoothing
 #' @param x dataframe
-#'
-#' @templateVar fun pupil.cor
-#' @template template-depr_fun
-NULL
-
-#' @templateVar old pupil.cor
-#' @templateVar new pupil_cor
-#' @template template-depr_pkg
-#'
 #' @keywords eye
 #' @export
 #' @examples
-#' pupil.cor(x)
+#' pupil_cor(x)
 
-pupil.cor <- function(x){
-  .Deprecated("pupil.cor")
+pupil_cor <- function(x){
   x <- dplyr::mutate(x, Pupils.r = stats::cor(L_Pupil_Diameter.mm, R_Pupil_Diameter.mm, use = "pairwise.complete.obs"),
                      Pupils.r = ifelse(is.na(Pupils.r), 0, Pupils.r))
   return(x)
