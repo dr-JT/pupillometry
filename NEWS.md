@@ -1,5 +1,7 @@
 # pupillometry 0.2.01
 
+Updated: 11/13/2018
+
 * Changed function names to use "_" rather than "."
 
   "." functions can still be used but have been deprecated.
