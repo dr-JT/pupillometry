@@ -108,12 +108,12 @@
     
     
 <p>One question you may have is, what parameters should I specify for each preprocessing method? This can be hard to determine but it helps to have a visual aid.</p>
-<div id="plot-comparison" class="section level2">
+<div id="plot_comparison" class="section level2">
 <h2 class="hasAnchor">
-<a href="#plot-comparison" class="anchor"></a><code><a href="../reference/plot.comparison.html">plot.comparison()</a></code>
+<a href="#plot_comparison" class="anchor"></a><code><a href="../reference/plot_comparison.html">plot_comparison()</a></code>
 </h2>
-<p>With <code><a href="../reference/plot.comparison.html">plot.comparison()</a></code> you can visually compare how different preprocessing parameters change the shape of the pupil data.</p>
-<p>To use <code><a href="../reference/plot.comparison.html">plot.comparison()</a></code> you first need to create the preprocessed data files with different parameters (from a single raw data file) with <code><a href="../reference/preprocess.html">preprocess()</a></code>. You may need to rename the file after running each <code><a href="../reference/preprocess.html">preprocess()</a></code> so that it doesn’t get overwritten.</p>
+<p>With <code><a href="../reference/plot_comparison.html">plot_comparison()</a></code> you can visually compare how different preprocessing parameters change the shape of the pupil data.</p>
+<p>To use <code><a href="../reference/plot_comparison.html">plot_comparison()</a></code> you first need to create the preprocessed data files with different parameters (from a single raw data file) with <code><a href="../reference/preprocess.html">preprocess()</a></code>. You may need to rename the file after running each <code><a href="../reference/preprocess.html">preprocess()</a></code> so that it doesn’t get overwritten.</p>
 <p>Parameters:</p>
 <ul>
 <li><p><strong>import</strong>: The directory where the “test” comparison files are located</p></li>
@@ -132,7 +132,7 @@
 <p>There might be many comparisons you would like to make. For visual purposes it probably is best to not display more than three time-series on a graph at one time. You should also include a time-series in which no preprocessing has been performed, that is the <code>naremoved</code> file.</p>
 <p>Some comparisons you might want to make are different smoothing window sizes <code>smooth.window</code>, or different maxgap sizes <code>interpolate.maxgap</code>.</p>
 <p>To make the first plot displayed below:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/plot.comparison.html">plot.comparison</a></span>(<span class="dt">import =</span> <span class="st">"data/test"</span>, 
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/plot_comparison.html">plot_comparison</a></span>(<span class="dt">import =</span> <span class="st">"data/test"</span>, 
                 <span class="dt">files =</span> <span class="kw">c</span>(<span class="st">"Pitch_Discrimination_19_PupilData_interpolated_cubic-spline.txt"</span>,
                           <span class="st">"Pitch_Discrimination_19_PupilData_interpolated_linear.txt"</span>,
                           <span class="st">"Pitch_Discrimination_19_PupilData_naremoved.txt"</span>),
@@ -146,7 +146,7 @@
 <div id="method-first" class="section level2">
 <h2 class="hasAnchor">
 <a href="#method-first" class="anchor"></a>method.first</h2>
-<p>Here are some examples from <code><a href="../reference/plot.comparison.html">plot.comparison()</a></code> that demonstrate important differences when choosing whether to interpolate or smooth the data first.</p>
+<p>Here are some examples from <code><a href="../reference/plot_comparison.html">plot_comparison()</a></code> that demonstrate important differences when choosing whether to interpolate or smooth the data first.</p>
 <p>From these examples, it can be seen that if you are gonig to apply a <code>cubic-spline</code> interpolation, then you should apply smoothing <code>smooth = TRUE</code> and it is important that you choose <code>method.first = "smooth"</code>. Otherwise the data get overly distorted if you apply interpolation first (see Trial 6).</p>
 <p>These data come from a pitch discrimination task as described in the <a href="https://dr-jt.github.io/pupillometry/articles/Example%20Data%20Set.html">Example Data Set</a> article. Time = 0 is the onset of the first tone.</p>
 <hr>
@@ -184,7 +184,7 @@
       <h2 class="hasAnchor">
 <a href="#tocnav" class="anchor"></a>Contents</h2>
       <ul class="nav nav-pills nav-stacked">
-<li><a href="#plot-comparison"><code><a href="--/reference/plot-comparison-html">plot.comparison()</a></code></a></li>
+<li><a href="#plot_comparison"><code><a href="--/reference/plot_comparison-html">plot_comparison()</a></code></a></li>
       <li><a href="#usage">Usage</a></li>
       <li><a href="#method-first">method.first</a></li>
       </ul>

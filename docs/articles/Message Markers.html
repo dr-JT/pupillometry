@@ -114,7 +114,7 @@
 <a href="#startrecording-message" class="anchor"></a><code>startrecording.message = ""</code>
 </h3>
 <p>Eye-tracking systems use different defaults for how it marks the start of recording on a trial. This is not necessarily when the trial begins - simply whent the eye-tracker starts recording.</p>
-<p><code>startrecording.message</code> is used to correctly set the trial index in the data file using <code><a href="../reference/set.trial.html">set.trial()</a></code>.</p>
+<p><code>startrecording.message</code> is used to correctly set the trial index in the data file using <code><a href="../reference/set_trial.html">set_trial()</a></code>.</p>
 <p>The SMI default is : “StartTracking.bmp”</p>
 <p>This parameter can be set to <code><a href="../reference/preprocess.html">preprocess(startrecording.message = "default")</a></code> to use the eyetracker default. If you are not using the default message then you need to specify the custom string you used.</p>
 </div>
@@ -129,7 +129,7 @@
 <a href="#trialonset-message" class="anchor"></a><code>trialonset.message = ""</code>
 </h3>
 <p><code>trialonset.message</code> is the message that marks the onset of a trial. If you included a fixation as an inter-trial-interval (ITI) at the start of every trial, then the <strong>trial onset should correspond to the stimulus after the fixation or ITI stimulus</strong>. The fixation (ITI) period will be treated as a pre-trial period.</p>
-<p><code>trialonset.message</code> is used to set the timing relative to trial onset using <code><a href="../reference/set.timing.html">set.timing()</a></code>. Pre-trial periods will have a negative Time value.</p>
+<p><code>trialonset.message</code> is used to set the timing relative to trial onset using <code><a href="../reference/set_timing.html">set_timing()</a></code>. Pre-trial periods will have a negative Time value.</p>
 </div>
 <div id="trialonset-match-cexact-pattern" class="section level3">
 <h3 class="hasAnchor">
@@ -150,7 +150,7 @@
 <a href="#baselineoffset-message" class="anchor"></a><code>baselineoffset.message = ""</code>
 </h3>
 <p><code>baselineoffset.message</code> is the message that marks the offset of the baseline period and the start of the critical task period that needs to be baseline corrected.</p>
-<p><code>baselineoffset.message</code> is used for baseline correction in <code><a href="../reference/pupil.baselinecorrect.html">pupil.baselinecorrect()</a></code>.</p>
+<p><code>baselineoffset.message</code> is used for baseline correction in <code><a href="../reference/pupil_baselinecorrect.html">pupil_baselinecorrect()</a></code>.</p>
 </div>
 <div id="baselineoffset-match-cexact-pattern" class="section level3">
 <h3 class="hasAnchor">

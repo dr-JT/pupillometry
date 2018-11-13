@@ -4,43 +4,85 @@
     <loc>https://dr-jt.github.io/pupillometry//index.html</loc>
   </url>
   <url>
-    <loc>https://dr-jt.github.io/pupillometry//reference/aoi.downsample.html</loc>
+    <loc>https://dr-jt.github.io/pupillometry//reference/aoi.downsample-deprecated.html</loc>
   </url>
   <url>
-    <loc>https://dr-jt.github.io/pupillometry//reference/plot.comparison.html</loc>
+    <loc>https://dr-jt.github.io/pupillometry//reference/aoi_downsample.html</loc>
+  </url>
+  <url>
+    <loc>https://dr-jt.github.io/pupillometry//reference/plot.comparison-deprecated.html</loc>
+  </url>
+  <url>
+    <loc>https://dr-jt.github.io/pupillometry//reference/plot_comparison.html</loc>
   </url>
   <url>
     <loc>https://dr-jt.github.io/pupillometry//reference/preprocess.html</loc>
   </url>
   <url>
-    <loc>https://dr-jt.github.io/pupillometry//reference/pupil.baselinecorrect.html</loc>
+    <loc>https://dr-jt.github.io/pupillometry//reference/pupil.baselinecorrect-deprecated.html</loc>
   </url>
   <url>
-    <loc>https://dr-jt.github.io/pupillometry//reference/pupil.cor.html</loc>
+    <loc>https://dr-jt.github.io/pupillometry//reference/pupil.cor-deprecated.html</loc>
   </url>
   <url>
-    <loc>https://dr-jt.github.io/pupillometry//reference/pupil.downsample.html</loc>
+    <loc>https://dr-jt.github.io/pupillometry//reference/pupil.downsample-deprecated.html</loc>
   </url>
   <url>
-    <loc>https://dr-jt.github.io/pupillometry//reference/pupil.eye.html</loc>
+    <loc>https://dr-jt.github.io/pupillometry//reference/pupil.eye-deprecated.html</loc>
   </url>
   <url>
-    <loc>https://dr-jt.github.io/pupillometry//reference/pupil.interpolate.html</loc>
+    <loc>https://dr-jt.github.io/pupillometry//reference/pupil.interpolate-deprecated.html</loc>
   </url>
   <url>
-    <loc>https://dr-jt.github.io/pupillometry//reference/pupil.missing.html</loc>
+    <loc>https://dr-jt.github.io/pupillometry//reference/pupil.missing-deprecated.html</loc>
   </url>
   <url>
-    <loc>https://dr-jt.github.io/pupillometry//reference/pupil.smooth.html</loc>
+    <loc>https://dr-jt.github.io/pupillometry//reference/pupil.smooth-deprecated.html</loc>
   </url>
   <url>
-    <loc>https://dr-jt.github.io/pupillometry//reference/set.stimuli.html</loc>
+    <loc>https://dr-jt.github.io/pupillometry//reference/pupil_baselinecorrect.html</loc>
   </url>
   <url>
-    <loc>https://dr-jt.github.io/pupillometry//reference/set.timing.html</loc>
+    <loc>https://dr-jt.github.io/pupillometry//reference/pupil_cor.html</loc>
   </url>
   <url>
-    <loc>https://dr-jt.github.io/pupillometry//reference/set.trial.html</loc>
+    <loc>https://dr-jt.github.io/pupillometry//reference/pupil_downsample.html</loc>
+  </url>
+  <url>
+    <loc>https://dr-jt.github.io/pupillometry//reference/pupil_eye.html</loc>
+  </url>
+  <url>
+    <loc>https://dr-jt.github.io/pupillometry//reference/pupil_interpolate.html</loc>
+  </url>
+  <url>
+    <loc>https://dr-jt.github.io/pupillometry//reference/pupil_missing.html</loc>
+  </url>
+  <url>
+    <loc>https://dr-jt.github.io/pupillometry//reference/pupil_smooth.html</loc>
+  </url>
+  <url>
+    <loc>https://dr-jt.github.io/pupillometry//reference/pupillometry-deprecated.html</loc>
+  </url>
+  <url>
+    <loc>https://dr-jt.github.io/pupillometry//reference/pupillometry.html</loc>
+  </url>
+  <url>
+    <loc>https://dr-jt.github.io/pupillometry//reference/set.stimuli-deprecated.html</loc>
+  </url>
+  <url>
+    <loc>https://dr-jt.github.io/pupillometry//reference/set.timing-deprecated.html</loc>
+  </url>
+  <url>
+    <loc>https://dr-jt.github.io/pupillometry//reference/set.trial-deprecated.html</loc>
+  </url>
+  <url>
+    <loc>https://dr-jt.github.io/pupillometry//reference/set_stimuli.html</loc>
+  </url>
+  <url>
+    <loc>https://dr-jt.github.io/pupillometry//reference/set_timing.html</loc>
+  </url>
+  <url>
+    <loc>https://dr-jt.github.io/pupillometry//reference/set_trial.html</loc>
   </url>
   <url>
     <loc>https://dr-jt.github.io/pupillometry//reference/tidy_eyetracker.html</loc>

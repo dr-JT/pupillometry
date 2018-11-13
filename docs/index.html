@@ -136,20 +136,20 @@
 </li>
 <li>
 <strong>Output</strong> the standardized “tidy” raw data file.</li>
-<li>Evaluate amount of <strong>missing samples</strong> per trial. <code><a href="reference/pupil.missing.html">pupil.missing()</a></code>
+<li>Evaluate amount of <strong>missing samples</strong> per trial. <code><a href="reference/pupil_missing.html">pupil_missing()</a></code>
 </li>
-<li>Correlate left and right pupil size (if both eyes were recorded from). <code><a href="reference/pupil.cor.html">pupil.cor()</a></code>
+<li>Correlate left and right pupil size (if both eyes were recorded from). <code><a href="reference/pupil_cor.html">pupil_cor()</a></code>
 </li>
 <li>Keep either left or right pupil data (if both eyes were recorded from).</li>
-<li>Set <strong>Timing</strong> variable to be relative to onset of each trial. <code><a href="reference/set.trial.html">set.trial()</a></code> and <code><a href="reference/set.timing.html">set.timing()</a></code>
+<li>Set <strong>Timing</strong> variable to be relative to onset of each trial. <code><a href="reference/set_trial.html">set_trial()</a></code> and <code><a href="reference/set_timing.html">set_timing()</a></code>
 </li>
 <li>
 <strong>Output</strong> data at this stage*</li>
-<li>If specified, <strong>Interpolate</strong>. <code><a href="reference/pupil.interpolate.html">pupil.interpolate()</a></code>
+<li>If specified, <strong>Interpolate</strong>. <code><a href="reference/pupil_interpolate.html">pupil_interpolate()</a></code>
 </li>
 <li>
 <strong>Output</strong> data at this stage*</li>
-<li>If specified, <strong>Smooth</strong>. <code><a href="reference/pupil.smooth.html">pupil.smooth()</a></code>
+<li>If specified, <strong>Smooth</strong>. <code><a href="reference/pupil_smooth.html">pupil_smooth()</a></code>
 </li>
 <li>
 <strong>Output</strong> data at this stage*</li>
@@ -157,10 +157,10 @@
 <p>* When data is outputed at these stages the following preprocessing steps will follow if they are specified:</p>
 <ol>
 <li>
-<strong>Baseline Correct</strong> <code><a href="reference/pupil.baselinecorrect.html">pupil.baselinecorrect()</a></code>
+<strong>Baseline Correct</strong> <code><a href="reference/pupil_baselinecorrect.html">pupil_baselinecorrect()</a></code>
 </li>
 <li>
-<strong>Down Sample</strong> <code><a href="reference/pupil.downsample.html">pupil.downsample()</a></code>
+<strong>Down Sample</strong> <code><a href="reference/pupil_downsample.html">pupil_downsample()</a></code>
 </li>
 </ol>
 <p>What this does is saves a data file at each stage of preprocessing. That way you have a baseline corrected/downsampled file at each stage of pre-processing. This can be useful if you originally specified a pre-processing step, such as smoothing, but then later decide you do not want to use that pre-processing method - you will already have the pre-processed (including baseline correction/down sampling) data file prior to that step. Or you may wish to compare how your results change depending on what pre-processing steps you perform.</p>

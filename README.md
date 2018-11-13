@@ -38,19 +38,19 @@ The overall workflow of `preprocess()` is:
 
 1. **Import** "messy" raw data files and convert to a standardized "tidy" raw data format. `tidy_eyetracker()`
 2. **Output** the standardized "tidy" raw data file.
-3. Evaluate amount of **missing samples** per trial. `pupil.missing()`
-4. Correlate left and right pupil size (if both eyes were recorded from). `pupil.cor()`
+3. Evaluate amount of **missing samples** per trial. `pupil_missing()`
+4. Correlate left and right pupil size (if both eyes were recorded from). `pupil_cor()`
 5. Keep either left or right pupil data (if both eyes were recorded from).
-6. Set **Timing** variable to be relative to onset of each trial. `set.trial()` and `set.timing()`
+6. Set **Timing** variable to be relative to onset of each trial. `set_trial()` and `set_timing()`
 7. **Output** data at this stage*
-8. If specified, **Interpolate**. `pupil.interpolate()`
+8. If specified, **Interpolate**. `pupil_interpolate()`
 9. **Output** data at this stage*
-10. If specified, **Smooth**. `pupil.smooth()`
+10. If specified, **Smooth**. `pupil_smooth()`
 11. **Output** data at this stage*
 
 \* When data is outputed at these stages the following preprocessing steps will follow if they are specified:
-1. **Baseline Correct** `pupil.baselinecorrect()`
-2. **Down Sample** `pupil.downsample()`
+1. **Baseline Correct** `pupil_baselinecorrect()`
+2. **Down Sample** `pupil_downsample()`
 
 What this does is saves a data file at each stage of preprocessing. That way you have a baseline corrected/downsampled file at each stage of pre-processing. This can be useful if you originally specified a pre-processing step, such as smoothing, but then later decide you do not want to use that pre-processing method - you will already have the pre-processed (including baseline correction/down sampling) data file prior to that step. Or you may wish to compare how your results change depending on what pre-processing steps you perform.
 

@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Changelog • pupillometry</title>
+<title>Apply baseline correction — pupil.baselinecorrect-deprecated • pupillometry</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -36,7 +36,9 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/jquery.mark.min.js" integrity="sha256-4HLtjeVgH0eIB3aZ9mLYF6E8oU5chNdjU6p6rrXpl9U=" crossorigin="anonymous"></script>
 
 
-<meta property="og:title" content="Changelog" />
+<meta property="og:title" content="Apply baseline correction — pupil.baselinecorrect-deprecated" />
+
+<meta property="og:description" content="This function applies a pre-trial baseline correction on the data" />
 
 <meta property="og:image" content="https://dr-jt.github.io/pupillometry/logo.png" />
 <meta name="twitter:card" content="summary" />
@@ -55,7 +57,7 @@
   </head>
 
   <body>
-    <div class="container template-news">
+    <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -133,93 +135,60 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-      <h1>Changelog <small></small></h1>
-      <small>Source: <a href='https://github.com/dr-JT/pupillometry/blob/master/NEWS.md'><code>NEWS.md</code></a></small>
+    <h1>Apply baseline correction</h1>
+    <small class="dont-index">Source: <a href='https://github.com/dr-JT/pupillometry/blob/master/R/pupil.baselinecorrect.R'><code>R/pupil.baselinecorrect.R</code></a></small>
+    <div class="hidden name"><code>pupil.baselinecorrect-deprecated.Rd</code></div>
     </div>
 
-    <div id="pupillometry-0-2-1" class="section level1">
-<h1 class="page-header">
-<a href="#pupillometry-0-2-1" class="anchor"></a>pupillometry 0.2.1</h1>
-<ul>
-<li>Changed function names to use “_" rather than “.”</li>
-</ul>
-<p>“.” functions can still be used but have been deprecated.</p>
-<ul>
-<li>Added <code><a href="../reference/aoi_downsample.html">aoi_downsample()</a></code> function</li>
-</ul>
-</div>
-    <div id="pupillometry-0-2-0" class="section level1">
-<h1 class="page-header">
-<a href="#pupillometry-0-2-0" class="anchor"></a>pupillometry 0.2.0</h1>
-<p>Updated: 10/13/2018</p>
-<ul>
-<li><p>Important update that fixes several bugs</p></li>
-<li><p>Smoothing function was also interpolating. This has been fixed.</p></li>
-<li><p>Added <code><a href="../reference/pupillometry-deprecated.html">plot.comparison()</a></code> to visually compare different preprocessing parameters in a convenient way</p></li>
-<li><p>Added <code><a href="../reference/pupillometry-deprecated.html">pupil.eye()</a></code> to simplify selecting which eye to use in the final output.</p></li>
-<li><p>Added parameter <code>missing.allowed</code> to <code><a href="../reference/preprocess.html">preprocess()</a></code> and <code><a href="../reference/pupillometry-deprecated.html">pupil.missing()</a></code> to filter out trials with too much missing data.</p></li>
-<li><p>Added <code>gazedata.include()</code> parameter to import and output gaze position x and y coordinates from original raw data file</p></li>
-<li><p>Other bug fixes and minor changes</p></li>
-</ul>
-</div>
-    <div id="pupillometry-0-1-1" class="section level1">
-<h1 class="page-header">
-<a href="#pupillometry-0-1-1" class="anchor"></a>pupillometry 0.1.1</h1>
-<p>Updated: 10/11/2018</p>
-<ul>
-<li>
-<p>Added the option to do “divisive” baseline correction</p>
-<p>Paramaters added: <code><a href="../reference/preprocess.html">preprocess(bc.type = c("subtractive", "divisive"))</a></code> and <code><a href="../reference/pupillometry-deprecated.html">pupil.baselinecorrect(bc.type = c("subtractive", "divisive"))</a></code></p>
-<p>Default: “subtractive”</p>
-</li>
-<li>
-<p>More flexibility to choose the ordering of interpolation and smoothing in <code><a href="../reference/preprocess.html">preprocess()</a></code></p>
-<p>Paramaters added: <code><a href="../reference/preprocess.html">preprocess(method.first = c("smooth", "interpolate"))</a></code></p>
-</li>
-<li>
-<p>More precise specifications to obtain Subject # from the file name.</p>
-<p>Paramaters added: <code><a href="../reference/preprocess.html">preprocess(subj.prefix = NULL, subj.suffix = NULL)</a></code> and <code><a href="../reference/tidy_eyetracker.html">tidy_eyetracker(subj.prefix = NULL, subj.suffix = NULL)</a></code></p>
-<p>If parameters are set as <code>NULL</code> (default), then the entire file name will be used as the Subject #. This is not ideal.</p>
-</li>
-</ul>
-</div>
-    <div id="pupillometry-0-1-0" class="section level1">
-<h1 class="page-header">
-<a href="#pupillometry-0-1-0" class="anchor"></a>pupillometry 0.1.0</h1>
-<p>Updated: 10/7/2018</p>
-<div id="new-features" class="section level2">
-<h2 class="hasAnchor">
-<a href="#new-features" class="anchor"></a>New Features</h2>
-<ul>
-<li>Added <code>startrecording.match</code> parameter to preprocess() and tidy_eyetracker()</li>
-<li>
-<p>Added <code>match</code> paramter to set.trial()</p>
-<p>This allows the user to specify whether the <code>startrecording.message</code> is an “exact” or “pattern” match. Default is “exact” match.</p>
-</li>
-</ul>
-</div>
-<div id="added-support" class="section level2">
-<h2 class="hasAnchor">
-<a href="#added-support" class="anchor"></a>Added Support</h2>
-<ul>
-<li>Impproved support for EyeLink 1000 Plus eyetrackers</li>
-</ul>
-</div>
-</div>
-  </div>
+    <div class="ref-description">
+    
+    <p>This function applies a pre-trial baseline correction on the data</p>
+    
+    </div>
 
+    <pre class="usage"><span class='fu'><a href='pupillometry-deprecated.html'>pupil.baselinecorrect</a></span>(<span class='no'>x</span>, <span class='kw'>baselineoffset.message</span> <span class='kw'>=</span> <span class='st'>""</span>, <span class='kw'>bc.duration</span> <span class='kw'>=</span> <span class='fl'>200</span>,
+  <span class='kw'>bc.type</span> <span class='kw'>=</span> <span class='st'>"subtractive"</span>, <span class='kw'>match</span> <span class='kw'>=</span> <span class='st'>"exact"</span>)</pre>
+    
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>x</th>
+      <td><p>dataframe</p></td>
+    </tr>
+    <tr>
+      <th>baselineoffset.message</th>
+      <td><p>Message string(s) that marks the offset of baseline period(s)</p></td>
+    </tr>
+    <tr>
+      <th>bc.duration</th>
+      <td><p>Duration baseline period(s) to use for correction</p></td>
+    </tr>
+    <tr>
+      <th>bc.type</th>
+      <td><p>Do you want to use "subtractive" or "divisive" baseline correction? (default: "subtractive")</p></td>
+    </tr>
+    <tr>
+      <th>match</th>
+      <td><p>Should the message string be an "exact" match or a "pattern" match?</p></td>
+    </tr>
+    </table>
+    
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+
+    <div class='dont-index'><p><code><a href='pupillometry-deprecated.html'>pupillometry-deprecated</a></code></p></div>
+    
+
+  </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
-    <div id="tocnav">
-      <h2>Contents</h2>
-      <ul class="nav nav-pills nav-stacked">
-        <li><a href="#pupillometry-0-2-1">0.2.1</a></li>
-        <li><a href="#pupillometry-0-2-0">0.2.0</a></li>
-        <li><a href="#pupillometry-0-1-1">0.1.1</a></li>
-        <li><a href="#pupillometry-0-1-0">0.1.0</a></li>
-      </ul>
-    </div>
-  </div>
+    <h2>Contents</h2>
+    <ul class="nav nav-pills nav-stacked">
+      <li><a href="#arguments">Arguments</a></li>
+      
+      <li><a href="#see-also">See also</a></li>
+          </ul>
 
+  </div>
 </div>
 
       <footer>

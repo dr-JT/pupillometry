@@ -1,3 +1,11 @@
+# pupillometry 0.2.1
+
+* Changed function names to use "_" rather than "."
+
+  "." functions can still be used but have been deprecated.
+  
+* Added `aoi_downsample()` function
+
 # pupillometry 0.2.0
 
 Updated: 10/13/2018

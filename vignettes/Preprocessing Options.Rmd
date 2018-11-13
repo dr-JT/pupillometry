@@ -14,7 +14,7 @@ Smoothing is a method that attempts to reduce noise in a time-series signal by r
 
 ## Interpolation
 
-`pupil.interpolate(tpye = c("linear", "cubic-spline"), maxgap = Inf, hz = "")`
+`pupil_interpolate(tpye = c("linear", "cubic-spline"), maxgap = Inf, hz = "")`
 
 * __type__: What type of interpolation to use? (default: cubic-spline)
 
@@ -38,7 +38,7 @@ Smoothing is a method that attempts to reduce noise in a time-series signal by r
 
 ## Smoothing
 
-`pupil.smooth(type = c("hann", "mwa"), window = "", hz = "")`
+`pupil_smooth(type = c("hann", "mwa"), window = "", hz = "")`
 
 * __type__: What type of smoothing to use? (default: "hann")
 
