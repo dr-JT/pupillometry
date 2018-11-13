@@ -2,7 +2,7 @@
 % Please edit documentation in R/aoi.downsample.R, R/plot.comparison.R,
 %   R/pupil.baselinecorrect.R, R/pupil.cor.R, R/pupil.downsample.R,
 %   R/pupil.eye.R, R/pupil.interpolate.R, R/pupil.missing.R, R/pupil.smooth.R,
-%   R/pupillometry-deprecated.r, R/set.stimuli.R
+%   R/pupillometry-deprecated.r, R/set.stimuli.R, R/set.timing.R
 \name{pupillometry-deprecated}
 \alias{pupillometry-deprecated}
 \alias{aoi.downsample}
@@ -15,6 +15,7 @@
 \alias{pupil.missing}
 \alias{pupil.smooth}
 \alias{set.stimuli}
+\alias{set.timing}
 \title{Deprecated functions in package \pkg{pupillometry}.}
 \usage{
 aoi.downsample(x, bin.length = NULL, aoi_col = c())
@@ -39,6 +40,9 @@ pupil.missing(x, missing.allowed = 1, velocity = "", margin = "")
 pupil.smooth(x, type = "hann", window = 5, hz = "")
 
 set.stimuli(x)
+
+set.timing(x, trialonset.message = "", ms.conversion = 1,
+  pretrial.duration = 0, match = "exact")
 }
 \description{
 The functions listed below are deprecated and will be defunct in
@@ -96,6 +100,11 @@ For \code{pupil.smooth}, use \code{\link{pupil_smooth}}.
 For \code{set.stimuli}, use \code{\link{set_stimuli}}.
 }
 
+\section{\code{set.timing}}{
+
+For \code{set.timing}, use \code{\link{set_timing}}.
+}
+
 \examples{
 aoi.downsample(x, bin.length = 100)
 
@@ -107,6 +116,7 @@ pupil.interpolate(x, type = "cubic-spline", eye.recorded = "both")
 pupil.missing(x)
 pupil.smooth(x, type = "hann", window = 11, eye.recorded = "both")
 set.stimuli(x)
+set.timing(x, start.trial = "Fixation", ms.conversion = 1000)
 }
 \keyword{baseline}
 \keyword{downsample}
@@ -119,3 +129,4 @@ set.stimuli(x)
 \keyword{set}
 \keyword{smooth}
 \keyword{stimuli}
+\keyword{timing}

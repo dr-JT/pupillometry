@@ -6,22 +6,12 @@
 #' @param ms.conversion Conversion factor to convert timing to milliseconds
 #' @param pretrial.duration Duration of pre-trial baseline period in milliseconds
 #' @param match Should the message string be an "exact" match or a "pattern" match?
-#'
-#' @templateVar fun set.timing
-#' @template template-depr_fun
-NULL
-
-#' @templateVar old set.timing
-#' @templateVar new set_timing
-#' @template template-depr_pkg
-#'
 #' @keywords set timing
 #' @export
 #' @examples
-#' set.timing(x, start.trial = "Fixation", ms.conversion = 1000)
+#' set_timing(x, start.trial = "Fixation", ms.conversion = 1000)
 
-set.timing <- function(x, trialonset.message = "", ms.conversion = 1, pretrial.duration = 0, match = "exact"){
-  .Deprecated("set_timing")
+set_timing <- function(x, trialonset.message = "", ms.conversion = 1, pretrial.duration = 0, match = "exact"){
   pretrial.duration <- abs(pretrial.duration)*-1
   x <- dplyr::group_by(x, Trial)
   if (match=="exact"){
