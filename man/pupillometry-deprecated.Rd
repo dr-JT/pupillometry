@@ -2,7 +2,7 @@
 % Please edit documentation in R/aoi.downsample.R, R/plot.comparison.R,
 %   R/pupil.baselinecorrect.R, R/pupil.cor.R, R/pupil.downsample.R,
 %   R/pupil.eye.R, R/pupil.interpolate.R, R/pupil.missing.R, R/pupil.smooth.R,
-%   R/pupillometry-deprecated.r
+%   R/pupillometry-deprecated.r, R/set.stimuli.R
 \name{pupillometry-deprecated}
 \alias{pupillometry-deprecated}
 \alias{aoi.downsample}
@@ -14,6 +14,7 @@
 \alias{pupil.interpolate}
 \alias{pupil.missing}
 \alias{pupil.smooth}
+\alias{set.stimuli}
 \title{Deprecated functions in package \pkg{pupillometry}.}
 \usage{
 aoi.downsample(x, bin.length = NULL, aoi_col = c())
@@ -36,6 +37,8 @@ pupil.interpolate(x, type = "cubic-spline", maxgap = Inf, hz = "")
 pupil.missing(x, missing.allowed = 1, velocity = "", margin = "")
 
 pupil.smooth(x, type = "hann", window = 5, hz = "")
+
+set.stimuli(x)
 }
 \description{
 The functions listed below are deprecated and will be defunct in
@@ -88,6 +91,11 @@ For \code{pupil.missing}, use \code{\link{pupil_missing}}.
 For \code{pupil.smooth}, use \code{\link{pupil_smooth}}.
 }
 
+\section{\code{set.stimuli}}{
+
+For \code{set.stimuli}, use \code{\link{set_stimuli}}.
+}
+
 \examples{
 aoi.downsample(x, bin.length = 100)
 
@@ -98,6 +106,7 @@ pupil.downsample(x, bin.length = 100)
 pupil.interpolate(x, type = "cubic-spline", eye.recorded = "both")
 pupil.missing(x)
 pupil.smooth(x, type = "hann", window = 11, eye.recorded = "both")
+set.stimuli(x)
 }
 \keyword{baseline}
 \keyword{downsample}
@@ -107,4 +116,6 @@ pupil.smooth(x, type = "hann", window = 11, eye.recorded = "both")
 \keyword{plot}
 \keyword{preprocess}
 \keyword{pupil}
+\keyword{set}
 \keyword{smooth}
+\keyword{stimuli}

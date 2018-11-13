@@ -2,22 +2,12 @@
 #'
 #' This function will create a column that indexes the stimuli within each trial
 #' @param x dataframe
-#'
-#' @templateVar fun set.stimuli
-#' @template template-depr_fun
-NULL
-
-#' @templateVar old set.stimuli
-#' @templateVar new set_stimuli
-#' @template template-depr_pkg
-#'
 #' @keywords set stimuli
 #' @export
 #' @examples
-#' set.stimuli(x)
+#' set_stimuli(x)
 
-set.stimuli <- function(x){
-  .Deprecated("set_stimuli")
+set_stimuli <- function(x){
   x <- dplyr::group_by(x, Trial)
   x <- dplyr::mutate(x, Stimulus = zoo::na.locf(Message, na.rm = FALSE))
   x <- dplyr::ungroup(x)
