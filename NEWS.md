@@ -1,4 +1,4 @@
-# pupillometry 0.2.1
+# pupillometry 0.2.01
 
 * Changed function names to use "_" rather than "."
 
