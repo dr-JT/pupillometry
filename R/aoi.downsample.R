@@ -1,11 +1,12 @@
 #' Downsample aoi data
 #'
 #' This function will reduce the sampling fequency
+#' @title aoi.downsample
 #' @param x dataframe
 #' @param bin.length Length of bins to average
 #' @param aoi_col Column names that contain aoi measures
 #'
-#' #' @templateVar fun aoi.downsample
+#' @templateVar fun aoi.downsample
 #' @template template-depr_fun
 NULL
 

@@ -2,7 +2,7 @@
 % Please edit documentation in R/aoi_downsample.R
 \name{aoi_downsample}
 \alias{aoi_downsample}
-\title{Downsample aoi data}
+\title{aoi_downsample}
 \usage{
 aoi_downsample(x, bin.length = NULL, aoi.col = c())
 }
@@ -14,6 +14,9 @@ aoi_downsample(x, bin.length = NULL, aoi.col = c())
 \item{aoi.col}{Column names that contain aoi measures}
 }
 \description{
+Downsample aoi data
+}
+\details{
 This function will reduce the sampling fequency
 }
 \examples{
