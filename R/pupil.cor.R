@@ -19,7 +19,7 @@ NULL
 #' pupil.cor(x)
 
 pupil.cor <- function(x){
-  .Deprecated("pupil.cor")
+  .Deprecated("pupil_cor")
   x <- dplyr::mutate(x, Pupils.r = stats::cor(L_Pupil_Diameter.mm, R_Pupil_Diameter.mm, use = "pairwise.complete.obs"),
                      Pupils.r = ifelse(is.na(Pupils.r), 0, Pupils.r))
   return(x)
