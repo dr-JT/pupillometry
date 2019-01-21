@@ -4,17 +4,17 @@
 \alias{pupil_baselinecorrect}
 \title{Apply baseline correction}
 \usage{
-pupil_baselinecorrect(x, baselineoffset.message = "",
-  bc.duration = 200, bc.type = "subtractive", match = "exact")
+pupil_baselinecorrect(x, message = "", duration = 200,
+  type = "subtractive", match = "exact")
 }
 \arguments{
 \item{x}{dataframe}
 
-\item{baselineoffset.message}{Message string(s) that marks the offset of baseline period(s)}
+\item{message}{Message string(s) that marks the offset of baseline period(s)}
 
-\item{bc.duration}{Duration baseline period(s) to use for correction}
+\item{duration}{Duration baseline period(s) to use for correction}
 
-\item{bc.type}{Do you want to use "subtractive" or "divisive" baseline correction? (default: "subtractive")}
+\item{type}{Do you want to use "subtractive" or "divisive" baseline correction? (default: "subtractive")}
 
 \item{match}{Should the message string be an "exact" match or a "pattern" match?}
 }

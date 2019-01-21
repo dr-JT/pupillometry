@@ -89,18 +89,15 @@ pretrial.duration <- 1000
 
 # Preprocessing Options
 missing.allowed <- .75
-interpolate <- TRUE
-interpolate.type <- "cubic-spline"
+interpolate <- "linear"
 interpolate.maxgap <- 750
-smooth <- TRUE
-smooth.type <- "hann"
+smooth <- "hann"
 smooth.window <- 500
 method.first <- "smooth"
-bc <- TRUE
+bc <- "subtractive"
 baselineoffset.message <- "Tone 1"
 baselineoffset.match <- "exact"
 bc.duration <- 200
-bc.type <- "subtractive"
 downsample.binlength <- 20
 
 # Misc.
@@ -114,11 +111,10 @@ preprocess(import = import, pattern = pattern, taskname = taskname, subj.prefix 
            eyetracker = eyetracker, hz = hz, subset = subset, eye.recorded = eye.recorded, eye.use = eye.use, 
            startrecording.message = startrecording.message, startrecording.match = startrecording.match,
            trialonset.message = trialonset.message, trialonset.match = trialonset.match, pretrial.duration = pretrial.duration,
-           missing.allowed = missing.allowed,
-           interpolate = interpolate, interpolate.type = interpolate.type, interpolate.maxgap = interpolate.maxgap,
-           smooth = smooth, smooth.type = smooth.type, smooth.window = smooth.window, method.first = method.first,
+           missing.allowed = missing.allowed, interpolate = interpolate, interpolate.maxgap = interpolate.maxgap,
+           smooth = smooth, smooth.window = smooth.window, method.first = method.first,
            bc = bc, baselineoffset.message = baselineoffset.message, baselineoffset.match = baselineoffset.match,
-           bc.duration = bc.duration, bc.type = bc.type, downsample.binlength = downsample.binlength,
+           bc.duration = bc.duration, downsample.binlength = downsample.binlength,
            subset = subset, trial.exclude = trial.exclude)
 ```
 

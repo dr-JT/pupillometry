@@ -4,48 +4,41 @@
 \alias{preprocess}
 \title{Preprocess pupil data using this single function}
 \usage{
-preprocess(import = "", pattern = "*.txt", output = NULL,
-  export = "", taskname = "", eyetracker = "", subj.prefix = NULL,
-  subj.suffix = NULL, gazedata.include = FALSE, subset = "default",
-  trial.exclude = c(), eye.recorded = "", eye.use = "", hz = "",
+preprocess(import = NULL, pattern = "*.txt", taskname = NULL,
+  subj.prefix = NULL, subj.suffix = NULL, output = NULL,
+  gazedata.include = FALSE, eyetracker = NULL, hz = NULL,
+  eye.recorded = NULL, eye.use = NULL,
   startrecording.message = "default", startrecording.match = "exact",
-  trialonset.message = "", trialonset.match = "exact",
-  pretrial.duration = "", velocity = "", margin = "",
-  missing.allowed = 1, interpolate = FALSE, interpolate.type = "",
-  interpolate.maxgap = Inf, smooth = FALSE, smooth.type = "",
-  smooth.window = 5, method.first = NULL, bc = FALSE,
-  baselineoffset.message = "", baselineoffset.match = "exact",
-  bc.duration = "", bc.type = "subtractive",
-  downsample.binlength = NULL)
+  trialonset.message = NULL, trialonset.match = "exact",
+  pretrial.duration = NULL, missing.allowed = 1, interpolate = NULL,
+  interpolate.maxgap = Inf, smooth = NULL, smooth.window = 5,
+  method.first = NULL, bc = NULL, bc.duration = NULL,
+  baselineoffset.message = NULL, baselineoffset.match = "exact",
+  downsample.binlength = NULL, subset = "default",
+  trial.exclude = c())
 }
 \arguments{
 \item{import}{Folder path to raw data files}
 
 \item{pattern}{Pattern to look for in data files}
 
-\item{output}{Folder path to output preprocessed data to}
-
-\item{export}{Folder path to export preprocessed data to}
-
 \item{taskname}{Name of task - to be used in naming pre-processed files}
-
-\item{eyetracker}{Which eye-tracker was used to record data}
 
 \item{subj.prefix}{The unique pattern prefix (letter(s) and/or symbol(s)) that comes before the subject number in the data file}
 
 \item{subj.suffix}{The unique pattern suffix (letter(s) or symbol(s)) that comes after the subject number in the data file}
 
+\item{output}{Folder path to output preprocessed data to}
+
 \item{gazedata.include}{Logical. Include columns for x and y coordinates of eye gaze? (Default: FALSE)}
 
-\item{subset}{Which columns in the raw data output file do you want to keep}
+\item{eyetracker}{Which eye-tracker was used to record data}
 
-\item{trial.exclude}{Specify if ther are any trials to exclude. Trial number}
+\item{hz}{At which frequency was pupil data sampled at? (only required for interpolation and smoothing)}
 
 \item{eye.recorded}{Do you want to inclue the "left", "right', or "both" eyes?}
 
 \item{eye.use}{Which eye to use? Left or right}
-
-\item{hz}{At which frequency was pupil data sampled at? (only required for interpolation and smoothing)}
 
 \item{startrecording.message}{Message used in SMI experiment to mark StartTracking inline}
 
@@ -57,37 +50,31 @@ preprocess(import = "", pattern = "*.txt", output = NULL,
 
 \item{pretrial.duration}{Duration of pre-trial baseline period in milliseconds}
 
-\item{velocity}{The velocity threshold for Blink detection}
-
-\item{margin}{The margin before and after Blink onset and offset}
-
 \item{missing.allowed}{What proportion of missing data is allowed, on a trial-by-trial basis? (Default: 1)}
 
-\item{interpolate}{Do you want to do a linear interpolation over missing values?}
-
-\item{interpolate.type}{What type of interpolation to use? linear or cubic-spline}
+\item{interpolate}{What type of interpolation to use? linear or cubic-spline}
 
 \item{interpolate.maxgap}{Maximum number of NAs to interpolate over. Anything gaps over this value will not be interpolated.}
 
-\item{smooth}{Do you want to apply a moving average smoothing function?}
-
-\item{smooth.type}{The type of smoothing function to apply. hann or moving window average (mwa)}
+\item{smooth}{The type of smoothing function to apply. hann or moving window average (mwa)}
 
 \item{smooth.window}{Window size of smoothing function default is 5 milliseconds}
 
 \item{method.first}{Should "smooth" or "interpolate" be applied first? (default: NULL)}
 
-\item{bc}{Logical. Do baseline correction?}
+\item{bc}{Do you want to use "subtractive" or "divisive" baseline correction? (default: "subtractive")}
+
+\item{bc.duration}{Duration baseline period(s) to use for correction}
 
 \item{baselineoffset.message}{Message string(s) that marks the offset of baseline period(s)}
 
 \item{baselineoffset.match}{Message string(s) that marks the offset of baseline period(s)}
 
-\item{bc.duration}{Duration baseline period(s) to use for correction}
-
-\item{bc.type}{Do you want to use "subtractive" or "divisive" baseline correction? (default: "subtractive")}
-
 \item{downsample.binlength}{Length of bins to average (default: NULL)}
+
+\item{subset}{Which columns in the raw data output file do you want to keep}
+
+\item{trial.exclude}{Specify if ther are any trials to exclude. Trial number}
 }
 \description{
 This function will perform preprocessing on an entire folder of data files. It takes as input a specified folder path

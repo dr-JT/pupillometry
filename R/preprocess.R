@@ -4,55 +4,48 @@
 #' and outputs the preprocessed data to a specified folder path
 #' @param import Folder path to raw data files
 #' @param pattern Pattern to look for in data files
-#' @param output Folder path to output preprocessed data to
-#' @param export Folder path to export preprocessed data to
 #' @param taskname Name of task - to be used in naming pre-processed files
-#' @param eyetracker Which eye-tracker was used to record data
 #' @param subj.prefix The unique pattern prefix (letter(s) and/or symbol(s)) that comes before the subject number in the data file
 #' @param subj.suffix The unique pattern suffix (letter(s) or symbol(s)) that comes after the subject number in the data file
+#' @param output Folder path to output preprocessed data to
 #' @param gazedata.include Logical. Include columns for x and y coordinates of eye gaze? (Default: FALSE)
-#' @param subset Which columns in the raw data output file do you want to keep
-#' @param trial.exclude Specify if ther are any trials to exclude. Trial number
+#' @param eyetracker Which eye-tracker was used to record data
+#' @param hz At which frequency was pupil data sampled at? (only required for interpolation and smoothing)
 #' @param eye.recorded Do you want to inclue the "left", "right', or "both" eyes?
 #' @param eye.use Which eye to use? Left or right
-#' @param hz At which frequency was pupil data sampled at? (only required for interpolation and smoothing)
 #' @param startrecording.message Message used in SMI experiment to mark StartTracking inline
 #' @param startrecording.match Should the message string be an "exact" match or a "pattern" match?
 #' @param trialonset.message Message string that marks the start of a trial
 #' @param trialonset.match Should the message string be an "exact" match or a "pattern" match?
 #' @param pretrial.duration Duration of pre-trial baseline period in milliseconds
-#' @param velocity The velocity threshold for Blink detection
-#' @param margin The margin before and after Blink onset and offset
 #' @param missing.allowed What proportion of missing data is allowed, on a trial-by-trial basis? (Default: 1)
-#' @param interpolate Do you want to do a linear interpolation over missing values?
-#' @param interpolate.type What type of interpolation to use? linear or cubic-spline
+#' @param interpolate What type of interpolation to use? linear or cubic-spline
 #' @param interpolate.maxgap Maximum number of NAs to interpolate over. Anything gaps over this value will not be interpolated.
-#' @param smooth Do you want to apply a moving average smoothing function?
-#' @param smooth.type The type of smoothing function to apply. hann or moving window average (mwa)
+#' @param smooth The type of smoothing function to apply. hann or moving window average (mwa)
 #' @param smooth.window Window size of smoothing function default is 5 milliseconds
 #' @param method.first Should "smooth" or "interpolate" be applied first? (default: NULL)
-#' @param bc Logical. Do baseline correction?
+#' @param bc Do you want to use "subtractive" or "divisive" baseline correction? (default: "subtractive")
 #' @param baselineoffset.message Message string(s) that marks the offset of baseline period(s)
 #' @param baselineoffset.match Message string(s) that marks the offset of baseline period(s)
 #' @param bc.duration Duration baseline period(s) to use for correction
-#' @param bc.type Do you want to use "subtractive" or "divisive" baseline correction? (default: "subtractive")
 #' @param downsample.binlength Length of bins to average (default: NULL)
+#' @param subset Which columns in the raw data output file do you want to keep
+#' @param trial.exclude Specify if ther are any trials to exclude. Trial number
 #' @keywords preprocess
 #' @export
 #' @examples
 #'
 #'
-preprocess <- function(import = "", pattern = "*.txt", output = NULL, export = "", taskname = "", eyetracker = "",
-                       subj.prefix = NULL, subj.suffix = NULL,
-                       gazedata.include = FALSE, subset = "default", trial.exclude = c(),
-                       eye.recorded = "", eye.use = "", hz = "",
+preprocess <- function(import = NULL, pattern = "*.txt", taskname = NULL, subj.prefix = NULL, subj.suffix = NULL,
+                       output = NULL, gazedata.include = FALSE,
+                       eyetracker = NULL, hz = NULL, eye.recorded = NULL, eye.use = NULL,
                        startrecording.message = "default",  startrecording.match = "exact",
-                       trialonset.message = "", trialonset.match = "exact", pretrial.duration = "",
-                       velocity = "", margin = "", missing.allowed = 1,
-                       interpolate = FALSE, interpolate.type = "", interpolate.maxgap = Inf,
-                       smooth = FALSE, smooth.type = "", smooth.window = 5, method.first = NULL,
-                       bc = FALSE, baselineoffset.message = "", baselineoffset.match = "exact", bc.duration = "", bc.type = "subtractive",
-                       downsample.binlength = NULL){
+                       trialonset.message = NULL, trialonset.match = "exact", pretrial.duration = NULL,
+                       missing.allowed = 1, interpolate = NULL, interpolate.maxgap = Inf,
+                       smooth = NULL, smooth.window = 5, method.first = NULL,
+                       bc = NULL, bc.duration = NULL, baselineoffset.message = NULL, baselineoffset.match = "exact",
+                       downsample.binlength = NULL,
+                       subset = "default", trial.exclude = c()){
 
   if (is.null(output)){
     output <- export
@@ -63,10 +56,10 @@ preprocess <- function(import = "", pattern = "*.txt", output = NULL, export = "
 
   ## Save data and do baseline correction first if bc==TRUE
   saveData <- function(x, preprocessing.stage = ""){
-    if (bc==TRUE){
+    if (!is.null(bc)){
       preprocessing <- paste(preprocessing.stage, "bc", sep = ".")
-      x <- pupil_baselinecorrect(x, baselineoffset.message = baselineoffset.message, match = baselineoffset.match,
-                                 bc.duration = bc.duration, bc.type = bc.type)
+      x <- pupil_baselinecorrect(x, message = baselineoffset.message, match = baselineoffset.match,
+                                 duration = bc.duration, type = bc)
       # Downsample?
       if (!is.null(downsample.binlength)){
         preprocessing <- paste(preprocessing, "ds", sep = ".")
@@ -157,31 +150,31 @@ preprocess <- function(import = "", pattern = "*.txt", output = NULL, export = "
 
     if (is.null(method.first)){
       ## Next, either interpolate or smooth
-      if (interpolate==TRUE){
-        data <- pupil_interpolate(data, type = interpolate.type, maxgap = interpolate.maxgap, hz = hz)
+      if (!is.null(interpolate)){
+        data <- pupil_interpolate(data, type = interpolate, maxgap = interpolate.maxgap, hz = hz)
         ## Save data at this stage
         saveData(data, preprocessing.stage = "interpolated")
-      } else if (smooth==TRUE){
-        data <- pupil_smooth(data, type = smooth.type, window = smooth.window, hz = hz)
+      } else if (!is.null(smooth)){
+        data <- pupil_smooth(data, type = smooth, window = smooth.window, hz = hz)
         ## Save data at this stage
         saveData(data, preprocessing.stage = "smoothed")
       }
     } else if (method.first == "interpolate"){
       ## Next, Interpolate data
-      data <- pupil_interpolate(data, type = interpolate.type, maxgap = interpolate.maxgap, hz = hz)
+      data <- pupil_interpolate(data, type = interpolate, maxgap = interpolate.maxgap, hz = hz)
       ## Save data at this stage
       saveData(data, preprocessing.stage = "interpolated")
       ## Next, Smooth data
-      data <- pupil_smooth(data, type = smooth.type, window = smooth.window, hz = hz)
+      data <- pupil_smooth(data, type = smooth, window = smooth.window, hz = hz)
       ## Save data at this stage
       saveData(data, preprocessing.stage = "interpolated.smoothed")
     } else if (method.first == "smooth"){
       ## Next, Smooth data
-      data <- pupil_smooth(data, type = smooth.type, window = smooth.window, hz = hz)
+      data <- pupil_smooth(data, type = smooth, window = smooth.window, hz = hz)
       ## Save data at this stage
       saveData(data, preprocessing.stage = "smoothed")
       ## Next, Interpolate data
-      data <- pupil_interpolate(data, type = interpolate.type, maxgap = interpolate.maxgap, hz = hz)
+      data <- pupil_interpolate(data, type = interpolate, maxgap = interpolate.maxgap, hz = hz)
       ## Save data at this stage
       saveData(data, preprocessing.stage = "smoothed.interpolated")
     }
