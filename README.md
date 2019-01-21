@@ -61,27 +61,36 @@ If there is a need, a future update might include an option to not save after ea
 ### Example
 ```r
 ## Preprocessing parameters
+
+# File Import Information
 import <- "data/Raw"
 pattern <- "*.txt"
+taskname <- "Pitch_Discrimination"
+subj.prefix <- "n_"             ## For SMI eyetrackers
+subj.suffix <- "-"              ## For SMI eyetrackers
+
+# File Output Information
 output <- "data/Preprocessed"
-task <- "Pitch_Discrimination"
-eyetracker <- "smi"
-subj.prefix <- "n_"
-subj.suffix <- "-"
 gazedata.include <- FALSE
-subset <- "default"
-trial.exclude <- c()
+
+
+# Eyetracker Information
+eyetracker <- "smi"
+hz <- 250
 eye.recorded <- "both"
 eye.use <- "left"
-hz <- 250
+
+# Message Marker Information
 startrecording.message <- "default"
 startrecording.match <- "exact"
 trialonset.message <- "Tone 1" 
 trialonset.match <- "exact"
 pretrial.duration <- 1000
+
+# Preprocessing Options
+missing.allowed <- .75
 velocity <- ""
 margin <- ""
-missing.allowed <- .75
 interpolate <- TRUE
 interpolate.type <- "cubic-spline"
 interpolate.maxgap <- 750
@@ -95,20 +104,24 @@ baselineoffset.match <- "exact"
 bc.duration <- 200
 bc.type <- "subtractive"
 downsample.binlength <- 20
+
+# Misc.
+subset <- "default"
+trial.exclude <- c()
+
 ############################
 
-preprocess(import = import, pattern = pattern, output = output, taskname = task, eyetracker = eyetracker,
-           subj.prefix = subj.prefix, subj.suffix = subj.suffix,
-           gazedata.include = gazedata.include, subset = subset, trial.exclude = trial.exclude,
-           eye.recorded = eye.recorded, eye.use = eye.use, hz = hz,
+preprocess(import = import, pattern = pattern, taskname = taskname, subj.prefix = subj.prefix, subj.suffix = subj.suffix, 
+           output = output, gazedata.include = gazedata.include,
+           eyetracker = eyetracker, hz = hz, subset = subset, eye.recorded = eye.recorded, eye.use = eye.use, 
            startrecording.message = startrecording.message, startrecording.match = startrecording.match,
            trialonset.message = trialonset.message, trialonset.match = trialonset.match, pretrial.duration = pretrial.duration,
-           velocity = velocity, margin = margin, missing.allowed = missing.allowed,
+           missing.allowed = missing.allowed, velocity = velocity, margin = margin, 
            interpolate = interpolate, interpolate.type = interpolate.type, interpolate.maxgap = interpolate.maxgap,
            smooth = smooth, smooth.type = smooth.type, smooth.window = smooth.window, method.first = method.first,
            bc = bc, baselineoffset.message = baselineoffset.message, baselineoffset.match = baselineoffset.match,
-           bc.duration = bc.duration, bc.type = bc.type,
-           downsample.binlength = downsample.binlength)
+           bc.duration = bc.duration, bc.type = bc.type, downsample.binlength = downsample.binlength,
+           subset = subset, trial.exclude = trial.exclude)
 ```
 
 ## Planned Updates
