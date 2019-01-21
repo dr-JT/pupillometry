@@ -106,16 +106,21 @@
 <blockquote>
 <p>An R Package to preprocess pupil data</p>
 </blockquote>
+<div id="this-package-is-still-under-development-and-testing" class="section level3">
+<h3 class="hasAnchor">
+<a href="#this-package-is-still-under-development-and-testing" class="anchor"></a><em>This Package is still under development and testing!</em>
+</h3>
 <p>The package contains various functions for different steps in the preprocessing pipeline, such as interpolation, smoothing, and baseline correction.</p>
 <p>The pre-processing steps are based on what has commonly been used in the literature and influenced by sensible preprocessing methods suggested by</p>
 <p>Mathôt, S., Fabius, J., Van Heusden, E., &amp; Van der Stigchel, S. (2018). Safe and sensible preprocessing and baseline correction of pupil-size data. Behavior research methods, 50(1), 94-106.</p>
 <p>The main goal of this package is to provide:</p>
 <p>1) ease of use for pupillometry researchers</p>
 <p>2) flexibility in choosing which preprocessing methods and parameters are used.</p>
+</div>
 <div id="install" class="section level2">
 <h2 class="hasAnchor">
 <a href="#install" class="anchor"></a>Install</h2>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">devtools<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/devtools/topics/install_github">install_github</a></span>(<span class="st">"dr-JT/pupillometry"</span>)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">devtools<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/devtools/topics/reexports">install_github</a></span>(<span class="st">"dr-JT/pupillometry"</span>)</code></pre></div>
 </div>
 <div id="eyetracker-support" class="section level2">
 <h2 class="hasAnchor">
@@ -169,54 +174,61 @@
 <h3 class="hasAnchor">
 <a href="#example" class="anchor"></a>Example</h3>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## Preprocessing parameters
+
+<span class="co"># File Import Information</span>
 import &lt;-<span class="st"> "data/Raw"</span>
 pattern &lt;-<span class="st"> "*.txt"</span>
+taskname &lt;-<span class="st"> "Pitch_Discrimination"</span>
+subj.prefix &lt;-<span class="st"> "n_"</span>             ## For SMI eyetrackers
+subj.suffix &lt;-<span class="st"> "-"</span>              ## For SMI eyetrackers
+
+<span class="co"># File Output Information</span>
 output &lt;-<span class="st"> "data/Preprocessed"</span>
-task &lt;-<span class="st"> "Pitch_Discrimination"</span>
-eyetracker &lt;-<span class="st"> "smi"</span>
-subj.prefix &lt;-<span class="st"> "n_"</span>
-subj.suffix &lt;-<span class="st"> "-"</span>
 gazedata.include &lt;-<span class="st"> </span><span class="ot">FALSE</span>
-subset &lt;-<span class="st"> "default"</span>
-trial.exclude &lt;-<span class="st"> </span><span class="kw">c</span>()
+
+
+<span class="co"># Eyetracker Information</span>
+eyetracker &lt;-<span class="st"> "smi"</span>
+hz &lt;-<span class="st"> </span><span class="dv">250</span>
 eye.recorded &lt;-<span class="st"> "both"</span>
 eye.use &lt;-<span class="st"> "left"</span>
-hz &lt;-<span class="st"> </span><span class="dv">250</span>
+
+<span class="co"># Message Marker Information</span>
 startrecording.message &lt;-<span class="st"> "default"</span>
 startrecording.match &lt;-<span class="st"> "exact"</span>
 trialonset.message &lt;-<span class="st"> "Tone 1"</span> 
 trialonset.match &lt;-<span class="st"> "exact"</span>
 pretrial.duration &lt;-<span class="st"> </span><span class="dv">1000</span>
-velocity &lt;-<span class="st"> ""</span>
-margin &lt;-<span class="st"> ""</span>
+
+<span class="co"># Preprocessing Options</span>
 missing.allowed &lt;-<span class="st"> </span>.<span class="dv">75</span>
-interpolate &lt;-<span class="st"> </span><span class="ot">TRUE</span>
-interpolate.type &lt;-<span class="st"> "cubic-spline"</span>
+interpolate &lt;-<span class="st"> "linear"</span>
 interpolate.maxgap &lt;-<span class="st"> </span><span class="dv">750</span>
-smooth &lt;-<span class="st"> </span><span class="ot">TRUE</span>
-smooth.type &lt;-<span class="st"> "hann"</span>
+smooth &lt;-<span class="st"> "hann"</span>
 smooth.window &lt;-<span class="st"> </span><span class="dv">500</span>
 method.first &lt;-<span class="st"> "smooth"</span>
-bc &lt;-<span class="st"> </span><span class="ot">TRUE</span>
+bc &lt;-<span class="st"> "subtractive"</span>
 baselineoffset.message &lt;-<span class="st"> "Tone 1"</span>
 baselineoffset.match &lt;-<span class="st"> "exact"</span>
 bc.duration &lt;-<span class="st"> </span><span class="dv">200</span>
-bc.type &lt;-<span class="st"> "subtractive"</span>
 downsample.binlength &lt;-<span class="st"> </span><span class="dv">20</span>
+
+<span class="co"># Misc.</span>
+subset &lt;-<span class="st"> "default"</span>
+trial.exclude &lt;-<span class="st"> </span><span class="kw">c</span>()
+
 ############################
 
-<span class="kw"><a href="reference/preprocess.html">preprocess</a></span>(<span class="dt">import =</span> import, <span class="dt">pattern =</span> pattern, <span class="dt">output =</span> output, <span class="dt">taskname =</span> task, <span class="dt">eyetracker =</span> eyetracker,
-           <span class="dt">subj.prefix =</span> subj.prefix, <span class="dt">subj.suffix =</span> subj.suffix,
-           <span class="dt">gazedata.include =</span> gazedata.include, <span class="dt">subset =</span> subset, <span class="dt">trial.exclude =</span> trial.exclude,
-           <span class="dt">eye.recorded =</span> eye.recorded, <span class="dt">eye.use =</span> eye.use, <span class="dt">hz =</span> hz,
+<span class="kw"><a href="reference/preprocess.html">preprocess</a></span>(<span class="dt">import =</span> import, <span class="dt">pattern =</span> pattern, <span class="dt">taskname =</span> taskname, <span class="dt">subj.prefix =</span> subj.prefix, <span class="dt">subj.suffix =</span> subj.suffix, 
+           <span class="dt">output =</span> output, <span class="dt">gazedata.include =</span> gazedata.include,
+           <span class="dt">eyetracker =</span> eyetracker, <span class="dt">hz =</span> hz, <span class="dt">subset =</span> subset, <span class="dt">eye.recorded =</span> eye.recorded, <span class="dt">eye.use =</span> eye.use, 
            <span class="dt">startrecording.message =</span> startrecording.message, <span class="dt">startrecording.match =</span> startrecording.match,
            <span class="dt">trialonset.message =</span> trialonset.message, <span class="dt">trialonset.match =</span> trialonset.match, <span class="dt">pretrial.duration =</span> pretrial.duration,
-           <span class="dt">velocity =</span> velocity, <span class="dt">margin =</span> margin, <span class="dt">missing.allowed =</span> missing.allowed,
-           <span class="dt">interpolate =</span> interpolate, <span class="dt">interpolate.type =</span> interpolate.type, <span class="dt">interpolate.maxgap =</span> interpolate.maxgap,
-           <span class="dt">smooth =</span> smooth, <span class="dt">smooth.type =</span> smooth.type, <span class="dt">smooth.window =</span> smooth.window, <span class="dt">method.first =</span> method.first,
+           <span class="dt">missing.allowed =</span> missing.allowed, <span class="dt">interpolate =</span> interpolate, <span class="dt">interpolate.maxgap =</span> interpolate.maxgap,
+           <span class="dt">smooth =</span> smooth, <span class="dt">smooth.window =</span> smooth.window, <span class="dt">method.first =</span> method.first,
            <span class="dt">bc =</span> bc, <span class="dt">baselineoffset.message =</span> baselineoffset.message, <span class="dt">baselineoffset.match =</span> baselineoffset.match,
-           <span class="dt">bc.duration =</span> bc.duration, <span class="dt">bc.type =</span> bc.type,
-           <span class="dt">downsample.binlength =</span> downsample.binlength)</code></pre></div>
+           <span class="dt">bc.duration =</span> bc.duration, <span class="dt">downsample.binlength =</span> downsample.binlength,
+           <span class="dt">subset =</span> subset, <span class="dt">trial.exclude =</span> trial.exclude)</code></pre></div>
 </div>
 </div>
 <div id="planned-updates" class="section level2">
