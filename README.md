@@ -89,8 +89,6 @@ pretrial.duration <- 1000
 
 # Preprocessing Options
 missing.allowed <- .75
-velocity <- ""
-margin <- ""
 interpolate <- TRUE
 interpolate.type <- "cubic-spline"
 interpolate.maxgap <- 750
@@ -116,7 +114,7 @@ preprocess(import = import, pattern = pattern, taskname = taskname, subj.prefix 
            eyetracker = eyetracker, hz = hz, subset = subset, eye.recorded = eye.recorded, eye.use = eye.use, 
            startrecording.message = startrecording.message, startrecording.match = startrecording.match,
            trialonset.message = trialonset.message, trialonset.match = trialonset.match, pretrial.duration = pretrial.duration,
-           missing.allowed = missing.allowed, velocity = velocity, margin = margin, 
+           missing.allowed = missing.allowed,
            interpolate = interpolate, interpolate.type = interpolate.type, interpolate.maxgap = interpolate.maxgap,
            smooth = smooth, smooth.type = smooth.type, smooth.window = smooth.window, method.first = method.first,
            bc = bc, baselineoffset.message = baselineoffset.message, baselineoffset.match = baselineoffset.match,
