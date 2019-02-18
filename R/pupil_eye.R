@@ -17,7 +17,7 @@ pupil_eye <- function(x, eye.recorded = "", eye.use = "", gazedata.include = FAL
   ## Correlate and select Eyes
   if (eye.recorded == "both"){
     # correlate eyes
-    x <- pupil.cor(x)
+    x <- pupil_cor(x)
     # remove either left or right eye
     if (eye.use=="left"){
       x <- dplyr::rename(x,
