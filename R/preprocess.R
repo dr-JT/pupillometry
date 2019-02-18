@@ -56,7 +56,7 @@ preprocess <- function(import = NULL, pattern = "*.txt", taskname = NULL, subj.p
 
   ## Save data and do baseline correction first if bc==TRUE
   saveData <- function(x, preprocessing.stage = ""){
-    if (!is.null(bc)){
+    if (bc==TRUE){
       preprocessing <- paste(preprocessing.stage, "bc", sep = ".")
       x <- pupil_baselinecorrect(x, message = baselineoffset.message, match = baselineoffset.match,
                                  duration = bc.duration, type = bc)
@@ -150,11 +150,11 @@ preprocess <- function(import = NULL, pattern = "*.txt", taskname = NULL, subj.p
 
     if (is.null(method.first)){
       ## Next, either interpolate or smooth
-      if (!is.null(interpolate)){
+      if (interpolate==TRUE){
         data <- pupil_interpolate(data, type = interpolate, maxgap = interpolate.maxgap, hz = hz)
         ## Save data at this stage
         saveData(data, preprocessing.stage = "interpolated")
-      } else if (!is.null(smooth)){
+      } else if (smooth==TRUE){
         data <- pupil_smooth(data, type = smooth, window = smooth.window, hz = hz)
         ## Save data at this stage
         saveData(data, preprocessing.stage = "smoothed")
