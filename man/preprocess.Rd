@@ -24,51 +24,68 @@ preprocess(import = NULL, pattern = "*.txt", taskname = NULL,
 
 \item{taskname}{Name of task - to be used in naming pre-processed files}
 
-\item{subj.prefix}{The unique pattern prefix (letter(s) and/or symbol(s)) that comes before the subject number in the data file}
+\item{subj.prefix}{The unique pattern prefix (letter(s) and/or symbol(s))
+that comes before the subject number in the data file}
 
-\item{subj.suffix}{The unique pattern suffix (letter(s) or symbol(s)) that comes after the subject number in the data file}
+\item{subj.suffix}{The unique pattern suffix (letter(s) or symbol(s))
+that comes after the subject number in the data file}
 
 \item{output}{Folder path to output preprocessed data to}
 
-\item{gazedata.include}{Logical. Include columns for x and y coordinates of eye gaze? (Default: FALSE)}
+\item{gazedata.include}{Logical. Include columns for x and y coordinates of
+eye gaze? (Default: FALSE)}
 
 \item{eyetracker}{Which eye-tracker was used to record data}
 
-\item{hz}{At which frequency was pupil data sampled at? (only required for interpolation and smoothing)}
+\item{hz}{At which frequency was pupil data sampled at?
+(only required for interpolation and smoothing)}
 
-\item{eye.recorded}{Do you want to inclue the "left", "right', or "both" eyes?}
+\item{eye.recorded}{Do you want to inclue the "left", "right',
+or "both" eyes?}
 
 \item{eye.use}{Which eye to use? Left or right}
 
-\item{startrecording.message}{Message used in SMI experiment to mark StartTracking inline}
+\item{startrecording.message}{Message used in SMI experiment
+to mark StartTracking inline}
 
-\item{startrecording.match}{Should the message string be an "exact" match or a "pattern" match?}
+\item{startrecording.match}{Should the message string be an "exact"
+match or a "pattern" match?}
 
 \item{trialonset.message}{Message string that marks the start of a trial}
 
-\item{trialonset.match}{Should the message string be an "exact" match or a "pattern" match?}
+\item{trialonset.match}{Should the message string be an "exact"
+match or a "pattern" match?}
 
-\item{pretrial.duration}{Duration of pre-trial baseline period in milliseconds}
+\item{pretrial.duration}{Duration of pre-trial baseline period
+in milliseconds}
 
-\item{missing.allowed}{What proportion of missing data is allowed, on a trial-by-trial basis? (Default: 1)}
+\item{missing.allowed}{What proportion of missing data is allowed,
+on a trial-by-trial basis? (Default: 1)}
 
 \item{interpolate}{What type of interpolation to use? linear or cubic-spline}
 
-\item{interpolate.maxgap}{Maximum number of NAs to interpolate over. Anything gaps over this value will not be interpolated.}
+\item{interpolate.maxgap}{Maximum number of NAs to interpolate over.
+Anything gaps over this value will not be interpolated.}
 
-\item{smooth}{The type of smoothing function to apply. hann or moving window average (mwa)}
+\item{smooth}{The type of smoothing function to apply.
+hann or moving window average (mwa)}
 
-\item{smooth.window}{Window size of smoothing function default is 5 milliseconds}
+\item{smooth.window}{Window size of smoothing function
+default is 5 milliseconds}
 
-\item{method.first}{Should "smooth" or "interpolate" be applied first? (default: NULL)}
+\item{method.first}{Should "smooth" or "interpolate" be applied first?
+(default: NULL)}
 
-\item{bc}{Do you want to use "subtractive" or "divisive" baseline correction? (default: "subtractive")}
+\item{bc}{Do you want to use "subtractive" or "divisive"
+baseline correction? (default: "subtractive")}
 
 \item{bc.duration}{Duration baseline period(s) to use for correction}
 
-\item{baselineoffset.message}{Message string(s) that marks the offset of baseline period(s)}
+\item{baselineoffset.message}{Message string(s) that marks the offset of
+baseline period(s)}
 
-\item{baselineoffset.match}{Message string(s) that marks the offset of baseline period(s)}
+\item{baselineoffset.match}{Message string(s) that marks the offset of
+baseline period(s)}
 
 \item{downsample.binlength}{Length of bins to average (default: NULL)}
 
@@ -77,7 +94,8 @@ preprocess(import = NULL, pattern = "*.txt", taskname = NULL,
 \item{trial.exclude}{Specify if ther are any trials to exclude. Trial number}
 }
 \description{
-This function will perform preprocessing on an entire folder of data files. It takes as input a specified folder path
+This function will perform preprocessing on an entire folder of data files.
+It takes as input a specified folder path
 and outputs the preprocessed data to a specified folder path
 }
 \examples{
