@@ -12,14 +12,14 @@
 #' @examples
 #'
 
-pupil_eye <- function(x, eye.recorded = "", eye.use = "", gazedata.include = FALSE){
+eye_select <- function(x, eye.recorded = "", eye.use = "", gazedata.include = FALSE){
 
   ## Correlate and select Eyes
   if (eye.recorded == "both"){
     # correlate eyes
     x <- pupil_cor(x)
     # remove either left or right eye
-    if (eye.use=="left"){
+    if (eye.use == "left"){
       x <- dplyr::rename(x,
                          Pupil_Diameter.mm = L_Pupil_Diameter.mm,
                          Event = L_Event)
@@ -30,7 +30,7 @@ pupil_eye <- function(x, eye.recorded = "", eye.use = "", gazedata.include = FAL
                            Gaze_Position.y = L_Gaze_Position.y)
         x <- dplyr::select(x, -R_Gaze_Position.x, -R_Gaze_Position.y)
       }
-    } else if (eye.use=="right"){
+    } else if (eye.use == "right"){
       x <- dplyr::rename(x,
                          Pupil_Diameter.mm = R_Pupil_Diameter.mm,
                          Event = R_Event)
@@ -42,18 +42,18 @@ pupil_eye <- function(x, eye.recorded = "", eye.use = "", gazedata.include = FAL
         x <- dplyr::select(x, -L_Gaze_Position.x, -L_Gaze_Position.y)
       }
     }
-  } else if (eye.recorded=="left"){
+  } else if (eye.recorded == "left"){
     x <- dplyr::rename(x, Pupil_Diameter.mm = L_Pupil_Diameter.mm,
                        Event = L_Event)
-    if (gazedata.include==TRUE){
+    if (gazedata.include == TRUE){
       x <- dplyr::rename(x,
                          Gaze_Position.x = L_Gaze_Position.x,
                          Gaze_Position.y = L_Gaze_Position.y)
     }
-  } else if (eye.recorded=="right"){
+  } else if (eye.recorded == "right"){
     x <- dplyr::rename(x, Pupil_Diameter.mm = R_Pupil_Diameter.mm,
                        Event = R_Event)
-    if (gazedata.include==TRUE){
+    if (gazedata.include == TRUE){
       x <- dplyr::rename(x,
                          Gaze_Position.x = R_Gaze_Position.x,
                          Gaze_Position.y = R_Gaze_Position.y)

@@ -6,8 +6,7 @@
 \usage{
 preprocess(import = NULL, pattern = "*.txt", taskname = NULL,
   subj.prefix = NULL, subj.suffix = NULL, output = NULL,
-  gazedata.include = FALSE, eyetracker = NULL, hz = NULL,
-  eye.recorded = NULL, eye.use = NULL,
+  eyetracker = NULL, hz = NULL, eye.use = NULL,
   startrecording.message = "default", startrecording.match = "exact",
   trialonset.message = NULL, trialonset.match = "exact",
   pretrial.duration = NULL, missing.allowed = 1, interpolate = NULL,
@@ -32,16 +31,10 @@ that comes after the subject number in the data file}
 
 \item{output}{Folder path to output preprocessed data to}
 
-\item{gazedata.include}{Logical. Include columns for x and y coordinates of
-eye gaze? (Default: FALSE)}
-
 \item{eyetracker}{Which eye-tracker was used to record data}
 
 \item{hz}{At which frequency was pupil data sampled at?
 (only required for interpolation and smoothing)}
-
-\item{eye.recorded}{Do you want to inclue the "left", "right',
-or "both" eyes?}
 
 \item{eye.use}{Which eye to use? Left or right}
 

@@ -11,13 +11,9 @@
 #' @param subj.suffix The unique pattern suffix (letter(s) or symbol(s))
 #'     that comes after the subject number in the data file
 #' @param output Folder path to output preprocessed data to
-#' @param gazedata.include Logical. Include columns for x and y coordinates of
-#'     eye gaze? (Default: FALSE)
 #' @param eyetracker Which eye-tracker was used to record data
 #' @param hz At which frequency was pupil data sampled at?
 #'     (only required for interpolation and smoothing)
-#' @param eye.recorded Do you want to inclue the "left", "right',
-#'     or "both" eyes?
 #' @param eye.use Which eye to use? Left or right
 #' @param startrecording.message Message used in SMI experiment
 #'     to mark StartTracking inline
@@ -46,7 +42,6 @@
 #' @param baselineoffset.match Message string(s) that marks the offset of
 #'     baseline period(s)
 #' @param bc.duration Duration baseline period(s) to use for correction
-#' @param downsample.binlength Length of bins to average (default: NULL)
 #' @param subset Which columns in the raw data output file do you want to keep
 #' @param trial.exclude Specify if ther are any trials to exclude. Trial number
 #' @keywords preprocess
@@ -56,8 +51,7 @@
 #'
 preprocess <- function(import = NULL, pattern = "*.txt", taskname = NULL,
                        subj.prefix = NULL, subj.suffix = NULL,
-                       output = NULL, gazedata.include = FALSE,
-                       eyetracker = NULL, hz = NULL, eye.recorded = NULL,
+                       output = NULL, eyetracker = NULL, hz = NULL,
                        eye.use = NULL, startrecording.message = "default",
                        startrecording.match = "exact", trialonset.message = NULL,
                        trialonset.match = "exact", pretrial.duration = NULL,
@@ -65,8 +59,7 @@ preprocess <- function(import = NULL, pattern = "*.txt", taskname = NULL,
                        interpolate.maxgap = Inf, smooth = NULL,
                        smooth.window = 5, method.first = NULL, bc = NULL,
                        bc.duration = NULL, baselineoffset.message = NULL,
-                       baselineoffset.match = "exact",
-                       downsample.binlength = NULL, subset = "default",
+                       baselineoffset.match = "exact", subset = "default",
                        trial.exclude = c()){
 
   if (is.null(output)){
@@ -80,14 +73,10 @@ preprocess <- function(import = NULL, pattern = "*.txt", taskname = NULL,
   saveData <- function(x, preprocessing.stage = ""){
     if (!is.null(bc)){
       preprocessing <- paste(preprocessing.stage, "bc", sep = ".")
+      x <- pupil_missing(x, missing.allowed = missing.allowed)
       x <- pupil_baselinecorrect(x, message = baselineoffset.message,
                                  match = baselineoffset.match,
                                  duration = bc.duration, type = bc)
-      # Downsample?
-      if (!is.null(downsample.binlength)){
-        preprocessing <- paste(preprocessing, "ds", sep = ".")
-        x <- pupil_downsample(x, bin.length = downsample.binlength, bc = bc)
-      }
       ## Save file
       subj <- x$Subject[1]
       SaveAs <- paste(output, "/", taskname, "_", subj, "_PupilData_",
@@ -96,11 +85,7 @@ preprocess <- function(import = NULL, pattern = "*.txt", taskname = NULL,
       rm(SaveAs)
     } else {
       preprocessing <- preprocessing.stage
-      # Downsample?
-      if (!is.null(downsample.binlength)){
-        preprocessing <- paste(preprocessing, "ds", sep = ".")
-        x <- pupil_downsample(x, bin.length = downsample.binlength, bc = bc)
-      }
+      x <- pupil_missing(x, missing.allowed = missing.allowed)
       ## Save file
       subj <- x$Subject[1]
       SaveAs <- paste(output, "/", taskname, "_", subj, "_PupilData_",
@@ -130,13 +115,13 @@ preprocess <- function(import = NULL, pattern = "*.txt", taskname = NULL,
     #### ----- Create Tidy Raw Data ----- ####
 
     ## Convert messy to tidy
-    data <- tidy_eyetracker(file, eyetracker = eyetracker,
-                            startrecording.message = startrecording.message,
-                            startrecording.match = startrecording.match,
-                            eye = eye.recorded, subj.prefix = subj.prefix,
-                            subj.suffix = subj.suffix, subset = subset,
-                            trial.exclude = trial.exclude,
-                            gazedata.include = gazedata.include)
+    data <- read_pupil(file, eyetracker = eyetracker,
+                       startrecording.message = startrecording.message,
+                       startrecording.match = startrecording.match,
+                       eye = eye.recorded, subj.prefix = subj.prefix,
+                       subj.suffix = subj.suffix, subset = subset,
+                       trial.exclude = trial.exclude,
+                       gazedata.include = gazedata.include)
     ## Save tidy data file
     subj <- data$Subject[1]
     SaveAs <- paste(output, "/", taskname, "_",
@@ -147,13 +132,19 @@ preprocess <- function(import = NULL, pattern = "*.txt", taskname = NULL,
 
     #### ----- Preprocessing procedures ----- ####
 
-    ## Select eyes and filter out trials with too much missing data
-    data <- pupil_eye(data, eye.recorded = eye.recorded, eye.use = eye.use,
-                      gazedata.include = gazedata.include)
+    ## Correlate pupil data from left and right eyes
+    left.recorded <- "L_Pupil_Diameter.mm" %in% colnames(data)
+    right.recorded <- "R_Pupil_Diameter.mm" %in% colnames(data)
+    if (left.recorded == TRUE & right.recorded == TRUE) {
+      data <- dplyr::mutate(data,
+                            Pupils.r =
+                              stats::cor(L_Pupil_Diameter.mm,
+                                         R_Pupil_Diameter.mm,
+                                         use = "pairwise.complete.obs"))
+    }
 
-    ## First of all, remove data during blinks and create columns of
-    ## how much missing data each trial has. pupil_missing()
-    data <- pupil_missing(data, missing.allowed = missing.allowed)
+    ## Select eyes and filter out trials with too much missing data
+    data <- select_eye(data, eye.use = eye.use)
 
     if (nrow(data) == 0){
       next
@@ -166,31 +157,6 @@ preprocess <- function(import = NULL, pattern = "*.txt", taskname = NULL,
     data <- set_timing(data, trialonset.message = trialonset.message,
                        match = trialonset.match, ms.conversion = ms.conversion,
                        pretrial.duration = pretrial.duration)
-
-    if (gazedata.include==TRUE){
-      gazedata <- dplyr::select(data, Subject, Head_Dist.cm, Time, Trial,
-                                Message, Event, Stimulus, PreTrial,
-                                Gaze_Position.x, Gaze_Position.y)
-      gazedata <- dplyr::mutate(gazedata,
-                                Gaze_Position.x =
-                                  ifelse(Event == "Blink" |
-                                           is.na(Event) |
-                                           Gaze_Position.x == 0,
-                                         NA, Gaze_Position.x),
-                                Gaze_Position.y =
-                                  ifelse(Event == "Blink" |
-                                           is.na(Event) |
-                                           Gaze_Position.y == 0,
-                                         NA, Gaze_Position.y))
-
-      data <- dplyr::select(data, -Gaze_Position.x, -Gaze_Position.y)
-
-      ## Save gazedata
-      SaveAs <- paste(output, "/", taskname, "_",
-                      subj, "_EyeGazeData.csv", sep = "")
-      readr::write_csv(gazedata, SaveAs)
-      rm(SaveAs)
-    }
 
     ## Save data at this stage
     saveData(data, preprocessing.stage = "naremoved")

@@ -12,8 +12,8 @@
 #' pupil_interpolate(x, type = "cubic-spline", eye.recorded = "both")
 
 pupil_interpolate <- function(x, type = "cubic-spline", maxgap = Inf, hz = ""){
-  if (maxgap!=Inf){
-    maxgap <- round(maxgap/(1000/hz))
+  if (maxgap != Inf){
+    maxgap <- round(maxgap / (1000 / hz))
   }
   x <- dplyr::group_by(x, Trial)
   if (type=="cubic-spline"){

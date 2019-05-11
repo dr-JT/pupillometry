@@ -16,24 +16,19 @@
 #'     mark StartTracking inline
 #' @param startrecording.match Should the message string be an
 #'     "exact" match or a "pattern" match?
-#' @param eye.recorded Do you want to inclue the "left",
-#'     "right', or "both" eyes?
 #' @param subj.prefix The unique pattern prefix (letter(s)
 #'     and/or symbol(s)) that comes before the subject number in the data file
 #' @param subj.suffix The unique pattern suffix (letter(s) or
 #'     symbol(s)) that comes after the subject number in the data file
 #' @param subset Which columns in the raw data export file do you want to keep
 #' @param trial.exclude Specify if ther are any trials to exclude. Trial number
-#' @param gazedata.include Logical. Include columns for
-#'     x and y coordinates of eye gaze? (Default: FALSE)
 #' @export
 
 read_pupil <- function(file, eyetracker = "",
                        startrecording.message = "default",
-                       startrecording.match = "exact", eye.recorded = "",
+                       startrecording.match = "exact",
                        subj.prefix = NULL, subj.suffix = NULL,
-                       subset = "default", trial.exclude = c(),
-                       gazedata.include = FALSE){
+                       subset = "default", trial.exclude = c()){
 
   #### ----- Functions ----- ####
   subj.extract <- function(x, prefix, suffix){
@@ -105,7 +100,11 @@ read_pupil <- function(file, eyetracker = "",
     message.column <- names(data[4])
     ###################
     ## Add info from header, rename, set missing values and select subset of data ####
-    if (eye.recorded == "both"){
+    left.recorded <- "L_Pupil_Diameter_mm" %in% colnames(data)
+    right.recorded <- "R_Pupil_Diameter_mm" %in% colnames(data)
+    left.gaze <- "L_POR_X_px" %in% colnames(data)
+    right.gaze <- "R_POR_X_px" %in% colnames(data)
+    if (left.recorded == TRUE & right.recorded == TRUE){
       data <- dplyr::mutate(data, Subject = subj, Head_Dist.cm = head.distance,
                             Message = ifelse(get(message.column) >= 0,
                                              NA,get(message.column)),
@@ -120,13 +119,35 @@ read_pupil <- function(file, eyetracker = "",
                             L_Event = L_Event_Info,
                             R_Pupil_Diameter.mm = R_Pupil_Diameter_mm,
                             R_Event = R_Event_Info)
-      if (gazedata.include==TRUE){
+
+      if (left.gaze == TRUE & right.gaze == TRUE){
         data <- dplyr::rename(data,
                               L_Gaze_Position.x = L_POR_X_px,
                               L_Gaze_Position.y = L_POR_Y_px,
                               R_Gaze_Position.x = R_POR_X_px,
                               R_Gaze_Position.y = R_POR_Y_px,
                               Gaze.quality = Timing)
+        data <- dplyr::mutate(data,
+                              L_Gaze_Position.x =
+                                ifelse(L_Event == "Blink" |
+                                         is.na(L_Event) |
+                                         L_Gaze_Position.x == 0,
+                                       NA, L_Gaze_Position.x),
+                              L_Gaze_Position.y =
+                                ifelse(L_Event == "Blink" |
+                                         is.na(L_Event) |
+                                         L_Gaze_Position.y == 0,
+                                       NA, L_Gaze_Position.y),
+                              R_Gaze_Position.x =
+                                ifelse(R_Event == "Blink" |
+                                         is.na(R_Event) |
+                                         R_Gaze_Position.x == 0,
+                                       NA, R_Gaze_Position.x),
+                              R_Gaze_Position.y =
+                                ifelse(R_Event == "Blink" |
+                                         is.na(R_Event) |
+                                         R_Gaze_Position.y == 0,
+                                       NA, R_Gaze_Position.y))
         data <- dplyr::select(data, Subject, Head_Dist.cm, Time, Trial, Message,
                               L_Pupil_Diameter.mm,
                               L_Event, R_Pupil_Diameter.mm, R_Event,
@@ -138,7 +159,7 @@ read_pupil <- function(file, eyetracker = "",
                               L_Pupil_Diameter.mm,
                               L_Event, R_Pupil_Diameter.mm, R_Event)
       }
-    } else if (eye.recorded == "left"){
+    } else if (left.recorded == TRUE){
       data <- dplyr::mutate(data, Subject = subj, Head_Dist.cm = head.distance,
                             Message = ifelse(get(message.column) >= 0,
                                              NA,get(message.column)),
@@ -146,24 +167,24 @@ read_pupil <- function(file, eyetracker = "",
                                                      is.na(L_Event_Info)),
                                                   NA, L_Event_Info))
       data <- dplyr::rename(data,
-                            L_Pupil_Diameter.mm = L_Pupil_Diameter_mm,
-                            L_Event = L_Event_Info)
-      if (gazedata.include == TRUE){
+                            Pupil_Diameter.mm = L_Pupil_Diameter_mm,
+                            Event = L_Event_Info)
+      if (left.gaze == TRUE){
         data <- dplyr::rename(data,
-                              L_Gaze_Position.x = L_POR_X_px,
-                              L_Gaze_Position.y = L_POR_Y_px,
+                              Gaze_Position.x = L_POR_X_px,
+                              Gaze_Position.y = L_POR_Y_px,
                               Gaze.quality = Timing)
         data <- dplyr::select(data, Subject, Head_Dist.cm, Time, Trial, Message,
-                              L_Pupil_Diameter.mm,
-                              L_Event, L_Gaze_Position.x, L_Gaze_Position.y,
+                              Pupil_Diameter.mm,
+                              Event, Gaze_Position.x, Gaze_Position.y,
                               Gaze.quality)
       } else {
         data <- dplyr::select(data, Subject, Head_Dist.cm, Time, Trial, Message,
-                              L_Pupil_Diameter.mm,
-                              L_Event)
+                              Pupil_Diameter.mm,
+                              Event)
       }
 
-    } else if (eye.recorded == "right"){
+    } else if (right.recorded == TRUE){
       data <- dplyr::mutate(data, Subject = subj, Head_Dist.cm = head.distance,
                             Message = ifelse(get(message.column) >= 0,
                                              NA,get(message.column)),
@@ -171,21 +192,21 @@ read_pupil <- function(file, eyetracker = "",
                                                      is.na(R_Event_Info)),
                                                   NA, R_Event_Info))
       data <- dplyr::rename(data,
-                            R_Pupil_Diameter.mm = R_Pupil_Diameter_mm,
-                            R_Event = R_Event_Info)
-      if (gazedata.include == TRUE){
+                            Pupil_Diameter.mm = R_Pupil_Diameter_mm,
+                            Event = R_Event_Info)
+      if (right.gaze == TRUE){
         data <- dplyr::rename(data,
-                              R_Gaze_Position.x = R_POR_X_px,
-                              R_Gaze_Position.y = R_POR_Y_px,
+                              Gaze_Position.x = R_POR_X_px,
+                              Gaze_Position.y = R_POR_Y_px,
                               Gaze.quality = Timing)
         data <- dplyr::select(data, Subject, Head_Dist.cm, Time, Trial, Message,
-                              R_Pupil_Diameter.mm,
-                              R_Event, R_Gaze_Position.x, R_Gaze_Position.y,
+                              Pupil_Diameter.mm,
+                              Event, Gaze_Position.x, Gaze_Position.y,
                               Gaze.quality)
       } else {
         data <- dplyr::select(data, Subject, Head_Dist.cm, Time, Trial, Message,
-                              R_Pupil_Diameter.mm,
-                              R_Event)
+                              Pupil_Diameter.mm,
+                              Event)
       }
     }
     ###################
