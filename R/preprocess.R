@@ -3,14 +3,15 @@
 #' This function will perform preprocessing on an entire folder of data files.
 #' It takes as input a specified folder path
 #' and outputs the preprocessed data to a specified folder path
-#' @param import Folder path to raw data files
+#' @param import.dir Folder path to raw data files
 #' @param pattern Pattern to look for in data files
 #' @param taskname Name of task - to be used in naming pre-processed files
 #' @param subj.prefix The unique pattern prefix (letter(s) and/or symbol(s))
 #'     that comes before the subject number in the data file
 #' @param subj.suffix The unique pattern suffix (letter(s) or symbol(s))
 #'     that comes after the subject number in the data file
-#' @param output Folder path to output preprocessed data to
+#' @param output.dir Folder path to output preprocessed data to
+#' @param output.steps Output files for each step in preprocessing?
 #' @param eyetracker Which eye-tracker was used to record data
 #' @param hz At which frequency was pupil data sampled at?
 #'     (only required for interpolation and smoothing)
@@ -49,9 +50,9 @@
 #' @examples
 #'
 #'
-preprocess <- function(import = NULL, pattern = "*.txt", taskname = NULL,
-                       subj.prefix = NULL, subj.suffix = NULL,
-                       output = NULL, eyetracker = NULL, hz = NULL,
+preprocess <- function(import.dir = NULL, pattern = "*.txt", taskname = NULL,
+                       subj.prefix = NULL, subj.suffix = NULL, output.dir = NULL,
+                       output.steps = TRUE, eyetracker = NULL, hz = NULL,
                        eye.use = NULL, startrecording.message = "default",
                        startrecording.match = "exact", trialonset.message = NULL,
                        trialonset.match = "exact", pretrial.duration = NULL,
@@ -62,8 +63,20 @@ preprocess <- function(import = NULL, pattern = "*.txt", taskname = NULL,
                        baselineoffset.match = "exact", subset = "default",
                        trial.exclude = c()){
 
-  if (is.null(output)){
-    output <- export
+  if (is.null(output.dir)){
+    output.dir <- export
+  }
+
+  if (is.null(interpolate) & is.null(smooth)) {
+    final_step <- "naremoved"
+  } else if (is.null(interpolate)) {
+    final_step <- "smoothed"
+  } else if (is.null(smooth)) {
+    final_step <- "interpolated"
+  } else if (method.first == "interpolate") {
+    final_step <- "interpolated.smoothed"
+  } else if (method.first == "smooth") {
+    final_step <- "smoothed.interpolated"
   }
 
   ###############################
@@ -79,7 +92,7 @@ preprocess <- function(import = NULL, pattern = "*.txt", taskname = NULL,
                                  duration = bc.duration, type = bc)
       ## Save file
       subj <- x$Subject[1]
-      SaveAs <- paste(output, "/", taskname, "_", subj, "_PupilData_",
+      SaveAs <- paste(output.dir, "/", taskname, "_", subj, "_PupilData_",
                       preprocessing, ".csv", sep = "")
       readr::write_csv(x, SaveAs)
       rm(SaveAs)
@@ -88,7 +101,7 @@ preprocess <- function(import = NULL, pattern = "*.txt", taskname = NULL,
       x <- pupil_missing(x, missing.allowed = missing.allowed)
       ## Save file
       subj <- x$Subject[1]
-      SaveAs <- paste(output, "/", taskname, "_", subj, "_PupilData_",
+      SaveAs <- paste(output.dir, "/", taskname, "_", subj, "_PupilData_",
                       preprocessing, ".csv", sep = "")
       readr::write_csv(x, SaveAs)
       rm(SaveAs)
@@ -110,7 +123,7 @@ preprocess <- function(import = NULL, pattern = "*.txt", taskname = NULL,
 
 
   ## Get list of data files to be pre-processed
-  filelist <- list.files(path = import, pattern = pattern, full.names = TRUE)
+  filelist <- list.files(path = import.dir, pattern = pattern, full.names = TRUE)
   for (file in filelist){
     #### ----- Create Tidy Raw Data ----- ####
 
@@ -123,11 +136,13 @@ preprocess <- function(import = NULL, pattern = "*.txt", taskname = NULL,
                        trial.exclude = trial.exclude,
                        gazedata.include = gazedata.include)
     ## Save tidy data file
-    subj <- data$Subject[1]
-    SaveAs <- paste(output, "/", taskname, "_",
-                    subj, "_PupilData.csv", sep = "")
-    readr::write_csv(data, SaveAs)
-    rm(SaveAs)
+    if (output.steps == TRUE) {
+      subj <- data$Subject[1]
+      SaveAs <- paste(output.dir, "/", taskname, "_",
+                      subj, "_PupilData.csv", sep = "")
+      readr::write_csv(data, SaveAs)
+      rm(SaveAs)
+    }
     ###########################################
 
     #### ----- Preprocessing procedures ----- ####
@@ -158,44 +173,73 @@ preprocess <- function(import = NULL, pattern = "*.txt", taskname = NULL,
                        match = trialonset.match, ms.conversion = ms.conversion,
                        pretrial.duration = pretrial.duration)
 
-    ## Save data at this stage
-    saveData(data, preprocessing.stage = "naremoved")
+    ## Save data at this step?
+    step <- "naremoved"
+    if (step == final_step){
+      saveData(data, preprocessing.stage = step)
+    } else if (output.steps == TRUE) {
+      saveData(data, preprocessing.stage = step)
+    }
 
     if (is.null(method.first)){
       ## Next, either interpolate or smooth
-      if (interpolate == TRUE){
+      if (!is.null(interpolate)){
         data <- pupil_interpolate(data, type = interpolate,
                                   maxgap = interpolate.maxgap, hz = hz)
         ## Save data at this stage
-        saveData(data, preprocessing.stage = "interpolated")
-      } else if (smooth == TRUE){
+        step <- "interpolated"
+        if (step == final_step){
+          saveData(data, preprocessing.stage = step)
+        } else if (output.steps == TRUE) {
+          saveData(data, preprocessing.stage = step)
+        }
+      } else if (!is.null(smooth)){
         data <- pupil_smooth(data, type = smooth,
                              window = smooth.window, hz = hz)
         ## Save data at this stage
-        saveData(data, preprocessing.stage = "smoothed")
+        step <- "smoothed"
+        if (step == final_step){
+          saveData(data, preprocessing.stage = step)
+        } else if (output.steps == TRUE) {
+          saveData(data, preprocessing.stage = step)
+        }
       }
     } else if (method.first == "interpolate"){
       ## Next, Interpolate data
       data <- pupil_interpolate(data, type = interpolate,
                                 maxgap = interpolate.maxgap, hz = hz)
       ## Save data at this stage
-      saveData(data, preprocessing.stage = "interpolated")
+      if (output.steps == TRUE) {
+        saveData(data, preprocessing.stage = "interpolated")
+      }
       ## Next, Smooth data
       data <- pupil_smooth(data, type = smooth,
                            window = smooth.window, hz = hz)
       ## Save data at this stage
-      saveData(data, preprocessing.stage = "interpolated.smoothed")
+      step <- "interpolated.smoothed"
+      if (step == final_step){
+        saveData(data, preprocessing.stage = step)
+      } else if (output.steps == TRUE) {
+        saveData(data, preprocessing.stage = step)
+      }
     } else if (method.first == "smooth"){
       ## Next, Smooth data
       data <- pupil_smooth(data, type = smooth,
                            window = smooth.window, hz = hz)
       ## Save data at this stage
-      saveData(data, preprocessing.stage = "smoothed")
+      if (output.steps == TRUE) {
+        saveData(data, preprocessing.stage = "smoothed")
+      }
       ## Next, Interpolate data
       data <- pupil_interpolate(data, type = interpolate,
                                 maxgap = interpolate.maxgap, hz = hz)
       ## Save data at this stage
-      saveData(data, preprocessing.stage = "smoothed.interpolated")
+      step <- "smoothed.interpolated"
+      if (step == final_step){
+        saveData(data, preprocessing.stage = step)
+      } else if (output.steps == TRUE) {
+        saveData(data, preprocessing.stage = step)
+      }
     }
     ##############################################
   }

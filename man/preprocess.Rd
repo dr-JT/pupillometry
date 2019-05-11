@@ -4,20 +4,20 @@
 \alias{preprocess}
 \title{Preprocess pupil data using this single function}
 \usage{
-preprocess(import = NULL, pattern = "*.txt", taskname = NULL,
-  subj.prefix = NULL, subj.suffix = NULL, output = NULL,
-  eyetracker = NULL, hz = NULL, eye.use = NULL,
-  startrecording.message = "default", startrecording.match = "exact",
-  trialonset.message = NULL, trialonset.match = "exact",
-  pretrial.duration = NULL, missing.allowed = 1, interpolate = NULL,
-  interpolate.maxgap = Inf, smooth = NULL, smooth.window = 5,
-  method.first = NULL, bc = NULL, bc.duration = NULL,
-  baselineoffset.message = NULL, baselineoffset.match = "exact",
-  downsample.binlength = NULL, subset = "default",
+preprocess(import.dir = NULL, pattern = "*.txt", taskname = NULL,
+  subj.prefix = NULL, subj.suffix = NULL, output.dir = NULL,
+  output.steps = TRUE, eyetracker = NULL, hz = NULL,
+  eye.use = NULL, startrecording.message = "default",
+  startrecording.match = "exact", trialonset.message = NULL,
+  trialonset.match = "exact", pretrial.duration = NULL,
+  missing.allowed = 1, interpolate = NULL, interpolate.maxgap = Inf,
+  smooth = NULL, smooth.window = 5, method.first = NULL, bc = NULL,
+  bc.duration = NULL, baselineoffset.message = NULL,
+  baselineoffset.match = "exact", subset = "default",
   trial.exclude = c())
 }
 \arguments{
-\item{import}{Folder path to raw data files}
+\item{import.dir}{Folder path to raw data files}
 
 \item{pattern}{Pattern to look for in data files}
 
@@ -29,7 +29,9 @@ that comes before the subject number in the data file}
 \item{subj.suffix}{The unique pattern suffix (letter(s) or symbol(s))
 that comes after the subject number in the data file}
 
-\item{output}{Folder path to output preprocessed data to}
+\item{output.dir}{Folder path to output preprocessed data to}
+
+\item{output.steps}{Output files for each step in preprocessing?}
 
 \item{eyetracker}{Which eye-tracker was used to record data}
 
@@ -79,8 +81,6 @@ baseline period(s)}
 
 \item{baselineoffset.match}{Message string(s) that marks the offset of
 baseline period(s)}
-
-\item{downsample.binlength}{Length of bins to average (default: NULL)}
 
 \item{subset}{Which columns in the raw data output file do you want to keep}
 
