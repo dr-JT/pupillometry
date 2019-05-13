@@ -4,7 +4,9 @@ Updated: 05/12/2019
 
 * Added `pupil_deblink()` with the parameter option `extend`
 
-* Added option to not save data file at each step of preprocessing with paramter argument `preprocess(output.step = FALSE)`.
+* Added option to not save data file at each step of preprocessing with paramter argument `preprocess(output.steps = FALSE)`.
+
+* Reduced the number of parameters in `preprocess()`
 
 * Changed `tidy_eyetracker()` to `read_pupil()`
 

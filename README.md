@@ -49,7 +49,7 @@ The overall workflow of `preprocess()` is:
 
 A final preprocessed data file will be saved for every original raw data file.
 
-If `output.step == TRUE` a data file will be saved after steps 3, 4, and 5. Before saving the data file at each of these steps, the final two steps 6 and 7 are performed. This results in baseline corrected and missing data removed files before each major preprocessing step. This is obviously not necessary and so `output.step = FALSE` can be set to only save on final preprocessed data file per subject. 
+If `output.steps == TRUE` a data file will be saved after steps 3, 4, and 5. Before saving the data file at each of these steps, the final two steps 6 and 7 are performed. This results in baseline corrected and missing data removed files before each major preprocessing step. This is obviously not necessary and so `output.steps = FALSE` can be set to only save on final preprocessed data file per subject. 
 
 ### Script Template
 
@@ -67,6 +67,7 @@ subj.suffix <- "-"              ## For SMI eyetrackers
 
 # File Output Information
 output.dir <- "data/Preprocessed"
+output.steps <- TRUE
 
 # Eyetracker Information
 eyetracker <- "smi"

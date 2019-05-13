@@ -41,6 +41,7 @@ subj.suffix <- "-"              ## For SMI eyetrackers
 
 # File Output Information
 output.dir <- "data/Preprocessed"
+output.steps <- TRUE
 
 # Eyetracker Information
 eyetracker <- "smi"
