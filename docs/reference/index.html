@@ -67,7 +67,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">pupillometry</a>
-        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.2.1</span>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.3.0</span>
       </span>
     </div>
 
@@ -147,72 +147,14 @@
     <tbody>
       <tr>
         <th colspan="2">
-          <h2 id="section-preprocessing-methods" class="hasAnchor"><a href="#section-preprocessing-methods" class="anchor"></a>Preprocessing Methods</h2>
+          <h2 id="section-import-and-clean-data" class="hasAnchor"><a href="#section-import-and-clean-data" class="anchor"></a>Import and Clean data</h2>
           <p class="section-desc"></p>
         </th>
       </tr>
       <tr>
         
         <td>
-          <p><code><a href="preprocess.html">preprocess()</a></code> </p>
-        </td>
-        <td><p>Preprocess pupil data using this single function</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="pupil_smooth.html">pupil_smooth()</a></code> </p>
-        </td>
-        <td><p>Apply smoothing/low frequency filter</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="pupil_interpolate.html">pupil_interpolate()</a></code> </p>
-        </td>
-        <td><p>Apply interpolation</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="pupil_baselinecorrect.html">pupil_baselinecorrect()</a></code> </p>
-        </td>
-        <td><p>Apply baseline correction</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="pupil_downsample.html">pupil_downsample()</a></code> </p>
-        </td>
-        <td><p>Downsample pupil data</p></td>
-      </tr>
-    </tbody><tbody>
-      <tr>
-        <th colspan="2">
-          <h2 id="section-evaluate-data" class="hasAnchor"><a href="#section-evaluate-data" class="anchor"></a>Evaluate Data</h2>
-          <p class="section-desc"></p>
-        </th>
-      </tr>
-      <tr>
-        
-        <td>
-          <p><code><a href="pupil_cor.html">pupil_cor()</a></code> </p>
-        </td>
-        <td><p>Add column that is the correlation between left and rigth eyes</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="pupil_missing.html">pupil_missing()</a></code> </p>
-        </td>
-        <td><p>Evaluate the amount of missing data</p></td>
-      </tr>
-    </tbody><tbody>
-      <tr>
-        <th colspan="2">
-          <h2 id="section-tidy-data" class="hasAnchor"><a href="#section-tidy-data" class="anchor"></a>tidy Data</h2>
-          <p class="section-desc"></p>
-        </th>
-      </tr>
-      <tr>
-        
-        <td>
-          <p><code><a href="tidy_eyetracker.html">tidy_eyetracker()</a></code> </p>
+          <p><code><a href="read_pupil.html">read_pupil()</a></code> </p>
         </td>
         <td><p>Convert "messy" raw data file to "tidy" raw data file</p></td>
       </tr><tr>
@@ -236,9 +178,59 @@
       </tr><tr>
         
         <td>
-          <p><code><a href="pupil_eye.html">pupil_eye()</a></code> </p>
+          <p><code><a href="select_eye.html">select_eye()</a></code> </p>
         </td>
         <td><p>Select eye to keep for analysis</p></td>
+      </tr>
+    </tbody><tbody>
+      <tr>
+        <th colspan="2">
+          <h2 id="section-preprocessing-methods" class="hasAnchor"><a href="#section-preprocessing-methods" class="anchor"></a>Preprocessing Methods</h2>
+          <p class="section-desc"></p>
+        </th>
+      </tr>
+      <tr>
+        
+        <td>
+          <p><code><a href="preprocess.html">preprocess()</a></code> </p>
+        </td>
+        <td><p>Preprocess pupil data using this single function</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="pupil_deblink.html">pupil_deblink()</a></code> </p>
+        </td>
+        <td><p>Evaluate the amount of missing data</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="pupil_smooth.html">pupil_smooth()</a></code> </p>
+        </td>
+        <td><p>Apply smoothing/low frequency filter</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="pupil_interpolate.html">pupil_interpolate()</a></code> </p>
+        </td>
+        <td><p>Apply interpolation</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="pupil_baselinecorrect.html">pupil_baselinecorrect()</a></code> </p>
+        </td>
+        <td><p>Apply baseline correction</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="pupil_missing.html">pupil_missing()</a></code> </p>
+        </td>
+        <td><p>Evaluate the amount of missing data</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="pupil_downsample.html">pupil_downsample()</a></code> </p>
+        </td>
+        <td><p>Downsample pupil data</p></td>
       </tr>
     </tbody><tbody>
       <tr>
@@ -261,9 +253,8 @@
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
+      <li><a href="#section-import-and-clean-data">Import and Clean data</a></li>
       <li><a href="#section-preprocessing-methods">Preprocessing Methods</a></li>
-      <li><a href="#section-evaluate-data">Evaluate Data</a></li>
-      <li><a href="#section-tidy-data">tidy Data</a></li>
       <li><a href="#section-visualize">Visualize</a></li>
     </ul>
   </div>

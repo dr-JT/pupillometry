@@ -71,7 +71,6 @@ output.dir <- "data/Preprocessed"
 # Eyetracker Information
 eyetracker <- "smi"
 hz <- 250
-eye.recorded <- "both"
 eye.use <- "left"
 
 # Message Marker Information
@@ -103,8 +102,7 @@ trial.exclude <- c()
 preprocess(import.dir = import.dir, pattern = pattern, taskname = taskname, 
            subj.prefix = subj.prefix, subj.suffix = subj.suffix, 
            output.dir = output.dir, output.steps = output.steps,
-           eyetracker = eyetracker, hz = hz, 
-           eye.recorded = eye.recorded, eye.use = eye.use, 
+           eyetracker = eyetracker, hz = hz, eye.use = eye.use, 
            startrecording.message = startrecording.message, 
            startrecording.match = startrecording.match,
            trialonset.message = trialonset.message, 

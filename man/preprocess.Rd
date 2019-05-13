@@ -9,12 +9,12 @@ preprocess(import.dir = NULL, pattern = "*.txt", taskname = NULL,
   output.steps = TRUE, eyetracker = NULL, hz = NULL,
   eye.use = NULL, startrecording.message = "default",
   startrecording.match = "exact", trialonset.message = NULL,
-  trialonset.match = "exact", pretrial.duration = NULL,
-  missing.allowed = 1, interpolate = NULL, interpolate.maxgap = Inf,
-  smooth = NULL, smooth.window = 5, method.first = NULL, bc = NULL,
-  bc.duration = NULL, baselineoffset.message = NULL,
-  baselineoffset.match = "exact", subset = "default",
-  trial.exclude = c())
+  trialonset.match = "exact", deblink.extend = 100,
+  pretrial.duration = NULL, missing.allowed = 1, interpolate = NULL,
+  interpolate.maxgap = Inf, smooth = NULL, smooth.window = 5,
+  method.first = NULL, bc = NULL, bc.duration = NULL,
+  baselineoffset.message = NULL, baselineoffset.match = "exact",
+  subset = "default", trial.exclude = c())
 }
 \arguments{
 \item{import.dir}{Folder path to raw data files}
@@ -49,7 +49,10 @@ match or a "pattern" match?}
 \item{trialonset.message}{Message string that marks the start of a trial}
 
 \item{trialonset.match}{Should the message string be an "exact"
-match or a "pattern" match?}
+match or a "pattern" match}
+
+\item{deblink.extend}{How many milliseconds to extend blinks
+before and after blink detection}
 
 \item{pretrial.duration}{Duration of pre-trial baseline period
 in milliseconds}

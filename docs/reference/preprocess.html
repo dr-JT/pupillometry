@@ -38,7 +38,8 @@
 
 <meta property="og:title" content="Preprocess pupil data using this single function — preprocess" />
 
-<meta property="og:description" content="This function will perform preprocessing on an entire folder of data files. It takes as input a specified folder path
+<meta property="og:description" content="This function will perform preprocessing on an entire folder of data files.
+It takes as input a specified folder path
 and outputs the preprocessed data to a specified folder path" />
 
 <meta property="og:image" content="https://dr-jt.github.io/pupillometry/logo.png" />
@@ -70,7 +71,7 @@ and outputs the preprocessed data to a specified folder path" />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">pupillometry</a>
-        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.2.1</span>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.3.0</span>
       </span>
     </div>
 
@@ -143,29 +144,29 @@ and outputs the preprocessed data to a specified folder path" />
 
     <div class="ref-description">
     
-    <p>This function will perform preprocessing on an entire folder of data files. It takes as input a specified folder path
+    <p>This function will perform preprocessing on an entire folder of data files.
+It takes as input a specified folder path
 and outputs the preprocessed data to a specified folder path</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>preprocess</span>(<span class='kw'>import</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>pattern</span> <span class='kw'>=</span> <span class='st'>"*.txt"</span>, <span class='kw'>taskname</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>subj.prefix</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>subj.suffix</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>output</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>gazedata.include</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>eyetracker</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>hz</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>eye.recorded</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>eye.use</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>startrecording.message</span> <span class='kw'>=</span> <span class='st'>"default"</span>, <span class='kw'>startrecording.match</span> <span class='kw'>=</span> <span class='st'>"exact"</span>,
-  <span class='kw'>trialonset.message</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>trialonset.match</span> <span class='kw'>=</span> <span class='st'>"exact"</span>,
+    <pre class="usage"><span class='fu'>preprocess</span>(<span class='kw'>import.dir</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>pattern</span> <span class='kw'>=</span> <span class='st'>"*.txt"</span>, <span class='kw'>taskname</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>subj.prefix</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>subj.suffix</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>output.dir</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>output.steps</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>eyetracker</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>hz</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>eye.use</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>startrecording.message</span> <span class='kw'>=</span> <span class='st'>"default"</span>,
+  <span class='kw'>startrecording.match</span> <span class='kw'>=</span> <span class='st'>"exact"</span>, <span class='kw'>trialonset.message</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>trialonset.match</span> <span class='kw'>=</span> <span class='st'>"exact"</span>, <span class='kw'>deblink.extend</span> <span class='kw'>=</span> <span class='fl'>100</span>,
   <span class='kw'>pretrial.duration</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>missing.allowed</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>interpolate</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>interpolate.maxgap</span> <span class='kw'>=</span> <span class='fl'>Inf</span>, <span class='kw'>smooth</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>smooth.window</span> <span class='kw'>=</span> <span class='fl'>5</span>,
   <span class='kw'>method.first</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>bc</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>bc.duration</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>baselineoffset.message</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>baselineoffset.match</span> <span class='kw'>=</span> <span class='st'>"exact"</span>,
-  <span class='kw'>downsample.binlength</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>subset</span> <span class='kw'>=</span> <span class='st'>"default"</span>,
-  <span class='kw'>trial.exclude</span> <span class='kw'>=</span> <span class='fu'>c</span>())</pre>
+  <span class='kw'>subset</span> <span class='kw'>=</span> <span class='st'>"default"</span>, <span class='kw'>trial.exclude</span> <span class='kw'>=</span> <span class='fu'>c</span>())</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>import</th>
+      <th>import.dir</th>
       <td><p>Folder path to raw data files</p></td>
     </tr>
     <tr>
@@ -178,19 +179,21 @@ and outputs the preprocessed data to a specified folder path</p>
     </tr>
     <tr>
       <th>subj.prefix</th>
-      <td><p>The unique pattern prefix (letter(s) and/or symbol(s)) that comes before the subject number in the data file</p></td>
+      <td><p>The unique pattern prefix (letter(s) and/or symbol(s))
+that comes before the subject number in the data file</p></td>
     </tr>
     <tr>
       <th>subj.suffix</th>
-      <td><p>The unique pattern suffix (letter(s) or symbol(s)) that comes after the subject number in the data file</p></td>
+      <td><p>The unique pattern suffix (letter(s) or symbol(s))
+that comes after the subject number in the data file</p></td>
     </tr>
     <tr>
-      <th>output</th>
+      <th>output.dir</th>
       <td><p>Folder path to output preprocessed data to</p></td>
     </tr>
     <tr>
-      <th>gazedata.include</th>
-      <td><p>Logical. Include columns for x and y coordinates of eye gaze? (Default: FALSE)</p></td>
+      <th>output.steps</th>
+      <td><p>Output files for each step in preprocessing?</p></td>
     </tr>
     <tr>
       <th>eyetracker</th>
@@ -198,11 +201,8 @@ and outputs the preprocessed data to a specified folder path</p>
     </tr>
     <tr>
       <th>hz</th>
-      <td><p>At which frequency was pupil data sampled at? (only required for interpolation and smoothing)</p></td>
-    </tr>
-    <tr>
-      <th>eye.recorded</th>
-      <td><p>Do you want to inclue the "left", "right', or "both" eyes?</p></td>
+      <td><p>At which frequency was pupil data sampled at?
+(only required for interpolation and smoothing)</p></td>
     </tr>
     <tr>
       <th>eye.use</th>
@@ -210,11 +210,13 @@ and outputs the preprocessed data to a specified folder path</p>
     </tr>
     <tr>
       <th>startrecording.message</th>
-      <td><p>Message used in SMI experiment to mark StartTracking inline</p></td>
+      <td><p>Message used in SMI experiment
+to mark StartTracking inline</p></td>
     </tr>
     <tr>
       <th>startrecording.match</th>
-      <td><p>Should the message string be an "exact" match or a "pattern" match?</p></td>
+      <td><p>Should the message string be an "exact"
+match or a "pattern" match?</p></td>
     </tr>
     <tr>
       <th>trialonset.message</th>
@@ -222,15 +224,23 @@ and outputs the preprocessed data to a specified folder path</p>
     </tr>
     <tr>
       <th>trialonset.match</th>
-      <td><p>Should the message string be an "exact" match or a "pattern" match?</p></td>
+      <td><p>Should the message string be an "exact"
+match or a "pattern" match</p></td>
+    </tr>
+    <tr>
+      <th>deblink.extend</th>
+      <td><p>How many milliseconds to extend blinks
+before and after blink detection</p></td>
     </tr>
     <tr>
       <th>pretrial.duration</th>
-      <td><p>Duration of pre-trial baseline period in milliseconds</p></td>
+      <td><p>Duration of pre-trial baseline period
+in milliseconds</p></td>
     </tr>
     <tr>
       <th>missing.allowed</th>
-      <td><p>What proportion of missing data is allowed, on a trial-by-trial basis? (Default: 1)</p></td>
+      <td><p>What proportion of missing data is allowed,
+on a trial-by-trial basis? (Default: 1)</p></td>
     </tr>
     <tr>
       <th>interpolate</th>
@@ -238,23 +248,28 @@ and outputs the preprocessed data to a specified folder path</p>
     </tr>
     <tr>
       <th>interpolate.maxgap</th>
-      <td><p>Maximum number of NAs to interpolate over. Anything gaps over this value will not be interpolated.</p></td>
+      <td><p>Maximum number of NAs to interpolate over.
+Anything gaps over this value will not be interpolated.</p></td>
     </tr>
     <tr>
       <th>smooth</th>
-      <td><p>The type of smoothing function to apply. hann or moving window average (mwa)</p></td>
+      <td><p>The type of smoothing function to apply.
+hann or moving window average (mwa)</p></td>
     </tr>
     <tr>
       <th>smooth.window</th>
-      <td><p>Window size of smoothing function default is 5 milliseconds</p></td>
+      <td><p>Window size of smoothing function
+default is 5 milliseconds</p></td>
     </tr>
     <tr>
       <th>method.first</th>
-      <td><p>Should "smooth" or "interpolate" be applied first? (default: NULL)</p></td>
+      <td><p>Should "smooth" or "interpolate" be applied first?
+(default: NULL)</p></td>
     </tr>
     <tr>
       <th>bc</th>
-      <td><p>Do you want to use "subtractive" or "divisive" baseline correction? (default: "subtractive")</p></td>
+      <td><p>Do you want to use "subtractive" or "divisive"
+baseline correction? (default: "subtractive")</p></td>
     </tr>
     <tr>
       <th>bc.duration</th>
@@ -262,15 +277,13 @@ and outputs the preprocessed data to a specified folder path</p>
     </tr>
     <tr>
       <th>baselineoffset.message</th>
-      <td><p>Message string(s) that marks the offset of baseline period(s)</p></td>
+      <td><p>Message string(s) that marks the offset of
+baseline period(s)</p></td>
     </tr>
     <tr>
       <th>baselineoffset.match</th>
-      <td><p>Message string(s) that marks the offset of baseline period(s)</p></td>
-    </tr>
-    <tr>
-      <th>downsample.binlength</th>
-      <td><p>Length of bins to average (default: NULL)</p></td>
+      <td><p>Message string(s) that marks the offset of
+baseline period(s)</p></td>
     </tr>
     <tr>
       <th>subset</th>

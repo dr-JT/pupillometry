@@ -67,7 +67,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">pupillometry</a>
-        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.2.1</span>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.3.0</span>
       </span>
     </div>
 
@@ -137,21 +137,32 @@
       <small>Source: <a href='https://github.com/dr-JT/pupillometry/blob/master/NEWS.md'><code>NEWS.md</code></a></small>
     </div>
 
-    <div id="pupillometry-0-2-1" class="section level1">
+    <div id="pupillometry-030" class="section level1">
 <h1 class="page-header">
-<a href="#pupillometry-0-2-1" class="anchor"></a>pupillometry 0.2.1</h1>
-<p>Updated: 11/13/2018</p>
+<a href="#pupillometry-030" class="anchor"></a>pupillometry 0.3.0</h1>
+<p>Updated: 05/12/2019</p>
 <ul>
-<li>Changed function names to use “_" rather than “.”</li>
-</ul>
-<p>“.” functions can still be used but have been deprecated.</p>
-<ul>
-<li>Added <code><a href="../reference/aoi_downsample.html">aoi_downsample()</a></code> function</li>
+<li><p>Added <code><a href="../reference/pupil_deblink.html">pupil_deblink()</a></code> with the parameter option <code>extend</code></p></li>
+<li><p>Added option to not save data file at each step of preprocessing with paramter argument <code><a href="../reference/preprocess.html">preprocess(output.step = FALSE)</a></code>.</p></li>
+<li><p>Changed <code>tidy_eyetracker()</code> to <code><a href="../reference/read_pupil.html">read_pupil()</a></code></p></li>
+<li><p>Changed <code>pupil_eye()</code> to <code><a href="../reference/select_eye.html">select_eye()</a></code></p></li>
 </ul>
 </div>
-    <div id="pupillometry-0-2-0" class="section level1">
+    <div id="pupillometry-021" class="section level1">
 <h1 class="page-header">
-<a href="#pupillometry-0-2-0" class="anchor"></a>pupillometry 0.2.0</h1>
+<a href="#pupillometry-021" class="anchor"></a>pupillometry 0.2.1</h1>
+<p>Updated: 11/13/2018</p>
+<ul>
+<li>
+<p>Changed function names to use "_" rather than “.”</p>
+<p>“.” functions can still be used but have been deprecated.</p>
+</li>
+<li><p>Added <code><a href="../reference/aoi_downsample.html">aoi_downsample()</a></code> function</p></li>
+</ul>
+</div>
+    <div id="pupillometry-020" class="section level1">
+<h1 class="page-header">
+<a href="#pupillometry-020" class="anchor"></a>pupillometry 0.2.0</h1>
 <p>Updated: 10/13/2018</p>
 <ul>
 <li><p>Important update that fixes several bugs</p></li>
@@ -163,9 +174,9 @@
 <li><p>Other bug fixes and minor changes</p></li>
 </ul>
 </div>
-    <div id="pupillometry-0-1-1" class="section level1">
+    <div id="pupillometry-011" class="section level1">
 <h1 class="page-header">
-<a href="#pupillometry-0-1-1" class="anchor"></a>pupillometry 0.1.1</h1>
+<a href="#pupillometry-011" class="anchor"></a>pupillometry 0.1.1</h1>
 <p>Updated: 10/11/2018</p>
 <ul>
 <li>
@@ -179,20 +190,20 @@
 </li>
 <li>
 <p>More precise specifications to obtain Subject # from the file name.</p>
-<p>Paramaters added: <code><a href="../reference/preprocess.html">preprocess(subj.prefix = NULL, subj.suffix = NULL)</a></code> and <code><a href="../reference/tidy_eyetracker.html">tidy_eyetracker(subj.prefix = NULL, subj.suffix = NULL)</a></code></p>
+<p>Paramaters added: <code><a href="../reference/preprocess.html">preprocess(subj.prefix = NULL, subj.suffix = NULL)</a></code> and <code>tidy_eyetracker(subj.prefix = NULL, subj.suffix = NULL)</code></p>
 <p>If parameters are set as <code>NULL</code> (default), then the entire file name will be used as the Subject #. This is not ideal.</p>
 </li>
 </ul>
 </div>
-    <div id="pupillometry-0-1-0" class="section level1">
+    <div id="pupillometry-010" class="section level1">
 <h1 class="page-header">
-<a href="#pupillometry-0-1-0" class="anchor"></a>pupillometry 0.1.0</h1>
+<a href="#pupillometry-010" class="anchor"></a>pupillometry 0.1.0</h1>
 <p>Updated: 10/7/2018</p>
 <div id="new-features" class="section level2">
 <h2 class="hasAnchor">
 <a href="#new-features" class="anchor"></a>New Features</h2>
 <ul>
-<li>Added <code>startrecording.match</code> parameter to preprocess() and tidy_eyetracker()</li>
+<li><p>Added <code>startrecording.match</code> parameter to preprocess() and tidy_eyetracker()</p></li>
 <li>
 <p>Added <code>match</code> paramter to set.trial()</p>
 <p>This allows the user to specify whether the <code>startrecording.message</code> is an “exact” or “pattern” match. Default is “exact” match.</p>
@@ -213,10 +224,11 @@
     <div id="tocnav">
       <h2>Contents</h2>
       <ul class="nav nav-pills nav-stacked">
-        <li><a href="#pupillometry-0-2-1">0.2.1</a></li>
-        <li><a href="#pupillometry-0-2-0">0.2.0</a></li>
-        <li><a href="#pupillometry-0-1-1">0.1.1</a></li>
-        <li><a href="#pupillometry-0-1-0">0.1.0</a></li>
+        <li><a href="#pupillometry-030">0.3.0</a></li>
+        <li><a href="#pupillometry-021">0.2.1</a></li>
+        <li><a href="#pupillometry-020">0.2.0</a></li>
+        <li><a href="#pupillometry-011">0.1.1</a></li>
+        <li><a href="#pupillometry-010">0.1.0</a></li>
       </ul>
     </div>
   </div>

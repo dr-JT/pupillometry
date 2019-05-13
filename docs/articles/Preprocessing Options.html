@@ -32,7 +32,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">pupillometry</a>
-        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.2.1</span>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.3.0</span>
       </span>
     </div>
 
@@ -127,9 +127,11 @@
 <p><strong>maxgap</strong>: Maximum duration (milliseconds) of NAs to interpolate over. Any gaps over this value will not be interpolated. (default: Inf)</p>
 <p>This can be a good idea to avoid interpolating over large chunks of missing data. The default (Inf) does not have a maxgap limit.</p>
 </li>
-<li><p><strong>hz</strong>: The recording frequency of the eyetracker. (Only needed if using maxgap)</p></li>
-</ul>
+<li>
+<p><strong>hz</strong>: The recording frequency of the eyetracker. (Only needed if using maxgap)</p>
 <p>If maxgap is specified, then you need to also specify the recording frequency of the eyetracker. This will be used to convert the maxgap in milliseconds to number of samples (rows) in the dataframe.</p>
+</li>
+</ul>
 </div>
 <div id="smoothing" class="section level2">
 <h2 class="hasAnchor">

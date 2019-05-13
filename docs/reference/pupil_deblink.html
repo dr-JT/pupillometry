@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Visually compare timeseries that used different preprocessing mehtods/parameters — plot_comparison • pupillometry</title>
+<title>Evaluate the amount of missing data — pupil_deblink • pupillometry</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -36,9 +36,10 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/jquery.mark.min.js" integrity="sha256-4HLtjeVgH0eIB3aZ9mLYF6E8oU5chNdjU6p6rrXpl9U=" crossorigin="anonymous"></script>
 
 
-<meta property="og:title" content="Visually compare timeseries that used different preprocessing mehtods/parameters — plot_comparison" />
+<meta property="og:title" content="Evaluate the amount of missing data — pupil_deblink" />
 
-<meta property="og:description" content="This function will print ggplot figures of na.removed, method.first = interpolate, and method.first = smooth" />
+<meta property="og:description" content="This function will deblink pupil data with the option to extend
+    blinks before and after blink detection" />
 
 <meta property="og:image" content="https://dr-jt.github.io/pupillometry/logo.png" />
 <meta name="twitter:card" content="summary" />
@@ -135,61 +136,41 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Visually compare timeseries that used different preprocessing mehtods/parameters</h1>
-    <small class="dont-index">Source: <a href='https://github.com/dr-JT/pupillometry/blob/master/R/plot_comparison.R'><code>R/plot_comparison.R</code></a></small>
-    <div class="hidden name"><code>plot_comparison.Rd</code></div>
+    <h1>Evaluate the amount of missing data</h1>
+    <small class="dont-index">Source: <a href='https://github.com/dr-JT/pupillometry/blob/master/R/pupil_deblink.R'><code>R/pupil_deblink.R</code></a></small>
+    <div class="hidden name"><code>pupil_deblink.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>This function will print ggplot figures of na.removed, method.first = interpolate, and method.first = smooth</p>
+    <p>This function will deblink pupil data with the option to extend
+    blinks before and after blink detection</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>plot_comparison</span>(<span class='no'>import</span>, <span class='kw'>files</span> <span class='kw'>=</span> <span class='fu'>c</span>(), <span class='kw'>labels</span> <span class='kw'>=</span> <span class='fu'>c</span>(), <span class='no'>trial</span>, <span class='kw'>title</span> <span class='kw'>=</span> <span class='st'>""</span>,
-  <span class='kw'>legend.title</span> <span class='kw'>=</span> <span class='st'>"Labels"</span>)</pre>
+    <pre class="usage"><span class='fu'>pupil_deblink</span>(<span class='no'>x</span>, <span class='kw'>extend</span> <span class='kw'>=</span> <span class='fl'>100</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>import</th>
-      <td><p>Directory with preprocessed data files for comparison</p></td>
+      <th>x</th>
+      <td><p>dataframe</p></td>
     </tr>
     <tr>
-      <th>files</th>
-      <td><p>Vector of files to be compared</p></td>
-    </tr>
-    <tr>
-      <th>labels</th>
-      <td><p>Vector of labels for plotting.</p></td>
-    </tr>
-    <tr>
-      <th>trial</th>
-      <td><p>Which trial to filter on</p></td>
-    </tr>
-    <tr>
-      <th>title</th>
-      <td><p>Title the graph</p></td>
-    </tr>
-    <tr>
-      <th>legend.title</th>
-      <td><p>Title the legend</p></td>
+      <th>extend</th>
+      <td><p>How many milliseconds to extend blinks
+before and after blink detection</p></td>
     </tr>
     </table>
     
 
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'>
-</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-            
-      <li><a href="#examples">Examples</a></li>
-    </ul>
+                </ul>
 
   </div>
 </div>

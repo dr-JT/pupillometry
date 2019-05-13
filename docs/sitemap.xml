@@ -19,10 +19,10 @@
     <loc>https://dr-jt.github.io/pupillometry//reference/pupil_cor.html</loc>
   </url>
   <url>
-    <loc>https://dr-jt.github.io/pupillometry//reference/pupil_downsample.html</loc>
+    <loc>https://dr-jt.github.io/pupillometry//reference/pupil_deblink.html</loc>
   </url>
   <url>
-    <loc>https://dr-jt.github.io/pupillometry//reference/pupil_eye.html</loc>
+    <loc>https://dr-jt.github.io/pupillometry//reference/pupil_downsample.html</loc>
   </url>
   <url>
     <loc>https://dr-jt.github.io/pupillometry//reference/pupil_interpolate.html</loc>
@@ -40,6 +40,12 @@
     <loc>https://dr-jt.github.io/pupillometry//reference/pupillometry.html</loc>
   </url>
   <url>
+    <loc>https://dr-jt.github.io/pupillometry//reference/read_pupil.html</loc>
+  </url>
+  <url>
+    <loc>https://dr-jt.github.io/pupillometry//reference/select_eye.html</loc>
+  </url>
+  <url>
     <loc>https://dr-jt.github.io/pupillometry//reference/set_stimuli.html</loc>
   </url>
   <url>
@@ -47,9 +53,6 @@
   </url>
   <url>
     <loc>https://dr-jt.github.io/pupillometry//reference/set_trial.html</loc>
-  </url>
-  <url>
-    <loc>https://dr-jt.github.io/pupillometry//reference/tidy_eyetracker.html</loc>
   </url>
   <url>
     <loc>https://dr-jt.github.io/pupillometry//articles/Comparison of Preprocessing Methods.html</loc>

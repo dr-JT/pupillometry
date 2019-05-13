@@ -35,7 +35,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">pupillometry</a>
-        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.2.1</span>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.3.0</span>
       </span>
     </div>
 
@@ -99,143 +99,140 @@
       
       </header><div class="row">
   <div class="contents col-md-9">
-    <div id="pupillometry" class="section level1">
+    <div id="pupillometry-" class="section level1">
 <div class="page-header"><h1 class="hasAnchor">
-<a href="#pupillometry" class="anchor"></a>pupillometry <img src="reference/figures/logo_small.png" align="right">
+<a href="#pupillometry-" class="anchor"></a>pupillometry <img src="reference/figures/logo_small.png" align="right">
 </h1></div>
 <blockquote>
 <p>An R Package to preprocess pupil data</p>
 </blockquote>
-<div id="this-package-is-still-under-development-and-testing" class="section level3">
-<h3 class="hasAnchor">
-<a href="#this-package-is-still-under-development-and-testing" class="anchor"></a><em>This Package is still under development and testing!</em>
-</h3>
 <p>The package contains various functions for different steps in the preprocessing pipeline, such as interpolation, smoothing, and baseline correction.</p>
 <p>The pre-processing steps are based on what has commonly been used in the literature and influenced by sensible preprocessing methods suggested by</p>
 <p>Mathôt, S., Fabius, J., Van Heusden, E., &amp; Van der Stigchel, S. (2018). Safe and sensible preprocessing and baseline correction of pupil-size data. Behavior research methods, 50(1), 94-106.</p>
 <p>The main goal of this package is to provide:</p>
 <p>1) ease of use for pupillometry researchers</p>
 <p>2) flexibility in choosing which preprocessing methods and parameters are used.</p>
-</div>
 <div id="install" class="section level2">
 <h2 class="hasAnchor">
 <a href="#install" class="anchor"></a>Install</h2>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">devtools<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/devtools/topics/reexports">install_github</a></span>(<span class="st">"dr-JT/pupillometry"</span>)</code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" title="1">devtools<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/devtools/topics/reexports">install_github</a></span>(<span class="st">"dr-JT/pupillometry"</span>)</a></code></pre></div>
 </div>
 <div id="eyetracker-support" class="section level2">
 <h2 class="hasAnchor">
 <a href="#eyetracker-support" class="anchor"></a>Eyetracker Support</h2>
-<p>The format and organization of the raw data file will depend on the type of Eyetracker used. The <code><a href="reference/tidy_eyetracker.html">tidy_eyetracker()</a></code> function imports the “messy” raw data file and it’s output is a “tidy” raw data file with standardized column and value labels to be used by the other functions.</p>
-<p>Currently, <code><a href="reference/tidy_eyetracker.html">tidy_eyetracker()</a></code> only supports data exported from BeGaze using an SMI eye-tracker. Support for other eye-trackers will be included in future updates.</p>
+<p>The format and organization of the raw data file will depend on the type of Eyetracker used. The <code><a href="reference/read_pupil.html">read_pupil()</a></code> function imports the “messy” raw data file and it’s output is a “tidy” raw data file with standardized column and value labels to be used by the other functions.</p>
+<p>Currently, <code><a href="reference/read_pupil.html">read_pupil()</a></code> only supports data exported from BeGaze using an SMI eye-tracker. Support for other eye-trackers will be included in future updates.</p>
 </div>
 <div id="usage" class="section level2">
 <h2 class="hasAnchor">
 <a href="#usage" class="anchor"></a>Usage</h2>
 <p><strong><code><a href="reference/preprocess.html">preprocess()</a></code> is a wrapper around the other functions to allow full preprocessing of pupil data using a single function.</strong></p>
 <p>As such, you will need to pass many arguments to the <code><a href="reference/preprocess.html">preprocess()</a></code> function that specifies all the details and preprocessing options.</p>
-<p><code><a href="reference/preprocess.html">preprocess()</a></code> will be performed on an entire <code>import</code> directory of raw data files that match a certain <code>pattern</code>. At various stages of preprocessing the data will be saved to a specified <code>output</code> directory.</p>
+<p><code><a href="reference/preprocess.html">preprocess()</a></code> will be performed on an entire <code>import.dir</code> directory of raw data files that match a certain <code>pattern</code>. At various stages of preprocessing the data will be saved to a specified <code>output.dir</code> directory.</p>
 <p>The overall workflow of <code><a href="reference/preprocess.html">preprocess()</a></code> is:</p>
 <ol>
 <li>
-<strong>Import</strong> “messy” raw data files and convert to a standardized “tidy” raw data format. <code><a href="reference/tidy_eyetracker.html">tidy_eyetracker()</a></code>
+<strong>Read</strong> in raw data files <code><a href="reference/read_pupil.html">read_pupil()</a></code>
+</li>
+<li>Clean up raw data files and more
+<ul>
+<li>
+<strong>Correlate</strong> left and right pupil size (if both eyes were recorded from). <code><a href="reference/pupil_cor.html">pupil_cor()</a></code>
 </li>
 <li>
-<strong>Output</strong> the standardized “tidy” raw data file.</li>
-<li>Evaluate amount of <strong>missing samples</strong> per trial. <code><a href="reference/pupil_missing.html">pupil_missing()</a></code>
+<strong>Select</strong> either left or right pupil data (if both eyes were recorded from). <code><a href="reference/select_eye.html">select_eye()</a></code>
 </li>
-<li>Correlate left and right pupil size (if both eyes were recorded from). <code><a href="reference/pupil_cor.html">pupil_cor()</a></code>
+<li>Set <strong>Timing</strong> variable to be relative to onset of each trial. <code><a href="reference/set_timing.html">set_timing()</a></code>
 </li>
-<li>Keep either left or right pupil data (if both eyes were recorded from).</li>
-<li>Set <strong>Timing</strong> variable to be relative to onset of each trial. <code><a href="reference/set_trial.html">set_trial()</a></code> and <code><a href="reference/set_timing.html">set_timing()</a></code>
+</ul>
 </li>
 <li>
-<strong>Output</strong> data at this stage*</li>
-<li>If specified, <strong>Interpolate</strong>. <code><a href="reference/pupil_interpolate.html">pupil_interpolate()</a></code>
+<strong>De-blink</strong> data. <code><a href="reference/pupil_deblink.html">pupil_deblink()</a></code>
 </li>
 <li>
-<strong>Output</strong> data at this stage*</li>
-<li>If specified, <strong>Smooth</strong>. <code><a href="reference/pupil_smooth.html">pupil_smooth()</a></code>
+<strong>Smooth</strong> (if specified). <code><a href="reference/pupil_smooth.html">pupil_smooth()</a></code>
 </li>
 <li>
-<strong>Output</strong> data at this stage*</li>
-</ol>
-<p>* When data is outputed at these stages the following preprocessing steps will follow if they are specified:</p>
-<ol>
-<li>
-<strong>Baseline Correct</strong> <code><a href="reference/pupil_baselinecorrect.html">pupil_baselinecorrect()</a></code>
+<strong>Interpolate</strong> (if specified). <code><a href="reference/pupil_interpolate.html">pupil_interpolate()</a></code>
 </li>
 <li>
-<strong>Down Sample</strong> <code><a href="reference/pupil_downsample.html">pupil_downsample()</a></code>
+<strong>Baseline Correct</strong> (if specified). <code><a href="reference/pupil_baselinecorrect.html">pupil_baselinecorrect()</a></code>
+</li>
+<li>Remove trials with too much <strong>Missing Data</strong>. <code><a href="reference/pupil_missing.html">pupil_missing()</a></code>
 </li>
 </ol>
-<p>What this does is saves a data file at each stage of preprocessing. That way you have a baseline corrected/downsampled file at each stage of pre-processing. This can be useful if you originally specified a pre-processing step, such as smoothing, but then later decide you do not want to use that pre-processing method - you will already have the pre-processed (including baseline correction/down sampling) data file prior to that step. Or you may wish to compare how your results change depending on what pre-processing steps you perform.</p>
-<p>If there is a need, a future update might include an option to not save after each preprocessing step, but to only save at the very end.</p>
-<div id="example" class="section level3">
+<p>A final preprocessed data file will be saved for every original raw data file.</p>
+<p>If <code>output.step == TRUE</code> a data file will be saved after steps 3, 4, and 5. Before saving the data file at each of these steps, the final two steps 6 and 7 are performed. This results in baseline corrected and missing data removed files before each major preprocessing step. This is obviously not necessary and so <code>output.step = FALSE</code> can be set to only save on final preprocessed data file per subject.</p>
+<div id="script-template" class="section level3">
 <h3 class="hasAnchor">
-<a href="#example" class="anchor"></a>Example</h3>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## Preprocessing parameters
-
-<span class="co"># File Import Information</span>
-import &lt;-<span class="st"> "data/Raw"</span>
-pattern &lt;-<span class="st"> "*.txt"</span>
-taskname &lt;-<span class="st"> "Pitch_Discrimination"</span>
-subj.prefix &lt;-<span class="st"> "n_"</span>             ## For SMI eyetrackers
-subj.suffix &lt;-<span class="st"> "-"</span>              ## For SMI eyetrackers
-
-<span class="co"># File Output Information</span>
-output &lt;-<span class="st"> "data/Preprocessed"</span>
-gazedata.include &lt;-<span class="st"> </span><span class="ot">FALSE</span>
-
-
-<span class="co"># Eyetracker Information</span>
-eyetracker &lt;-<span class="st"> "smi"</span>
-hz &lt;-<span class="st"> </span><span class="dv">250</span>
-eye.recorded &lt;-<span class="st"> "both"</span>
-eye.use &lt;-<span class="st"> "left"</span>
-
-<span class="co"># Message Marker Information</span>
-startrecording.message &lt;-<span class="st"> "default"</span>
-startrecording.match &lt;-<span class="st"> "exact"</span>
-trialonset.message &lt;-<span class="st"> "Tone 1"</span> 
-trialonset.match &lt;-<span class="st"> "exact"</span>
-pretrial.duration &lt;-<span class="st"> </span><span class="dv">1000</span>
-
-<span class="co"># Preprocessing Options</span>
-missing.allowed &lt;-<span class="st"> </span>.<span class="dv">75</span>
-interpolate &lt;-<span class="st"> "linear"</span>
-interpolate.maxgap &lt;-<span class="st"> </span><span class="dv">750</span>
-smooth &lt;-<span class="st"> "hann"</span>
-smooth.window &lt;-<span class="st"> </span><span class="dv">500</span>
-method.first &lt;-<span class="st"> "smooth"</span>
-bc &lt;-<span class="st"> "subtractive"</span>
-baselineoffset.message &lt;-<span class="st"> "Tone 1"</span>
-baselineoffset.match &lt;-<span class="st"> "exact"</span>
-bc.duration &lt;-<span class="st"> </span><span class="dv">200</span>
-downsample.binlength &lt;-<span class="st"> </span><span class="dv">20</span>
-
-<span class="co"># Misc.</span>
-subset &lt;-<span class="st"> "default"</span>
-trial.exclude &lt;-<span class="st"> </span><span class="kw">c</span>()
-
-############################
-
-<span class="kw"><a href="reference/preprocess.html">preprocess</a></span>(<span class="dt">import =</span> import, <span class="dt">pattern =</span> pattern, <span class="dt">taskname =</span> taskname, <span class="dt">subj.prefix =</span> subj.prefix, <span class="dt">subj.suffix =</span> subj.suffix, 
-           <span class="dt">output =</span> output, <span class="dt">gazedata.include =</span> gazedata.include,
-           <span class="dt">eyetracker =</span> eyetracker, <span class="dt">hz =</span> hz, <span class="dt">subset =</span> subset, <span class="dt">eye.recorded =</span> eye.recorded, <span class="dt">eye.use =</span> eye.use, 
-           <span class="dt">startrecording.message =</span> startrecording.message, <span class="dt">startrecording.match =</span> startrecording.match,
-           <span class="dt">trialonset.message =</span> trialonset.message, <span class="dt">trialonset.match =</span> trialonset.match, <span class="dt">pretrial.duration =</span> pretrial.duration,
-           <span class="dt">missing.allowed =</span> missing.allowed, <span class="dt">interpolate =</span> interpolate, <span class="dt">interpolate.maxgap =</span> interpolate.maxgap,
-           <span class="dt">smooth =</span> smooth, <span class="dt">smooth.window =</span> smooth.window, <span class="dt">method.first =</span> method.first,
-           <span class="dt">bc =</span> bc, <span class="dt">baselineoffset.message =</span> baselineoffset.message, <span class="dt">baselineoffset.match =</span> baselineoffset.match,
-           <span class="dt">bc.duration =</span> bc.duration, <span class="dt">downsample.binlength =</span> downsample.binlength,
-           <span class="dt">subset =</span> subset, <span class="dt">trial.exclude =</span> trial.exclude)</code></pre></div>
+<a href="#script-template" class="anchor"></a>Script Template</h3>
+<p>You can copy and paste the following code into a script and use it as a template.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" title="1"><span class="co">## Preprocessing parameters</span></a>
+<a class="sourceLine" id="cb2-2" title="2"></a>
+<a class="sourceLine" id="cb2-3" title="3"><span class="co"># File Import Information</span></a>
+<a class="sourceLine" id="cb2-4" title="4">import.dir &lt;-<span class="st"> "data/Raw"</span></a>
+<a class="sourceLine" id="cb2-5" title="5">pattern &lt;-<span class="st"> "*.txt"</span></a>
+<a class="sourceLine" id="cb2-6" title="6">taskname &lt;-<span class="st"> "Pitch_Discrimination"</span></a>
+<a class="sourceLine" id="cb2-7" title="7">subj.prefix &lt;-<span class="st"> "n_"</span>             <span class="co">## For SMI eyetrackers</span></a>
+<a class="sourceLine" id="cb2-8" title="8">subj.suffix &lt;-<span class="st"> "-"</span>              <span class="co">## For SMI eyetrackers</span></a>
+<a class="sourceLine" id="cb2-9" title="9"></a>
+<a class="sourceLine" id="cb2-10" title="10"><span class="co"># File Output Information</span></a>
+<a class="sourceLine" id="cb2-11" title="11">output.dir &lt;-<span class="st"> "data/Preprocessed"</span></a>
+<a class="sourceLine" id="cb2-12" title="12"></a>
+<a class="sourceLine" id="cb2-13" title="13"><span class="co"># Eyetracker Information</span></a>
+<a class="sourceLine" id="cb2-14" title="14">eyetracker &lt;-<span class="st"> "smi"</span></a>
+<a class="sourceLine" id="cb2-15" title="15">hz &lt;-<span class="st"> </span><span class="dv">250</span></a>
+<a class="sourceLine" id="cb2-16" title="16">eye.use &lt;-<span class="st"> "left"</span></a>
+<a class="sourceLine" id="cb2-17" title="17"></a>
+<a class="sourceLine" id="cb2-18" title="18"><span class="co"># Message Marker Information</span></a>
+<a class="sourceLine" id="cb2-19" title="19">startrecording.message &lt;-<span class="st"> "default"</span></a>
+<a class="sourceLine" id="cb2-20" title="20">startrecording.match &lt;-<span class="st"> "exact"</span></a>
+<a class="sourceLine" id="cb2-21" title="21">trialonset.message &lt;-<span class="st"> "Tone 1"</span> </a>
+<a class="sourceLine" id="cb2-22" title="22">trialonset.match &lt;-<span class="st"> "exact"</span></a>
+<a class="sourceLine" id="cb2-23" title="23">pretrial.duration &lt;-<span class="st"> </span><span class="dv">1000</span></a>
+<a class="sourceLine" id="cb2-24" title="24">baselineoffset.message &lt;-<span class="st"> "Tone 1"</span></a>
+<a class="sourceLine" id="cb2-25" title="25">baselineoffset.match &lt;-<span class="st"> "exact"</span></a>
+<a class="sourceLine" id="cb2-26" title="26"></a>
+<a class="sourceLine" id="cb2-27" title="27"><span class="co"># Preprocessing Options</span></a>
+<a class="sourceLine" id="cb2-28" title="28">deblink.extend &lt;-<span class="st"> </span><span class="dv">100</span></a>
+<a class="sourceLine" id="cb2-29" title="29">smooth &lt;-<span class="st"> "hann"</span></a>
+<a class="sourceLine" id="cb2-30" title="30">smooth.window &lt;-<span class="st"> </span><span class="dv">500</span></a>
+<a class="sourceLine" id="cb2-31" title="31">interpolate &lt;-<span class="st"> "linear"</span></a>
+<a class="sourceLine" id="cb2-32" title="32">interpolate.maxgap &lt;-<span class="st"> </span><span class="dv">750</span></a>
+<a class="sourceLine" id="cb2-33" title="33">method.first &lt;-<span class="st"> "smooth"</span></a>
+<a class="sourceLine" id="cb2-34" title="34">bc &lt;-<span class="st"> "subtractive"</span></a>
+<a class="sourceLine" id="cb2-35" title="35">bc.duration &lt;-<span class="st"> </span><span class="dv">200</span></a>
+<a class="sourceLine" id="cb2-36" title="36">missing.allowed &lt;-<span class="st"> </span><span class="fl">.30</span></a>
+<a class="sourceLine" id="cb2-37" title="37"></a>
+<a class="sourceLine" id="cb2-38" title="38"><span class="co"># Misc.</span></a>
+<a class="sourceLine" id="cb2-39" title="39">subset &lt;-<span class="st"> "default"</span></a>
+<a class="sourceLine" id="cb2-40" title="40">trial.exclude &lt;-<span class="st"> </span><span class="kw">c</span>()</a>
+<a class="sourceLine" id="cb2-41" title="41"></a>
+<a class="sourceLine" id="cb2-42" title="42"><span class="co">############################</span></a>
+<a class="sourceLine" id="cb2-43" title="43"></a>
+<a class="sourceLine" id="cb2-44" title="44"><span class="kw"><a href="reference/preprocess.html">preprocess</a></span>(<span class="dt">import.dir =</span> import.dir, <span class="dt">pattern =</span> pattern, <span class="dt">taskname =</span> taskname, </a>
+<a class="sourceLine" id="cb2-45" title="45">           <span class="dt">subj.prefix =</span> subj.prefix, <span class="dt">subj.suffix =</span> subj.suffix, </a>
+<a class="sourceLine" id="cb2-46" title="46">           <span class="dt">output.dir =</span> output.dir, <span class="dt">output.steps =</span> output.steps,</a>
+<a class="sourceLine" id="cb2-47" title="47">           <span class="dt">eyetracker =</span> eyetracker, <span class="dt">hz =</span> hz, <span class="dt">eye.use =</span> eye.use, </a>
+<a class="sourceLine" id="cb2-48" title="48">           <span class="dt">startrecording.message =</span> startrecording.message, </a>
+<a class="sourceLine" id="cb2-49" title="49">           <span class="dt">startrecording.match =</span> startrecording.match,</a>
+<a class="sourceLine" id="cb2-50" title="50">           <span class="dt">trialonset.message =</span> trialonset.message, </a>
+<a class="sourceLine" id="cb2-51" title="51">           <span class="dt">trialonset.match =</span> trialonset.match,</a>
+<a class="sourceLine" id="cb2-52" title="52">           <span class="dt">pretrial.duration =</span> pretrial.duration, </a>
+<a class="sourceLine" id="cb2-53" title="53">           <span class="dt">baselineoffset.message =</span> baselineoffset.message, </a>
+<a class="sourceLine" id="cb2-54" title="54">           <span class="dt">baselineoffset.match =</span> baselineoffset.match,</a>
+<a class="sourceLine" id="cb2-55" title="55">           <span class="dt">deblink.extend =</span> deblink.extend, <span class="dt">smooth =</span> smooth,</a>
+<a class="sourceLine" id="cb2-56" title="56">           <span class="dt">smooth.window =</span> smooth.window, <span class="dt">interpolate =</span> interpolate, </a>
+<a class="sourceLine" id="cb2-57" title="57">           <span class="dt">interpolate.maxgap =</span> interpolate.maxgap, <span class="dt">method.first =</span> method.first, </a>
+<a class="sourceLine" id="cb2-58" title="58">           <span class="dt">bc =</span> bc, <span class="dt">bc.duration =</span> bc.duration, <span class="dt">missing.allowed =</span> missing.allowed, </a>
+<a class="sourceLine" id="cb2-59" title="59">           <span class="dt">subset =</span> subset, <span class="dt">trial.exclude =</span> trial.exclude)</a></code></pre></div>
 </div>
 </div>
 <div id="planned-updates" class="section level2">
 <h2 class="hasAnchor">
 <a href="#planned-updates" class="anchor"></a>Planned Updates</h2>
 <ul>
-<li><p>Add option to not save data file at every stage of preprocessing (reduces number of files that get created if storage space is an issue)</p></li>
+<li><p>Add data preprocessing visualizations?</p></li>
 <li><p>Add hampel filter option (maybe?)</p></li>
 <li><p>Add greater support for SR Research EyeLink Eyetrackers</p></li>
 <li><p>Add support for Tobii Eyetrackers</p></li>
