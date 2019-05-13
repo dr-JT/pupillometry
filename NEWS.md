@@ -1,3 +1,15 @@
+# pupillometry 0.3.0
+
+Updated: 05/12/2019
+
+* Added `pupil_deblink()` with the parameter option `extend`
+
+* Added option to not save data file at each step of preprocessing with paramter argument `preprocess(output.step = FALSE)`.
+
+* Changed `tidy_eyetracker()` to `read_pupil()`
+
+* Changed `pupil_eye()` to `select_eye()`
+
 # pupillometry 0.2.1
 
 Updated: 11/13/2018

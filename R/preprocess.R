@@ -22,7 +22,9 @@
 #'     match or a "pattern" match?
 #' @param trialonset.message Message string that marks the start of a trial
 #' @param trialonset.match Should the message string be an "exact"
-#'     match or a "pattern" match?
+#'     match or a "pattern" match
+#' @param deblink.extend How many milliseconds to extend blinks
+#'     before and after blink detection
 #' @param pretrial.duration Duration of pre-trial baseline period
 #'     in milliseconds
 #' @param missing.allowed What proportion of missing data is allowed,
@@ -55,11 +57,12 @@ preprocess <- function(import.dir = NULL, pattern = "*.txt", taskname = NULL,
                        output.steps = TRUE, eyetracker = NULL, hz = NULL,
                        eye.use = NULL, startrecording.message = "default",
                        startrecording.match = "exact", trialonset.message = NULL,
-                       trialonset.match = "exact", pretrial.duration = NULL,
-                       missing.allowed = 1, interpolate = NULL,
-                       interpolate.maxgap = Inf, smooth = NULL,
-                       smooth.window = 5, method.first = NULL, bc = NULL,
-                       bc.duration = NULL, baselineoffset.message = NULL,
+                       trialonset.match = "exact", deblink.extend = 100,
+                       pretrial.duration = NULL, missing.allowed = 1,
+                       interpolate = NULL, interpolate.maxgap = Inf,
+                       smooth = NULL, smooth.window = 5, method.first = NULL,
+                       bc = NULL, bc.duration = NULL,
+                       baselineoffset.message = NULL,
                        baselineoffset.match = "exact", subset = "default",
                        trial.exclude = c()){
 
@@ -68,7 +71,7 @@ preprocess <- function(import.dir = NULL, pattern = "*.txt", taskname = NULL,
   }
 
   if (is.null(interpolate) & is.null(smooth)) {
-    final_step <- "naremoved"
+    final_step <- "deblinked"
   } else if (is.null(interpolate)) {
     final_step <- "smoothed"
   } else if (is.null(smooth)) {
@@ -86,10 +89,10 @@ preprocess <- function(import.dir = NULL, pattern = "*.txt", taskname = NULL,
   saveData <- function(x, preprocessing.stage = ""){
     if (!is.null(bc)){
       preprocessing <- paste(preprocessing.stage, "bc", sep = ".")
-      x <- pupil_missing(x, missing.allowed = missing.allowed)
       x <- pupil_baselinecorrect(x, message = baselineoffset.message,
                                  match = baselineoffset.match,
                                  duration = bc.duration, type = bc)
+      x <- pupil_missing(x, missing.allowed = missing.allowed)
       ## Save file
       subj <- x$Subject[1]
       SaveAs <- paste(output.dir, "/", taskname, "_", subj, "_PupilData_",
@@ -173,8 +176,10 @@ preprocess <- function(import.dir = NULL, pattern = "*.txt", taskname = NULL,
                        match = trialonset.match, ms.conversion = ms.conversion,
                        pretrial.duration = pretrial.duration)
 
+    data <- pupil_deblink(data, extend = deblink.extend)
+
     ## Save data at this step?
-    step <- "naremoved"
+    step <- "deblinked"
     if (step == final_step){
       saveData(data, preprocessing.stage = step)
     } else if (output.steps == TRUE) {

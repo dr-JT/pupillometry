@@ -2,8 +2,6 @@
 
 > An R Package to preprocess pupil data
 
-### _This Package is still under development and testing!_
-
 The package contains various functions for different steps in the preprocessing pipeline, such as interpolation, smoothing, and baseline correction.
 
 The pre-processing steps are based on what has commonly been used in the literature and influenced by sensible preprocessing methods suggested by
@@ -24,9 +22,9 @@ devtools::install_github("dr-JT/pupillometry")
 
 ## Eyetracker Support
 
-The format and organization of the raw data file will depend on the type of Eyetracker used. The `tidy_eyetracker()` function imports the "messy" raw data file and it's output is a "tidy" raw data file with standardized column and value labels to be used by the other functions. 
+The format and organization of the raw data file will depend on the type of Eyetracker used. The `read_pupil()` function imports the "messy" raw data file and it's output is a "tidy" raw data file with standardized column and value labels to be used by the other functions. 
 
-Currently, `tidy_eyetracker()` only supports data exported from BeGaze using an SMI eye-tracker. Support for other eye-trackers will be included in future updates.
+Currently, `read_pupil()` only supports data exported from BeGaze using an SMI eye-tracker. Support for other eye-trackers will be included in future updates.
 
 ## Usage
 
@@ -34,45 +32,41 @@ Currently, `tidy_eyetracker()` only supports data exported from BeGaze using an 
 
 As such, you will need to pass many arguments to the `preprocess()` function that specifies all the details and preprocessing options.
 
-`preprocess()` will be performed on an entire `import` directory of raw data files that match a certain `pattern`. At various stages of preprocessing the data will be saved to a specified `output` directory.
+`preprocess()` will be performed on an entire `import.dir` directory of raw data files that match a certain `pattern`. At various stages of preprocessing the data will be saved to a specified `output.dir` directory.
 
 The overall workflow of `preprocess()` is:
 
-1. **Import** "messy" raw data files and convert to a standardized "tidy" raw data format. `tidy_eyetracker()`
-2. **Output** the standardized "tidy" raw data file.
-3. Evaluate amount of **missing samples** per trial. `pupil_missing()`
-4. Correlate left and right pupil size (if both eyes were recorded from). `pupil_cor()`
-5. Keep either left or right pupil data (if both eyes were recorded from).
-6. Set **Timing** variable to be relative to onset of each trial. `set_trial()` and `set_timing()`
-7. **Output** data at this stage*
-8. If specified, **Interpolate**. `pupil_interpolate()`
-9. **Output** data at this stage*
-10. If specified, **Smooth**. `pupil_smooth()`
-11. **Output** data at this stage*
+1. **Read** in raw data files `read_pupil()`
+2. Clean up raw data files and more
+    - **Correlate** left and right pupil size (if both eyes were recorded from). `pupil_cor()`
+    - **Select** either left or right pupil data (if both eyes were recorded from). `select_eye()`
+    - Set **Timing** variable to be relative to onset of each trial. `set_timing()`
+3. **De-blink** data. `pupil_deblink()`
+4. **Smooth** (if specified). `pupil_smooth()`
+5. **Interpolate** (if specified). `pupil_interpolate()`
+6. **Baseline Correct** (if specified). `pupil_baselinecorrect()`
+7. Remove trials with too much **Missing Data**. `pupil_missing()`
 
-\* When data is outputed at these stages the following preprocessing steps will follow if they are specified:
-1. **Baseline Correct** `pupil_baselinecorrect()`
-2. **Down Sample** `pupil_downsample()`
+A final preprocessed data file will be saved for every original raw data file.
 
-What this does is saves a data file at each stage of preprocessing. That way you have a baseline corrected/downsampled file at each stage of pre-processing. This can be useful if you originally specified a pre-processing step, such as smoothing, but then later decide you do not want to use that pre-processing method - you will already have the pre-processed (including baseline correction/down sampling) data file prior to that step. Or you may wish to compare how your results change depending on what pre-processing steps you perform.
+If `output.step == TRUE` a data file will be saved after steps 3, 4, and 5. Before saving the data file at each of these steps, the final two steps 6 and 7 are performed. This results in baseline corrected and missing data removed files before each major preprocessing step. This is obviously not necessary and so `output.step = FALSE` can be set to only save on final preprocessed data file per subject. 
 
-If there is a need, a future update might include an option to not save after each preprocessing step, but to only save at the very end.
+### Script Template
 
-### Example
+You can copy and paste the following code into a script and use it as a template.
+
 ```r
 ## Preprocessing parameters
 
 # File Import Information
-import <- "data/Raw"
+import.dir <- "data/Raw"
 pattern <- "*.txt"
 taskname <- "Pitch_Discrimination"
 subj.prefix <- "n_"             ## For SMI eyetrackers
 subj.suffix <- "-"              ## For SMI eyetrackers
 
 # File Output Information
-output <- "data/Preprocessed"
-gazedata.include <- FALSE
-
+output.dir <- "data/Preprocessed"
 
 # Eyetracker Information
 eyetracker <- "smi"
@@ -86,19 +80,19 @@ startrecording.match <- "exact"
 trialonset.message <- "Tone 1" 
 trialonset.match <- "exact"
 pretrial.duration <- 1000
-
-# Preprocessing Options
-missing.allowed <- .75
-interpolate <- "linear"
-interpolate.maxgap <- 750
-smooth <- "hann"
-smooth.window <- 500
-method.first <- "smooth"
-bc <- "subtractive"
 baselineoffset.message <- "Tone 1"
 baselineoffset.match <- "exact"
+
+# Preprocessing Options
+deblink.extend <- 100
+smooth <- "hann"
+smooth.window <- 500
+interpolate <- "linear"
+interpolate.maxgap <- 750
+method.first <- "smooth"
+bc <- "subtractive"
 bc.duration <- 200
-downsample.binlength <- 20
+missing.allowed <- .30
 
 # Misc.
 subset <- "default"
@@ -106,21 +100,28 @@ trial.exclude <- c()
 
 ############################
 
-preprocess(import = import, pattern = pattern, taskname = taskname, subj.prefix = subj.prefix, subj.suffix = subj.suffix, 
-           output = output, gazedata.include = gazedata.include,
-           eyetracker = eyetracker, hz = hz, subset = subset, eye.recorded = eye.recorded, eye.use = eye.use, 
-           startrecording.message = startrecording.message, startrecording.match = startrecording.match,
-           trialonset.message = trialonset.message, trialonset.match = trialonset.match, pretrial.duration = pretrial.duration,
-           missing.allowed = missing.allowed, interpolate = interpolate, interpolate.maxgap = interpolate.maxgap,
-           smooth = smooth, smooth.window = smooth.window, method.first = method.first,
-           bc = bc, baselineoffset.message = baselineoffset.message, baselineoffset.match = baselineoffset.match,
-           bc.duration = bc.duration, downsample.binlength = downsample.binlength,
+preprocess(import.dir = import.dir, pattern = pattern, taskname = taskname, 
+           subj.prefix = subj.prefix, subj.suffix = subj.suffix, 
+           output.dir = output.dir, output.steps = output.steps,
+           eyetracker = eyetracker, hz = hz, 
+           eye.recorded = eye.recorded, eye.use = eye.use, 
+           startrecording.message = startrecording.message, 
+           startrecording.match = startrecording.match,
+           trialonset.message = trialonset.message, 
+           trialonset.match = trialonset.match,
+           pretrial.duration = pretrial.duration, 
+           baselineoffset.message = baselineoffset.message, 
+           baselineoffset.match = baselineoffset.match,
+           deblink.extend = deblink.extend, smooth = smooth,
+           smooth.window = smooth.window, interpolate = interpolate, 
+           interpolate.maxgap = interpolate.maxgap, method.first = method.first, 
+           bc = bc, bc.duration = bc.duration, missing.allowed = missing.allowed, 
            subset = subset, trial.exclude = trial.exclude)
 ```
 
 ## Planned Updates
 
-* Add option to not save data file at every stage of preprocessing (reduces number of files that get created if storage space is an issue)
+* Add data preprocessing visualizations?
 
 * Add hampel filter option (maybe?)
 

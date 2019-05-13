@@ -127,27 +127,6 @@ read_pupil <- function(file, eyetracker = "",
                               R_Gaze_Position.x = R_POR_X_px,
                               R_Gaze_Position.y = R_POR_Y_px,
                               Gaze.quality = Timing)
-        data <- dplyr::mutate(data,
-                              L_Gaze_Position.x =
-                                ifelse(L_Event == "Blink" |
-                                         is.na(L_Event) |
-                                         L_Gaze_Position.x == 0,
-                                       NA, L_Gaze_Position.x),
-                              L_Gaze_Position.y =
-                                ifelse(L_Event == "Blink" |
-                                         is.na(L_Event) |
-                                         L_Gaze_Position.y == 0,
-                                       NA, L_Gaze_Position.y),
-                              R_Gaze_Position.x =
-                                ifelse(R_Event == "Blink" |
-                                         is.na(R_Event) |
-                                         R_Gaze_Position.x == 0,
-                                       NA, R_Gaze_Position.x),
-                              R_Gaze_Position.y =
-                                ifelse(R_Event == "Blink" |
-                                         is.na(R_Event) |
-                                         R_Gaze_Position.y == 0,
-                                       NA, R_Gaze_Position.y))
         data <- dplyr::select(data, Subject, Head_Dist.cm, Time, Trial, Message,
                               L_Pupil_Diameter.mm,
                               L_Event, R_Pupil_Diameter.mm, R_Event,

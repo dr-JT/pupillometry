@@ -1,7 +1,7 @@
 Package: pupillometry
 Type: Package
 Title: Preprocessing of Pupil Time Series Data
-Version: 0.2.1
+Version: 0.3.0
 Authors@R: c(
     person("Jason", "Tsukahara", , "jtsukahara3@gatech.edu", role = c("aut", "cre"),
     comment = c(ORCID = 0000-0003-3570-1977))

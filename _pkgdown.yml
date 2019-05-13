@@ -11,24 +11,22 @@ template:
       index_name: INDEX_NAME
 
 reference:
-- title: Preprocessing Methods
+- title: Import and Clean data
   contents:
-  - preprocess
-  - pupil_smooth
-  - pupil_interpolate
-  - pupil_baselinecorrect
-  - pupil_downsample
-- title: Evaluate Data
-  contents:
-  - pupil_cor
-  - pupil_missing
-- title: tidy Data
-  contents:
-  - tidy_eyetracker
+  - read_pupil
   - set_stimuli
   - set_trial
   - set_timing
-  - pupil_eye
+  - select_eye
+- title: Preprocessing Methods
+  contents:
+  - preprocess
+  - pupil_deblink
+  - pupil_smooth
+  - pupil_interpolate
+  - pupil_baselinecorrect
+  - pupil_missing
+  - pupil_downsample
 - title: Visualize
   contents:
   - plot_comparison

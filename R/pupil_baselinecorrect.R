@@ -33,20 +33,20 @@ pupil_baselinecorrect <- function(x, message = "", duration = 200, type = "subtr
   }
   x <- dplyr::group_by(x, Trial, PreTarget)
   x <- dplyr::mutate(x,
-                     PreTarget.mean = mean(Pupil_Diameter.mm, na.rm = TRUE),
-                     PreTarget.mean = ifelse(is.na(PreTarget) | PreTarget==0, NA, PreTarget.mean))
+                     PreTarget.median = median(Pupil_Diameter.mm, na.rm = TRUE),
+                     PreTarget.median = ifelse(is.na(PreTarget) | PreTarget==0, NA, PreTarget.median))
   x <- dplyr::group_by(x, Trial)
-  x <- dplyr::mutate(x, PreTarget.mean = zoo::na.locf(PreTarget.mean, na.rm = FALSE))
-  x <- dplyr::mutate(x, PreTarget.mean = ifelse(PreTarget > Target, NA, PreTarget.mean))
-  x <- dplyr::mutate(x, PreTarget.mean = zoo::na.locf(PreTarget.mean, na.rm = FALSE))
+  x <- dplyr::mutate(x, PreTarget.median = zoo::na.locf(PreTarget.median, na.rm = FALSE))
+  x <- dplyr::mutate(x, PreTarget.median = ifelse(PreTarget > Target, NA, PreTarget.median))
+  x <- dplyr::mutate(x, PreTarget.median = zoo::na.locf(PreTarget.median, na.rm = FALSE))
   if (type=="subtractive"){
-    x <- dplyr::mutate(x, Pupil_Diameter_bc.mm = Pupil_Diameter.mm - PreTarget.mean)
+    x <- dplyr::mutate(x, Pupil_Diameter_bc.mm = Pupil_Diameter.mm - PreTarget.median)
   } else if (type=="divisive"){
-    x <- dplyr::mutate(x, Pupil_Diameter_bc.mm = ((Pupil_Diameter.mm - PreTarget.mean)/PreTarget.mean)*100)
+    x <- dplyr::mutate(x, Pupil_Diameter_bc.mm = ((Pupil_Diameter.mm - PreTarget.median)/PreTarget.median)*100)
   }
 
   x <- dplyr::ungroup(x)
-  x <- dplyr::select(x, -PreTarget.mean, -baselineoffset.time, -min)
+  x <- dplyr::select(x, -PreTarget.median, -baselineoffset.time, -min)
   return(x)
 }
 
