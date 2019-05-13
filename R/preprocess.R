@@ -134,10 +134,8 @@ preprocess <- function(import.dir = NULL, pattern = "*.txt", taskname = NULL,
     data <- read_pupil(file, eyetracker = eyetracker,
                        startrecording.message = startrecording.message,
                        startrecording.match = startrecording.match,
-                       eye = eye.recorded, subj.prefix = subj.prefix,
-                       subj.suffix = subj.suffix, subset = subset,
-                       trial.exclude = trial.exclude,
-                       gazedata.include = gazedata.include)
+                       subj.prefix = subj.prefix, subj.suffix = subj.suffix,
+                       subset = subset, trial.exclude = trial.exclude)
     ## Save tidy data file
     if (output.steps == TRUE) {
       subj <- data$Subject[1]
