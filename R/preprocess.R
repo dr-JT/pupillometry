@@ -92,7 +92,6 @@ preprocess <- function(import.dir = NULL, pattern = "*.txt", taskname = NULL,
       x <- pupil_baselinecorrect(x, message = baselineoffset.message,
                                  match = baselineoffset.match,
                                  duration = bc.duration, type = bc)
-      x <- pupil_missing(x, missing.allowed = missing.allowed)
 
       ## Save file
       subj <- x$Subject[1]
