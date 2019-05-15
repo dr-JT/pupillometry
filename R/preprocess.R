@@ -93,27 +93,31 @@ preprocess <- function(import.dir = NULL, pattern = "*.txt", taskname = NULL,
                                  match = baselineoffset.match,
                                  duration = bc.duration, type = bc)
       x <- pupil_missing(x, missing.allowed = missing.allowed)
-      if (nrow(data) == 0){
-        next
-      }
+
       ## Save file
       subj <- x$Subject[1]
-      SaveAs <- paste(output.dir, "/", taskname, "_", subj, "_PupilData_",
-                      preprocessing, ".csv", sep = "")
-      readr::write_csv(x, SaveAs)
-      rm(SaveAs)
+      if (nrow(data) == 0){
+        message("No Trials with enough non-missing data. Subject: ", subj)
+      } else {
+        SaveAs <- paste(output.dir, "/", taskname, "_", subj, "_PupilData_",
+                        preprocessing, ".csv", sep = "")
+        readr::write_csv(x, SaveAs)
+        rm(SaveAs)
+      }
     } else {
       preprocessing <- preprocessing.stage
       x <- pupil_missing(x, missing.allowed = missing.allowed)
-      if (nrow(data) == 0){
-        next
-      }
+
       ## Save file
       subj <- x$Subject[1]
-      SaveAs <- paste(output.dir, "/", taskname, "_", subj, "_PupilData_",
-                      preprocessing, ".csv", sep = "")
-      readr::write_csv(x, SaveAs)
-      rm(SaveAs)
+      if (nrow(data) == 0){
+        message("No Trials with enough non-missing data. Subject: ", subj)
+      } else {
+        SaveAs <- paste(output.dir, "/", taskname, "_", subj, "_PupilData_",
+                        preprocessing, ".csv", sep = "")
+        readr::write_csv(x, SaveAs)
+        rm(SaveAs)
+      }
     }
   }
 
