@@ -10,8 +10,8 @@
 
 
 select_eye <- function(x, eye.use = ""){
-  left.recorded <- "L_Pupil_Diameter" %in% colnames(x)
-  right.recorded <- "R_Pupil_Diameter" %in% colnames(x)
+  left.recorded <- "L_Pupil_Diameter.mm" %in% colnames(x)
+  right.recorded <- "R_Pupil_Diameter.mm" %in% colnames(x)
   ## Correlate and select Eyes
   if (left.recorded == TRUE & right.recorded == TRUE){
     # remove either left or right eye
