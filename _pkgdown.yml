@@ -13,14 +13,15 @@ template:
 reference:
 - title: Import and Clean data
   contents:
-  - read_pupil
+  - pupil_read
+  - pupil_merge
   - set_stimuli
   - set_trial
   - set_timing
   - select_eye
 - title: Preprocessing Methods
   contents:
-  - preprocess
+  - pupil_preprocess
   - pupil_deblink
   - pupil_smooth
   - pupil_interpolate

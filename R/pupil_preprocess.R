@@ -47,12 +47,13 @@
 #' @param bc.duration Duration baseline period(s) to use for correction
 #' @param subset Which columns in the raw data output file do you want to keep
 #' @param trial.exclude Specify if ther are any trials to exclude. Trial number
+#' @param files.merge Do you want to create a single merge output file?
 #' @keywords preprocess
 #' @export
 #' @examples
 #'
 #'
-preprocess <- function(import.dir = NULL, pattern = "*.txt", taskname = NULL,
+pupil_preprocess <- function(import.dir = NULL, pattern = "*.txt", taskname = NULL,
                        subj.prefix = NULL, subj.suffix = NULL, output.dir = NULL,
                        output.steps = TRUE, eyetracker = NULL, hz = NULL,
                        eye.use = NULL, startrecording.message = "default",
@@ -64,7 +65,7 @@ preprocess <- function(import.dir = NULL, pattern = "*.txt", taskname = NULL,
                        bc = NULL, bc.duration = NULL,
                        baselineoffset.message = NULL,
                        baselineoffset.match = "exact", subset = "default",
-                       trial.exclude = c()){
+                       trial.exclude = c(), files.merge = TRUE){
 
   if (is.null(output.dir)){
     output.dir <- export
@@ -141,7 +142,7 @@ preprocess <- function(import.dir = NULL, pattern = "*.txt", taskname = NULL,
     #### ----- Create Tidy Raw Data ----- ####
 
     ## Convert messy to tidy
-    data <- read_pupil(file, eyetracker = eyetracker,
+    data <- pupil_read(file, eyetracker = eyetracker,
                        startrecording.message = startrecording.message,
                        startrecording.match = startrecording.match,
                        subj.prefix = subj.prefix, subj.suffix = subj.suffix,
@@ -253,5 +254,16 @@ preprocess <- function(import.dir = NULL, pattern = "*.txt", taskname = NULL,
       }
     }
     ##############################################
+  }
+  if (files.merge == TRUE) {
+    if (!is.null(bc)){
+      preprocessing <- paste(step, "bc", sep = ".")
+    } else {
+      preprocessing <- step
+    }
+    SaveAs <- paste(output.dir, taskname, "_PupilData", ".csv", sep = "")
+    pupil_merge(path = output.dir,
+                pattern = preprocessing,
+                output.file = SaveAs)
   }
 }

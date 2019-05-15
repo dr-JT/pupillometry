@@ -24,7 +24,7 @@
 #' @param trial.exclude Specify if ther are any trials to exclude. Trial number
 #' @export
 
-read_pupil <- function(file, eyetracker = "",
+pupil_read <- function(file, eyetracker = "",
                        startrecording.message = "default",
                        startrecording.match = "exact",
                        subj.prefix = NULL, subj.suffix = NULL,
