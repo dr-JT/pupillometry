@@ -16,12 +16,14 @@ pupil_deblink <- function(x, extend = 100){
                      blink.start = ifelse(blink == 1 &
                                             !is.na(blink.lag) &
                                             blink.lag == 0, Time, NA),
+                     blink.start = zoo::na.locf(blink.start, na.rm = FALSE, fromLast = TRUE),
                      blink.end = ifelse(blink == 1 &
                                           !is.na(blink.lead) &
                                           blink.lead == 0, Time, NA),
-                     blink = ifelse(Time >= blink.start - extend &
+                     blink.end = zoo::na.locf(blink.end, na.rm = TRUE),
+                     blink = ifelse(!is.na(blink.start) & Time >= blink.start - extend &
                                       Time <= blink.start, 1, blink),
-                     blink = ifelse(Time <= blink.end + extend &
+                     blink = ifelse(!is.na(blink.end) & Time <= blink.end + extend &
                                       Time >= blink.end, 1, blink),
                      Pupil_Diameter.mm = ifelse(is.na(Event) |
                                                   Pupil_Diameter.mm == 0 |
