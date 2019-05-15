@@ -93,6 +93,9 @@ preprocess <- function(import.dir = NULL, pattern = "*.txt", taskname = NULL,
                                  match = baselineoffset.match,
                                  duration = bc.duration, type = bc)
       x <- pupil_missing(x, missing.allowed = missing.allowed)
+      if (nrow(data) == 0){
+        next
+      }
       ## Save file
       subj <- x$Subject[1]
       SaveAs <- paste(output.dir, "/", taskname, "_", subj, "_PupilData_",
@@ -102,6 +105,9 @@ preprocess <- function(import.dir = NULL, pattern = "*.txt", taskname = NULL,
     } else {
       preprocessing <- preprocessing.stage
       x <- pupil_missing(x, missing.allowed = missing.allowed)
+      if (nrow(data) == 0){
+        next
+      }
       ## Save file
       subj <- x$Subject[1]
       SaveAs <- paste(output.dir, "/", taskname, "_", subj, "_PupilData_",
@@ -162,10 +168,6 @@ preprocess <- function(import.dir = NULL, pattern = "*.txt", taskname = NULL,
     ## Select eyes and filter out trials with too much missing data
     data <- select_eye(data, eye.use = eye.use)
 
-    if (nrow(data) == 0){
-      next
-    }
-
     ## Creates a column that specifies the current stimulus
     ## (based on Messages in the data)
     data <- set_stimuli(data)
@@ -175,6 +177,8 @@ preprocess <- function(import.dir = NULL, pattern = "*.txt", taskname = NULL,
                        pretrial.duration = pretrial.duration)
 
     data <- pupil_deblink(data, extend = deblink.extend)
+
+
 
     ## Save data at this step?
     step <- "deblinked"
