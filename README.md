@@ -22,21 +22,21 @@ devtools::install_github("dr-JT/pupillometry")
 
 ## Eyetracker Support
 
-The format and organization of the raw data file will depend on the type of Eyetracker used. The `read_pupil()` function imports the "messy" raw data file and it's output is a "tidy" raw data file with standardized column and value labels to be used by the other functions. 
+The format and organization of the raw data file will depend on the type of Eyetracker used. The `pupil_read()` function imports the "messy" raw data file and it's output is a "tidy" raw data file with standardized column and value labels to be used by the other functions. 
 
-Currently, `read_pupil()` only supports data exported from BeGaze using an SMI eye-tracker. Support for other eye-trackers will be included in future updates.
+Currently, `pupil_read()` only supports data exported from BeGaze using an SMI eye-tracker. Support for other eye-trackers will be included in future updates.
 
 ## Usage
 
-**`preprocess()` is a wrapper around the other functions to allow full preprocessing of pupil data using a single function.**
+**`pupil_preprocess()` is a wrapper around the other functions to allow full preprocessing of pupil data using a single function.**
 
-As such, you will need to pass many arguments to the `preprocess()` function that specifies all the details and preprocessing options.
+As such, you will need to pass many arguments to the `pupil_preprocess()` function that specifies all the details and preprocessing options.
 
-`preprocess()` will be performed on an entire `import.dir` directory of raw data files that match a certain `pattern`. At various stages of preprocessing the data will be saved to a specified `output.dir` directory.
+`pupil_preprocess()` will be performed on an entire `import.dir` directory of raw data files that match a certain `pattern`. At various stages of preprocessing the data will be saved to a specified `output.dir` directory.
 
-The overall workflow of `preprocess()` is:
+The overall workflow of `pupil_preprocess()` is:
 
-1. **Read** in raw data files `read_pupil()`
+1. **Read** in raw data files `pupil_read()`
 2. Clean up raw data files and more
     - **Correlate** left and right pupil size (if both eyes were recorded from). `pupil_cor()`
     - **Select** either left or right pupil data (if both eyes were recorded from). `select_eye()`
@@ -46,6 +46,7 @@ The overall workflow of `preprocess()` is:
 5. **Interpolate** (if specified). `pupil_interpolate()`
 6. **Baseline Correct** (if specified). `pupil_baselinecorrect()`
 7. Remove trials with too much **Missing Data**. `pupil_missing()`
+8. **Merges** files into a single merged file (if specified). `pupil_merge()`
 
 A final preprocessed data file will be saved for every original raw data file.
 
@@ -68,6 +69,7 @@ subj.suffix <- "-"              ## For SMI eyetrackers
 # File Output Information
 output.dir <- "data/Preprocessed"
 output.steps <- TRUE
+files.merge <- TRUE
 
 # Eyetracker Information
 eyetracker <- "smi"
@@ -100,22 +102,24 @@ trial.exclude <- c()
 
 ############################
 
-preprocess(import.dir = import.dir, pattern = pattern, taskname = taskname, 
-           subj.prefix = subj.prefix, subj.suffix = subj.suffix, 
-           output.dir = output.dir, output.steps = output.steps,
-           eyetracker = eyetracker, hz = hz, eye.use = eye.use, 
-           startrecording.message = startrecording.message, 
-           startrecording.match = startrecording.match,
-           trialonset.message = trialonset.message, 
-           trialonset.match = trialonset.match,
-           pretrial.duration = pretrial.duration, 
-           baselineoffset.message = baselineoffset.message, 
-           baselineoffset.match = baselineoffset.match,
-           deblink.extend = deblink.extend, smooth = smooth,
-           smooth.window = smooth.window, interpolate = interpolate, 
-           interpolate.maxgap = interpolate.maxgap, method.first = method.first, 
-           bc = bc, bc.duration = bc.duration, missing.allowed = missing.allowed, 
-           subset = subset, trial.exclude = trial.exclude)
+pupil_preprocess(import.dir = import.dir, pattern = pattern, taskname = taskname, 
+                 subj.prefix = subj.prefix, subj.suffix = subj.suffix, 
+                 output.dir = output.dir, output.steps = output.steps,
+                 files.merge = files.merge, eyetracker = eyetracker,
+                 hz = hz, eye.use = eye.use, 
+                 startrecording.message = startrecording.message, 
+                 startrecording.match = startrecording.match,
+                 trialonset.message = trialonset.message, 
+                 trialonset.match = trialonset.match,
+                 pretrial.duration = pretrial.duration, 
+                 baselineoffset.message = baselineoffset.message, 
+                 baselineoffset.match = baselineoffset.match,
+                 deblink.extend = deblink.extend, smooth = smooth,
+                 smooth.window = smooth.window, interpolate = interpolate, 
+                 interpolate.maxgap = interpolate.maxgap, 
+                 method.first = method.first, bc = bc, bc.duration = bc.duration, 
+                 missing.allowed = missing.allowed, subset = subset, 
+                 trial.exclude = trial.exclude)
 ```
 
 ## Planned Updates

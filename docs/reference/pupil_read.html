@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Changelog • pupillometry</title>
+<title>Convert "messy" raw data file to "tidy" raw data file — pupil_read • pupillometry</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -36,7 +36,10 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/jquery.mark.min.js" integrity="sha256-4HLtjeVgH0eIB3aZ9mLYF6E8oU5chNdjU6p6rrXpl9U=" crossorigin="anonymous"></script>
 
 
-<meta property="og:title" content="Changelog" />
+<meta property="og:title" content="Convert "messy" raw data file to "tidy" raw data file — pupil_read" />
+
+<meta property="og:description" content="This function converts a &quot;messy&quot; raw eye-tracker data file
+to a &quot;tidy&quot; raw data file." />
 
 <meta property="og:image" content="https://dr-jt.github.io/pupillometry/logo.png" />
 <meta name="twitter:card" content="summary" />
@@ -55,7 +58,7 @@
   </head>
 
   <body>
-    <div class="container template-news">
+    <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -133,110 +136,84 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-      <h1>Changelog <small></small></h1>
-      <small>Source: <a href='https://github.com/dr-JT/pupillometry/blob/master/NEWS.md'><code>NEWS.md</code></a></small>
+    <h1>Convert "messy" raw data file to "tidy" raw data file</h1>
+    <small class="dont-index">Source: <a href='https://github.com/dr-JT/pupillometry/blob/master/R/pupil_read.R'><code>R/pupil_read.R</code></a></small>
+    <div class="hidden name"><code>pupil_read.Rd</code></div>
     </div>
 
-    <div id="pupillometry-030" class="section level1">
-<h1 class="page-header">
-<a href="#pupillometry-030" class="anchor"></a>pupillometry 0.3.0</h1>
-<p>Updated: 05/15/2019</p>
-<ul>
-<li><p>Added <code><a href="../reference/pupil_merge.html">pupil_merge()</a></code></p></li>
-<li><p>Added parameter to <code><a href="../reference/pupil_preprocess.html">pupil_preprocess(files.merge = TRUE)</a></code> to create a single merged output file.</p></li>
-<li><p>Added <code><a href="../reference/pupil_deblink.html">pupil_deblink()</a></code> with the parameter option <code>extend</code></p></li>
-<li><p>Added option to not save data file at each step of preprocessing with paramter argument <code><a href="../reference/pupil_preprocess.html">pupil_preprocess(output.steps = FALSE)</a></code>.</p></li>
-<li><p>Reduced the number of parameters in <code><a href="../reference/pupil_preprocess.html">pupil_preprocess()</a></code></p></li>
-<li><p>Changed <code>preprocess()</code> to <code><a href="../reference/pupil_preprocess.html">pupil_preprocess()</a></code></p></li>
-<li><p>Changed <code>tidy_eyetracker()</code> to <code><a href="../reference/pupil_read.html">pupil_read()</a></code></p></li>
-<li><p>Changed <code>pupil_eye()</code> to <code><a href="../reference/select_eye.html">select_eye()</a></code></p></li>
-</ul>
-</div>
-    <div id="pupillometry-021" class="section level1">
-<h1 class="page-header">
-<a href="#pupillometry-021" class="anchor"></a>pupillometry 0.2.1</h1>
-<p>Updated: 11/13/2018</p>
-<ul>
-<li>
-<p>Changed function names to use "_" rather than “.”</p>
-<p>“.” functions can still be used but have been deprecated.</p>
-</li>
-<li><p>Added <code><a href="../reference/aoi_downsample.html">aoi_downsample()</a></code> function</p></li>
-</ul>
-</div>
-    <div id="pupillometry-020" class="section level1">
-<h1 class="page-header">
-<a href="#pupillometry-020" class="anchor"></a>pupillometry 0.2.0</h1>
-<p>Updated: 10/13/2018</p>
-<ul>
-<li><p>Important update that fixes several bugs</p></li>
-<li><p>Smoothing function was also interpolating. This has been fixed.</p></li>
-<li><p>Added <code>plot.comparison()</code> to visually compare different preprocessing parameters in a convenient way</p></li>
-<li><p>Added <code>pupil.eye()</code> to simplify selecting which eye to use in the final output.</p></li>
-<li><p>Added parameter <code>missing.allowed</code> to <code>preprocess()</code> and <code>pupil.missing()</code> to filter out trials with too much missing data.</p></li>
-<li><p>Added <code>gazedata.include()</code> parameter to import and output gaze position x and y coordinates from original raw data file</p></li>
-<li><p>Other bug fixes and minor changes</p></li>
-</ul>
-</div>
-    <div id="pupillometry-011" class="section level1">
-<h1 class="page-header">
-<a href="#pupillometry-011" class="anchor"></a>pupillometry 0.1.1</h1>
-<p>Updated: 10/11/2018</p>
-<ul>
-<li>
-<p>Added the option to do “divisive” baseline correction</p>
-<p>Paramaters added: <code>preprocess(bc.type = c("subtractive", "divisive"))</code> and <code>pupil.baselinecorrect(bc.type = c("subtractive", "divisive"))</code></p>
-<p>Default: “subtractive”</p>
-</li>
-<li>
-<p>More flexibility to choose the ordering of interpolation and smoothing in <code>preprocess()</code></p>
-<p>Paramaters added: <code>preprocess(method.first = c("smooth", "interpolate"))</code></p>
-</li>
-<li>
-<p>More precise specifications to obtain Subject # from the file name.</p>
-<p>Paramaters added: <code>preprocess(subj.prefix = NULL, subj.suffix = NULL)</code> and <code>tidy_eyetracker(subj.prefix = NULL, subj.suffix = NULL)</code></p>
-<p>If parameters are set as <code>NULL</code> (default), then the entire file name will be used as the Subject #. This is not ideal.</p>
-</li>
-</ul>
-</div>
-    <div id="pupillometry-010" class="section level1">
-<h1 class="page-header">
-<a href="#pupillometry-010" class="anchor"></a>pupillometry 0.1.0</h1>
-<p>Updated: 10/7/2018</p>
-<div id="new-features" class="section level2">
-<h2 class="hasAnchor">
-<a href="#new-features" class="anchor"></a>New Features</h2>
-<ul>
-<li><p>Added <code>startrecording.match</code> parameter to preprocess() and tidy_eyetracker()</p></li>
-<li>
-<p>Added <code>match</code> paramter to set.trial()</p>
-<p>This allows the user to specify whether the <code>startrecording.message</code> is an “exact” or “pattern” match. Default is “exact” match.</p>
-</li>
-</ul>
-</div>
-<div id="added-support" class="section level2">
-<h2 class="hasAnchor">
-<a href="#added-support" class="anchor"></a>Added Support</h2>
-<ul>
-<li>Impproved support for EyeLink 1000 Plus eyetrackers</li>
-</ul>
-</div>
-</div>
-  </div>
+    <div class="ref-description">
+    
+    <p>This function converts a "messy" raw eye-tracker data file
+to a "tidy" raw data file.</p>
+    
+    </div>
 
+    <pre class="usage"><span class='fu'>pupil_read</span>(<span class='no'>file</span>, <span class='kw'>eyetracker</span> <span class='kw'>=</span> <span class='st'>""</span>, <span class='kw'>startrecording.message</span> <span class='kw'>=</span> <span class='st'>"default"</span>,
+  <span class='kw'>startrecording.match</span> <span class='kw'>=</span> <span class='st'>"exact"</span>, <span class='kw'>subj.prefix</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>subj.suffix</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>subset</span> <span class='kw'>=</span> <span class='st'>"default"</span>, <span class='kw'>trial.exclude</span> <span class='kw'>=</span> <span class='fu'>c</span>())</pre>
+    
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>file</th>
+      <td><p>A file path to the raw data export file</p></td>
+    </tr>
+    <tr>
+      <th>eyetracker</th>
+      <td><p>Which eye-tracker system was used to record data?</p></td>
+    </tr>
+    <tr>
+      <th>startrecording.message</th>
+      <td><p>Message used in SMI experiment to
+mark StartTracking inline</p></td>
+    </tr>
+    <tr>
+      <th>startrecording.match</th>
+      <td><p>Should the message string be an
+"exact" match or a "pattern" match?</p></td>
+    </tr>
+    <tr>
+      <th>subj.prefix</th>
+      <td><p>The unique pattern prefix (letter(s)
+and/or symbol(s)) that comes before the subject number in the data file</p></td>
+    </tr>
+    <tr>
+      <th>subj.suffix</th>
+      <td><p>The unique pattern suffix (letter(s) or
+symbol(s)) that comes after the subject number in the data file</p></td>
+    </tr>
+    <tr>
+      <th>subset</th>
+      <td><p>Which columns in the raw data export file do you want to keep</p></td>
+    </tr>
+    <tr>
+      <th>trial.exclude</th>
+      <td><p>Specify if ther are any trials to exclude. Trial number</p></td>
+    </tr>
+    </table>
+    
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>Different eye-trackers will save the raw data file using
+completely different organizations and naming conventions
+This function will create a "tidy" raw data file that has
+a standard organization and naming convention,
+regardless of which eye-tracker was used.
+Supported Eye-Tracker Systems: Sensomotoric Instruments ("smi")
+and SR-Research EyeLink ("eyelink")</p>
+    
+
+  </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
-    <div id="tocnav">
-      <h2>Contents</h2>
-      <ul class="nav nav-pills nav-stacked">
-        <li><a href="#pupillometry-030">0.3.0</a></li>
-        <li><a href="#pupillometry-021">0.2.1</a></li>
-        <li><a href="#pupillometry-020">0.2.0</a></li>
-        <li><a href="#pupillometry-011">0.1.1</a></li>
-        <li><a href="#pupillometry-010">0.1.0</a></li>
-      </ul>
-    </div>
-  </div>
+    <h2>Contents</h2>
+    <ul class="nav nav-pills nav-stacked">
+      <li><a href="#arguments">Arguments</a></li>
+      
+      <li><a href="#details">Details</a></li>
+          </ul>
 
+  </div>
 </div>
 
       <footer>

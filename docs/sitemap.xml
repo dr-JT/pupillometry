@@ -10,9 +10,6 @@
     <loc>https://dr-jt.github.io/pupillometry//reference/plot_comparison.html</loc>
   </url>
   <url>
-    <loc>https://dr-jt.github.io/pupillometry//reference/preprocess.html</loc>
-  </url>
-  <url>
     <loc>https://dr-jt.github.io/pupillometry//reference/pupil_baselinecorrect.html</loc>
   </url>
   <url>
@@ -28,7 +25,16 @@
     <loc>https://dr-jt.github.io/pupillometry//reference/pupil_interpolate.html</loc>
   </url>
   <url>
+    <loc>https://dr-jt.github.io/pupillometry//reference/pupil_merge.html</loc>
+  </url>
+  <url>
     <loc>https://dr-jt.github.io/pupillometry//reference/pupil_missing.html</loc>
+  </url>
+  <url>
+    <loc>https://dr-jt.github.io/pupillometry//reference/pupil_preprocess.html</loc>
+  </url>
+  <url>
+    <loc>https://dr-jt.github.io/pupillometry//reference/pupil_read.html</loc>
   </url>
   <url>
     <loc>https://dr-jt.github.io/pupillometry//reference/pupil_smooth.html</loc>
@@ -38,9 +44,6 @@
   </url>
   <url>
     <loc>https://dr-jt.github.io/pupillometry//reference/pupillometry.html</loc>
-  </url>
-  <url>
-    <loc>https://dr-jt.github.io/pupillometry//reference/read_pupil.html</loc>
   </url>
   <url>
     <loc>https://dr-jt.github.io/pupillometry//reference/select_eye.html</loc>

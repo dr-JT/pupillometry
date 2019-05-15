@@ -47,6 +47,7 @@
 #' @param bc.duration Duration baseline period(s) to use for correction
 #' @param subset Which columns in the raw data output file do you want to keep
 #' @param trial.exclude Specify if ther are any trials to exclude. Trial number
+#' @param files.merge Do you want to create a single merge output file?
 #' @keywords preprocess
 #' @export
 #' @examples
@@ -64,7 +65,7 @@ pupil_preprocess <- function(import.dir = NULL, pattern = "*.txt", taskname = NU
                        bc = NULL, bc.duration = NULL,
                        baselineoffset.message = NULL,
                        baselineoffset.match = "exact", subset = "default",
-                       trial.exclude = c()){
+                       trial.exclude = c(), files.merge = TRUE){
 
   if (is.null(output.dir)){
     output.dir <- export

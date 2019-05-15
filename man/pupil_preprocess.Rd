@@ -14,7 +14,7 @@ pupil_preprocess(import.dir = NULL, pattern = "*.txt",
   interpolate.maxgap = Inf, smooth = NULL, smooth.window = 5,
   method.first = NULL, bc = NULL, bc.duration = NULL,
   baselineoffset.message = NULL, baselineoffset.match = "exact",
-  subset = "default", trial.exclude = c())
+  subset = "default", trial.exclude = c(), files.merge = TRUE)
 }
 \arguments{
 \item{import.dir}{Folder path to raw data files}
@@ -88,6 +88,8 @@ baseline period(s)}
 \item{subset}{Which columns in the raw data output file do you want to keep}
 
 \item{trial.exclude}{Specify if ther are any trials to exclude. Trial number}
+
+\item{files.merge}{Do you want to create a single merge output file?}
 }
 \description{
 This function will perform preprocessing on an entire folder of data files.
