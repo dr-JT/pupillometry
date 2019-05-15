@@ -20,7 +20,7 @@ pupil_deblink <- function(x, extend = 100){
                      blink.end = ifelse(blink == 1 &
                                           !is.na(blink.lead) &
                                           blink.lead == 0, Time, NA),
-                     blink.end = zoo::na.locf(blink.end, na.rm = TRUE),
+                     blink.end = zoo::na.locf(blink.end, na.rm = FALSE),
                      blink = ifelse(!is.na(blink.start) & Time >= blink.start - extend &
                                       Time <= blink.start, 1, blink),
                      blink = ifelse(!is.na(blink.end) & Time <= blink.end + extend &
