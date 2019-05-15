@@ -18,12 +18,16 @@ pupil_interpolate <- function(x, type = "cubic-spline", maxgap = Inf, hz = ""){
   x <- dplyr::group_by(x, Trial)
   if (type=="cubic-spline"){
     x <- dplyr::mutate(x,
+                       Missing.Total = ifelse(is.na(Pupil_Diameter.mm), 1, 0),
+                       Missing.Total = sum(Missing.Total, na.rm = TRUE)/dplyr::n(),
                        index = ifelse(is.na(Pupil_Diameter.mm), NA, dplyr::row_number()),
                        index = zoo::na.approx(index, na.rm = FALSE),
+                       Pupil_Diameter.mm = ifelse(Missing.Total > .9, 999, Pupil_Diameter.mm),
                        Pupil_Diameter.mm = zoo::na.spline(Pupil_Diameter.mm,
                                                           na.rm = FALSE,
                                                           x = index,
-                                                          maxgap = maxgap))
+                                                          maxgap = maxgap),
+                       Pupil_Diameter.mm = ifelse(Missing.Total > .9, NA, Pupil_Diameter.mm))
     x <- dplyr::select(x, -index)
   } else if (type=="linear"){
     x <- dplyr::mutate(x,
