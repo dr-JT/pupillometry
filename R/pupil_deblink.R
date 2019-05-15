@@ -27,6 +27,6 @@ pupil_deblink <- function(x, extend = 100){
                                                   Pupil_Diameter.mm == 0 |
                                                   blink == 1,
                                                 NA, Pupil_Diameter.mm))
-  x <- dplyr::select(-blink, -blink.lag, -blink.lead, -blink.start, -blink.end)
+  x <- dplyr::select(x, -blink, -blink.lag, -blink.lead, -blink.start, -blink.end)
   return(x)
 }
