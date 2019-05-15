@@ -96,7 +96,7 @@ preprocess <- function(import.dir = NULL, pattern = "*.txt", taskname = NULL,
 
       ## Save file
       subj <- x$Subject[1]
-      if (nrow(data) == 0){
+      if (nrow(x) == 0){
         message("No Trials with enough non-missing data. Subject: ", subj)
       } else {
         SaveAs <- paste(output.dir, "/", taskname, "_", subj, "_PupilData_",
@@ -110,7 +110,7 @@ preprocess <- function(import.dir = NULL, pattern = "*.txt", taskname = NULL,
 
       ## Save file
       subj <- x$Subject[1]
-      if (nrow(data) == 0){
+      if (nrow(x) == 0){
         message("No Trials with enough non-missing data. Subject: ", subj)
       } else {
         SaveAs <- paste(output.dir, "/", taskname, "_", subj, "_PupilData_",
