@@ -261,7 +261,10 @@ pupil_preprocess <- function(import.dir = NULL, pattern = "*.txt", taskname = NU
     } else {
       preprocessing <- step
     }
-    SaveAs <- paste(output.dir, taskname, "_PupilData", ".csv", sep = "")
+    split <- stringr::str_split(output.dir, "/")
+    combine <- split[[1]][1:(length(split[[1]])-1)]
+    merged.dir <- paste(combine, sep = "/", collapse = "/")
+    SaveAs <- paste(merged.dir, taskname, "_PupilData", ".csv", sep = "")
     pupil_merge(path = output.dir,
                 pattern = preprocessing,
                 output.file = SaveAs)
