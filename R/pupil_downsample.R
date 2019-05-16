@@ -9,7 +9,7 @@
 #' @examples
 #' pupil_downsample(x, bin.length = 100)
 
-pupil_downsample <- function(x, bin.length = NULL, id = "Subjet"){
+pupil_downsample <- function(x, bin.length = NULL, id = "Subject"){
   colnames(x)[which(colnames(x)==id)] <- "Subject"
   x <- dplyr::group_by(x, Subject, Trial, add = TRUE)
   x <- dplyr::mutate(x,

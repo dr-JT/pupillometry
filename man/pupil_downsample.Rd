@@ -4,7 +4,7 @@
 \alias{pupil_downsample}
 \title{Downsample pupil data}
 \usage{
-pupil_downsample(x, bin.length = NULL, id = "Subjet")
+pupil_downsample(x, bin.length = NULL, id = "Subject")
 }
 \arguments{
 \item{x}{dataframe}
