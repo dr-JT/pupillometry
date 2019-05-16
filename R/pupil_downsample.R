@@ -9,8 +9,9 @@
 #' @examples
 #' pupil_downsample(x, bin.length = 100)
 
-pupil_downsample <- function(x, bin.length = NULL, bc = FALSE){
-  x <- dplyr::group_by(x, Trial, add = TRUE)
+pupil_downsample <- function(x, bin.length = NULL, bc = FALSE, id = "Subjet"){
+  colnames(x)[which(colnames(x)==id)] <- "Subject"
+  x <- dplyr::group_by(x, Subject, Trial, add = TRUE)
   x <- dplyr::mutate(x,
                      TimeBin = trunc(Time/bin.length),
                      TimeBin = ifelse(Time<0, TimeBin - 1, TimeBin),
@@ -22,6 +23,7 @@ pupil_downsample <- function(x, bin.length = NULL, bc = FALSE){
   }
   x <- dplyr::ungroup(x)
   x <- dplyr::select(x, -TimeBin)
-  x <- dplyr::distinct(x, Trial, Time, .keep_all = TRUE)
+  x <- dplyr::distinct(x, Subject, Trial, Time, .keep_all = TRUE)
+  colnames(x)[which(colnames(x)=="Subject")] <- id
   return(x)
 }
