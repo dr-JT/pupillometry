@@ -4,14 +4,14 @@
 \alias{pupil_downsample}
 \title{Downsample pupil data}
 \usage{
-pupil_downsample(x, bin.length = NULL, bc = FALSE)
+pupil_downsample(x, bin.length = NULL, id = "Subjet")
 }
 \arguments{
 \item{x}{dataframe}
 
 \item{bin.length}{Length of bins to average}
 
-\item{bc}{Logical. Was baseline correction done on the data? Is there a column labeled Pupil_Diameter_bc.mm?}
+\item{id}{Column name that identifies subject number}
 }
 \description{
 This function will reduce the sampling fequency
