@@ -42,6 +42,7 @@ subj.suffix <- "-"              ## For SMI eyetrackers
 # File Output Information
 output.dir <- "data/Preprocessed"
 output.steps <- TRUE
+files.merge <- FALSE
 
 # Eyetracker Information
 eyetracker <- "smi"
@@ -74,22 +75,24 @@ trial.exclude <- c()
 
 ############################
 
-preprocess(import.dir = import.dir, pattern = pattern, taskname = taskname, 
-           subj.prefix = subj.prefix, subj.suffix = subj.suffix, 
-           output.dir = output.dir, output.steps = output.steps,
-           eyetracker = eyetracker, hz = hz, eye.use = eye.use, 
-           startrecording.message = startrecording.message, 
-           startrecording.match = startrecording.match,
-           trialonset.message = trialonset.message, 
-           trialonset.match = trialonset.match,
-           pretrial.duration = pretrial.duration, 
-           baselineoffset.message = baselineoffset.message, 
-           baselineoffset.match = baselineoffset.match,
-           deblink.extend = deblink.extend, smooth = smooth,
-           smooth.window = smooth.window, interpolate = interpolate, 
-           interpolate.maxgap = interpolate.maxgap, method.first = method.first, 
-           bc = bc, bc.duration = bc.duration, missing.allowed = missing.allowed, 
-           subset = subset, trial.exclude = trial.exclude)
+pupil_preprocess(import.dir = import.dir, pattern = pattern, taskname = taskname, 
+                 subj.prefix = subj.prefix, subj.suffix = subj.suffix, 
+                 output.dir = output.dir, output.steps = output.steps,
+                 files.merge = files.merge, eyetracker = eyetracker,
+                 hz = hz, eye.use = eye.use, 
+                 startrecording.message = startrecording.message, 
+                 startrecording.match = startrecording.match,
+                 trialonset.message = trialonset.message, 
+                 trialonset.match = trialonset.match,
+                 pretrial.duration = pretrial.duration, 
+                 baselineoffset.message = baselineoffset.message, 
+                 baselineoffset.match = baselineoffset.match,
+                 deblink.extend = deblink.extend, smooth = smooth,
+                 smooth.window = smooth.window, interpolate = interpolate, 
+                 interpolate.maxgap = interpolate.maxgap, 
+                 method.first = method.first, bc = bc, bc.duration = bc.duration, 
+                 missing.allowed = missing.allowed, subset = subset, 
+                 trial.exclude = trial.exclude)
 
 ```
 

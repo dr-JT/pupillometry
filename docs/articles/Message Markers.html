@@ -108,7 +108,7 @@
     
     
 <p>Your data file need to conatain messages that mark the onset/offset of trials, critical stimuli, and events.</p>
-<p>For <code>preprocess()</code> these are the message markers you need to know</p>
+<p>For <code><a href="../reference/pupil_preprocess.html">pupil_preprocess()</a></code> these are the message markers you need to know</p>
 <div id="startrecording-message" class="section level3">
 <h3 class="hasAnchor">
 <a href="#startrecording-message" class="anchor"></a><code>startrecording.message = ""</code>
@@ -116,7 +116,7 @@
 <p>Eye-tracking systems use different defaults for how it marks the start of recording on a trial. This is not necessarily when the trial begins - simply whent the eye-tracker starts recording.</p>
 <p><code>startrecording.message</code> is used to correctly set the trial index in the data file using <code><a href="../reference/set_trial.html">set_trial()</a></code>.</p>
 <p>The SMI default is : “StartTracking.bmp”</p>
-<p>This parameter can be set to <code>preprocess(startrecording.message = "default")</code> to use the eyetracker default. If you are not using the default message then you need to specify the custom string you used.</p>
+<p>This parameter can be set to <code><a href="../reference/pupil_preprocess.html">pupil_preprocess(startrecording.message = "default")</a></code> to use the eyetracker default. If you are not using the default message then you need to specify the custom string you used.</p>
 </div>
 <div id="startrecording-match-cexact-pattern" class="section level3">
 <h3 class="hasAnchor">
@@ -143,7 +143,7 @@
 <a href="#pretrial-duration" class="anchor"></a><code>pretrial.duration = ""</code>
 </h3>
 <p>The duration of the pre-trial period is set relative to the timing of the <code>trialonset.message</code> and that duration is specified by <code>pretrial.duration</code>.</p>
-<p>For instance if <code>preprocess(pretrial.duration = 2000)</code>, then the 2000 milliseconds before <code>trialonset.message</code> will be marked as a pre-trial period. This duration typically corresponds to the duration of the ITI period.</p>
+<p>For instance if <code><a href="../reference/pupil_preprocess.html">pupil_preprocess(pretrial.duration = 2000)</a></code>, then the 2000 milliseconds before <code>trialonset.message</code> will be marked as a pre-trial period. This duration typically corresponds to the duration of the ITI period.</p>
 </div>
 <div id="baselineoffset-message" class="section level3">
 <h3 class="hasAnchor">

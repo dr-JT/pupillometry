@@ -1,6 +1,6 @@
 Package: pupillometry
 Type: Package
-Title: Preprocessing of Pupil Time Series Data
+Title: Preprocessing of Pupil Data
 Version: 0.3.0
 Authors@R: c(
     person("Jason", "Tsukahara", , "jtsukahara3@gatech.edu", role = c("aut", "cre"),

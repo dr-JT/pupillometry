@@ -12,7 +12,7 @@ One question you may have is, what parameters should I specify for each preproce
 
 With `plot_comparison()` you can visually compare how different preprocessing parameters change the shape of the pupil data.
 
-To use `plot_comparison()` you first need to create the preprocessed data files with different parameters (from a single raw data file) with `preprocess()`. You may need to rename the file after running each `preprocess()` so that it doesn't get overwritten. 
+To use `plot_comparison()` you first need to create the preprocessed data files with different parameters (from a single raw data file) with `pupil_preprocess()`. You may need to rename the file after running each `pupil_preprocess()` so that it doesn't get overwritten. 
 
 Parameters:
 
