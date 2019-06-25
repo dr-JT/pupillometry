@@ -80,114 +80,163 @@ pupil_read <- function(file, eyetracker = "",
   if (eyetracker == "smi") {
     ## Import and grab data from the header ####
     header <- readr::read_table(file, col_names = FALSE)
-    samples.total <- as.numeric(strsplit(header$X1[10], "\t")[[1]][2])
-    subj <- subj.extract(file, prefix = subj.prefix, suffix = subj.suffix)
-    head.distance <- as.numeric(strsplit(header$X1[24], "\t")[[1]][2])/10
-    ###################
-    ## Import data and replace [ ] in column names ####
-    # Find where data starts
-    found <- NA
-    checkrow <- 0
-    while (is.na(found)){
-      checkrow <- checkrow + 1
-      found <- match("Time", strsplit(header[checkrow,][[1]], "\t")[[1]][1])
-      datastart <- checkrow
+    if (ncol(header) == 1) {
+      samples.total <- as.numeric(strsplit(header$X1[10], "\t")[[1]][2])
+      subj <- subj.extract(file, prefix = subj.prefix, suffix = subj.suffix)
+      head.distance <- as.numeric(strsplit(header$X1[24], "\t")[[1]][2])/10
+
+      # Find where data starts
+      found <- NA
+      checkrow <- 0
+      while (is.na(found)){
+        checkrow <- checkrow + 1
+        found <- match("Time", strsplit(header[checkrow,][[1]], "\t")[[1]][1])
+        datastart <- checkrow
+      }
+
+      data <- readr::read_delim(file, "\t", escape_double = FALSE,
+                                trim_ws = TRUE, skip = datastart-1,
+                                guess_max = 100000)
+    } else {
+      data <- readr::read_delim(file, "\t", escape_double = FALSE,
+                                trim_ws = TRUE, guess_max = 100000)
     }
-    data <- readr::read_delim(file, "\t", escape_double = FALSE,
-                              trim_ws = TRUE, skip = datastart-1)
+
     names(data) <- gsub(" ", "_", gsub("\\[mm\\]", "mm",
                                        gsub("\\[px\\]", "px", names(data))))
-    message.column <- names(data[4])
-    ###################
-    ## Add info from header, rename, set missing values and select subset of data ####
-    left.recorded <- "L_Pupil_Diameter_mm" %in% colnames(data)
-    right.recorded <- "R_Pupil_Diameter_mm" %in% colnames(data)
-    left.gaze <- "L_POR_X_px" %in% colnames(data)
-    right.gaze <- "R_POR_X_px" %in% colnames(data)
-    if (left.recorded == TRUE & right.recorded == TRUE){
-      data <- dplyr::mutate(data, Subject = subj, Head_Dist.cm = head.distance,
-                            Message = ifelse(get(message.column) >= 0,
-                                             NA,get(message.column)),
-                            L_Event_Info = ifelse((L_Event_Info == "-" |
-                                                     is.na(L_Event_Info)),
-                                                  NA, L_Event_Info),
-                            R_Event_Info = ifelse((R_Event_Info == "-" |
-                                                     is.na(R_Event_Info)),
-                                                  NA, R_Event_Info))
-      data <- dplyr::rename(data,
-                            L_Pupil_Diameter.mm = L_Pupil_Diameter_mm,
-                            L_Event = L_Event_Info,
-                            R_Pupil_Diameter.mm = R_Pupil_Diameter_mm,
-                            R_Event = R_Event_Info)
 
-      if (left.gaze == TRUE & right.gaze == TRUE){
-        data <- dplyr::rename(data,
-                              L_Gaze_Position.x = L_POR_X_px,
-                              L_Gaze_Position.y = L_POR_Y_px,
-                              R_Gaze_Position.x = R_POR_X_px,
-                              R_Gaze_Position.y = R_POR_Y_px,
-                              Gaze.quality = Timing)
-        data <- dplyr::select(data, Subject, Head_Dist.cm, Time, Trial, Message,
-                              L_Pupil_Diameter.mm,
-                              L_Event, R_Pupil_Diameter.mm, R_Event,
-                              L_Gaze_Position.x, L_Gaze_Position.y,
-                              R_Gaze_Position.x, R_Gaze_Position.y,
-                              Gaze.quality)
-      } else {
-        data <- dplyr::select(data, Subject, Head_Dist.cm, Time, Trial, Message,
-                              L_Pupil_Diameter.mm,
-                              L_Event, R_Pupil_Diameter.mm, R_Event)
-      }
-    } else if (left.recorded == TRUE){
-      data <- dplyr::mutate(data, Subject = subj, Head_Dist.cm = head.distance,
-                            Message = ifelse(get(message.column) >= 0,
-                                             NA,get(message.column)),
-                            L_Event_Info = ifelse((L_Event_Info == "-" |
-                                                     is.na(L_Event_Info)),
-                                                  NA, L_Event_Info))
-      data <- dplyr::rename(data,
-                            Pupil_Diameter.mm = L_Pupil_Diameter_mm,
-                            Event = L_Event_Info)
-      if (left.gaze == TRUE){
-        data <- dplyr::rename(data,
-                              Gaze_Position.x = L_POR_X_px,
-                              Gaze_Position.y = L_POR_Y_px,
-                              Gaze.quality = Timing)
-        data <- dplyr::select(data, Subject, Head_Dist.cm, Time, Trial, Message,
-                              Pupil_Diameter.mm,
-                              Event, Gaze_Position.x, Gaze_Position.y,
-                              Gaze.quality)
-      } else {
-        data <- dplyr::select(data, Subject, Head_Dist.cm, Time, Trial, Message,
-                              Pupil_Diameter.mm,
-                              Event)
-      }
+    if ("Time" %in% colnames(data)) {
+      model <- "Red250m"
+    } else if ("Video_Time_[h:m:s:ms]" %in% colnames(data)) {
+      model <- "glasses"
+    }
 
-    } else if (right.recorded == TRUE){
-      data <- dplyr::mutate(data, Subject = subj, Head_Dist.cm = head.distance,
-                            Message = ifelse(get(message.column) >= 0,
-                                             NA,get(message.column)),
-                            R_Event_Info = ifelse((R_Event_Info == "-" |
-                                                     is.na(R_Event_Info)),
-                                                  NA, R_Event_Info))
-      data <- dplyr::rename(data,
-                            Pupil_Diameter.mm = R_Pupil_Diameter_mm,
-                            Event = R_Event_Info)
-      if (right.gaze == TRUE){
+    if (model == "Red250m") {
+      message.column <- names(data[4])
+      ###################
+      ## Add info from header, rename, set missing values and select subset of data ####
+      left.recorded <- "L_Pupil_Diameter_mm" %in% colnames(data)
+      right.recorded <- "R_Pupil_Diameter_mm" %in% colnames(data)
+      left.gaze <- "L_POR_X_px" %in% colnames(data)
+      right.gaze <- "R_POR_X_px" %in% colnames(data)
+      if (left.recorded == TRUE & right.recorded == TRUE){
+        data <- dplyr::mutate(data, Subject = subj, Head_Dist.cm = head.distance,
+                              Message = ifelse(get(message.column) >= 0,
+                                               NA,get(message.column)),
+                              L_Event_Info = ifelse((L_Event_Info == "-" |
+                                                       is.na(L_Event_Info)),
+                                                    NA, L_Event_Info),
+                              R_Event_Info = ifelse((R_Event_Info == "-" |
+                                                       is.na(R_Event_Info)),
+                                                    NA, R_Event_Info))
         data <- dplyr::rename(data,
-                              Gaze_Position.x = R_POR_X_px,
-                              Gaze_Position.y = R_POR_Y_px,
-                              Gaze.quality = Timing)
-        data <- dplyr::select(data, Subject, Head_Dist.cm, Time, Trial, Message,
-                              Pupil_Diameter.mm,
-                              Event, Gaze_Position.x, Gaze_Position.y,
-                              Gaze.quality)
-      } else {
-        data <- dplyr::select(data, Subject, Head_Dist.cm, Time, Trial, Message,
-                              Pupil_Diameter.mm,
-                              Event)
+                              L_Pupil_Diameter.mm = L_Pupil_Diameter_mm,
+                              L_Event = L_Event_Info,
+                              R_Pupil_Diameter.mm = R_Pupil_Diameter_mm,
+                              R_Event = R_Event_Info)
+
+        if (left.gaze == TRUE & right.gaze == TRUE){
+          data <- dplyr::rename(data,
+                                L_Gaze_Position.x = L_POR_X_px,
+                                L_Gaze_Position.y = L_POR_Y_px,
+                                R_Gaze_Position.x = R_POR_X_px,
+                                R_Gaze_Position.y = R_POR_Y_px,
+                                Gaze.quality = Timing)
+          data <- dplyr::select(data, Subject, Head_Dist.cm, Time, Trial, Message,
+                                L_Pupil_Diameter.mm,
+                                L_Event, R_Pupil_Diameter.mm, R_Event,
+                                L_Gaze_Position.x, L_Gaze_Position.y,
+                                R_Gaze_Position.x, R_Gaze_Position.y,
+                                Gaze.quality)
+        } else {
+          data <- dplyr::select(data, Subject, Head_Dist.cm, Time, Trial, Message,
+                                L_Pupil_Diameter.mm,
+                                L_Event, R_Pupil_Diameter.mm, R_Event)
+        }
+      } else if (left.recorded == TRUE){
+        data <- dplyr::mutate(data, Subject = subj, Head_Dist.cm = head.distance,
+                              Message = ifelse(get(message.column) >= 0,
+                                               NA,get(message.column)),
+                              L_Event_Info = ifelse((L_Event_Info == "-" |
+                                                       is.na(L_Event_Info)),
+                                                    NA, L_Event_Info))
+        data <- dplyr::rename(data,
+                              Pupil_Diameter.mm = L_Pupil_Diameter_mm,
+                              Event = L_Event_Info)
+        if (left.gaze == TRUE){
+          data <- dplyr::rename(data,
+                                Gaze_Position.x = L_POR_X_px,
+                                Gaze_Position.y = L_POR_Y_px,
+                                Gaze.quality = Timing)
+          data <- dplyr::select(data, Subject, Head_Dist.cm, Time, Trial, Message,
+                                Pupil_Diameter.mm,
+                                Event, Gaze_Position.x, Gaze_Position.y,
+                                Gaze.quality)
+        } else {
+          data <- dplyr::select(data, Subject, Head_Dist.cm, Time, Trial, Message,
+                                Pupil_Diameter.mm,
+                                Event)
+        }
+
+      } else if (right.recorded == TRUE){
+        data <- dplyr::mutate(data, Subject = subj, Head_Dist.cm = head.distance,
+                              Message = ifelse(get(message.column) >= 0,
+                                               NA,get(message.column)),
+                              R_Event_Info = ifelse((R_Event_Info == "-" |
+                                                       is.na(R_Event_Info)),
+                                                    NA, R_Event_Info))
+        data <- dplyr::rename(data,
+                              Pupil_Diameter.mm = R_Pupil_Diameter_mm,
+                              Event = R_Event_Info)
+        if (right.gaze == TRUE){
+          data <- dplyr::rename(data,
+                                Gaze_Position.x = R_POR_X_px,
+                                Gaze_Position.y = R_POR_Y_px,
+                                Gaze.quality = Timing)
+          data <- dplyr::select(data, Subject, Head_Dist.cm, Time, Trial, Message,
+                                Pupil_Diameter.mm,
+                                Event, Gaze_Position.x, Gaze_Position.y,
+                                Gaze.quality)
+        } else {
+          data <- dplyr::select(data, Subject, Head_Dist.cm, Time, Trial, Message,
+                                Pupil_Diameter.mm,
+                                Event)
+        }
       }
     }
+
+    if (model == "glasses") {
+      data <- dplyr::mutate(data,
+                            Subject = Participant,
+                            Event = dplyr::case_when(Category_Binocular ==
+                                                       "Annotation Interval Start" ~ "-",
+                                                     Category_Binocular ==
+                                                       "Annotation Interval End" ~ "-",
+                                                     Category_Binocular ==
+                                                       "Visual Intake" ~ "Fixation",
+                                                     TRUE ~ Category_Binocular),
+                            L_Pupil_Diameter.mm =
+                              as.numeric(stringr::str_replace(Pupil_Diameter_Left_mm,
+                                                              ",", ".")),
+                            R_Pupil_Diameter.mm =
+                              as.numeric(stringr::str_replace(Pupil_Diameter_Right_mm,
+                                                              ",", ".")),
+                            Gaze_Position.x =
+                              as.numeric(stringr::str_replace(Point_of_Regard_Binocular_X_px,
+                                                              ",", ".")),
+                            Gaze_Position.y =
+                              as.numeric(stringr::str_replace(Point_of_Regard_Binocular_Y_px,
+                                                              ",", ".")),
+                            Time = as.numeric(stringr::str_replace(`RecordingTime_[ms]`,
+                                                                   ",", "")))
+      data <- dplyr::select(data,
+                            Subject = Participant, Time,
+                            Trial, Message = Annotation_Name, L_Pupil_Diameter.mm,
+                            L_Event = Event, R_Pupil_Diameter.mm, R_Event = Event,
+                            Gaze_Position.x, Gaze_Position.y)
+    }
+
+
     ###################
   }
   #########################
