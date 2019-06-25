@@ -30,7 +30,6 @@ pupil_read <- function(file, eyetracker = "",
                        subj.prefix = NULL, subj.suffix = NULL,
                        subset = "default", trial.exclude = c()){
 
-  #### ----- Functions ----- ####
   subj.extract <- function(x, prefix, suffix){
     x <- stringr::str_split(x, "/")[[1]]
     x <- x[length(x)]
@@ -59,7 +58,6 @@ pupil_read <- function(file, eyetracker = "",
     return(subj)
   }
 
-  #### ----- Set Defaults ----- ####
   if (eyetracker == "smi") {
     if (startrecording.message == "default"){
       startrecording.message <- "StartTracking.bmp"
@@ -74,18 +72,15 @@ pupil_read <- function(file, eyetracker = "",
       subset <- "Time"
     }
   }
-  ##################################
 
-  #### ----- SMI ----- ####
   if (eyetracker == "smi") {
-    ## Import and grab data from the header ####
+
     header <- readr::read_table(file, col_names = FALSE)
     if (ncol(header) == 1) {
       samples.total <- as.numeric(strsplit(header$X1[10], "\t")[[1]][2])
       subj <- subj.extract(file, prefix = subj.prefix, suffix = subj.suffix)
       head.distance <- as.numeric(strsplit(header$X1[24], "\t")[[1]][2])/10
 
-      # Find where data starts
       found <- NA
       checkrow <- 0
       while (is.na(found)){
@@ -113,8 +108,6 @@ pupil_read <- function(file, eyetracker = "",
 
     if (model == "Red250m") {
       message.column <- names(data[4])
-      ###################
-      ## Add info from header, rename, set missing values and select subset of data ####
       left.recorded <- "L_Pupil_Diameter_mm" %in% colnames(data)
       right.recorded <- "R_Pupil_Diameter_mm" %in% colnames(data)
       left.gaze <- "L_POR_X_px" %in% colnames(data)
@@ -215,6 +208,8 @@ pupil_read <- function(file, eyetracker = "",
                                                      Category_Binocular ==
                                                        "Visual Intake" ~ "Fixation",
                                                      TRUE ~ Category_Binocular),
+                            L_Event = Event,
+                            R_Event = Event,
                             L_Pupil_Diameter.mm =
                               as.numeric(stringr::str_replace(Pupil_Diameter_Left_mm,
                                                               ",", ".")),
@@ -228,26 +223,25 @@ pupil_read <- function(file, eyetracker = "",
                               as.numeric(stringr::str_replace(Point_of_Regard_Binocular_Y_px,
                                                               ",", ".")),
                             Time = as.numeric(stringr::str_replace(`RecordingTime_[ms]`,
-                                                                   ",", "")))
+                                                                   ",", "")),
+                            L_Gaze_Position.x = Gaze_Position.x,
+                            R_Gaze_Position.x = Gaze_Position.x,
+                            L_Gaze_Position.y = Gaze_Position.y,
+                            R_Gaze_Position.y = Gaze_Position.y)
       data <- dplyr::select(data,
                             Subject = Participant, Time,
                             Trial, Message = Annotation_Name, L_Pupil_Diameter.mm,
-                            L_Event = Event, R_Pupil_Diameter.mm, R_Event = Event,
-                            Gaze_Position.x, Gaze_Position.y)
+                            L_Event, R_Pupil_Diameter.mm, R_Event,
+                            L_Gaze_Position.x, L_Gaze_Position.y,
+                            R_Gaze_Position.x, R_Gaze_Position.y)
     }
-
-
-    ###################
   }
-  #########################
 
-  #### ----- EyeLink ----- ####
   if (eyetracker=="eyelink") {
-    ## Import and grab subject number ####
+
     data <- readr::read_delim(file, "\t", escape_double = FALSE, trim_ws = TRUE, na = ".")
     subj <- subj.extract(file, prefix = subj.prefix, suffix = subj.suffix)
-    ###################
-    ## Add subject, Hz, and event info. rename and select subset of data ####
+
     if (eye.recorded=="both"){
       data <- dplyr::mutate(data, Subject = subj, Trial = NA,
                             L_Event = ifelse(LEFT_IN_BLINK==1,"Blink",
@@ -275,17 +269,12 @@ pupil_read <- function(file, eyetracker = "",
       data <- dplyr::rename(data, Time = TIMESTAMP, Message = SAMPLE_MESSAGE, Pupil_Diameter.mm = RIGHT_PUPIL_SIZE)
       data <- dplyr::select(data, Subject, Time, Trial, subset, Message, Pupil_Diameter.mm, Event)
     }
-    ###################
   }
-  #############################
 
-  ## Remove "# Message: " from message string ####
   data$Message <- gsub("# Message: ", "", data$Message)
 
-  ## Correctly set trial index ####
   data <- set_trial(data, startrecording.message = startrecording.message,
                     match = startrecording.match)
-  ##################
 
   if (!is.null(trial.exclude)){
     data <- dplyr::filter(data, !(Trial %in% trial.exclude))
