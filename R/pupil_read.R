@@ -210,6 +210,7 @@ pupil_read <- function(file, eyetracker = "",
                                                      TRUE ~ Category_Binocular),
                             L_Event = Event,
                             R_Event = Event,
+                            Message = ifelse(Annotation_Name == "-", NA, Annotation_Name),
                             L_Pupil_Diameter.mm =
                               as.numeric(stringr::str_replace(Pupil_Diameter_Left_mm,
                                                               ",", ".")),
@@ -230,7 +231,7 @@ pupil_read <- function(file, eyetracker = "",
                             R_Gaze_Position.y = Gaze_Position.y)
       data <- dplyr::select(data,
                             Subject = Participant, Time,
-                            Trial, Message = Annotation_Name, L_Pupil_Diameter.mm,
+                            Trial, Message, L_Pupil_Diameter.mm,
                             L_Event, R_Pupil_Diameter.mm, R_Event,
                             L_Gaze_Position.x, L_Gaze_Position.y,
                             R_Gaze_Position.x, R_Gaze_Position.y)
