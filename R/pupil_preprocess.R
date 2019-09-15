@@ -124,17 +124,6 @@ pupil_preprocess <- function(import.dir = NULL, pattern = "*.txt", taskname = NU
 
   ###############################
 
-  #### ----- Set Defaults ----- ####
-  if (eyetracker == "smi") {
-    ## SMI uses a timing variable that is 1000*ms
-    ms.conversion <- 1000
-  }
-
-  if (eyetracker == "eyelink") {
-    ## EyeLink uses a timing variable in ms
-    ms.conversion <- 1
-  }
-
 
   ## Get list of data files to be pre-processed
   filelist <- list.files(path = import.dir, pattern = pattern, full.names = TRUE)
@@ -147,6 +136,7 @@ pupil_preprocess <- function(import.dir = NULL, pattern = "*.txt", taskname = NU
                        startrecording.match = startrecording.match,
                        subj.prefix = subj.prefix, subj.suffix = subj.suffix,
                        subset = subset, trial.exclude = trial.exclude)
+
     ## Save tidy data file
     if (output.steps == TRUE) {
       subj <- data$Subject[1]
@@ -177,6 +167,7 @@ pupil_preprocess <- function(import.dir = NULL, pattern = "*.txt", taskname = NU
     ## (based on Messages in the data)
     data <- set_stimuli(data)
     ## Sets the Timing column relative to the onset of each trial
+    ms.conversion <- data$ms.conversion[1]
     data <- set_timing(data, trialonset.message = trialonset.message,
                        match = trialonset.match, ms.conversion = ms.conversion,
                        pretrial.duration = pretrial.duration)

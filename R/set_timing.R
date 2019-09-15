@@ -31,5 +31,6 @@ set_timing <- function(x, trialonset.message = "", ms.conversion = 1, pretrial.d
   x <- dplyr::filter(x, Trial!=0, !is.na(Trial))
   x <- dplyr::select(x, -trialonset.time, -min)
   x <- dplyr::distinct(x, Trial, Time, .keep_all = TRUE)
+  x <- dplyr::filter(x, !is.na(Subject))
   return(x)
 }

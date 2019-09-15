@@ -121,7 +121,8 @@ pupil_read <- function(file, eyetracker = "",
                                                     NA, L_Event_Info),
                               R_Event_Info = ifelse((R_Event_Info == "-" |
                                                        is.na(R_Event_Info)),
-                                                    NA, R_Event_Info))
+                                                    NA, R_Event_Info),
+                              ms.conversion = 1000)
         data <- dplyr::rename(data,
                               L_Pupil_Diameter.mm = L_Pupil_Diameter_mm,
                               L_Event = L_Event_Info,
@@ -140,11 +141,11 @@ pupil_read <- function(file, eyetracker = "",
                                 L_Event, R_Pupil_Diameter.mm, R_Event,
                                 L_Gaze_Position.x, L_Gaze_Position.y,
                                 R_Gaze_Position.x, R_Gaze_Position.y,
-                                Gaze.quality)
+                                Gaze.quality, ms.conversion)
         } else {
           data <- dplyr::select(data, Subject, Head_Dist.cm, Time, Trial, Message,
                                 L_Pupil_Diameter.mm,
-                                L_Event, R_Pupil_Diameter.mm, R_Event)
+                                L_Event, R_Pupil_Diameter.mm, R_Event, ms.conversion)
         }
       } else if (left.recorded == TRUE){
         data <- dplyr::mutate(data, Subject = subj, Head_Dist.cm = head.distance,
@@ -152,7 +153,8 @@ pupil_read <- function(file, eyetracker = "",
                                                NA,get(message.column)),
                               L_Event_Info = ifelse((L_Event_Info == "-" |
                                                        is.na(L_Event_Info)),
-                                                    NA, L_Event_Info))
+                                                    NA, L_Event_Info),
+                              ms.conversion = 1000)
         data <- dplyr::rename(data,
                               Pupil_Diameter.mm = L_Pupil_Diameter_mm,
                               Event = L_Event_Info)
@@ -164,11 +166,11 @@ pupil_read <- function(file, eyetracker = "",
           data <- dplyr::select(data, Subject, Head_Dist.cm, Time, Trial, Message,
                                 Pupil_Diameter.mm,
                                 Event, Gaze_Position.x, Gaze_Position.y,
-                                Gaze.quality)
+                                Gaze.quality, ms.conversion)
         } else {
           data <- dplyr::select(data, Subject, Head_Dist.cm, Time, Trial, Message,
                                 Pupil_Diameter.mm,
-                                Event)
+                                Event, ms.conversion)
         }
 
       } else if (right.recorded == TRUE){
@@ -177,7 +179,8 @@ pupil_read <- function(file, eyetracker = "",
                                                NA,get(message.column)),
                               R_Event_Info = ifelse((R_Event_Info == "-" |
                                                        is.na(R_Event_Info)),
-                                                    NA, R_Event_Info))
+                                                    NA, R_Event_Info),
+                              ms.conversion = 1000)
         data <- dplyr::rename(data,
                               Pupil_Diameter.mm = R_Pupil_Diameter_mm,
                               Event = R_Event_Info)
@@ -189,11 +192,11 @@ pupil_read <- function(file, eyetracker = "",
           data <- dplyr::select(data, Subject, Head_Dist.cm, Time, Trial, Message,
                                 Pupil_Diameter.mm,
                                 Event, Gaze_Position.x, Gaze_Position.y,
-                                Gaze.quality)
+                                Gaze.quality, ms.conversion)
         } else {
           data <- dplyr::select(data, Subject, Head_Dist.cm, Time, Trial, Message,
                                 Pupil_Diameter.mm,
-                                Event)
+                                Event, ms.conversion)
         }
       }
     }
@@ -211,30 +214,24 @@ pupil_read <- function(file, eyetracker = "",
                             L_Event = Event,
                             R_Event = Event,
                             Message = ifelse(Annotation_Name == "-", NA, Annotation_Name),
-                            L_Pupil_Diameter.mm =
-                              as.numeric(stringr::str_replace(Pupil_Diameter_Left_mm,
-                                                              ",", ".")),
-                            R_Pupil_Diameter.mm =
-                              as.numeric(stringr::str_replace(Pupil_Diameter_Right_mm,
-                                                              ",", ".")),
-                            Gaze_Position.x =
-                              as.numeric(stringr::str_replace(Point_of_Regard_Binocular_X_px,
-                                                              ",", ".")),
-                            Gaze_Position.y =
-                              as.numeric(stringr::str_replace(Point_of_Regard_Binocular_Y_px,
-                                                              ",", ".")),
-                            Time = as.numeric(stringr::str_replace(`RecordingTime_[ms]`,
-                                                                   ",", "")),
-                            L_Gaze_Position.x = Gaze_Position.x,
-                            R_Gaze_Position.x = Gaze_Position.x,
-                            L_Gaze_Position.y = Gaze_Position.y,
-                            R_Gaze_Position.y = Gaze_Position.y)
+                            Time = `RecordingTime_[ms]`,
+                            Time = zoo::na.locf(Time, na.rm = FALSE, fromLast = TRUE),
+                            L_Pupil_Diameter.mm = ifelse(Pupil_Diameter_Left_mm == "-", NA, Pupil_Diameter_Left_mm),
+                            R_Pupil_Diameter.mm = ifelse(Pupil_Diameter_Right_mm == "-", NA, Pupil_Diameter_Right_mm),
+                            L_Pupil_Diameter.mm = as.numeric(L_Pupil_Diameter.mm),
+                            R_Pupil_Diameter.mm = as.numeric(R_Pupil_Diameter.mm),
+                            L_Gaze_Position.x = Point_of_Regard_Binocular_X_px,
+                            R_Gaze_Position.x = Point_of_Regard_Binocular_X_px,
+                            L_Gaze_Position.y = Point_of_Regard_Binocular_Y_px,
+                            R_Gaze_Position.y = Point_of_Regard_Binocular_Y_px,
+                            ms.conversion = 1)
       data <- dplyr::select(data,
                             Subject = Participant, Time,
                             Trial, Message, L_Pupil_Diameter.mm,
                             L_Event, R_Pupil_Diameter.mm, R_Event,
                             L_Gaze_Position.x, L_Gaze_Position.y,
-                            R_Gaze_Position.x, R_Gaze_Position.y)
+                            R_Gaze_Position.x, R_Gaze_Position.y,
+                            ms.conversion)
     }
   }
 
@@ -266,7 +263,8 @@ pupil_read <- function(file, eyetracker = "",
       data <- dplyr::mutate(data, Subject = subj, Trial = NA,
                             Event = ifelse(RIGHT_IN_BLINK==1,"Blink",
                                              ifelse(RIGHT_IN_SACCADE==1,"Saccade",
-                                                    ifelse(!is.na(RIGHT_FIX_INDEX),"Fixation",NA))))
+                                                    ifelse(!is.na(RIGHT_FIX_INDEX),"Fixation",NA))),
+                            ms.conversion = 1)
       data <- dplyr::rename(data, Time = TIMESTAMP, Message = SAMPLE_MESSAGE, Pupil_Diameter.mm = RIGHT_PUPIL_SIZE)
       data <- dplyr::select(data, Subject, Time, Trial, subset, Message, Pupil_Diameter.mm, Event)
     }
