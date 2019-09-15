@@ -55,7 +55,7 @@
 #'
 pupil_preprocess <- function(import.dir = NULL, pattern = "*.txt", taskname = NULL,
                        subj.prefix = NULL, subj.suffix = NULL, output.dir = NULL,
-                       output.steps = TRUE, eyetracker = NULL, hz = NULL,
+                       output.steps = FALSE, eyetracker = NULL, hz = NULL,
                        eye.use = NULL, startrecording.message = "default",
                        startrecording.match = "exact", trialonset.message = NULL,
                        trialonset.match = "exact", deblink.extend = 100,
@@ -65,7 +65,7 @@ pupil_preprocess <- function(import.dir = NULL, pattern = "*.txt", taskname = NU
                        bc = NULL, bc.duration = NULL,
                        baselineoffset.message = NULL,
                        baselineoffset.match = "exact", subset = "default",
-                       trial.exclude = c(), files.merge = TRUE){
+                       trial.exclude = c(), files.merge = FALSE){
 
   if (is.null(output.dir)){
     output.dir <- export
