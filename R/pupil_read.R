@@ -102,7 +102,7 @@ pupil_read <- function(file, eyetracker = "",
 
     if ("Time" %in% colnames(data)) {
       model <- "Red250m"
-    } else if ("RecordingTime [ms]" %in% colnames(data)) {
+    } else {
       model <- "glasses"
     }
 
