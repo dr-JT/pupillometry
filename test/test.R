@@ -1,11 +1,11 @@
-# devtools::install_github("dr-JT/pupillometry")
+devtools::install_github("dr-JT/pupillometry", ref = "dev")
 
 library(pupillometry)
 
 ## Preprocessing parameters
 
 # File Import Information
-import.dir <- "data/Raw"
+import.dir <- "test/Raw"
 pattern <- "*.txt"
 taskname <- "Pitch_Discrimination"
 
@@ -19,7 +19,7 @@ subj.suffix <- "-"              ## For SMI eyetrackers
 timing.file <- NULL
 
 # File Output Information
-output.dir <- "data/Preprocessed"
+output.dir <- "test/Preprocessed"
 output.steps <- FALSE
 files.merge <- FALSE
 
