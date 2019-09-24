@@ -303,8 +303,10 @@ pupil_read <- function(file, eyetracker = "",
                                        Message = starttracking.message)
     starttrack_timing <- dplyr::select(starttrack_timing, Trial, Time, Message)
     data <- dplyr::full_join(data, starttrack_timing, by = "Trial")
-    data <- dplyr::mutate(data, Time = dplyr::coalesce(Time.x, Time.y))
-    data <- dplyr::select(data, -Time.x, -Time.y)
+    data <- dplyr::mutate(data,
+                          Time = dplyr::coalesce(Time.x, Time.y),
+                          Message = dplyr::coalesce(Message.x, Message.y))
+    data <- dplyr::select(data, -Time.x, -Time.y, -Message.x, -Message.y)
     data <- dplyr::arrange(data, Subject, Trial, Time)
   }
   if (starttracking.match == "exact"){
@@ -345,8 +347,10 @@ pupil_read <- function(file, eyetracker = "",
                                      Message = message)
       message_start <- dplyr::select(message_start, Trial, Time, Message)
       data <- dplyr::full_join(data, message_start, by = "Trial")
-      data <- dplyr::mutate(data, Time = dplyr::coalesce(Time.x, Time.y))
-      data <- dplyr::select(data, -Time.x, -Time.y)
+      data <- dplyr::mutate(data,
+                            Time = dplyr::coalesce(Time.x, Time.y),
+                            Message = dplyr::coalesce(Message.x, Message.y))
+      data <- dplyr::select(data, -Time.x, -Time.y, -Message.x, -Message.y)
       data <- dplyr::arrange(data, Subject, Trial, Time)
     }
   }
