@@ -302,7 +302,9 @@ pupil_read <- function(file, eyetracker = "",
                                        Time = get(starttracking.message),
                                        Message = starttracking.message)
     starttrack_timing <- dplyr::select(starttrack_timing, Trial, Time, Message)
-    data <- dplyr::bind_rows(data, starttrack_timing)
+    data <- dplyr::full_join(data, starttrack_timing, by = "Trial")
+    data <- dplyr::mutate(data, Time = dplyr::coalesce(Time.x, Time.y))
+    data <- dplyr::select(data, -Time.x, -Time.y)
     data <- dplyr::arrange(data, Subject, Trial, Time)
   }
   if (starttracking.match == "exact"){
@@ -342,7 +344,9 @@ pupil_read <- function(file, eyetracker = "",
                                                    Time + get(message)),
                                      Message = message)
       message_start <- dplyr::select(message_start, Trial, Time, Message)
-      data <- dplyr::bind_rows(data, message_start)
+      data <- dplyr::full_join(data, message_start, by = "Trial")
+      data <- dplyr::mutate(data, Time = dplyr::coalesce(Time.x, Time.y))
+      data <- dplyr::select(data, -Time.x, -Time.y)
       data <- dplyr::arrange(data, Subject, Trial, Time)
     }
   }
