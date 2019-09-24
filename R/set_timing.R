@@ -13,6 +13,7 @@
 
 set_timing <- function(x, trialonset.message = NULL, ms.conversion = 1,
                        pretrial.duration = 0, match = "exact"){
+  x <- dplyr::select(x, -ms_conversion)
   pretrial.duration <- abs(pretrial.duration)*-1
 
   x <- dplyr::group_by(x, Trial)

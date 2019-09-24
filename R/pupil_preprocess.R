@@ -159,7 +159,6 @@ pupil_preprocess <- function(import.dir = NULL, pattern = "*.txt",
 
     ## Sets the Timing column relative to the onset of each trial
     ms.conversion <- data$ms_conversion[1]
-    data <- select(data, -ms_conversion)
     data <- set_timing(data, trialonset.message = trialonset.message,
                        match = trialonset.match, ms.conversion = ms.conversion,
                        pretrial.duration = pretrial.duration)
