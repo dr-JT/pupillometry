@@ -335,7 +335,7 @@ pupil_read <- function(file, eyetracker = "",
                                      Message, starttracking.time)
       message_start <- merge(timing_data, message_start, by = "Trial")
       message_start <- dplyr::mutate(message_start,
-                                     check = ifelse(Time - starttracking.time > 0,
+                                     check = ifelse(get(message) - starttracking.time > 0,
                                                     "abs", "rel"),
                                      Time = ifelse(check == "abs",
                                                    get(message),
