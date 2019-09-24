@@ -16,7 +16,7 @@
 #' @param hz At which frequency was pupil data sampled at?
 #'     (only required for interpolation and smoothing)
 #' @param eye.use Which eye to use? Left or right
-#' @param startrecording.message Message used in SMI experiment
+#' @param starttracking.message Message used in SMI experiment
 #'     to mark StartTracking inline
 #' @param startrecording.match Should the message string be an "exact"
 #'     match or a "pattern" match?
@@ -40,11 +40,11 @@
 #'     (default: NULL)
 #' @param bc Do you want to use "subtractive" or "divisive"
 #'     baseline correction? (default: "subtractive")
-#' @param baselineoffset.message Message string(s) that marks the offset of
+#' @param bconset.message Message string(s) that marks the offset of
 #'     baseline period(s)
-#' @param baselineoffset.match Message string(s) that marks the offset of
+#' @param bconset.match Message string(s) that marks the offset of
 #'     baseline period(s)
-#' @param bc.duration Duration baseline period(s) to use for correction
+#' @param prebc.duration Duration baseline period(s) to use for correction
 #' @param subset Which columns in the raw data output file do you want to keep
 #' @param trial.exclude Specify if ther are any trials to exclude. Trial number
 #' @param files.merge Do you want to create a single merge output file?
@@ -53,19 +53,20 @@
 #' @examples
 #'
 #'
-pupil_preprocess <- function(import.dir = NULL, pattern = "*.txt", taskname = NULL,
-                       subj.prefix = NULL, subj.suffix = NULL, output.dir = NULL,
-                       output.steps = FALSE, eyetracker = NULL, hz = NULL,
-                       eye.use = NULL, startrecording.message = "default",
-                       startrecording.match = "exact", trialonset.message = NULL,
-                       trialonset.match = "exact", deblink.extend = 100,
-                       pretrial.duration = NULL, missing.allowed = 1,
-                       interpolate = NULL, interpolate.maxgap = Inf,
-                       smooth = NULL, smooth.window = 5, method.first = NULL,
-                       bc = NULL, bc.duration = NULL,
-                       baselineoffset.message = NULL,
-                       baselineoffset.match = "exact", subset = "default",
-                       trial.exclude = c(), files.merge = FALSE){
+pupil_preprocess <- function(import.dir = NULL, pattern = "*.txt",
+                             taskname = NULL, subj.prefix = NULL,
+                             subj.suffix = NULL, output.dir = NULL,
+                             output.steps = FALSE, eyetracker = NULL, hz = NULL,
+                             eye.use = NULL, starttracking.message = "default",
+                             startrecording.match = "exact",
+                             trialonset.message = NULL, trialonset.match = "exact",
+                             deblink.extend = 100, pretrial.duration = NULL,
+                             missing.allowed = 1, interpolate = NULL,
+                             interpolate.maxgap = Inf, smooth = NULL,
+                             smooth.window = 5, method.first = NULL, bc = NULL,
+                             prebc.duration = NULL, bconset.message = NULL,
+                             bconset.match = "exact", subset = "default",
+                             trial.exclude = c(), files.merge = FALSE){
 
   if (is.null(output.dir)){
     output.dir <- export
@@ -90,9 +91,9 @@ pupil_preprocess <- function(import.dir = NULL, pattern = "*.txt", taskname = NU
   saveData <- function(x, preprocessing.stage = ""){
     if (!is.null(bc)){
       preprocessing <- paste(preprocessing.stage, "bc", sep = ".")
-      x <- pupil_baselinecorrect(x, message = baselineoffset.message,
-                                 match = baselineoffset.match,
-                                 duration = bc.duration, type = bc)
+      x <- pupil_baselinecorrect(x, message = bconset.message,
+                                 match = bconset.match,
+                                 pre.duration = prebc.duration, type = bc)
       x <- pupil_missing(x, missing.allowed = missing.allowed)
 
       ## Save file
@@ -124,28 +125,19 @@ pupil_preprocess <- function(import.dir = NULL, pattern = "*.txt", taskname = NU
 
   ###############################
 
-
   ## Get list of data files to be pre-processed
-  filelist <- list.files(path = import.dir, pattern = pattern, full.names = TRUE)
+  filelist <- list.files(path = import.dir, pattern = pattern,
+                         full.names = TRUE)
   for (file in filelist){
     #### ----- Create Tidy Raw Data ----- ####
 
     ## Convert messy to tidy
     data <- pupil_read(file, eyetracker = eyetracker,
-                       startrecording.message = startrecording.message,
+                       starttracking.message = starttracking.message,
                        startrecording.match = startrecording.match,
                        subj.prefix = subj.prefix, subj.suffix = subj.suffix,
+                       timing.file = timing.file,
                        subset = subset, trial.exclude = trial.exclude)
-
-    ## Save tidy data file
-    if (output.steps == TRUE) {
-      subj <- data$Subject[1]
-      SaveAs <- paste(output.dir, "/", taskname, "_",
-                      subj, "_PupilData.csv", sep = "")
-      readr::write_csv(data, SaveAs)
-      rm(SaveAs)
-    }
-    ###########################################
 
     #### ----- Preprocessing procedures ----- ####
 
@@ -163,14 +155,28 @@ pupil_preprocess <- function(import.dir = NULL, pattern = "*.txt", taskname = NU
     ## Select eyes and filter out trials with too much missing data
     data <- select_eye(data, eye.use = eye.use)
 
-    ## Creates a column that specifies the current stimulus
-    ## (based on Messages in the data)
-    data <- set_stimuli(data)
     ## Sets the Timing column relative to the onset of each trial
-    ms.conversion <- data$ms.conversion[1]
+    ms.conversion <- data$ms_conversion[1]
+    data <- select(data, -ms_conversion)
     data <- set_timing(data, trialonset.message = trialonset.message,
                        match = trialonset.match, ms.conversion = ms.conversion,
                        pretrial.duration = pretrial.duration)
+
+    ## Creates a column that specifies the current stimulus
+    ## (based on Messages in the data)
+    data <- set_stimuli(data)
+
+    ## Add a function to add message markers?
+
+    ## Save tidy data file
+    if (output.steps == TRUE) {
+      subj <- data$Subject[1]
+      SaveAs <- paste(output.dir, "/", taskname, "_",
+                      subj, "_PupilData.csv", sep = "")
+      readr::write_csv(data, SaveAs)
+      rm(SaveAs)
+    }
+    ###########################################
 
     data <- pupil_deblink(data, extend = deblink.extend)
 
@@ -255,7 +261,8 @@ pupil_preprocess <- function(import.dir = NULL, pattern = "*.txt", taskname = NU
     split <- stringr::str_split(output.dir, "/")
     combine <- split[[1]][1:(length(split[[1]])-1)]
     merged.dir <- paste(combine, sep = "/", collapse = "/")
-    SaveAs <- paste(merged.dir, "/", taskname, "_Pupil_Preprocessed", ".csv", sep = "")
+    SaveAs <- paste(merged.dir, "/", taskname,
+                    "_Pupil_Preprocessed", ".csv", sep = "")
     pupil_merge(path = output.dir,
                 pattern = preprocessing,
                 output.file = SaveAs)

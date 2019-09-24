@@ -3,7 +3,7 @@
 #' This function applies a pre-trial baseline correction on the data
 #' @param x dataframe
 #' @param message Message string(s) that marks the offset of baseline period(s)
-#' @param duration Duration baseline period(s) to use for correction
+#' @param pre.duration Duration baseline period(s) to use for correction
 #' @param type Do you want to use "subtractive" or "divisive" baseline correction? (default: "subtractive")
 #' @param match Should the message string be an "exact" match or a "pattern" match?
 #' @keywords baseline
@@ -11,7 +11,8 @@
 #' @examples
 #' pupil_baselinecorrect(file = "path/filename", baseline.duration = 2000, start.trial = "# Message: Target")
 
-pupil_baselinecorrect <- function(x, message = "", duration = 200, type = "subtractive", match = "exact"){
+pupil_baselinecorrect <- function(x, message = "", pre.duration = 200,
+                                  type = "subtractive", match = "exact"){
   baselines.n <- length(message)
   x <- dplyr::group_by(x, Trial)
   x <- dplyr::mutate(x, PreTarget=0, Target=0)
@@ -28,7 +29,7 @@ pupil_baselinecorrect <- function(x, message = "", duration = 200, type = "subtr
                        baselineoffset.time = zoo::na.locf(baselineoffset.time, na.rm = FALSE),
                        baselineoffset.time = zoo::na.locf(baselineoffset.time, na.rm = FALSE, fromLast = TRUE),
                        baselineoffset.time = ifelse(is.infinite(min), Inf, baselineoffset.time),
-                       PreTarget = ifelse(Time >= (baselineoffset.time-duration) & Time < baselineoffset.time, n, PreTarget),
+                       PreTarget = ifelse(Time >= (baselineoffset.time-pre.duration) & Time < baselineoffset.time, n, PreTarget),
                        Target = ifelse(Time >= baselineoffset.time, n, Target))
   }
   x <- dplyr::group_by(x, Trial, PreTarget)

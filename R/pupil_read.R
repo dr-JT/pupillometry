@@ -12,9 +12,9 @@
 #' and SR-Research EyeLink ("eyelink")
 #' @param file A file path to the raw data export file
 #' @param eyetracker Which eye-tracker system was used to record data?
-#' @param startrecording.message Message used in SMI experiment to
+#' @param starttracking.message Message used in SMI experiment to
 #'     mark StartTracking inline
-#' @param startrecording.match Should the message string be an
+#' @param starttracking.match Should the message string be an
 #'     "exact" match or a "pattern" match?
 #' @param subj.prefix The unique pattern prefix (letter(s)
 #'     and/or symbol(s)) that comes before the subject number in the data file
@@ -25,8 +25,8 @@
 #' @export
 
 pupil_read <- function(file, eyetracker = "",
-                       startrecording.message = "default",
-                       startrecording.match = "exact",
+                       starttracking.message = "default",
+                       starttracking.match = "exact",
                        subj.prefix = NULL, subj.suffix = NULL,
                        subset = "default", trial.exclude = c()){
 
@@ -59,19 +59,21 @@ pupil_read <- function(file, eyetracker = "",
   }
 
   if (eyetracker == "smi") {
-    if (startrecording.message == "default"){
-      startrecording.message <- "StartTracking.bmp"
+    if (starttracking.message == "default"){
+      starttracking.message <- "StartTracking.bmp"
     }
   }
 
   if (eyetracker == "eyelink") {
-    if (startrecording.message == "default"){
-      startrecording.message <- "TRIALID"
+    if (starttracking.message == "default"){
+      starttracking.message <- "TRIALID"
     }
     if (subset == "default"){
       subset <- "Time"
     }
   }
+
+
 
   if (eyetracker == "smi") {
 
@@ -122,7 +124,7 @@ pupil_read <- function(file, eyetracker = "",
                               R_Event_Info = ifelse((R_Event_Info == "-" |
                                                        is.na(R_Event_Info)),
                                                     NA, R_Event_Info),
-                              ms.conversion = 1000)
+                              ms_conversion = 1000)
         data <- dplyr::rename(data,
                               L_Pupil_Diameter.mm = L_Pupil_Diameter_mm,
                               L_Event = L_Event_Info,
@@ -141,11 +143,11 @@ pupil_read <- function(file, eyetracker = "",
                                 L_Event, R_Pupil_Diameter.mm, R_Event,
                                 L_Gaze_Position.x, L_Gaze_Position.y,
                                 R_Gaze_Position.x, R_Gaze_Position.y,
-                                Gaze.quality, ms.conversion)
+                                Gaze.quality, ms_conversion)
         } else {
           data <- dplyr::select(data, Subject, Head_Dist.cm, Time, Trial, Message,
                                 L_Pupil_Diameter.mm,
-                                L_Event, R_Pupil_Diameter.mm, R_Event, ms.conversion)
+                                L_Event, R_Pupil_Diameter.mm, R_Event, ms_conversion)
         }
       } else if (left.recorded == TRUE){
         data <- dplyr::mutate(data, Subject = subj, Head_Dist.cm = head.distance,
@@ -154,7 +156,7 @@ pupil_read <- function(file, eyetracker = "",
                               L_Event_Info = ifelse((L_Event_Info == "-" |
                                                        is.na(L_Event_Info)),
                                                     NA, L_Event_Info),
-                              ms.conversion = 1000)
+                              ms_conversion = 1000)
         data <- dplyr::rename(data,
                               Pupil_Diameter.mm = L_Pupil_Diameter_mm,
                               Event = L_Event_Info)
@@ -166,11 +168,11 @@ pupil_read <- function(file, eyetracker = "",
           data <- dplyr::select(data, Subject, Head_Dist.cm, Time, Trial, Message,
                                 Pupil_Diameter.mm,
                                 Event, Gaze_Position.x, Gaze_Position.y,
-                                Gaze.quality, ms.conversion)
+                                Gaze.quality, ms_conversion)
         } else {
           data <- dplyr::select(data, Subject, Head_Dist.cm, Time, Trial, Message,
                                 Pupil_Diameter.mm,
-                                Event, ms.conversion)
+                                Event, ms_conversion)
         }
 
       } else if (right.recorded == TRUE){
@@ -180,7 +182,7 @@ pupil_read <- function(file, eyetracker = "",
                               R_Event_Info = ifelse((R_Event_Info == "-" |
                                                        is.na(R_Event_Info)),
                                                     NA, R_Event_Info),
-                              ms.conversion = 1000)
+                              ms_conversion = 1000)
         data <- dplyr::rename(data,
                               Pupil_Diameter.mm = R_Pupil_Diameter_mm,
                               Event = R_Event_Info)
@@ -192,11 +194,11 @@ pupil_read <- function(file, eyetracker = "",
           data <- dplyr::select(data, Subject, Head_Dist.cm, Time, Trial, Message,
                                 Pupil_Diameter.mm,
                                 Event, Gaze_Position.x, Gaze_Position.y,
-                                Gaze.quality, ms.conversion)
+                                Gaze.quality, ms_conversion)
         } else {
           data <- dplyr::select(data, Subject, Head_Dist.cm, Time, Trial, Message,
                                 Pupil_Diameter.mm,
-                                Event, ms.conversion)
+                                Event, ms_conversion)
         }
       }
     }
@@ -204,34 +206,43 @@ pupil_read <- function(file, eyetracker = "",
     if (model == "glasses") {
       data <- dplyr::mutate(data,
                             Subject = Participant,
-                            Event = dplyr::case_when(Category_Binocular ==
-                                                       "Annotation Interval Start" ~ "-",
-                                                     Category_Binocular ==
-                                                       "Annotation Interval End" ~ "-",
-                                                     Category_Binocular ==
-                                                       "Visual Intake" ~ "Fixation",
+                            Event =
+                              dplyr::case_when(Category_Binocular ==
+                                                 "Annotation Interval Start"
+                                               ~ "-",
+                                               Category_Binocular ==
+                                                 "Annotation Interval End"
+                                               ~ "-",
+                                               Category_Binocular ==
+                                                 "Visual Intake" ~ "Fixation",
                                                      TRUE ~ Category_Binocular),
                             L_Event = Event,
                             R_Event = Event,
-                            Message = ifelse(Annotation_Name == "-", NA, Annotation_Name),
+                            Message = ifelse(Annotation_Name == "-", NA,
+                                             Annotation_Name),
                             Time = `RecordingTime_[ms]`,
-                            Time = zoo::na.locf(Time, na.rm = FALSE, fromLast = TRUE),
-                            L_Pupil_Diameter.mm = ifelse(Pupil_Diameter_Left_mm == "-", NA, Pupil_Diameter_Left_mm),
-                            R_Pupil_Diameter.mm = ifelse(Pupil_Diameter_Right_mm == "-", NA, Pupil_Diameter_Right_mm),
+                            Time = zoo::na.locf(Time, na.rm = FALSE,
+                                                fromLast = TRUE),
+                            L_Pupil_Diameter.mm =
+                              ifelse(Pupil_Diameter_Left_mm == "-", NA,
+                                     Pupil_Diameter_Left_mm),
+                            R_Pupil_Diameter.mm =
+                              ifelse(Pupil_Diameter_Right_mm == "-", NA,
+                                     Pupil_Diameter_Right_mm),
                             L_Pupil_Diameter.mm = as.numeric(L_Pupil_Diameter.mm),
                             R_Pupil_Diameter.mm = as.numeric(R_Pupil_Diameter.mm),
                             L_Gaze_Position.x = Point_of_Regard_Binocular_X_px,
                             R_Gaze_Position.x = Point_of_Regard_Binocular_X_px,
                             L_Gaze_Position.y = Point_of_Regard_Binocular_Y_px,
                             R_Gaze_Position.y = Point_of_Regard_Binocular_Y_px,
-                            ms.conversion = 1)
+                            ms_conversion = 1)
       data <- dplyr::select(data,
                             Subject = Participant, Time,
                             Trial, Message, L_Pupil_Diameter.mm,
                             L_Event, R_Pupil_Diameter.mm, R_Event,
                             L_Gaze_Position.x, L_Gaze_Position.y,
                             R_Gaze_Position.x, R_Gaze_Position.y,
-                            ms.conversion)
+                            ms_conversion)
     }
   }
 
@@ -264,7 +275,7 @@ pupil_read <- function(file, eyetracker = "",
                             Event = ifelse(RIGHT_IN_BLINK==1,"Blink",
                                              ifelse(RIGHT_IN_SACCADE==1,"Saccade",
                                                     ifelse(!is.na(RIGHT_FIX_INDEX),"Fixation",NA))),
-                            ms.conversion = 1)
+                            ms_conversion = 1)
       data <- dplyr::rename(data, Time = TIMESTAMP, Message = SAMPLE_MESSAGE, Pupil_Diameter.mm = RIGHT_PUPIL_SIZE)
       data <- dplyr::select(data, Subject, Time, Trial, subset, Message, Pupil_Diameter.mm, Event)
     }
@@ -272,8 +283,70 @@ pupil_read <- function(file, eyetracker = "",
 
   data$Message <- gsub("# Message: ", "", data$Message)
 
-  data <- set_trial(data, startrecording.message = startrecording.message,
-                    match = startrecording.match)
+  ## Set Trial at starttracking.message
+  if (stringr::str_detect(timing.file, "csv")) {
+    timing_data <- readr::read_csv(timing.file)
+  } else {
+    timing_data <- data.frame()
+  }
+  if ("Subject" %in% colnames(timing_data)) {
+    subj <- data$Subject[1]
+    timing_data <- dplyr::filter(timing_data, Subject == subj)
+  }
+  if (ncol(timing_data) > 0) {
+    starttrack_timing <- dplyr::mutate(timing_data,
+                                       Time = get(starttracking.message),
+                                       Message = starttracking.message)
+    starttrack_timing <- dplyr::select(starttrack_timing, Trial, Time, Message)
+    data <- dplyr::bind_rows(data, starttrack_timing)
+    data <- dplyr::arrange(data, Subject, Trial, Time)
+  }
+  if (starttracking.match == "exact"){
+    data <- dplyr::mutate(data,
+                          starttracking.time =
+                            ifelse(Message == starttracking.message, Time, NA))
+  } else if (starttracking.match == "pattern"){
+    data <- dplyr::mutate(data,
+                          starttracking.time =
+                            ifelse(stringr::str_detect(Message,
+                                                       starttracking.message),
+                                   Time, NA))
+  }
+  data <- dplyr::mutate(data,
+                        starttracking.time = zoo::na.locf(starttracking.time,
+                                                           na.rm = FALSE),
+                        Trial = dplyr::dense_rank(starttracking.time))
+
+  if (ncol(timing_data) > 0) {
+    ## Set other trial markers based on timing.file
+    message_markers <- stringr::str_subset(colnames(timing_data), "Subject",
+                                           negate=TRUE)
+    message_markers <- stringr::str_subset(message_markers,
+                                           "Trial", negate = TRUE)
+    message_markers <- stringr::str_subset(message_markers,
+                                           starttracking.message, negate = TRUE)
+    for (message in message_markers) {
+      message_start <- dplyr::filter(data, Message == starttracking.message)
+      message_start <- dplyr::select(message_start, Trial, Time,
+                                     Message, starttracking.time)
+      message_start <- merge(timing_data, message_start, by = "Trial")
+      message_start <- dplyr::mutate(message_start,
+                                     check = ifelse(Time - starttracking.time > 0,
+                                                    "abs", "rel"),
+                                     Time = ifelse(check == "abs",
+                                                   get(message),
+                                                   Time + get(message)),
+                                     Message = message)
+      message_start <- dplyr::select(message_start, Trial, Time, Message)
+      data <- dplyr::bind_rows(data, message_start)
+      data <- dplyr::arrange(data, Subject, Trial, Time)
+    }
+  }
+
+  data <- dplyr::select(data, -starttracking.time)
+  data <- dplyr::mutate(data,
+                        Subject = zoo::na.locf(Subject, na.rm = FALSE),
+                        Trial = zoo::na.locf(Trial, na.rm = FALSE))
 
   if (!is.null(trial.exclude)){
     data <- dplyr::filter(data, !(Trial %in% trial.exclude))
