@@ -10,6 +10,8 @@
 #'     that comes before the subject number in the data file
 #' @param subj.suffix The unique pattern suffix (letter(s) or symbol(s))
 #'     that comes after the subject number in the data file
+#' @param timing.file File location and name that contains timing
+#'     information for message markers
 #' @param output.dir Folder path to output preprocessed data to
 #' @param output.steps Output files for each step in preprocessing?
 #' @param eyetracker Which eye-tracker was used to record data
@@ -18,7 +20,7 @@
 #' @param eye.use Which eye to use? Left or right
 #' @param starttracking.message Message used in SMI experiment
 #'     to mark StartTracking inline
-#' @param startrecording.match Should the message string be an "exact"
+#' @param starttracking.match Should the message string be an "exact"
 #'     match or a "pattern" match?
 #' @param trialonset.message Message string that marks the start of a trial
 #' @param trialonset.match Should the message string be an "exact"
@@ -54,10 +56,11 @@
 
 pupil_preprocess <- function(import.dir = NULL, pattern = "*.txt",
                              taskname = NULL, subj.prefix = NULL,
-                             subj.suffix = NULL, output.dir = NULL,
-                             output.steps = FALSE, eyetracker = NULL, hz = NULL,
-                             eye.use = NULL, starttracking.message = "default",
-                             startrecording.match = "exact",
+                             subj.suffix = NULL, timing.file = NULL,
+                             output.dir = NULL, output.steps = FALSE,
+                             eyetracker = NULL, hz = NULL, eye.use = NULL,
+                             starttracking.message = "default",
+                             starttracking.match = "exact",
                              trialonset.message = NULL, trialonset.match = "exact",
                              deblink.extend = 100, pretrial.duration = NULL,
                              missing.allowed = 1, interpolate = NULL,
@@ -133,7 +136,7 @@ pupil_preprocess <- function(import.dir = NULL, pattern = "*.txt",
     ## Convert messy to tidy
     data <- pupil_read(file, eyetracker = eyetracker,
                        starttracking.message = starttracking.message,
-                       startrecording.match = startrecording.match,
+                       starttracking.match = starttracking.match,
                        subj.prefix = subj.prefix, subj.suffix = subj.suffix,
                        timing.file = timing.file,
                        subset = subset, trial.exclude = trial.exclude)

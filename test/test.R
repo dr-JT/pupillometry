@@ -2,59 +2,73 @@
 
 library(pupillometry)
 
-## Preprocessing Parameters ####
-import <- "test/Raw"
+## Preprocessing parameters
+
+# File Import Information
+import.dir <- "data/Raw"
 pattern <- "*.txt"
-output <- "test"
-task <- "Pitch_Discrimination"
+taskname <- "Pitch_Discrimination"
+
+# Eyetrackers save the subject number information in different ways and is not
+# always easy to obtain. For SMI eyetrackers we need to extract it from the
+# datafile name. You need to identify a unique subj.prefix pattern and
+# subj.suffix pattern that surrounds the subject # in the datafile name.
+
+subj.prefix <- "n_"             ## For SMI eyetrackers
+subj.suffix <- "-"              ## For SMI eyetrackers
+timing.file <- NULL
+
+# File Output Information
+output.dir <- "data/Preprocessed"
+output.steps <- FALSE
+files.merge <- FALSE
+
+# Eyetracker Information
 eyetracker <- "smi"
+hz <- 250
+eye.use <- "left"
 
-# Eyetrackers save the subject # information in different ways and is not always easy to obtain
-# The most versatile method is to extract it from the datafile name. You need to identify a
-# unique subj.prefix pattern and subj.suffix pattern that surrounds the subject # in the
-# datafile name. In this case it would be
-subj.prefix <- "n_" # There are multiple underscores in this datafile name so it needs to be more specific "n_"
-subj.suffix <- "-"
+# Message Marker Information
+starttracking.message <- "default"
+starttracking.match <- "exact"
+trialonset.message <- "Tone 1"
+trialonset.match <- "exact"
+pretrial.duration <- 1000
+bconset.message <- "Tone 1"
+bconset.match <- "exact"
 
+# Preprocessing Options
+deblink.extend <- 100
+smooth <- "hann"
+smooth.window <- 500
+interpolate <- "cubic-spline"
+interpolate.maxgap <- Inf
+method.first <- "smooth"
+bc <- "subtractive"
+prebc.duration <- 200
+missing.allowed <- .30
+
+# Misc.
 subset <- "default"
 trial.exclude <- c()
 
-eye.recorded <- "both"
-eye.use <- "left"
-hz <- 250
-startrecording.message <- "default"
-startrecording.match <- "exact"
-trialonset.message <- "Tone 1"
+############################
 
-# Intertrial interval (Fixation) was 2000 ms but
-# I am choosing to set only the last 1000 ms as pre-trial
-pretrial.duration <- 1000
-
-velocity <- ""
-margin <- ""
-missing.allowed <- .75
-interpolate <- TRUE
-interpolate.type <- "cubic-spline"
-interpolate.maxgap <- Inf
-smooth <- TRUE
-smooth.type <- "hann"
-smooth.window <- 100
-method.first <- "smooth"
-bc <- TRUE
-baselineoffset.message <- "Tone 1"
-bc.duration <- 200
-bc.type <- "subtractive"
-downsample.binlength <- 20
-################################
-
-preprocess(import = import, pattern = pattern, output = output, taskname = task, eyetracker = eyetracker,
-           subj.prefix = subj.prefix, subj.suffix = subj.suffix,
-           subset = subset, trial.exclude = trial.exclude,
-           eye.recorded = eye.recorded, eye.use = eye.use, hz = hz,
-           startrecording.message = startrecording.message, startrecording.match = startrecording.match,
-           trialonset.message = trialonset.message, pretrial.duration = pretrial.duration,
-           velocity = velocity, margin = margin, missing.allowed = missing.allowed,
-           interpolate = interpolate, interpolate.type = interpolate.type, interpolate.maxgap = interpolate.maxgap,
-           smooth = smooth, smooth.type = smooth.type, smooth.window = smooth.window, method.first = method.first,
-           bc = bc, baselineoffset.message = baselineoffset.message, bc.duration = bc.duration, bc.type = bc.type,
-           downsample.binlength = downsample.binlength)
+pupil_preprocess(import.dir = import.dir, pattern = pattern, taskname = taskname,
+                 subj.prefix = subj.prefix, subj.suffix = subj.suffix,
+                 timing.file = timing.file, output.dir = output.dir,
+                 output.steps = output.steps, files.merge = files.merge,
+                 eyetracker = eyetracker, hz = hz, eye.use = eye.use,
+                 starttracking.message = starttracking.message,
+                 starttracking.match = starttracking.match,
+                 trialonset.message = trialonset.message,
+                 trialonset.match = trialonset.match,
+                 pretrial.duration = pretrial.duration,
+                 bconset.message = bconset.message, bconset.match = bconset.match,
+                 deblink.extend = deblink.extend, smooth = smooth,
+                 smooth.window = smooth.window, interpolate = interpolate,
+                 interpolate.maxgap = interpolate.maxgap,
+                 method.first = method.first, bc = bc,
+                 prebc.duration = prebc.duration,
+                 missing.allowed = missing.allowed, subset = subset,
+                 trial.exclude = trial.exclude)

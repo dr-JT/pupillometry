@@ -20,6 +20,8 @@
 #'     and/or symbol(s)) that comes before the subject number in the data file
 #' @param subj.suffix The unique pattern suffix (letter(s) or
 #'     symbol(s)) that comes after the subject number in the data file
+#' @param timing.file File location and name that contains timing
+#'     information for message markers
 #' @param subset Which columns in the raw data export file do you want to keep
 #' @param trial.exclude Specify if ther are any trials to exclude. Trial number
 #' @export
@@ -29,7 +31,8 @@ pupil_read <- function(file, eyetracker = "",
                        starttracking.message = "default",
                        starttracking.match = "exact",
                        subj.prefix = NULL, subj.suffix = NULL,
-                       subset = "default", trial.exclude = c()){
+                       timing.file = NULL, subset = "default",
+                       trial.exclude = c()){
 
   subj.extract <- function(x, prefix, suffix){
     x <- stringr::str_split(x, "/")[[1]]
