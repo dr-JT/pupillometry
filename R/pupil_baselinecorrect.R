@@ -8,8 +8,7 @@
 #' @param match Should the message string be an "exact" match or a "pattern" match?
 #' @keywords baseline
 #' @export
-#' @examples
-#' pupil_baselinecorrect(file = "path/filename", baseline.duration = 2000, start.trial = "# Message: Target")
+#'
 
 pupil_baselinecorrect <- function(x, message = "", pre.duration = 200,
                                   type = "subtractive", match = "exact"){

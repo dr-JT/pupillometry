@@ -7,8 +7,7 @@
 #' @param aoi.col Column names that contain aoi measures
 #' @keywords downsample
 #' @export
-#' @examples
-#' aoi_downsample(x, bin.length = 100)
+#'
 
 aoi_downsample <- function(x, bin.length = NULL, aoi.col = c()){
   x <- dplyr::group_by(x, Trial)

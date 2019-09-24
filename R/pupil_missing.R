@@ -9,8 +9,7 @@
 #' @param margin The margin before and after Blink onset and offset
 #' @keywords preprocess
 #' @export
-#' @examples
-#' pupil_missing(x)
+#'
 
 pupil_missing <- function(x, missing.allowed = 1, velocity = "", margin = ""){
   x <- dplyr::group_by(x, Trial)

@@ -9,7 +9,6 @@
 #' @param legend.title Title the legend
 #' @keywords plot
 #' @export plot_comparison
-#' @examples
 #'
 
 plot_comparison <- function(import, files = c(), labels = c(), trial, title = "", legend.title = "Labels"){

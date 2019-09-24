@@ -7,6 +7,7 @@
 #' @param eye.use Which eye to use? Left or right
 #' @keywords select
 #' @export
+#'
 
 
 select_eye <- function(x, eye.use = ""){

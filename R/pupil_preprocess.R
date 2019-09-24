@@ -50,9 +50,8 @@
 #' @param files.merge Do you want to create a single merge output file?
 #' @keywords preprocess
 #' @export
-#' @examples
 #'
-#'
+
 pupil_preprocess <- function(import.dir = NULL, pattern = "*.txt",
                              taskname = NULL, subj.prefix = NULL,
                              subj.suffix = NULL, output.dir = NULL,

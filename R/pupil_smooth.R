@@ -8,8 +8,7 @@
 #' @param hz The recording frequency (used to calculate window size)
 #' @keywords smooth
 #' @export
-#' @examples
-#' pupil_smooth(x, type = "hann", window = 11, eye.recorded = "both")
+#'
 
 pupil_smooth <- function(x, type = "hann", window = 5, hz = ""){
   window <- round(window/(1000/hz))

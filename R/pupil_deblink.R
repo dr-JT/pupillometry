@@ -7,6 +7,7 @@
 #'     before and after blink detection
 #' @keywords deblink
 #' @export
+#'
 
 pupil_deblink <- function(x, extend = 100){
   x <- dplyr::mutate(x,

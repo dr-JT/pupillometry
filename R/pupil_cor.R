@@ -6,8 +6,7 @@
 #' @param x dataframe
 #' @keywords eye
 #' @export
-#' @examples
-#' pupil_cor(x)
+#'
 
 pupil_cor <- function(x){
   x <- dplyr::mutate(x, Pupils.r = stats::cor(L_Pupil_Diameter.mm, R_Pupil_Diameter.mm, use = "pairwise.complete.obs"),

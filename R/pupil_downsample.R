@@ -6,8 +6,7 @@
 #' @param id Column name that identifies subject number
 #' @keywords downsample
 #' @export
-#' @examples
-#' pupil_downsample(x, bin.length = 100)
+#'
 
 pupil_downsample <- function(x, bin.length = NULL, id = "Subject"){
   colnames(x)[which(colnames(x)==id)] <- "Subject"

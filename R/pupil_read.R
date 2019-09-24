@@ -23,6 +23,7 @@
 #' @param subset Which columns in the raw data export file do you want to keep
 #' @param trial.exclude Specify if ther are any trials to exclude. Trial number
 #' @export
+#'
 
 pupil_read <- function(file, eyetracker = "",
                        starttracking.message = "default",

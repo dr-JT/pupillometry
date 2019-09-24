@@ -5,6 +5,7 @@
 #' @param pattern Pattern to identify files to be merged
 #' @param output.file File name and path to be saved to.
 #' @export
+#'
 
 pupil_merge <- function(path = "", pattern = "", output.file = ""){
   filelist <- list.files(path = path, pattern = pattern, full.names = TRUE)

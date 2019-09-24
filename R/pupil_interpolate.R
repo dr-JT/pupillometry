@@ -8,8 +8,7 @@
 #' @param hz The recording frequency (used to calculate window size)
 #' @keywords interpolate
 #' @export
-#' @examples
-#' pupil_interpolate(x, type = "cubic-spline", eye.recorded = "both")
+#'
 
 pupil_interpolate <- function(x, type = "cubic-spline", maxgap = Inf, hz = ""){
   if (maxgap != Inf){
