@@ -14,9 +14,9 @@ set_stimuli <- function(x){
 
   if ("Message_Inserted" %in% colnames(x)) {
     x <- dplyr::filter(x, Message_Inserted == 0)
-    x <- dplyr::select(x, -Message_Inserted, -Message)
+    x <- dplyr::select(x, -Message_Inserted)
   }
-  x <- dplyr::select(x, Subject, Trial, PreTrial, Time, Stimulus,
+  x <- dplyr::select(x, Subject, Trial, PreTrial, Time, Stimulus, Message,
                      Pupil_Diameter.mm, Pupils.r, Event, Gaze_Position.x,
                      Gaze_Position.y, Gaze.quality, Head_Dist.cm)
   return(x)
