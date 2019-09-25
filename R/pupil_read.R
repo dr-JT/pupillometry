@@ -302,12 +302,19 @@ pupil_read <- function(file, eyetracker = "",
                                        Time = get(starttracking.message),
                                        Message = starttracking.message)
     starttrack_timing <- dplyr::select(starttrack_timing, Trial, Time, Message)
-    data <- dplyr::full_join(data, starttrack_timing, by = "Trial")
+    data <- dplyr::full_join(data, starttrack_timing, by = "Time")
+    data <- dplyr::rename(data, Message = Message.y)
+    data <- dplyr::select(data, -Trial.x, -Trial.y, -Message.x)
     data <- dplyr::mutate(data,
-                          Time = dplyr::coalesce(Time.x, Time.y),
-                          Message = dplyr::coalesce(Message.x, Message.y))
-    data <- dplyr::select(data, -Time.x, -Time.y, -Message.x, -Message.y)
-    data <- dplyr::arrange(data, Subject, Trial, Time)
+                          Message_Inserted = ifelse(is.na(Subject), 1, 0),
+                          Subject = zoo::na.locf(Subject, na.rm = FALSE),
+                          Head_Dist.cm = zoo::na.locf(Head_Dist.cm,
+                                                      na.rm = FALSE),
+                          Gaze.quality = zoo::na.locf(Gaze.quality,
+                                                      na.rm = FALSE),
+                          ms_conversion = zoo::na.locf(ms_conversion,
+                                                       na.rm = FALSE))
+    data <- dplyr::arrange(data, Subject, Time)
   }
   if (starttracking.match == "exact"){
     data <- dplyr::mutate(data,
@@ -346,19 +353,31 @@ pupil_read <- function(file, eyetracker = "",
                                                    Time + get(message)),
                                      Message = message)
       message_start <- dplyr::select(message_start, Trial, Time, Message)
-      data <- dplyr::full_join(data, message_start, by = "Trial")
+      data <- dplyr::full_join(data, message_start, by = "Time")
       data <- dplyr::mutate(data,
-                            Time = dplyr::coalesce(Time.x, Time.y),
-                            Message = dplyr::coalesce(Message.x, Message.y))
-      data <- dplyr::select(data, -Time.x, -Time.y, -Message.x, -Message.y)
+                            Message = dplyr::case_when(
+                              !is.na(Message.x) ~ Message.x,
+                              !is.na(Message.y) ~ Message.y,
+                              TRUE ~ as.character(NA)))
+      data <- dplyr::rename(data, Trial = Trial.x)
+      data <- dplyr::select(data, -Trial.y, -Message.x, -Message.y)
+      data <- dplyr::mutate(data,
+                            Message_Inserted = ifelse(is.na(Subject),
+                                                      1, Message_Inserted),
+                            Subject = zoo::na.locf(Subject, na.rm = FALSE),
+                            Head_Dist.cm = zoo::na.locf(Head_Dist.cm,
+                                                        na.rm = FALSE),
+                            Gaze.quality = zoo::na.locf(Gaze.quality,
+                                                        na.rm = FALSE),
+                            ms_conversion = zoo::na.locf(ms_conversion,
+                                                         na.rm = FALSE))
       data <- dplyr::arrange(data, Subject, Trial, Time)
     }
   }
 
-  data <- dplyr::select(data, -starttracking.time)
-  data <- dplyr::mutate(data,
-                        Subject = zoo::na.locf(Subject, na.rm = FALSE),
-                        Trial = zoo::na.locf(Trial, na.rm = FALSE))
+  data <- dplyr::select(data, Subject, Trial, Time, Message, Message_Inserted,
+                        dplyr::contains("mm"), dplyr::contains("Event"),
+                        dplyr::contains("Gaze"), Head_Dist.cm, ms_conversion)
 
   if (!is.null(trial.exclude)){
     data <- dplyr::filter(data, !(Trial %in% trial.exclude))
