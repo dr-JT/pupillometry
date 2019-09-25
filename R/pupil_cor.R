@@ -13,8 +13,8 @@ pupil_cor <- function(x){
                                               R_Pupil_Diameter.mm,
                                               use = "pairwise.complete.obs"),
                      Pupils.r = ifelse(is.na(Pupils.r), 0, Pupils.r))
-  x <- dplyr::select(x, Subject, Trial, Time, dplyr::contains("mm"), Pupils.r,
-                     dplyr::contains("Event"), dplyr::contains("Gaze"),
-                     Head_Dist.cm, ms_conversion)
+  x <- dplyr::select(x, Subject, Trial, Time, Message, dplyr::contains("mm"),
+                     Pupils.r, dplyr::contains("Event"),
+                     dplyr::contains("Gaze"), Head_Dist.cm, ms_conversion)
   return(x)
 }
