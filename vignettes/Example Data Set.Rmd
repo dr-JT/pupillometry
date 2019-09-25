@@ -71,7 +71,7 @@ library(pupillometry)
 
 # File Import Information
 import.dir <- "data/Raw"
-pattern <- ".txt"
+pattern <- "Samples.txt"
 taskname <- "Pitch_Discrimination"
 
 # Eyetrackers save the subject number information in different ways and is not
