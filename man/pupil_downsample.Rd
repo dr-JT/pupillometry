@@ -16,7 +16,4 @@ pupil_downsample(x, bin.length = NULL, id = "Subject")
 \description{
 This function will reduce the sampling fequency
 }
-\examples{
-pupil_downsample(x, bin.length = 100)
-}
 \keyword{downsample}

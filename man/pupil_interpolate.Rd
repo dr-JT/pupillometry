@@ -19,7 +19,4 @@ pupil_interpolate(x, type = "cubic-spline", maxgap = Inf, hz = "")
 This function performs a linear interpolation over missing values.
 The 'zoo' package is a dependency
 }
-\examples{
-pupil_interpolate(x, type = "cubic-spline", eye.recorded = "both")
-}
 \keyword{interpolate}

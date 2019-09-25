@@ -23,7 +23,4 @@ plot_comparison(import, files = c(), labels = c(), trial, title = "",
 \description{
 This function will print ggplot figures of na.removed, method.first = interpolate, and method.first = smooth
 }
-\examples{
-
-}
 \keyword{plot}

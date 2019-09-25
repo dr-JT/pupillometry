@@ -14,7 +14,4 @@ This function is for preprocessing baseline pupil data. It takes as input a data
 with the .convert() functions. The output of this function is a preprocessed data file. Preprocessing steps can
 include interpolation and smoothing
 }
-\examples{
-pupil_cor(x)
-}
 \keyword{eye}

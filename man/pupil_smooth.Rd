@@ -19,7 +19,4 @@ pupil_smooth(x, type = "hann", window = 5, hz = "")
 This function performs a smoothing function over an array of x
 The 'zoo' package is a dependency
 }
-\examples{
-pupil_smooth(x, type = "hann", window = 11, eye.recorded = "both")
-}
 \keyword{smooth}

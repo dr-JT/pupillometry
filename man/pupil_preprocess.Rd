@@ -6,15 +6,16 @@
 \usage{
 pupil_preprocess(import.dir = NULL, pattern = "*.txt",
   taskname = NULL, subj.prefix = NULL, subj.suffix = NULL,
-  output.dir = NULL, output.steps = TRUE, eyetracker = NULL,
-  hz = NULL, eye.use = NULL, startrecording.message = "default",
-  startrecording.match = "exact", trialonset.message = NULL,
-  trialonset.match = "exact", deblink.extend = 100,
-  pretrial.duration = NULL, missing.allowed = 1, interpolate = NULL,
-  interpolate.maxgap = Inf, smooth = NULL, smooth.window = 5,
-  method.first = NULL, bc = NULL, bc.duration = NULL,
-  baselineoffset.message = NULL, baselineoffset.match = "exact",
-  subset = "default", trial.exclude = c(), files.merge = TRUE)
+  timing.file = NULL, output.dir = NULL, output.steps = FALSE,
+  eyetracker = NULL, hz = NULL, eye.use = NULL,
+  starttracking.message = "default", starttracking.match = "exact",
+  trialonset.message = NULL, trialonset.match = "exact",
+  deblink.extend = 100, pretrial.duration = NULL,
+  missing.allowed = 1, interpolate = NULL, interpolate.maxgap = Inf,
+  smooth = NULL, smooth.window = 5, method.first = NULL, bc = NULL,
+  prebc.duration = NULL, bconset.message = NULL,
+  bconset.match = "exact", subset = "default", trial.exclude = c(),
+  files.merge = FALSE)
 }
 \arguments{
 \item{import.dir}{Folder path to raw data files}
@@ -29,6 +30,9 @@ that comes before the subject number in the data file}
 \item{subj.suffix}{The unique pattern suffix (letter(s) or symbol(s))
 that comes after the subject number in the data file}
 
+\item{timing.file}{File location and name that contains timing
+information for message markers}
+
 \item{output.dir}{Folder path to output preprocessed data to}
 
 \item{output.steps}{Output files for each step in preprocessing?}
@@ -40,10 +44,10 @@ that comes after the subject number in the data file}
 
 \item{eye.use}{Which eye to use? Left or right}
 
-\item{startrecording.message}{Message used in SMI experiment
+\item{starttracking.message}{Message used in SMI experiment
 to mark StartTracking inline}
 
-\item{startrecording.match}{Should the message string be an "exact"
+\item{starttracking.match}{Should the message string be an "exact"
 match or a "pattern" match?}
 
 \item{trialonset.message}{Message string that marks the start of a trial}
@@ -77,12 +81,12 @@ default is 5 milliseconds}
 \item{bc}{Do you want to use "subtractive" or "divisive"
 baseline correction? (default: "subtractive")}
 
-\item{bc.duration}{Duration baseline period(s) to use for correction}
+\item{prebc.duration}{Duration baseline period(s) to use for correction}
 
-\item{baselineoffset.message}{Message string(s) that marks the offset of
+\item{bconset.message}{Message string(s) that marks the offset of
 baseline period(s)}
 
-\item{baselineoffset.match}{Message string(s) that marks the offset of
+\item{bconset.match}{Message string(s) that marks the offset of
 baseline period(s)}
 
 \item{subset}{Which columns in the raw data output file do you want to keep}
@@ -95,9 +99,5 @@ baseline period(s)}
 This function will perform preprocessing on an entire folder of data files.
 It takes as input a specified folder path
 and outputs the preprocessed data to a specified folder path
-}
-\examples{
-
-
 }
 \keyword{preprocess}

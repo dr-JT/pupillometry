@@ -4,7 +4,7 @@
 \alias{set_timing}
 \title{Set timing relative to trial-onset}
 \usage{
-set_timing(x, trialonset.message = "", ms.conversion = 1,
+set_timing(x, trialonset.message = NULL, ms.conversion = 1,
   pretrial.duration = 0, match = "exact")
 }
 \arguments{

@@ -4,7 +4,7 @@
 \alias{pupil_baselinecorrect}
 \title{Apply baseline correction}
 \usage{
-pupil_baselinecorrect(x, message = "", duration = 200,
+pupil_baselinecorrect(x, message = "", pre.duration = 200,
   type = "subtractive", match = "exact")
 }
 \arguments{
@@ -12,7 +12,7 @@ pupil_baselinecorrect(x, message = "", duration = 200,
 
 \item{message}{Message string(s) that marks the offset of baseline period(s)}
 
-\item{duration}{Duration baseline period(s) to use for correction}
+\item{pre.duration}{Duration baseline period(s) to use for correction}
 
 \item{type}{Do you want to use "subtractive" or "divisive" baseline correction? (default: "subtractive")}
 
@@ -20,8 +20,5 @@ pupil_baselinecorrect(x, message = "", duration = 200,
 }
 \description{
 This function applies a pre-trial baseline correction on the data
-}
-\examples{
-pupil_baselinecorrect(file = "path/filename", baseline.duration = 2000, start.trial = "# Message: Target")
 }
 \keyword{baseline}

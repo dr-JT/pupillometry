@@ -4,12 +4,12 @@
 \alias{set_trial}
 \title{Set correct trial indexing}
 \usage{
-set_trial(x, startrecording.message = "", match = "exact")
+set_trial(x, startrecording.start = "", match = "exact")
 }
 \arguments{
 \item{x}{dataframe}
 
-\item{startrecording.message}{Message string that marks the start of a recorind}
+\item{startrecording.start}{Message string that marks the start of a recorind}
 
 \item{match}{Should the message string be an "exact" match or a "pattern" match?}
 }

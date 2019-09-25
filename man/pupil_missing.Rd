@@ -20,7 +20,4 @@ This function is for preprocessing baseline pupil x. It takes as input a x file 
 with the .convert() functions. The output of this function is a preprocessed x file. Preprocessing steps can
 include interpolation and smoothing
 }
-\examples{
-pupil_missing(x)
-}
 \keyword{preprocess}

@@ -4,19 +4,20 @@
 \alias{pupil_read}
 \title{Convert "messy" raw data file to "tidy" raw data file}
 \usage{
-pupil_read(file, eyetracker = "", startrecording.message = "default",
-  startrecording.match = "exact", subj.prefix = NULL,
-  subj.suffix = NULL, subset = "default", trial.exclude = c())
+pupil_read(file, eyetracker = "", starttracking.message = "default",
+  starttracking.match = "exact", subj.prefix = NULL,
+  subj.suffix = NULL, timing.file = NULL, subset = "default",
+  trial.exclude = c())
 }
 \arguments{
 \item{file}{A file path to the raw data export file}
 
 \item{eyetracker}{Which eye-tracker system was used to record data?}
 
-\item{startrecording.message}{Message used in SMI experiment to
+\item{starttracking.message}{Message used in SMI experiment to
 mark StartTracking inline}
 
-\item{startrecording.match}{Should the message string be an
+\item{starttracking.match}{Should the message string be an
 "exact" match or a "pattern" match?}
 
 \item{subj.prefix}{The unique pattern prefix (letter(s)
@@ -24,6 +25,9 @@ and/or symbol(s)) that comes before the subject number in the data file}
 
 \item{subj.suffix}{The unique pattern suffix (letter(s) or
 symbol(s)) that comes after the subject number in the data file}
+
+\item{timing.file}{File location and name that contains timing
+information for message markers}
 
 \item{subset}{Which columns in the raw data export file do you want to keep}
 

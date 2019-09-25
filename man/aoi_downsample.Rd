@@ -19,7 +19,4 @@ Downsample aoi data
 \details{
 This function will reduce the sampling fequency
 }
-\examples{
-aoi_downsample(x, bin.length = 100)
-}
 \keyword{downsample}
