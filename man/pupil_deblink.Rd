@@ -4,7 +4,7 @@
 \alias{pupil_deblink}
 \title{Evaluate the amount of missing data}
 \usage{
-pupil_deblink(x, extend = 100)
+pupil_deblink(x, extend = 0)
 }
 \arguments{
 \item{x}{dataframe}
