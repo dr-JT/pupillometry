@@ -1,3 +1,14 @@
+# pupillometry 0.4.0
+
+* Added the functionality to supply a timing file in order to insert **Message Markers** in the data. See [Example Data - Without Message Markers]()
+
+* Added support for SMI Eyeglasses
+
+* Changed argument `startrecording.message` to `starttracking.message`
+
+* Created better documentation
+
+
 # pupillometry 0.3.0
 
 Updated: 05/15/2019

@@ -64,6 +64,12 @@ A final preprocessed data file will be saved for every original raw data file.
 
 If `output.steps == TRUE` a data file will be saved after steps 3, 4, and 5. Before saving the data file at each of these steps, the final two steps 6 and 7 are performed. This results in baseline corrected and missing data removed files before each major preprocessing step. This is obviously not necessary and so `output.steps = FALSE` is the default and will only save one final preprocessed data file per subject. 
 
+### Message Markers
+
+You will need to supply message markers to correctly preprocess your data. This image is a representation of what the message markers `starttracking.message`, `trialonset.message`, and `bconset.message` correspond to. For further detail see [Example Data Set]() and [Message Markers]() Articles.
+
+<img src="../reference/figures/message_markers_1.png" align = "center" />
+
 ### Script Template
 
 You can copy and paste the following code into a script and use it as a template.

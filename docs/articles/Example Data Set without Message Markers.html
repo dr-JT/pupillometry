@@ -5,13 +5,13 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Example Data Set • pupillometry</title>
+<title>Example Data Set - Without Message Markers • pupillometry</title>
 <!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script><!-- Bootstrap --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous">
 <!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script><!-- sticky kit --><script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
 <script src="../pkgdown.js"></script><!-- docsearch --><script src="../docsearch.js"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/docsearch.js/2.6.1/docsearch.min.css" integrity="sha256-QOSRU/ra9ActyXkIBbiIB144aDBdtvXBcNc3OTNuX/Q=" crossorigin="anonymous">
 <link href="../docsearch.css" rel="stylesheet">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/jquery.mark.min.js" integrity="sha256-4HLtjeVgH0eIB3aZ9mLYF6E8oU5chNdjU6p6rrXpl9U=" crossorigin="anonymous"></script><meta property="og:title" content="Example Data Set">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/jquery.mark.min.js" integrity="sha256-4HLtjeVgH0eIB3aZ9mLYF6E8oU5chNdjU6p6rrXpl9U=" crossorigin="anonymous"></script><meta property="og:title" content="Example Data Set - Without Message Markers">
 <meta property="og:description" content="">
 <meta property="og:image" content="https://dr-jt.github.io/pupillometry/logo.png">
 <meta name="twitter:card" content="summary">
@@ -101,42 +101,67 @@
       </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
-      <h1>Example Data Set</h1>
+      <h1>Example Data Set - Without Message Markers</h1>
             
       
-      <small class="dont-index">Source: <a href="https://github.com/dr-JT/pupillometry/blob/master/vignettes/Example%20Data%20Set.Rmd"><code>vignettes/Example Data Set.Rmd</code></a></small>
-      <div class="hidden name"><code>Example Data Set.Rmd</code></div>
+      <small class="dont-index">Source: <a href="https://github.com/dr-JT/pupillometry/blob/master/vignettes/Example%20Data%20Set%20without%20Message%20Markers.Rmd"><code>vignettes/Example Data Set without Message Markers.Rmd</code></a></small>
+      <div class="hidden name"><code>Example Data Set without Message Markers.Rmd</code></div>
 
     </div>
 
     
     
-<div id="script-example-for-preprocessing-raw-data-file" class="section level3">
+<div id="script-example-for-preprocessing-raw-data-file-that-does-not-contain-message-markers" class="section level3">
 <h3 class="hasAnchor">
-<a href="#script-example-for-preprocessing-raw-data-file" class="anchor"></a>Script example for preprocessing raw data file</h3>
-<p>Download the <a href="http://englelab.gatech.edu/R/example_data/Example_Pitch.zip">Example Data Set</a> and run the script below</p>
+<a href="#script-example-for-preprocessing-raw-data-file-that-does-not-contain-message-markers" class="anchor"></a>Script example for preprocessing raw data file that does not contain message markers</h3>
+<p>Download the <a href="http://englelab.gatech.edu/R/example_data/Example_Pitch_messagesRemoved.zip">Example Data Set - Without Message Markers</a> and run the script below</p>
 </div>
 <div id="pitch-discrimination-task" class="section level3">
 <h3 class="hasAnchor">
 <a href="#pitch-discrimination-task" class="anchor"></a>Pitch Discrimination Task</h3>
 <p>Information about example data set:</p>
 <ul>
-<li><p>Raw Data Filename: “pitch_discrimination_19-1_001 Samples.txt”</p></li>
+<li><p>Raw Data Filename: “pitch_discrimination_19-1_001 Samples_messsagesRemoved.txt”</p></li>
 <li><p>Eyetracker: SMI Red250 Mobile recorded at 250 Hz</p></li>
-<li><p>Contains message markers: Yes</p></li>
+<li><p>Contains message markers: No</p></li>
 <li><p>Subject #: 19</p></li>
 <li><p>Task: Pitch Discrimination</p></li>
 <li><p>Trial Procedure: Fixation (Pre-trial - 3000 to 2000 ms) -&gt; Tone 1 (200 ms) -&gt; Inter-stimulus Interval (ISI - 500 ms) -&gt; Tone 2 (200 ms) -&gt; Response Screen (Until response)</p></li>
 </ul>
-<p>The ideal scenario is that you were able to insert message markers, that were synced to specific events in the experiment software, into the eyetracking data file itself. In this data set, that was the case. There are message markers in the data file when the trial events (stimuli) occured. A depiction of a trial procedure with message markers is given in the picture below.</p>
-<p><img src="../reference/figures/pitch_trialproc_w_markers.png" align="center"></p>
-<p>Each piece of the image is explained below</p>
+<p>The ideal scenario is that you were able to insert message markers, that were synced to specific events in the experiment software, into the eyetracking data file itself. In this data set, that was not the case. <strong>There are no message markers in the data file indicating when the trial events (stimuli) occured</strong>. A depiction of a trial procedure with no message markers is given in the picture below.</p>
+<p><img src="../reference/figures/pitch_trialproc_w_out_markers.png" align="center"></p>
+<p>This is an issue because we do not know when events actually occured and therefore cannot set the <code>starttracking.message</code>, <code>trialonset.message</code>, and <code>bconset.messsage</code>, parameters.</p>
+<p>We need to insert <strong>Message Markers</strong> from an external data file. Notice, in the Example Data set that you downloaded there was a file called <strong>pitch_timing.csv</strong>. This file was created to insert <strong>Message Markers</strong> into the eyetracking data file. I have supplied you with this file for this example.</p>
+<p>In your actual data, you will have to create this file on your own from the behavioral data produced by the experimental software you used. In setting up your experiment, then, <strong>it is vital that you make sure your timing data in your behavioral file corresponds directly to your timing data in the eyetracking data file</strong>. Otherwise there may be no way of actually syncing events in the experimental software with events in the eyetracking file.</p>
+<p>Here is an actual depiction of the Trial Procedure for the Pitch Discrimination tasks with Message Markers. In order to go from the image above to this image, we need to specifiy the timing for each of the events.</p>
+<p><img src="../reference/figures/pitch_trialproc_w_out_markers_added.png" align="center"></p>
+</div>
+<div id="timing-file-with-message-markers" class="section level3">
+<h3 class="hasAnchor">
+<a href="#timing-file-with-message-markers" class="anchor"></a>Timing File with Message Markers</h3>
+<p>We can add the message markers with a file that specifies the timing for each of these events. This file needs to be in a specific layout in order to work properly. Essentially, it is a dataframe with columns and rows. There needs to be a column for <strong>Subject</strong>, <strong>Trial</strong>, and a column for every <strong>Message Marker</strong>.</p>
+<p>For this Example Data Set, we need <strong>Message Marker</strong> column for:</p>
+<ul>
+<li><p>Fixation</p></li>
+<li><p>Tone 1</p></li>
+<li><p>ISI</p></li>
+<li><p>Tone 2</p></li>
+<li><p>Response Start</p></li>
+<li><p>Response Made</p></li>
+<li><p>Buffer</p></li>
+</ul>
+<p>However, the most critical ones are really only <strong>Fixation</strong> and <strong>Tone 1</strong>, but it would be nice to have all of them.</p>
+<p>The file would be a dataframe that would look something like:</p>
+<p><img src="../reference/figures/timing_file.png" align="center"></p>
+<p>Notice that the column names correspond directly to the <strong>Message Marker</strong> names in the above figure. The column names will be inserted as messages in the data and when setting the parameters, <code>starttracking.message</code>, <code>trialonset.message</code>, and <code>bconset.message</code>.</p>
+<p>The timing data for the first <strong>Message Marker</strong> MUST BE in absolute values (corresponding to the raw eyetracking data file Timing column). Whereas, the timing data for the other <strong>Message Markers</strong> can be in absolute values or values relative to the first <strong>Message Marker</strong>. Whichever is easiest for you to obtain.</p>
+<p>From your behavioral data you can create this file in excel or whatever other software you find easiest to do so.</p>
+<p>This task only has six trials and one subject so the data file is not that large. However, for an actual experiment you would have many more rows of data.</p>
 </div>
 <div id="starttracking-message" class="section level3">
 <h3 class="hasAnchor">
 <a href="#starttracking-message" class="anchor"></a>StartTracking Message</h3>
-<p>The first message marker is the <strong>StartTracking</strong> message. It is usually more practical to start saving data right at the beginning of a trial and stop saving at the end of a trial. This results in a smaller data file (less irrelevant data) than if you were to continously save data between trials or blocks. Different eye-tracker systems have a different default <strong>StartTracking</strong> message. For SMI eye-trackers it is <strong>StartTracking.bmp</strong>. Or you can just set the argument as <em>default</em>, <code>starttracking.message &lt;- "default"</code>.</p>
-<p>In the case where you continuously saved data and do not have a <strong>StartTracking</strong> message at the start of each trial, you can use the first stimulus event (usually the pre-trial event) as the <strong>StartTracking</strong> message. For instance, in this case it would be, <code>starttracking.message &lt;- "Fixation"</code> because there is a message labeled <strong>Fixation</strong> in the data stream at the start of every trial. But we do have a <strong>StartTracking</strong> message so we will use the default.</p>
+<p>If you do not have message markes in the data, then you will not have a <strong>StartTracking</strong> message at the start of each trial. Instead, you can use the first stimulus event (usually the pre-trial event) as the <strong>StartTracking</strong> message. For instance, in this case it would be, <code>starttracking.message &lt;- "Fixation"</code> because there is a message labeled <strong>Fixation</strong> in the data stream at the start of every trial.</p>
 </div>
 <div id="trial-onset-message" class="section level3">
 <h3 class="hasAnchor">
@@ -168,7 +193,7 @@
 <a class="sourceLine" id="cb1-6" data-line-number="6"></a>
 <a class="sourceLine" id="cb1-7" data-line-number="7"><span class="co"># File Import Information</span></a>
 <a class="sourceLine" id="cb1-8" data-line-number="8">import.dir &lt;-<span class="st"> "data/Raw"</span></a>
-<a class="sourceLine" id="cb1-9" data-line-number="9">pattern &lt;-<span class="st"> "Samples.txt"</span></a>
+<a class="sourceLine" id="cb1-9" data-line-number="9">pattern &lt;-<span class="st"> "messagesRemoved.txt"</span></a>
 <a class="sourceLine" id="cb1-10" data-line-number="10">taskname &lt;-<span class="st"> "Pitch_Discrimination"</span></a>
 <a class="sourceLine" id="cb1-11" data-line-number="11"></a>
 <a class="sourceLine" id="cb1-12" data-line-number="12"><span class="co"># Eyetrackers save the subject number information in different ways and is not</span></a>
@@ -178,7 +203,7 @@
 <a class="sourceLine" id="cb1-16" data-line-number="16"></a>
 <a class="sourceLine" id="cb1-17" data-line-number="17">subj.prefix &lt;-<span class="st"> "n_"</span>             <span class="co">## For SMI eyetrackers</span></a>
 <a class="sourceLine" id="cb1-18" data-line-number="18">subj.suffix &lt;-<span class="st"> "-"</span>              <span class="co">## For SMI eyetrackers</span></a>
-<a class="sourceLine" id="cb1-19" data-line-number="19">timing.file &lt;-<span class="st"> </span><span class="ot">NULL</span></a>
+<a class="sourceLine" id="cb1-19" data-line-number="19">timing.file &lt;-<span class="st"> "data/pitch_timing.csv"</span></a>
 <a class="sourceLine" id="cb1-20" data-line-number="20"></a>
 <a class="sourceLine" id="cb1-21" data-line-number="21"><span class="co"># File Output Information</span></a>
 <a class="sourceLine" id="cb1-22" data-line-number="22">output.dir &lt;-<span class="st"> "data/Preprocessed"</span></a>
@@ -191,7 +216,7 @@
 <a class="sourceLine" id="cb1-29" data-line-number="29">eye.use &lt;-<span class="st"> "left"</span></a>
 <a class="sourceLine" id="cb1-30" data-line-number="30"></a>
 <a class="sourceLine" id="cb1-31" data-line-number="31"><span class="co"># Message Marker Information</span></a>
-<a class="sourceLine" id="cb1-32" data-line-number="32">starttracking.message &lt;-<span class="st"> "default"</span></a>
+<a class="sourceLine" id="cb1-32" data-line-number="32">starttracking.message &lt;-<span class="st"> "Fixation"</span></a>
 <a class="sourceLine" id="cb1-33" data-line-number="33">starttracking.match &lt;-<span class="st"> "exact"</span></a>
 <a class="sourceLine" id="cb1-34" data-line-number="34">trialonset.message &lt;-<span class="st"> "Tone 1"</span></a>
 <a class="sourceLine" id="cb1-35" data-line-number="35">trialonset.match &lt;-<span class="st"> "exact"</span></a>
