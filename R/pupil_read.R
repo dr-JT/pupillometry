@@ -225,6 +225,7 @@ pupil_read <- function(file, eyetracker = "",
                             Message = ifelse(Annotation_Name == "-", NA,
                                              Annotation_Name),
                             Time = `RecordingTime_[ms]`,
+                            Message_Inserted = ifelse(is.na(Time), 1, 0),
                             Time = zoo::na.locf(Time, na.rm = FALSE,
                                                 fromLast = TRUE),
                             L_Pupil_Diameter.mm =
@@ -373,8 +374,12 @@ pupil_read <- function(file, eyetracker = "",
                                                          na.rm = FALSE))
       data <- dplyr::arrange(data, Subject, Trial, Time)
     }
+
   }
 
+  if (!("Message_Inserted" %in% colnames(data))) {
+    data <- dplyt::mutate(data, Message_Inserted == 0)
+  }
   data <- dplyr::select(data, Subject, Trial, Time, Message, Message_Inserted,
                         dplyr::contains("mm"), dplyr::contains("Event"),
                         dplyr::contains("Gaze"), Head_Dist.cm, ms_conversion)

@@ -13,23 +13,26 @@
 pupil_baselinecorrect <- function(x, message = "", pre.duration = 200,
                                   type = "subtractive", match = "exact"){
   baselines.n <- length(message)
+  x <- dplyr::group_by(x, Trial, Stimulus)
+  x <- dplyr::mutate(x, onset.time = min(Time, na.rm = TRUE))
+
   x <- dplyr::group_by(x, Trial)
   x <- dplyr::mutate(x, PreTarget=0, Target=0)
   for (m in message){
     n <- match(m, message)
     if (match=="exact"){
-      x <- dplyr::mutate(x, baselineoffset.time = ifelse(Message==m, Time, NA))
+      x <- dplyr::mutate(x, bconset.time = ifelse(Stimulus==m, onset.time, NA))
     } else if (match=="pattern"){
-      x <- dplyr::mutate(x, baselineoffset.time = ifelse(stringr::str_detect(Message, m), Time, NA))
+      x <- dplyr::mutate(x, bconset.time = ifelse(stringr::str_detect(Stimulus, m), onset.time, NA))
     }
     x <- dplyr::mutate(x,
-                       min = min(baselineoffset.time, na.rm = TRUE),
-                       baselineoffset.time = ifelse(is.na(baselineoffset.time) | baselineoffset.time!=min,NA,baselineoffset.time),
-                       baselineoffset.time = zoo::na.locf(baselineoffset.time, na.rm = FALSE),
-                       baselineoffset.time = zoo::na.locf(baselineoffset.time, na.rm = FALSE, fromLast = TRUE),
-                       baselineoffset.time = ifelse(is.infinite(min), Inf, baselineoffset.time),
-                       PreTarget = ifelse(Time >= (baselineoffset.time-pre.duration) & Time < baselineoffset.time, n, PreTarget),
-                       Target = ifelse(Time >= baselineoffset.time, n, Target))
+                       min = min(bconset.time, na.rm = TRUE),
+                       bconset.time = ifelse(is.na(bconset.time) | bconset.time!=min,NA,bconset.time),
+                       bconset.time = zoo::na.locf(bconset.time, na.rm = FALSE),
+                       bconset.time = zoo::na.locf(bconset.time, na.rm = FALSE, fromLast = TRUE),
+                       bconset.time = ifelse(is.infinite(min), Inf, bconset.time),
+                       PreTarget = ifelse(Time >= (bconset.time-pre.duration) & Time < bconset.time, n, PreTarget),
+                       Target = ifelse(Time >= bconset.time, n, Target))
   }
   x <- dplyr::group_by(x, Trial, PreTarget)
   x <- dplyr::mutate(x,
@@ -46,7 +49,7 @@ pupil_baselinecorrect <- function(x, message = "", pre.duration = 200,
   }
 
   x <- dplyr::ungroup(x)
-  x <- dplyr::select(x, -PreTarget.median, -baselineoffset.time, -min)
+  x <- dplyr::select(x, -PreTarget.median, -bconset.time, -min)
   x <- dplyr::select(x, Subject, Trial, PreTrial, Time, Stimulus,
                      Pupil_Diameter.mm, Pupil_Diameter_bc.mm, PreTarget, Target,
                      Pupils.r, Event, Gaze_Position.x, Gaze_Position.y,

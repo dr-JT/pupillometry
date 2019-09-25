@@ -15,6 +15,7 @@ pupil_cor <- function(x){
                      Pupils.r = ifelse(is.na(Pupils.r), 0, Pupils.r))
   x <- dplyr::select(x, Subject, Trial, Time, Message, dplyr::contains("mm"),
                      Pupils.r, dplyr::contains("Event"),
-                     dplyr::contains("Gaze"), Head_Dist.cm, ms_conversion)
+                     dplyr::contains("Gaze"), Head_Dist.cm, ms_conversion,
+                     Message_Inserted)
   return(x)
 }
