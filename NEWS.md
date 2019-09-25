@@ -1,6 +1,6 @@
 # pupillometry 0.4.0
 
-* Added the functionality to supply a timing file in order to insert **Message Markers** in the data. See [Example Data - Without Message Markers]()
+* Added the functionality to supply a timing file in order to insert **Message Markers** in the data. See [Example Data - Without Message Markers](https://dr-jt.github.io/pupillometry/articles/Example%20Data%20Set%20without%20Message%20Markers.html)
 
 * Added support for SMI Eyeglasses
 

@@ -69,7 +69,7 @@ If you were not able to sync events in your experimental software to the eyetrac
 
 Notice there are no message markers, and the dotted lines represent that the data file does not contain any information as to when these events actually occured.
 
-See the Article [Example Data Set - without Message Markers]() for an example of how to insert the messages into the data file.
+See the Article [Example Data Set - without Message Markers](https://dr-jt.github.io/pupillometry/articles/Example%20Data%20Set%20without%20Message%20Markers.html) for an example of how to insert the messages into the data file.
 
 
 

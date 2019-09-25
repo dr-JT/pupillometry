@@ -66,9 +66,9 @@ If `output.steps == TRUE` a data file will be saved after steps 3, 4, and 5. Bef
 
 ### Message Markers
 
-You will need to supply message markers to correctly preprocess your data. This image is a representation of what the message markers `starttracking.message`, `trialonset.message`, and `bconset.message` correspond to. For further detail see [Example Data Set]() and [Message Markers]() Articles.
+You will need to supply message markers to correctly preprocess your data. This image is a representation of what the message markers `starttracking.message`, `trialonset.message`, and `bconset.message` correspond to. For further detail see [Example Data Set](https://dr-jt.github.io/pupillometry/articles/Example%20Data%20Set.html) and [Message Markers](https://dr-jt.github.io/pupillometry/articles/Message%20Markers.html) Articles.
 
-<img src="../reference/figures/message_markers_1.png" align = "center" />
+<img src="./reference/figures/message_markers_1.png" align = "center" />
 
 ### Script Template
 
