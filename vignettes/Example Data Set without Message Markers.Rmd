@@ -1,20 +1,20 @@
 ---
-title: "Example Data Set"
+title: "Example Data Set - Without Message Markers"
 ---
 
-### Script example for preprocessing raw data file
+### Script example for preprocessing raw data file that does not contain message markers
 
-Download the [Example Data Set](http://englelab.gatech.edu/R/example_data/Example_Pitch.zip) and run the script below
+Download the [Example Data Set - Without Message Markers](http://englelab.gatech.edu/R/example_data/Example_Pitch_messagesRemoved.zip) and run the script below
 
 ### Pitch Discrimination Task
 
 Information about example data set:
 
-* Raw Data Filename: "pitch_discrimination_19-1_001 Samples.txt"
+* Raw Data Filename: "pitch_discrimination_19-1_001 Samples_messsagesRemoved.txt"
 
 * Eyetracker: SMI Red250 Mobile recorded at 250 Hz
 
-* Contains message markers: Yes
+* Contains message markers: No
 
 * Subject #: 19
 
@@ -22,17 +22,58 @@ Information about example data set:
 
 * Trial Procedure: Fixation (Pre-trial - 3000 to 2000 ms) -> Tone 1 (200 ms) -> Inter-stimulus Interval (ISI - 500 ms) -> Tone 2 (200 ms) -> Response Screen (Until response)
 
-The ideal scenario is that you were able to insert message markers, that were synced to specific events in the experiment software, into the eyetracking data file itself. In this data set, that was the case. There are message markers in the data file when the trial events (stimuli) occured. A depiction of a trial procedure with message markers is given in the picture below.
+The ideal scenario is that you were able to insert message markers, that were synced to specific events in the experiment software, into the eyetracking data file itself. In this data set, that was not the case. **There are no message markers in the data file indicating when the trial events (stimuli) occured**. A depiction of a trial procedure with no message markers is given in the picture below.
 
-<img src="../reference/figures/pitch_trialproc_w_markers.png" align = "center" />
+<img src="../reference/figures/pitch_trialproc_w_out_markers.png" align = "center" />
 
-Each piece of the image is explained below
+This is an issue because we do not know when events actually occured and therefore cannot set the `starttracking.message`, `trialonset.message`, and `bconset.messsage`, parameters.
+
+We need to insert **Message Markers** from an external data file. Notice, in the Example Data set that you downloaded there was a file called **pitch_timing.csv**. This file was created to insert **Message Markers** into the eyetracking data file. I have supplied you with this file for this example. 
+
+In your actual data, you will have to create this file on your own from the behavioral data produced by the experimental software you used. In setting up your experiment, then, **it is vital that you make sure your timing data in your behavioral file corresponds directly to your timing data in the eyetracking data file**. Otherwise there may be no way of actually syncing events in the experimental software with events in the eyetracking file. 
+
+Here is an actual depiction of the Trial Procedure for the Pitch Discrimination tasks with Message Markers. In order to go from the image above to this image, we need to specifiy the timing for each of the events.
+
+<img src="../reference/figures/pitch_trialproc_w_out_markers_added.png" align = "center" />
+
+### Timing File with Message Markers
+
+We can add the message markers with a file that specifies the timing for each of these events. This file needs to be in a specific layout in order to work properly. Essentially, it is a dataframe with columns and rows. There needs to be a column for **Subject**, **Trial**, and a column for every **Message Marker**.
+
+For this Example Data Set, we need **Message Marker** column for:
+
+* Fixation
+
+* Tone 1
+
+* ISI
+
+* Tone 2
+
+* Response Start
+
+* Response Made
+
+* Buffer
+
+However, the most critical ones are really only **Fixation** and **Tone 1**, but it would be nice to have all of them. 
+
+The file would be a dataframe that would look something like:
+
+<img src="../reference/figures/timing_file.png" align = "center" />
+
+Notice that the column names correspond directly to the **Message Marker** names in the above figure. The column names will be inserted as messages in the data and when setting the parameters, `starttracking.message`, `trialonset.message`, and `bconset.message`.
+
+The timing data for the first **Message Marker** MUST BE in absolute values (corresponding to the raw eyetracking data file Timing column). Whereas, the timing data for the other **Message Markers** can be in absolute values or values relative to the first **Message Marker**. Whichever is easiest for you to obtain.
+
+From your behavioral data you can create this file in excel or whatever other software you find easiest to do so.
+
+This task only has six trials and one subject so the data file is not that large. However, for an actual experiment you would have many more rows of data. 
+
 
 ### StartTracking Message
 
-The first message marker is the **StartTracking** message. It is usually more practical to start saving data right at the beginning of a trial and stop saving at the end of a trial. This results in a smaller data file (less irrelevant data) than if you were to continously save data between trials or blocks. Different eye-tracker systems have a different default **StartTracking** message. For SMI eye-trackers it is **StartTracking.bmp**. Or you can just set the argument as *default*, `starttracking.message <- "default"`. 
-
-In the case where you continuously saved data and do not have a **StartTracking** message at the start of each trial, you can use the first stimulus event (usually the pre-trial event) as the **StartTracking** message. For instance, in this case it would be, `starttracking.message <- "Fixation"` because there is a message labeled **Fixation** in the data stream at the start of every trial. But we do have a **StartTracking** message so we will use the default.
+If you do not have message markes in the data, then you will not have a **StartTracking** message at the start of each trial. Instead, you can use the first stimulus event (usually the pre-trial event) as the **StartTracking** message. For instance, in this case it would be, `starttracking.message <- "Fixation"` because there is a message labeled **Fixation** in the data stream at the start of every trial.
 
 ### Trial Onset Message
 
@@ -71,7 +112,7 @@ library(pupillometry)
 
 # File Import Information
 import.dir <- "data/Raw"
-pattern <- ".txt"
+pattern <- "messagesRemoved.txt"
 taskname <- "Pitch_Discrimination"
 
 # Eyetrackers save the subject number information in different ways and is not
@@ -81,7 +122,7 @@ taskname <- "Pitch_Discrimination"
 
 subj.prefix <- "n_"             ## For SMI eyetrackers
 subj.suffix <- "-"              ## For SMI eyetrackers
-timing.file <- NULL
+timing.file <- "data/pitch_timing.csv"
 
 # File Output Information
 output.dir <- "data/Preprocessed"
@@ -94,7 +135,7 @@ hz <- 250
 eye.use <- "left"
 
 # Message Marker Information
-starttracking.message <- "default"
+starttracking.message <- "Fixation"
 starttracking.match <- "exact"
 trialonset.message <- "Tone 1"
 trialonset.match <- "exact"

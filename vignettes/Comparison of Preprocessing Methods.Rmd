@@ -1,64 +1,20 @@
 ---
-title: "Comparison of Preprocessing Methods"
+title: "Smooth or Interpolation First?"
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-One question you may have is, what parameters should I specify for each preprocessing method? This can be hard to determine but it helps to have a visual aid.
+One question when considering preprocessing methods is whether to first smooth the data or first interpolate missing values? 
 
-## `plot_comparison()`
+Below, I demonstrate that at least when using this package to preprocess pupil data it is better to smooth the data before applying a **cubic-spline** interpolation. There is not as big of a difference if you are applying a **linear** interpolation. Therefore, it is advisable to apply smoothing before interpolation.
 
-With `plot_comparison()` you can visually compare how different preprocessing parameters change the shape of the pupil data.
+## Example Data
 
-To use `plot_comparison()` you first need to create the preprocessed data files with different parameters (from a single raw data file) with `pupil_preprocess()`. You may need to rename the file after running each `pupil_preprocess()` so that it doesn't get overwritten. 
+The example data is from a simple pitch discrimination task I administered to myself. There were only six trials. Trials 2 and 6 had the largest chuncks of missing data so I decided to test out whether applying smoothing or interpolation first changes the preprocessed data.
 
-Parameters:
-
-* __import__: The directory where the "test" comparison files are located
-
-* __files__:  A vector `c()` of the filenames to be compared
-
-* __labels__:  A vector `c()` of labels to use in the figure legend for each data file
-
-* __trial__: Which trial to select from the data file
-
-* __title__: Option to give the figure a title
-
-* __legend.title__: Option to give the legend a title
-
-********
-
-********
-
-## Usage
-
-There might be many comparisons you would like to make. For visual purposes it probably is best to not display more than three time-series on a graph at one time. You should also include a time-series in which no preprocessing has been performed, that is the `naremoved` file.
-
-Some comparisons you might want to make are different smoothing window sizes `smooth.window`, or different maxgap sizes `interpolate.maxgap`.
-
-To make the first plot displayed below:
-
-```r
-plot_comparison(import = "data/test", 
-                files = c("Pitch_Discrimination_19_PupilData_interpolated_cubic-spline.txt",
-                          "Pitch_Discrimination_19_PupilData_interpolated_linear.txt",
-                          "Pitch_Discrimination_19_PupilData_naremoved.txt"),
-                labels = c("cubic-spline",
-                           "linear",
-                           "No Preprocessing"), 
-                trial = 6,
-                title = paste("Trial", 6, sep = " "),
-                legend.title = "interpolation.type")
-```
-
-
-## method.first
-
-Here are some examples from `plot_comparison()` that demonstrate important differences when choosing whether to interpolate or smooth the data first.
-
-From these examples, it can be seen that if you are gonig to apply a `cubic-spline` interpolation, then you should apply smoothing `smooth = TRUE` and it is important that you choose `method.first = "smooth"`. Otherwise the data get overly distorted if you apply interpolation first (see Trial 6).
+From these examples, it can be seen that if you are gonig to apply a **cubic-spline** interpolation, then you should also apply smoothing and it is important that you choose `method.first = "smooth"`. Otherwise the data get overly distorted if you apply interpolation first (see Trial 6).
 
 These data come from a pitch discrimination task as described in the [Example Data Set](https://dr-jt.github.io/pupillometry/articles/Example%20Data%20Set.html) article. Time = 0 is the onset of the first tone.
 
@@ -70,7 +26,7 @@ On Trial 6 there are a couple of "major" gaps of missing pupil data. You can see
 
 <img src="../reference/figures/Trial6-interpolation.type.png" align = "center" />
 
-*Figure 1*
+*Figure 1. Interpolation only. Cubic-spline interpolation (pink line) results in unrealistic interpolated values*
 
 ********
 
@@ -78,7 +34,7 @@ On Trial 6 there are a couple of "major" gaps of missing pupil data. You can see
 
 <img src="../reference/figures/Trial6--cubic-spline-hann.png" align = "center" />
 
-*Figrue 2*
+*Figrue 2. Applying smoothing before cubic-spline interpolation (green line) results in more realistic values than applying smoothing after cubic-spline interpolation (pink line)*
 
 <br><br>
 
@@ -90,7 +46,7 @@ For `linear` interpolation, the issue of applying smoothing first or not is not 
 
 <img src="../reference/figures/Trial6--linear-hann.png" align = "center" />
 
-*Figure 3*
+*Figure 3. Applying smoothing before linear interpolation (green line) results in slightly different values then applying smoothing after linear interpolation (pink line). If anything, applying smoothing after linear interpolation is slightly more accurate. However, after aggregation over trials the result would not be different between the two.*
 
 <br><br>
 
@@ -100,7 +56,7 @@ And here is Trial 6 if you were to do smoothing but no interpolation (*Figure 4*
 
 <img src="../reference/figures/Trial6-smooth.type.png" align = "center" />
 
-*Figure 4*
+*Figure 4. This just shows the difference between the two smoothing methods available.*
 
 <br><br>
 
@@ -110,15 +66,9 @@ Trial 2 shows a similar pattern when you use cubic-spline interpolation (*Figure
 
 <img src="../reference/figures/Trial2--cubic-spline-hann.png" align = "center" />
 
-*Figure 5*
+*Figure 5. Applying smoothing before cubic-spline interpolation (green line) results in more realistic values than applying smoothing after cubic-spline interpolation (pink line)*
 
 ********
 
-These comparisons demonstrate the importance of being careful what types of preprocessing paramteres you specify. Based on this small sample of data it is suggested, that if you are going to apply an interpolation method, that you first apply smoothing.
-
-
-
-
-
-
+These comparisons demonstrate the importance of being careful what types of preprocessing paramteres you specify. Based on this small sample of data it is suggested, that if you are going to apply an interpolation method, that you first apply smoothing, particularly if you are applying cubic-spline interpolation.
 

@@ -54,4 +54,17 @@ Smoothing is a method that attempts to reduce noise in a time-series signal by r
 
     This will be used to convert the window duration in milliseconds to number of samples (rows) in the dataframe. 
 
+## Deblink
+
+`pupil_deblink(extend = 0)`
+
+This function is what sets blinks as missing values and will extend the blink if specified.
+
+* __extend__: How long (in milliseconds) to extend the blink both before and after the detected period?
+
+Different eye-tracker systems indicate the presence of a blink or missing data in different ways. Some will insert unrealistic values in the pupil size column, others will insert a missing value and have another column indicating whether the sample is likely to be in a blink or not. Also different eye-tracker systems have their different algorithims to detect whether a blink is occuring or not. 
+
+Either way, we need to make sure that blinks are represented as missing values (`NA`) in the data file. Furthermore, some eye-tracking systems do not fully capture the beginning and end of a blink. This is critical because pupil size will very quickly start to decrease at the start of a blink and increase again towards the end of a blink (due to the pupil being occluded by the eyelid). If the eye-tracker system did not extend the blink detection long enough, then some of this fast decrease/increase may still be in the data.
+
+Since this is something that varies between eye-trackers you can set a custom value to extend the start and end of a blink period.
 

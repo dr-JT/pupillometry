@@ -121,7 +121,7 @@ trial.exclude <- c()
 
 ############################
 
-pupil_preprocess(import.dir = import.dir, pattern = pattern, taskname = taskname, 
+pupil_preprocess(import.dir = import.dir, pattern = pattern, taskname = taskname,
                  subj.prefix = subj.prefix, subj.suffix = subj.suffix, 
                  timing.file = timing.file, output.dir = output.dir, 
                  output.steps = output.steps, files.merge = files.merge, 
@@ -131,15 +131,20 @@ pupil_preprocess(import.dir = import.dir, pattern = pattern, taskname = taskname
                  trialonset.message = trialonset.message, 
                  trialonset.match = trialonset.match,
                  pretrial.duration = pretrial.duration, 
-                 bconset.message = bconset.message, bconset.match = bconset.match,
-                 deblink.extend = deblink.extend, smooth = smooth,
-                 smooth.window = smooth.window, interpolate = interpolate, 
+                 bconset.message = bconset.message, 
+                 bconset.match = bconset.match, deblink.extend = deblink.extend,
+                 smooth = smooth, smooth.window = smooth.window, 
+                 interpolate = interpolate, 
                  interpolate.maxgap = interpolate.maxgap, 
                  method.first = method.first, bc = bc, 
                  prebc.duration = prebc.duration, 
                  missing.allowed = missing.allowed, subset = subset, 
                  trial.exclude = trial.exclude)
 ```
+
+## Articles
+
+For more detailed information on how to use `pupil_preprocess()` and other functions see the **Articles** tab above. 
 
 ## Planned Updates
 
@@ -156,3 +161,4 @@ pupil_preprocess(import.dir = import.dir, pattern = pattern, taskname = taskname
 ## Citation
 
 > Tsukahara, J.S. (2018). pupillometry: An R Package to Preprocess Pupil Data. Retrieved from https://dr-jt.github.io/pupillometry
+

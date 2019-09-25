@@ -9,7 +9,7 @@
 #' @export
 #'
 
-pupil_deblink <- function(x, extend = 100){
+pupil_deblink <- function(x, extend = 0){
   x <- dplyr::mutate(x,
                      blink = ifelse(!is.na(Event) & Event == "Blink", 1, 0),
                      blink.lag = dplyr::lag(blink),

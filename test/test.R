@@ -1,4 +1,4 @@
-devtools::install_github("dr-JT/pupillometry", ref = "dev")
+# devtools::install_github("dr-JT/pupillometry", ref = "dev")
 
 library(pupillometry)
 
@@ -6,7 +6,7 @@ library(pupillometry)
 
 # File Import Information
 import.dir <- "test/Raw"
-pattern <- "*.txt"
+pattern <- "NoMessageMarkers"
 taskname <- "Pitch_Discrimination"
 
 # Eyetrackers save the subject number information in different ways and is not
@@ -16,7 +16,7 @@ taskname <- "Pitch_Discrimination"
 
 subj.prefix <- "n_"             ## For SMI eyetrackers
 subj.suffix <- "-"              ## For SMI eyetrackers
-timing.file <- NULL
+timing.file <- "test/pitch_timing.csv"
 
 # File Output Information
 output.dir <- "test/Preprocessed"
@@ -29,7 +29,7 @@ hz <- 250
 eye.use <- "left"
 
 # Message Marker Information
-starttracking.message <- "default"
+starttracking.message <- "Fixation"
 starttracking.match <- "exact"
 trialonset.message <- "Tone 1"
 trialonset.match <- "exact"
