@@ -9,7 +9,12 @@
 #'
 
 pupil_cor <- function(x){
-  x <- dplyr::mutate(x, Pupils.r = stats::cor(L_Pupil_Diameter.mm, R_Pupil_Diameter.mm, use = "pairwise.complete.obs"),
+  x <- dplyr::mutate(x, Pupils.r = stats::cor(L_Pupil_Diameter.mm,
+                                              R_Pupil_Diameter.mm,
+                                              use = "pairwise.complete.obs"),
                      Pupils.r = ifelse(is.na(Pupils.r), 0, Pupils.r))
+  x <- dplyr::select(x, Subject, Trial, Time, dplyr::contains("mm"), Pupils.r,
+                     dplyr::contains("Event"), dplyr::contains("Gaze"),
+                     Head_Dist.cm, ms_conversion)
   return(x)
 }

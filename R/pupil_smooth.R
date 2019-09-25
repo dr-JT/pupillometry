@@ -29,9 +29,10 @@ pupil_smooth <- function(x, type = "hann", window = 5, hz = ""){
                        Pupil_Diameter.mm = ifelse(is.na(Pupil_Diameter.mm),NA,hold))
     x <- dplyr::select(x, -hold)
   }
-  x <- dplyr::mutate(x, trial.missing = ifelse(is.na(Pupil_Diameter.mm), 1, 0),
-                     trial.missing = sum(trial.missing, na.rm = TRUE)/dplyr::n())
+  x <- dplyr::mutate(x, Trial_missing.prop = ifelse(is.na(Pupil_Diameter.mm), 1, 0),
+                     Trial_missing.prop = sum(Trial_missing.prop, na.rm = TRUE)/dplyr::n())
   x <- dplyr::ungroup(x)
-  x <- dplyr::filter(x, trial.missing < 1)
+  x <- dplyr::filter(x, Trial_missing.prop < 1)
+  x <- dplyr::select(x, -Trial_missing.prop)
   return(x)
 }

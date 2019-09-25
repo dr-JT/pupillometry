@@ -47,6 +47,10 @@ pupil_baselinecorrect <- function(x, message = "", pre.duration = 200,
 
   x <- dplyr::ungroup(x)
   x <- dplyr::select(x, -PreTarget.median, -baselineoffset.time, -min)
+  x <- dplyr::select(x, Subject, Trial, PreTrial, Time, Stimulus,
+                     Pupil_Diameter.mm, Pupil_Diameter_bc.mm, PreTarget, Target,
+                     Pupils.r, Event, Gaze_Position.x, Gaze_Position.y,
+                     Gaze.quality, Head_Dist.cm)
   return(x)
 }
 

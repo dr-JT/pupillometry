@@ -147,11 +147,7 @@ pupil_preprocess <- function(import.dir = NULL, pattern = "*.txt",
     left.recorded <- "L_Pupil_Diameter.mm" %in% colnames(data)
     right.recorded <- "R_Pupil_Diameter.mm" %in% colnames(data)
     if (left.recorded == TRUE & right.recorded == TRUE) {
-      data <- dplyr::mutate(data,
-                            Pupils.r =
-                              stats::cor(L_Pupil_Diameter.mm,
-                                         R_Pupil_Diameter.mm,
-                                         use = "pairwise.complete.obs"))
+      data <- pupil_cor(data)
     }
 
     ## Select eyes and filter out trials with too much missing data
