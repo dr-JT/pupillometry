@@ -378,7 +378,7 @@ pupil_read <- function(file, eyetracker = "",
   }
 
   if (!("Message_Inserted" %in% colnames(data))) {
-    data <- dplyt::mutate(data, Message_Inserted == 0)
+    data <- dplyr::mutate(data, Message_Inserted == 0)
   }
   data <- dplyr::select(data, Subject, Trial, Time, Message, Message_Inserted,
                         dplyr::contains("mm"), dplyr::contains("Event"),
