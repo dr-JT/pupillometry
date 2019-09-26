@@ -13,8 +13,14 @@ set_stimuli <- function(x){
   x <- dplyr::ungroup(x)
 
   x <- dplyr::filter(x, Message_Inserted == 0)
-  x <- dplyr::select(x, Subject, Trial, PreTrial, Time, Stimulus, Message,
-                     Pupil_Diameter.mm, Pupils.r, Event, Gaze_Position.x,
-                     Gaze_Position.y, Gaze.quality, Head_Dist.cm)
+
+  col_order <- c("Subject", "Trial", "PreTrial", "Time", "Stimulus",
+                 "Pupil_Diameter.mm", "Pupils.r", "Event", "Gaze_Position.x",
+                 "Gaze_Position.y", "Gaze.quality", "Head_Dist.cm")
+
+  col_order <- colnames(data)[order(match(colnames(data), col_order))]
+
+  data <- data[,col_order]
+
   return(x)
 }

@@ -44,8 +44,15 @@ set_timing <- function(x, trialonset.message = NULL, ms.conversion = 1,
   x <- dplyr::select(x, -trialonset.time, -min)
   x <- dplyr::distinct(x, Trial, Time, .keep_all = TRUE)
   x <- dplyr::filter(x, !is.na(Subject))
-  x <- dplyr::select(x, Subject, Trial, PreTrial, Time, Message, Message_Inserted,
-                     Pupil_Diameter.mm, Pupils.r, Event, Gaze_Position.x,
-                     Gaze_Position.y, Gaze.quality, Head_Dist.cm)
+
+  col_order <- c("Subject", "Trial", "PreTrial", "Time", "Message",
+                 "Message_Inserted", "Pupil_Diameter.mm", "Pupils.r",
+                 "Event", "Gaze_Position.x", "Gaze_Position.y",
+                 "Gaze.quality", "Head_Dist.cm")
+
+  col_order <- colnames(data)[order(match(colnames(data), col_order))]
+
+  data <- data[,col_order]
+
   return(x)
 }
