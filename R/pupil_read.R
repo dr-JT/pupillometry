@@ -293,6 +293,8 @@ pupil_read <- function(file, eyetracker = "",
     timing_data <- data.frame()
   } else if (stringr::str_detect(timing.file, "csv")) {
     timing_data <- readr::read_csv(timing.file)
+  } else if (stringr::str_detect(timing.file, "xlsx")) {
+    timing_data <- readxl::read_excel(timing.file)
   }
   if ("Subject" %in% colnames(timing_data)) {
     subj <- data$Subject[1]
