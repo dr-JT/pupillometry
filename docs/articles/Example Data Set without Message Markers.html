@@ -195,15 +195,15 @@
 <a class="sourceLine" id="cb1-8" data-line-number="8">import.dir &lt;-<span class="st"> "data/Raw"</span></a>
 <a class="sourceLine" id="cb1-9" data-line-number="9">pattern &lt;-<span class="st"> "messagesRemoved.txt"</span></a>
 <a class="sourceLine" id="cb1-10" data-line-number="10">taskname &lt;-<span class="st"> "Pitch_Discrimination"</span></a>
-<a class="sourceLine" id="cb1-11" data-line-number="11"></a>
-<a class="sourceLine" id="cb1-12" data-line-number="12"><span class="co"># Eyetrackers save the subject number information in different ways and is not</span></a>
-<a class="sourceLine" id="cb1-13" data-line-number="13"><span class="co"># always easy to obtain. For SMI eyetrackers we need to extract it from the</span></a>
-<a class="sourceLine" id="cb1-14" data-line-number="14"><span class="co"># datafile name. You need to identify a unique subj.prefix pattern and</span></a>
-<a class="sourceLine" id="cb1-15" data-line-number="15"><span class="co"># subj.suffix pattern that surrounds the subject # in the datafile name.</span></a>
-<a class="sourceLine" id="cb1-16" data-line-number="16"></a>
-<a class="sourceLine" id="cb1-17" data-line-number="17">subj.prefix &lt;-<span class="st"> "n_"</span>             <span class="co">## For SMI eyetrackers</span></a>
-<a class="sourceLine" id="cb1-18" data-line-number="18">subj.suffix &lt;-<span class="st"> "-"</span>              <span class="co">## For SMI eyetrackers</span></a>
-<a class="sourceLine" id="cb1-19" data-line-number="19">timing.file &lt;-<span class="st"> "data/pitch_timing.csv"</span></a>
+<a class="sourceLine" id="cb1-11" data-line-number="11">timing.file &lt;-<span class="st"> </span><span class="ot">NULL</span></a>
+<a class="sourceLine" id="cb1-12" data-line-number="12"></a>
+<a class="sourceLine" id="cb1-13" data-line-number="13"><span class="co"># Eyetrackers save the subject number information in different ways and is not</span></a>
+<a class="sourceLine" id="cb1-14" data-line-number="14"><span class="co"># always easy to obtain. For SMI eyetrackers we need to extract it from the</span></a>
+<a class="sourceLine" id="cb1-15" data-line-number="15"><span class="co"># datafile name. You need to identify a unique subj.prefix pattern and</span></a>
+<a class="sourceLine" id="cb1-16" data-line-number="16"><span class="co"># subj.suffix pattern that surrounds the subject # in the datafile name.</span></a>
+<a class="sourceLine" id="cb1-17" data-line-number="17"></a>
+<a class="sourceLine" id="cb1-18" data-line-number="18">subj.prefix &lt;-<span class="st"> "n_"</span>             <span class="co">## For SMI Red250m eyetrackers</span></a>
+<a class="sourceLine" id="cb1-19" data-line-number="19">subj.suffix &lt;-<span class="st"> "-"</span>              <span class="co">## For SMI Red250m eyetrackers</span></a>
 <a class="sourceLine" id="cb1-20" data-line-number="20"></a>
 <a class="sourceLine" id="cb1-21" data-line-number="21"><span class="co"># File Output Information</span></a>
 <a class="sourceLine" id="cb1-22" data-line-number="22">output.dir &lt;-<span class="st"> "data/Preprocessed"</span></a>

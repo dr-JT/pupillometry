@@ -79,17 +79,17 @@ You can copy and paste the following code into a script and use it as a template
 
 # File Import Information
 import.dir <- "data/Raw"
-pattern <- "*.txt"
+pattern <- ".txt"
 taskname <- "Pitch_Discrimination"
+timing.file <- NULL
 
 # Eyetrackers save the subject number information in different ways and is not
 # always easy to obtain. For SMI eyetrackers we need to extract it from the
 # datafile name. You need to identify a unique subj.prefix pattern and 
 # subj.suffix pattern that surrounds the subject # in the datafile name.
 
-subj.prefix <- "n_"             ## For SMI eyetrackers
-subj.suffix <- "-"              ## For SMI eyetrackers
-timing.file <- NULL
+subj.prefix <- "n_"             ## For SMI Red50m eyetrackers
+subj.suffix <- "-"              ## For SMI Red250m eyetrackers
 
 # File Output Information
 output.dir <- "data/Preprocessed"
