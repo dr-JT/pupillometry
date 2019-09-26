@@ -17,7 +17,11 @@ pupil_smooth <- function(x, type = "hann", window = 5, hz = ""){
     x <- dplyr::mutate(x,
                        hold = zoo::na.approx(Pupil_Diameter.mm, na.rm = FALSE, maxgap = Inf),
                        hold = dplR::hanning(hold, n = window),
-                       Pupil_Diameter.mm = ifelse(is.na(Pupil_Diameter.mm),NA,hold))
+                       Pupil_Diameter.mm = ifelse(is.na(hold) &
+                                                    !is.na(Pupil_Diameter.mm),
+                                                  Pupil_Diameter.mm,
+                                                  ifelse(is.na(Pupil_Diameter.mm),
+                                                         NA,hold)))
     x <- dplyr::select(x, -hold)
   } else if (type=="mwa"){
     x <- dplyr::mutate(x,
