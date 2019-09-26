@@ -310,7 +310,7 @@ pupil_read <- function(file, eyetracker = "",
     data <- dplyr::select(data, -Trial.x, -Trial.y, -Message.x)
     data <- dplyr::mutate(data,
                           Message_Inserted = ifelse(is.na(Subject),
-                                                    1, Message_Inserted),
+                                                    1, 0),
                           Subject = zoo::na.locf(Subject, na.rm = FALSE),
                           ms_conversion = zoo::na.locf(ms_conversion,
                                                        na.rm = FALSE))
