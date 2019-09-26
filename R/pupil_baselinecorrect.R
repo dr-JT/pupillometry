@@ -56,9 +56,9 @@ pupil_baselinecorrect <- function(x, message = "", pre.duration = 200,
                  "Target", "Pupils.r", "Event", "Gaze_Position.x",
                  "Gaze_Position.y", "Gaze.quality", "Head_Dist.cm")
 
-  col_order <- colnames(data)[order(match(colnames(data), col_order))]
+  col_order <- colnames(x)[order(match(colnames(x), col_order))]
 
-  data <- data[,col_order]
+  x <- x[,col_order]
 
   return(x)
 }

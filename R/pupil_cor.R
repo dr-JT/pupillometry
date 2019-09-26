@@ -20,9 +20,9 @@ pupil_cor <- function(x){
                  "R_Gaze_Position.x", "R_Gaze_Position.y", "Gaze.quality",
                  "Head_Dist.cm", "ms_conversion", "Message_Inserted")
 
-  col_order <- colnames(data)[order(match(colnames(data), col_order))]
+  col_order <- colnames(x)[order(match(colnames(x), col_order))]
 
-  data <- data[,col_order]
+  x <- x[,col_order]
 
   return(x)
 }
