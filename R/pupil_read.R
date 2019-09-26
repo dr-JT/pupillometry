@@ -369,7 +369,7 @@ pupil_read <- function(file, eyetracker = "",
                             Trial = dplyr::case_when(
                               !is.na(Trial.x) & is.na(Trial.y) ~ Trial.x,
                               !is.na(Trial.y) & is.na(Trial.x) ~ Trial.y,
-                              TRUE ~ as.integer(NA)))
+                              TRUE ~ as.double(NA)))
       data <- dplyr::select(data, -Trial.y, -Message.x, -Message.y)
       data <- dplyr::mutate(data,
                             Message_Inserted = ifelse(is.na(Subject),
