@@ -368,12 +368,16 @@ pupil_read <- function(file, eyetracker = "",
                             Message_Inserted = ifelse(is.na(Subject),
                                                       1, Message_Inserted),
                             Subject = zoo::na.locf(Subject, na.rm = FALSE),
-                            Head_Dist.cm = zoo::na.locf(Head_Dist.cm,
-                                                        na.rm = FALSE),
-                            Gaze.quality = zoo::na.locf(Gaze.quality,
-                                                        na.rm = FALSE),
                             ms_conversion = zoo::na.locf(ms_conversion,
                                                          na.rm = FALSE))
+      if (model == "Red250m") {
+        data <- dplyr::mutate(data,
+                              Head_Dist.cm = zoo::na.locf(Head_Dist.cm,
+                                                          na.rm = FALSE),
+                              Gaze.quality = zoo::na.locf(Gaze.quality,
+                                                          na.rm = FALSE))
+      }
+
       data <- dplyr::arrange(data, Subject, Trial, Time)
     }
 
