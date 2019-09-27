@@ -208,46 +208,84 @@ pupil_read <- function(file, eyetracker = "",
     }
 
     if (model == "glasses") {
-      data <- dplyr::mutate(data,
-                            Subject = Participant,
-                            Event =
-                              dplyr::case_when(Category_Binocular ==
-                                                 "Annotation Interval Start"
-                                               ~ "-",
-                                               Category_Binocular ==
-                                                 "Annotation Interval End"
-                                               ~ "-",
-                                               Category_Binocular ==
-                                                 "Visual Intake" ~ "Fixation",
-                                                     TRUE ~ Category_Binocular),
-                            L_Event = Event,
-                            R_Event = Event,
-                            Message = ifelse(Annotation_Name == "-", NA,
-                                             Annotation_Name),
-                            Time = `RecordingTime_[ms]`,
-                            Message_Inserted = ifelse(is.na(Time), 1, 0),
-                            Time = zoo::na.locf(Time, na.rm = FALSE,
-                                                fromLast = TRUE),
-                            L_Pupil_Diameter.mm =
-                              ifelse(Pupil_Diameter_Left_mm == "-", NA,
-                                     Pupil_Diameter_Left_mm),
-                            R_Pupil_Diameter.mm =
-                              ifelse(Pupil_Diameter_Right_mm == "-", NA,
-                                     Pupil_Diameter_Right_mm),
-                            L_Pupil_Diameter.mm = as.numeric(L_Pupil_Diameter.mm),
-                            R_Pupil_Diameter.mm = as.numeric(R_Pupil_Diameter.mm),
-                            L_Gaze_Position.x = Point_of_Regard_Binocular_X_px,
-                            R_Gaze_Position.x = Point_of_Regard_Binocular_X_px,
-                            L_Gaze_Position.y = Point_of_Regard_Binocular_Y_px,
-                            R_Gaze_Position.y = Point_of_Regard_Binocular_Y_px,
-                            ms_conversion = 1)
-      data <- dplyr::select(data,
-                            Subject = Participant, Time,
-                            Trial, Message, L_Pupil_Diameter.mm,
-                            L_Event, R_Pupil_Diameter.mm, R_Event,
-                            L_Gaze_Position.x, L_Gaze_Position.y,
-                            R_Gaze_Position.x, R_Gaze_Position.y,
-                            ms_conversion)
+      if ("Point_of_Regard_Binocular_X_px" %in% colnames(data)) {
+        data <- dplyr::mutate(data,
+                              Subject = Participant,
+                              Event =
+                                dplyr::case_when(Category_Binocular ==
+                                                   "Annotation Interval Start"
+                                                 ~ "-",
+                                                 Category_Binocular ==
+                                                   "Annotation Interval End"
+                                                 ~ "-",
+                                                 Category_Binocular ==
+                                                   "Visual Intake" ~ "Fixation",
+                                                 TRUE ~ Category_Binocular),
+                              L_Event = Event,
+                              R_Event = Event,
+                              Message = ifelse(Annotation_Name == "-", NA,
+                                               Annotation_Name),
+                              Time = `RecordingTime_[ms]`,
+                              Message_Inserted = ifelse(is.na(Time), 1, 0),
+                              Time = zoo::na.locf(Time, na.rm = FALSE,
+                                                  fromLast = TRUE),
+                              L_Pupil_Diameter.mm =
+                                ifelse(Pupil_Diameter_Left_mm == "-", NA,
+                                       Pupil_Diameter_Left_mm),
+                              R_Pupil_Diameter.mm =
+                                ifelse(Pupil_Diameter_Right_mm == "-", NA,
+                                       Pupil_Diameter_Right_mm),
+                              L_Pupil_Diameter.mm = as.numeric(L_Pupil_Diameter.mm),
+                              R_Pupil_Diameter.mm = as.numeric(R_Pupil_Diameter.mm),
+                              L_Gaze_Position.x = Point_of_Regard_Binocular_X_px,
+                              R_Gaze_Position.x = Point_of_Regard_Binocular_X_px,
+                              L_Gaze_Position.y = Point_of_Regard_Binocular_Y_px,
+                              R_Gaze_Position.y = Point_of_Regard_Binocular_Y_px,
+                              ms_conversion = 1)
+        data <- dplyr::select(data,
+                              Subject = Participant, Time,
+                              Trial, Message, L_Pupil_Diameter.mm,
+                              L_Event, R_Pupil_Diameter.mm, R_Event,
+                              L_Gaze_Position.x, L_Gaze_Position.y,
+                              R_Gaze_Position.x, R_Gaze_Position.y,
+                              ms_conversion)
+      } else {
+        data <- dplyr::mutate(data,
+                              Subject = Participant,
+                              Event =
+                                dplyr::case_when(Category_Binocular ==
+                                                   "Annotation Interval Start"
+                                                 ~ "-",
+                                                 Category_Binocular ==
+                                                   "Annotation Interval End"
+                                                 ~ "-",
+                                                 Category_Binocular ==
+                                                   "Visual Intake" ~ "Fixation",
+                                                 TRUE ~ Category_Binocular),
+                              L_Event = Event,
+                              R_Event = Event,
+                              Message = ifelse(Annotation_Name == "-", NA,
+                                               Annotation_Name),
+                              Time = `RecordingTime_[ms]`,
+                              Message_Inserted = ifelse(is.na(Time), 1, 0),
+                              Time = zoo::na.locf(Time, na.rm = FALSE,
+                                                  fromLast = TRUE),
+                              L_Pupil_Diameter.mm =
+                                ifelse(Pupil_Diameter_Left_mm == "-", NA,
+                                       Pupil_Diameter_Left_mm),
+                              R_Pupil_Diameter.mm =
+                                ifelse(Pupil_Diameter_Right_mm == "-", NA,
+                                       Pupil_Diameter_Right_mm),
+                              L_Pupil_Diameter.mm = as.numeric(L_Pupil_Diameter.mm),
+                              R_Pupil_Diameter.mm = as.numeric(R_Pupil_Diameter.mm),
+                              ms_conversion = 1)
+        data <- dplyr::select(data,
+                              Subject = Participant, Time,
+                              Trial, Message, L_Pupil_Diameter.mm,
+                              L_Event, R_Pupil_Diameter.mm, R_Event,
+                              ms_conversion)
+      }
+
     }
   }
 
