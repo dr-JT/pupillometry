@@ -49,7 +49,7 @@ pupil_baselinecorrect <- function(x, message = "", pre.duration = 200,
   }
 
   x <- dplyr::ungroup(x)
-  x <- dplyr::select(x, -PreTarget.median, -bconset.time, -min)
+  x <- dplyr::select(x, -PreTarget.median, -bconset.time, -min, -onset.time)
 
   col_order <- c("Subject", "Trial", "PreTrial", "Time", "Stimulus",
                  "Pupil_Diameter.mm", "Pupil_Diameter_bc.mm", "PreTareget",

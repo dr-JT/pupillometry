@@ -431,6 +431,8 @@ pupil_read <- function(file, eyetracker = "",
     data <- dplyr::mutate(data, Message_Inserted = 0)
   }
 
+  data <- dplyr::select(data, -starttracking.time)
+
   col_order <- c("Subject", "Trial", "Time", "Message", "Message_Inserted",
                  "L_Pupil_Diameter.mm", "R_Pupil_Diameter.mm", "L_Event",
                  "R_Event", "L_Gaze_Position.x", "L_Gaze_Position.y",
@@ -440,7 +442,6 @@ pupil_read <- function(file, eyetracker = "",
   col_order <- colnames(data)[order(match(colnames(data), col_order))]
 
   data <- data[,col_order]
-
 
   if (!is.null(trial.exclude)){
     data <- dplyr::filter(data, !(Trial %in% trial.exclude))
