@@ -243,7 +243,7 @@ pupil_read <- function(file, eyetracker = "",
                               R_Gaze_Position.y = Point_of_Regard_Binocular_Y_px,
                               ms_conversion = 1)
         data <- dplyr::select(data,
-                              Subject = Participant, Time,
+                              Subject, Time,
                               Trial, Message, L_Pupil_Diameter.mm,
                               L_Event, R_Pupil_Diameter.mm, R_Event,
                               L_Gaze_Position.x, L_Gaze_Position.y,
@@ -280,12 +280,22 @@ pupil_read <- function(file, eyetracker = "",
                               R_Pupil_Diameter.mm = as.numeric(R_Pupil_Diameter.mm),
                               ms_conversion = 1)
         data <- dplyr::select(data,
-                              Subject = Participant, Time,
+                              Subject, Time,
                               Trial, Message, L_Pupil_Diameter.mm,
                               L_Event, R_Pupil_Diameter.mm, R_Event,
                               ms_conversion)
       }
 
+    }
+    if (!is.null(subj.prefix)) {
+      data <- dplyr::mutate(data,
+                            Subject =
+                              stringr::str_split(Subject, subj.prefix)[[1]][2])
+    }
+    if (!is.null(subj.prefix)) {
+      data <- dplyr::mutate(data,
+                            Subject =
+                              stringr::str_split(Subject, subj.suffix)[[1]][1])
     }
   }
 
