@@ -285,17 +285,16 @@ pupil_read <- function(file, eyetracker = "",
                               L_Event, R_Pupil_Diameter.mm, R_Event,
                               ms_conversion)
       }
-
-    }
-    if (!is.null(subj.prefix)) {
-      data <- dplyr::mutate(data,
-                            Subject =
-                              stringr::str_split(Subject, subj.prefix)[[1]][2])
-    }
-    if (!is.null(subj.prefix)) {
-      data <- dplyr::mutate(data,
-                            Subject =
-                              stringr::str_split(Subject, subj.suffix)[[1]][1])
+      if (!is.null(subj.prefix)) {
+        data <- dplyr::mutate(data,
+                              Subject =
+                                stringr::str_split(Subject, subj.prefix)[[1]][2])
+      }
+      if (!is.null(subj.prefix)) {
+        data <- dplyr::mutate(data,
+                              Subject =
+                                stringr::str_split(Subject, subj.suffix)[[1]][1])
+      }
     }
   }
 
