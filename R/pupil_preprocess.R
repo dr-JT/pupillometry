@@ -91,7 +91,13 @@ pupil_preprocess <- function(import.dir = NULL, pattern = "*.txt",
 
   ## Save data and do baseline correction first if bc==TRUE
   saveData <- function(x, preprocessing.stage = ""){
-    x <- dplyr::select(x, -Message_Inserted, -Trial.x)
+    if ("Trial.x" %in% colnames(x)) {
+      x <- dplyr::select(x, -Trial.x)
+    }
+    if ("Message_Inserted" %in% colnames(x)) {
+      x <- dplyr::select(x, -Message_Inserted)
+    }
+
     if (!is.null(bc)){
       preprocessing <- paste(preprocessing.stage, "bc", sep = ".")
       x <- pupil_baselinecorrect(x, message = bconset.message,
