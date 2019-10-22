@@ -1,4 +1,16 @@
+# pupillometry 0.4.1
+
+Updated: 10/21/2019
+
+* Full support for SR-Research EyeLink 1000 eyetracker `eyetracker = "eyelink"`
+
+* Added parameter to include conversion factor of pupil data in pixels (px) to pupil data in millimeters (mm)
+
+* Renamed some of the parameters (old parameter names still work)
+
 # pupillometry 0.4.0
+
+Updated: 09/30/2019
 
 * Added the functionality to supply a timing file in order to insert **Message Markers** in the data. See [Example Data - Without Message Markers](https://dr-jt.github.io/pupillometry/articles/Example%20Data%20Set%20without%20Message%20Markers.html)
 

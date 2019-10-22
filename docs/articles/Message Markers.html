@@ -33,7 +33,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">pupillometry</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.1</span>
       </span>
     </div>
 
@@ -114,57 +114,57 @@
 <p>Your data file need to conatain messages that mark the onset/offset of trials, critical stimuli, and events. For instance in the image below there are <strong>Message Markers</strong> shown above each stimulus event. These are example message markers that may be contained in the data file.</p>
 <p><img src="../reference/figures/message_markers_1.png" align="center"></p>
 <p>For <code><a href="../reference/pupil_preprocess.html">pupil_preprocess()</a></code> these are the message markers you need to know</p>
-<div id="starttracking-message" class="section level3">
+<div id="start_tracking-message" class="section level3">
 <h3 class="hasAnchor">
-<a href="#starttracking-message" class="anchor"></a><code>starttracking.message = ""</code>
+<a href="#start_tracking-message" class="anchor"></a><code>start_tracking.message = ""</code>
 </h3>
 <p>The first message marker is the <strong>StartTracking</strong> message. It is usually more practical to start saving data right at the beginning of a trial and stop saving at the end of a trial. This results in a smaller data file (less irrelevant data) than if you were to continously save data between trials or blocks. Different eye-tracker systems have a different default <strong>StartTracking</strong> message.</p>
-<p><code>starttracking.message</code> is used to correctly set the trial index in the data file when importing the data file with <code><a href="../reference/pupil_read.html">pupil_read()</a></code>.</p>
+<p><code>start_tracking.message</code> is used to correctly set the trial index in the data file when importing the data file with <code><a href="../reference/pupil_read.html">pupil_read()</a></code>.</p>
 <p>The SMI default is : “StartTracking.bmp”</p>
-<p>This parameter can be set to <code>starttracking.message &lt;- "default"</code> to use the eyetracker default. If you are not using the default message then you need to specify the custom string you used.</p>
-<p>In the case where you continuously saved data and do not have a <strong>StartTracking</strong> message at the start of each trial, you can use the first stimulus event (usually the pre-trial event) as the <strong>StartTracking</strong> message. For instance, in the Trial Procedure image above the first stimulus event with a message marker is <strong>Fixation</strong>. Therefore, you could set <code>starttracking.message &lt;- "Fixation"</code> if you do not have <strong>StartTracking</strong> message at the start of each trial.</p>
+<p>This parameter can be set to <code>start_tracking.message &lt;- "default"</code> to use the eyetracker default. If you are not using the default message then you need to specify the custom string you used.</p>
+<p>In the case where you continuously saved data and do not have a <strong>StartTracking</strong> message at the start of each trial, you can use the first stimulus event (usually the pre-trial event) as the <strong>StartTracking</strong> message. For instance, in the Trial Procedure image above the first stimulus event with a message marker is <strong>Fixation</strong>. Therefore, you could set <code>start_tracking.message &lt;- "Fixation"</code> if you do not have <strong>StartTracking</strong> message at the start of each trial.</p>
 </div>
-<div id="starttracking-match-cexact-pattern" class="section level3">
+<div id="start_tracking-match-cexact-pattern" class="section level3">
 <h3 class="hasAnchor">
-<a href="#starttracking-match-cexact-pattern" class="anchor"></a><code>starttracking.match = c("exact", "pattern")</code>
+<a href="#start_tracking-match-cexact-pattern" class="anchor"></a><code>start_tracking.match = c("exact", "pattern")</code>
 </h3>
-<p>There is an additional parameter <code>starttracking.match</code> that specifies whether <code>starttracking.message</code> needs to be an <code>"exact"</code> or a <code>"pattern"</code> match. This simply allows more flexibility. Such as, if the start recording message is different on each trial “TRIALID [trial number]”, then a <code>"pattern"</code> match will need to be used to correctly set the trial index.</p>
+<p>There is an additional parameter <code>start_tracking.match</code> that specifies whether <code>start_tracking.message</code> needs to be an <code>"exact"</code> or a <code>"pattern"</code> match. This simply allows more flexibility. Such as, if the start recording message is different on each trial “TRIALID [trial number]”, then a <code>"pattern"</code> match will need to be used to correctly set the trial index.</p>
 </div>
-<div id="trialonset-message" class="section level3">
+<div id="trial_onset-message" class="section level3">
 <h3 class="hasAnchor">
-<a href="#trialonset-message" class="anchor"></a><code>trialonset.message = ""</code>
+<a href="#trial_onset-message" class="anchor"></a><code>trial_onset.message = ""</code>
 </h3>
-<p><code>trialonset.message</code> is the message in the data file that marks the onset of a trial. If you included a fixation as an inter-trial-interval (ITI) at the start of every trial, then the <strong>trial onset should correspond to the stimulus after the fixation or ITI stimulus</strong>. The fixation (ITI) period will be treated as a pre-trial period.</p>
-<p>In the Trial Procedure image above, we would set <code>trialonset.message &lt;- "Cue"</code>.</p>
-<p><code>trialonset.message</code> is used to set the timing relative to trial onset using <code><a href="../reference/set_timing.html">set_timing()</a></code>. Pre-trial periods will have a negative Time value, relative to trial onset.</p>
+<p><code>trial_onset.message</code> is the message in the data file that marks the onset of a trial. If you included a fixation as an inter-trial-interval (ITI) at the start of every trial, then the <strong>trial onset should correspond to the stimulus after the fixation or ITI stimulus</strong>. The fixation (ITI) period will be treated as a pre-trial period.</p>
+<p>In the Trial Procedure image above, we would set <code>trial_onset.message &lt;- "Cue"</code>.</p>
+<p><code>trial_onset.message</code> is used to set the timing relative to trial onset using <code><a href="../reference/set_timing.html">set_timing()</a></code>. Pre-trial periods will have a negative Time value, relative to trial onset.</p>
 </div>
-<div id="trialonset-match-cexact-pattern" class="section level3">
+<div id="trial_onset-match-cexact-pattern" class="section level3">
 <h3 class="hasAnchor">
-<a href="#trialonset-match-cexact-pattern" class="anchor"></a><code>trialonset.match = c("exact", "pattern")</code>
+<a href="#trial_onset-match-cexact-pattern" class="anchor"></a><code>trial_onset.match = c("exact", "pattern")</code>
 </h3>
-<p>There is an additional parameter <code>trialonset.match</code> that specifies whether <code>trialonset.message</code> needs to be an <code>"exact"</code> or a <code>"pattern"</code> match. This simply allows more flexibility in how researchers may have included message markers in their task. <code>"pattern"</code> should be used if the <code>trialonset.message</code> marker is different on every trial (this can happen if the message includes information about the trial number). Within a trial, <code>trialonset.match</code> will only take the first match that occurs as the <code>trialonset.message</code>.</p>
+<p>There is an additional parameter <code>trial_onset.match</code> that specifies whether <code>trial_onset.message</code> needs to be an <code>"exact"</code> or a <code>"pattern"</code> match. This simply allows more flexibility in how researchers may have included message markers in their task. <code>"pattern"</code> should be used if the <code>trial_onset.message</code> marker is different on every trial (this can happen if the message includes information about the trial number). Within a trial, <code>trial_onset.match</code> will only take the first match that occurs as the <code>trial_onset.message</code>.</p>
 <p>Such as, if the start recording message is different on each trial “TRIALID [trial number]”, then a <code>"pattern"</code> match will need to be used to correctly set the trial index.</p>
 </div>
-<div id="pretrial-duration" class="section level3">
+<div id="pre_trial-duration" class="section level3">
 <h3 class="hasAnchor">
-<a href="#pretrial-duration" class="anchor"></a><code>pretrial.duration = ""</code>
+<a href="#pre_trial-duration" class="anchor"></a><code>pre_trial.duration = ""</code>
 </h3>
-<p>The duration of the pre-trial period is set relative to the timing of the <code>trialonset.message</code> and that duration is specified by <code>pretrial.duration</code>.</p>
-<p>For instance if <code>pretrial.duration &lt;- 2000</code>, then the 2000 milliseconds before <code>trialonset.message</code> will be marked as a pre-trial period. This duration typically corresponds to the duration of the ITI period.</p>
+<p>The duration of the pre-trial period is set relative to the timing of the <code>trial_onset.message</code> and that duration is specified by <code>pre_trial.duration</code>.</p>
+<p>For instance if <code>pre_trial.duration &lt;- 2000</code>, then the 2000 milliseconds before <code>trial_onset.message</code> will be marked as a pre-trial period. This duration typically corresponds to the duration of the ITI period.</p>
 </div>
-<div id="bconset-message" class="section level3">
+<div id="bc_onset-message" class="section level3">
 <h3 class="hasAnchor">
-<a href="#bconset-message" class="anchor"></a><code>bconset.message = ""</code>
+<a href="#bc_onset-message" class="anchor"></a><code>bc_onset.message = ""</code>
 </h3>
-<p><code>bconset.message</code> is the message that marks the onset of the critical task period that needs to be baseline corrected.</p>
-<p>For instance, in the Trial Procedue image above, we would set <code>bconset.message &lt;- "Stimulus"</code>.</p>
-<p><code>bconset.message</code> is used for baseline correction in <code><a href="../reference/pupil_baselinecorrect.html">pupil_baselinecorrect()</a></code>.</p>
+<p><code>bc_onset.message</code> is the message that marks the onset of the critical task period that needs to be baseline corrected.</p>
+<p>For instance, in the Trial Procedue image above, we would set <code>bc_onset.message &lt;- "Stimulus"</code>.</p>
+<p><code>bc_onset.message</code> is used for baseline correction in <code><a href="../reference/pupil_baselinecorrect.html">pupil_baselinecorrect()</a></code>.</p>
 </div>
-<div id="bconset-match-cexact-pattern" class="section level3">
+<div id="bc_onset-match-cexact-pattern" class="section level3">
 <h3 class="hasAnchor">
-<a href="#bconset-match-cexact-pattern" class="anchor"></a><code>bconset.match = c("exact", "pattern")</code>
+<a href="#bc_onset-match-cexact-pattern" class="anchor"></a><code>bc_onset.match = c("exact", "pattern")</code>
 </h3>
-<p>There is an additional parameter <code>bconset.match</code> that specifies whether <code>bconset.message</code> needs to be an <code>"exact"</code> or a <code>"pattern"</code> match. This simply allows more flexibility in how researchers may have included message markers in their task. <code>"pattern"</code> should be used if the <code>baselineoffset.message</code> marker is different on every trial (this can happen if the message includes information about the trial number). Within a trial, <code>bconset.match</code> will only take the first match that occurs as the <code>bconset.message</code>.</p>
+<p>There is an additional parameter <code>bc_onset.match</code> that specifies whether <code>bc_onset.message</code> needs to be an <code>"exact"</code> or a <code>"pattern"</code> match. This simply allows more flexibility in how researchers may have included message markers in their task. <code>"pattern"</code> should be used if the <code>bc_onset.message</code> marker is different on every trial (this can happen if the message includes information about the trial number). Within a trial, <code>bc_onset.match</code> will only take the first match that occurs as the <code>bc_onset.message</code>.</p>
 </div>
 <div id="no-message-markers-in-data-file" class="section level3">
 <h3 class="hasAnchor">

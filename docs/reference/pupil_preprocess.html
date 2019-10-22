@@ -73,7 +73,7 @@ and outputs the preprocessed data to a specified folder path" />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">pupillometry</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.1</span>
       </span>
     </div>
 
@@ -159,14 +159,18 @@ and outputs the preprocessed data to a specified folder path</p>
   <span class='kw'>taskname</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>subj.prefix</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>subj.suffix</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>timing.file</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>output.dir</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>output.steps</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
   <span class='kw'>eyetracker</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>hz</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>eye.use</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>starttracking.message</span> <span class='kw'>=</span> <span class='st'>"default"</span>, <span class='kw'>starttracking.match</span> <span class='kw'>=</span> <span class='st'>"exact"</span>,
-  <span class='kw'>trialonset.message</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>trialonset.match</span> <span class='kw'>=</span> <span class='st'>"exact"</span>,
-  <span class='kw'>deblink.extend</span> <span class='kw'>=</span> <span class='fl'>0</span>, <span class='kw'>pretrial.duration</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>missing.allowed</span> <span class='kw'>=</span> <span class='fl'>1</span>,
-  <span class='kw'>interpolate</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>interpolate.maxgap</span> <span class='kw'>=</span> <span class='fl'>Inf</span>, <span class='kw'>smooth</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>smooth.window</span> <span class='kw'>=</span> <span class='fl'>5</span>, <span class='kw'>method.first</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>bc</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>prebc.duration</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>bconset.message</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>bconset.match</span> <span class='kw'>=</span> <span class='st'>"exact"</span>, <span class='kw'>subset</span> <span class='kw'>=</span> <span class='st'>"default"</span>, <span class='kw'>trial.exclude</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(),
-  <span class='kw'>files.merge</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
+  <span class='kw'>px_to_mm.conversion</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>start_tracking.message</span> <span class='kw'>=</span> <span class='st'>"default"</span>,
+  <span class='kw'>start_tracking.match</span> <span class='kw'>=</span> <span class='st'>"exact"</span>, <span class='kw'>trial_onset.message</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>trial_onset.match</span> <span class='kw'>=</span> <span class='st'>"exact"</span>, <span class='kw'>deblink.extend</span> <span class='kw'>=</span> <span class='fl'>0</span>,
+  <span class='kw'>pre_trial.duration</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>missing.allowed</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>interpolate</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>interpolate.maxgap</span> <span class='kw'>=</span> <span class='fl'>Inf</span>, <span class='kw'>smooth</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>smooth.window</span> <span class='kw'>=</span> <span class='fl'>5</span>,
+  <span class='kw'>method.first</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>bc</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>pre_bc.duration</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>bc_onset.message</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>bc_onset.match</span> <span class='kw'>=</span> <span class='st'>"exact"</span>,
+  <span class='kw'>subset</span> <span class='kw'>=</span> <span class='st'>"default"</span>, <span class='kw'>trial.exclude</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(), <span class='kw'>files.merge</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>starttracking.message</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>starttracking.match</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>trialonset.message</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>trialonset.match</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>pretrial.duration</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>prebc.duration</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>bconset.message</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>bconset.match</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -220,21 +224,26 @@ information for message markers</p></td>
       <td><p>Which eye to use? Left or right</p></td>
     </tr>
     <tr>
-      <th>starttracking.message</th>
+      <th>px_to_mm.conversion</th>
+      <td><p>The conversion factor to go from
+px pupil diameter to mm pupil diameter</p></td>
+    </tr>
+    <tr>
+      <th>start_tracking.message</th>
       <td><p>Message used in SMI experiment
 to mark StartTracking inline</p></td>
     </tr>
     <tr>
-      <th>starttracking.match</th>
+      <th>start_tracking.match</th>
       <td><p>Should the message string be an "exact"
 match or a "pattern" match?</p></td>
     </tr>
     <tr>
-      <th>trialonset.message</th>
+      <th>trial_onset.message</th>
       <td><p>Message string that marks the start of a trial</p></td>
     </tr>
     <tr>
-      <th>trialonset.match</th>
+      <th>trial_onset.match</th>
       <td><p>Should the message string be an "exact"
 match or a "pattern" match</p></td>
     </tr>
@@ -244,7 +253,7 @@ match or a "pattern" match</p></td>
 before and after blink detection</p></td>
     </tr>
     <tr>
-      <th>pretrial.duration</th>
+      <th>pre_trial.duration</th>
       <td><p>Duration of pre-trial baseline period
 in milliseconds</p></td>
     </tr>
@@ -283,16 +292,16 @@ default is 5 milliseconds</p></td>
 baseline correction? (default: "subtractive")</p></td>
     </tr>
     <tr>
-      <th>prebc.duration</th>
+      <th>pre_bc.duration</th>
       <td><p>Duration baseline period(s) to use for correction</p></td>
     </tr>
     <tr>
-      <th>bconset.message</th>
+      <th>bc_onset.message</th>
       <td><p>Message string(s) that marks the offset of
 baseline period(s)</p></td>
     </tr>
     <tr>
-      <th>bconset.match</th>
+      <th>bc_onset.match</th>
       <td><p>Message string(s) that marks the offset of
 baseline period(s)</p></td>
     </tr>
@@ -307,6 +316,38 @@ baseline period(s)</p></td>
     <tr>
       <th>files.merge</th>
       <td><p>Do you want to create a single merge output file?</p></td>
+    </tr>
+    <tr>
+      <th>starttracking.message</th>
+      <td><p>See start_tracking.message</p></td>
+    </tr>
+    <tr>
+      <th>starttracking.match</th>
+      <td><p>See start_tracking.match</p></td>
+    </tr>
+    <tr>
+      <th>trialonset.message</th>
+      <td><p>See trial_onset.message</p></td>
+    </tr>
+    <tr>
+      <th>trialonset.match</th>
+      <td><p>See trial_onset.match</p></td>
+    </tr>
+    <tr>
+      <th>pretrial.duration</th>
+      <td><p>See pre_trial.duration</p></td>
+    </tr>
+    <tr>
+      <th>prebc.duration</th>
+      <td><p>See pre_bc.duration</p></td>
+    </tr>
+    <tr>
+      <th>bconset.message</th>
+      <td><p>See bc_onset.duration</p></td>
+    </tr>
+    <tr>
+      <th>bconset.match</th>
+      <td><p>See bc_onset.match</p></td>
     </tr>
     </table>
     

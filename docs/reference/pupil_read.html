@@ -72,7 +72,7 @@ to a &quot;tidy&quot; raw data file." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">pupillometry</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.1</span>
       </span>
     </div>
 
@@ -153,10 +153,11 @@ to a "tidy" raw data file.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>pupil_read</span>(<span class='no'>file</span>, <span class='kw'>eyetracker</span> <span class='kw'>=</span> <span class='st'>""</span>, <span class='kw'>starttracking.message</span> <span class='kw'>=</span> <span class='st'>"default"</span>,
-  <span class='kw'>starttracking.match</span> <span class='kw'>=</span> <span class='st'>"exact"</span>, <span class='kw'>subj.prefix</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>subj.suffix</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>timing.file</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>subset</span> <span class='kw'>=</span> <span class='st'>"default"</span>,
-  <span class='kw'>trial.exclude</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>())</pre>
+    <pre class="usage"><span class='fu'>pupil_read</span>(<span class='no'>file</span>, <span class='kw'>eyetracker</span> <span class='kw'>=</span> <span class='st'>""</span>, <span class='kw'>px_to_mm.conversion</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>start_tracking.message</span> <span class='kw'>=</span> <span class='st'>"default"</span>, <span class='kw'>start_tracking.match</span> <span class='kw'>=</span> <span class='st'>"exact"</span>,
+  <span class='kw'>subj.prefix</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>subj.suffix</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>timing.file</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>subset</span> <span class='kw'>=</span> <span class='st'>"default"</span>, <span class='kw'>trial.exclude</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(),
+  <span class='kw'>starttracking.message</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>starttracking.match</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -170,12 +171,17 @@ to a "tidy" raw data file.</p>
       <td><p>Which eye-tracker system was used to record data?</p></td>
     </tr>
     <tr>
-      <th>starttracking.message</th>
+      <th>px_to_mm.conversion</th>
+      <td><p>The conversion factor to go from
+px pupil diameter to mm pupil diameter</p></td>
+    </tr>
+    <tr>
+      <th>start_tracking.message</th>
       <td><p>Message used in SMI experiment to
 mark StartTracking inline</p></td>
     </tr>
     <tr>
-      <th>starttracking.match</th>
+      <th>start_tracking.match</th>
       <td><p>Should the message string be an
 "exact" match or a "pattern" match?</p></td>
     </tr>
@@ -201,6 +207,14 @@ information for message markers</p></td>
     <tr>
       <th>trial.exclude</th>
       <td><p>Specify if ther are any trials to exclude. Trial number</p></td>
+    </tr>
+    <tr>
+      <th>starttracking.message</th>
+      <td><p>See start_tracking.message</p></td>
+    </tr>
+    <tr>
+      <th>starttracking.match</th>
+      <td><p>See start_tracking.match</p></td>
     </tr>
     </table>
     

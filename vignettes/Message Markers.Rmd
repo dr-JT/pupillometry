@@ -56,7 +56,7 @@ For instance, in the Trial Procedue image above, we would set `bc_onset.message 
 
 `bc_onset.message` is used for baseline correction in `pupil_baselinecorrect()`.
 
-### `bconset.match = c("exact", "pattern")`
+### `bc_onset.match = c("exact", "pattern")`
 
 There is an additional parameter `bc_onset.match` that specifies whether `bc_onset.message` needs to be an `"exact"` or a `"pattern"` match. This simply allows more flexibility in how researchers may have included message markers in their task. `"pattern"` should be used if the `bc_onset.message` marker is different on every trial (this can happen if the message includes information about the trial number). Within a trial, `bc_onset.match` will only take the first match that occurs as the `bc_onset.message`. 
 

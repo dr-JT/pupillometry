@@ -71,7 +71,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">pupillometry</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.1</span>
       </span>
     </div>
 
@@ -151,8 +151,9 @@
     
     </div>
 
-    <pre class="usage"><span class='fu'>set_timing</span>(<span class='no'>x</span>, <span class='kw'>trialonset.message</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>ms.conversion</span> <span class='kw'>=</span> <span class='fl'>1</span>,
-  <span class='kw'>pretrial.duration</span> <span class='kw'>=</span> <span class='fl'>0</span>, <span class='kw'>match</span> <span class='kw'>=</span> <span class='st'>"exact"</span>)</pre>
+    <pre class="usage"><span class='fu'>set_timing</span>(<span class='no'>x</span>, <span class='kw'>trial_onset.message</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>ms.conversion</span> <span class='kw'>=</span> <span class='fl'>1</span>,
+  <span class='kw'>pre_trial.duration</span> <span class='kw'>=</span> <span class='fl'>0</span>, <span class='kw'>match</span> <span class='kw'>=</span> <span class='st'>"exact"</span>, <span class='kw'>trialonset.message</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>pretrial.duration</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -162,7 +163,7 @@
       <td><p>dataframe</p></td>
     </tr>
     <tr>
-      <th>trialonset.message</th>
+      <th>trial_onset.message</th>
       <td><p>Message string that marks the start of a trial</p></td>
     </tr>
     <tr>
@@ -170,12 +171,20 @@
       <td><p>Conversion factor to convert timing to milliseconds</p></td>
     </tr>
     <tr>
-      <th>pretrial.duration</th>
+      <th>pre_trial.duration</th>
       <td><p>Duration of pre-trial baseline period in milliseconds</p></td>
     </tr>
     <tr>
       <th>match</th>
       <td><p>Should the message string be an "exact" match or a "pattern" match?</p></td>
+    </tr>
+    <tr>
+      <th>trialonset.message</th>
+      <td><p>See trial_onset.message</p></td>
+    </tr>
+    <tr>
+      <th>pretrial.duration</th>
+      <td><p>See pre_trial.duration</p></td>
     </tr>
     </table>
     

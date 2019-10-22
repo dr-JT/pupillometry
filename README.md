@@ -91,7 +91,7 @@ You can copy and paste the following code into a script and use it as a template
 # File Import Information
 import.dir <- "data/Raw"
 pattern <- ".txt"
-taskname <- "Pitch_Discrimination"
+taskname <- "Attention_Task"
 timing.file <- NULL
 
 # Eyetrackers save the subject number information in different ways and is not
@@ -116,12 +116,12 @@ eye.use <- "left"
 px_to_mm.conversion <- NULL
 
 # Message Marker Information
-start_tracking.message <- "default"
+start_tracking.message <- "StartTracking.bmp"
 start_tracking.match <- "exact"
-trial_onset.message <- "Tone 1" 
+trial_onset.message <- "Cue" 
 trial_onset.match <- "exact"
 pre_trial.duration <- 1000
-bc_onset.message <- "Tone 1"
+bc_onset.message <- "Stimulus"
 bc_onset.match <- "exact"
 
 # Preprocessing Options
