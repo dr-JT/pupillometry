@@ -4,20 +4,24 @@
 \alias{pupil_read}
 \title{Convert "messy" raw data file to "tidy" raw data file}
 \usage{
-pupil_read(file, eyetracker = "", starttracking.message = "default",
-  starttracking.match = "exact", subj.prefix = NULL,
-  subj.suffix = NULL, timing.file = NULL, subset = "default",
-  trial.exclude = c())
+pupil_read(file, eyetracker = "", px_to_mm.conversion = NULL,
+  start_tracking.message = "default", start_tracking.match = "exact",
+  subj.prefix = NULL, subj.suffix = NULL, timing.file = NULL,
+  subset = "default", trial.exclude = c(),
+  starttracking.message = NULL, starttracking.match = NULL)
 }
 \arguments{
 \item{file}{A file path to the raw data export file}
 
 \item{eyetracker}{Which eye-tracker system was used to record data?}
 
-\item{starttracking.message}{Message used in SMI experiment to
+\item{px_to_mm.conversion}{The conversion factor to go from
+px pupil diameter to mm pupil diameter}
+
+\item{start_tracking.message}{Message used in SMI experiment to
 mark StartTracking inline}
 
-\item{starttracking.match}{Should the message string be an
+\item{start_tracking.match}{Should the message string be an
 "exact" match or a "pattern" match?}
 
 \item{subj.prefix}{The unique pattern prefix (letter(s)
@@ -32,6 +36,10 @@ information for message markers}
 \item{subset}{Which columns in the raw data export file do you want to keep}
 
 \item{trial.exclude}{Specify if ther are any trials to exclude. Trial number}
+
+\item{starttracking.message}{See start_tracking.message}
+
+\item{starttracking.match}{See start_tracking.match}
 }
 \description{
 This function converts a "messy" raw eye-tracker data file

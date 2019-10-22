@@ -4,19 +4,24 @@
 \alias{set_timing}
 \title{Set timing relative to trial-onset}
 \usage{
-set_timing(x, trialonset.message = NULL, ms.conversion = 1,
-  pretrial.duration = 0, match = "exact")
+set_timing(x, trial_onset.message = NULL, ms.conversion = 1,
+  pre_trial.duration = 0, match = "exact", trialonset.message = NULL,
+  pretrial.duration = NULL)
 }
 \arguments{
 \item{x}{dataframe}
 
-\item{trialonset.message}{Message string that marks the start of a trial}
+\item{trial_onset.message}{Message string that marks the start of a trial}
 
 \item{ms.conversion}{Conversion factor to convert timing to milliseconds}
 
-\item{pretrial.duration}{Duration of pre-trial baseline period in milliseconds}
+\item{pre_trial.duration}{Duration of pre-trial baseline period in milliseconds}
 
 \item{match}{Should the message string be an "exact" match or a "pattern" match?}
+
+\item{trialonset.message}{See trial_onset.message}
+
+\item{pretrial.duration}{See pre_trial.duration}
 }
 \description{
 This sets the timing variable relative to the onset of each trial

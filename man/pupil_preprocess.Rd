@@ -8,14 +8,18 @@ pupil_preprocess(import.dir = NULL, pattern = "*.txt",
   taskname = NULL, subj.prefix = NULL, subj.suffix = NULL,
   timing.file = NULL, output.dir = NULL, output.steps = FALSE,
   eyetracker = NULL, hz = NULL, eye.use = NULL,
-  starttracking.message = "default", starttracking.match = "exact",
-  trialonset.message = NULL, trialonset.match = "exact",
-  deblink.extend = 0, pretrial.duration = NULL, missing.allowed = 1,
-  interpolate = NULL, interpolate.maxgap = Inf, smooth = NULL,
-  smooth.window = 5, method.first = NULL, bc = NULL,
-  prebc.duration = NULL, bconset.message = NULL,
-  bconset.match = "exact", subset = "default", trial.exclude = c(),
-  files.merge = FALSE)
+  px_to_mm.conversion = NULL, start_tracking.message = "default",
+  start_tracking.match = "exact", trial_onset.message = NULL,
+  trial_onset.match = "exact", deblink.extend = 0,
+  pre_trial.duration = NULL, missing.allowed = 1, interpolate = NULL,
+  interpolate.maxgap = Inf, smooth = NULL, smooth.window = 5,
+  method.first = NULL, bc = NULL, pre_bc.duration = NULL,
+  bc_onset.message = NULL, bc_onset.match = "exact",
+  subset = "default", trial.exclude = c(), files.merge = FALSE,
+  starttracking.message = NULL, starttracking.match = NULL,
+  trialonset.message = NULL, trialonset.match = NULL,
+  pretrial.duration = NULL, prebc.duration = NULL,
+  bconset.message = NULL, bconset.match = NULL)
 }
 \arguments{
 \item{import.dir}{Folder path to raw data files}
@@ -44,21 +48,24 @@ information for message markers}
 
 \item{eye.use}{Which eye to use? Left or right}
 
-\item{starttracking.message}{Message used in SMI experiment
+\item{px_to_mm.conversion}{The conversion factor to go from
+px pupil diameter to mm pupil diameter}
+
+\item{start_tracking.message}{Message used in SMI experiment
 to mark StartTracking inline}
 
-\item{starttracking.match}{Should the message string be an "exact"
+\item{start_tracking.match}{Should the message string be an "exact"
 match or a "pattern" match?}
 
-\item{trialonset.message}{Message string that marks the start of a trial}
+\item{trial_onset.message}{Message string that marks the start of a trial}
 
-\item{trialonset.match}{Should the message string be an "exact"
+\item{trial_onset.match}{Should the message string be an "exact"
 match or a "pattern" match}
 
 \item{deblink.extend}{How many milliseconds to extend blinks
 before and after blink detection}
 
-\item{pretrial.duration}{Duration of pre-trial baseline period
+\item{pre_trial.duration}{Duration of pre-trial baseline period
 in milliseconds}
 
 \item{missing.allowed}{What proportion of missing data is allowed,
@@ -81,12 +88,12 @@ default is 5 milliseconds}
 \item{bc}{Do you want to use "subtractive" or "divisive"
 baseline correction? (default: "subtractive")}
 
-\item{prebc.duration}{Duration baseline period(s) to use for correction}
+\item{pre_bc.duration}{Duration baseline period(s) to use for correction}
 
-\item{bconset.message}{Message string(s) that marks the offset of
+\item{bc_onset.message}{Message string(s) that marks the offset of
 baseline period(s)}
 
-\item{bconset.match}{Message string(s) that marks the offset of
+\item{bc_onset.match}{Message string(s) that marks the offset of
 baseline period(s)}
 
 \item{subset}{Which columns in the raw data output file do you want to keep}
@@ -94,10 +101,25 @@ baseline period(s)}
 \item{trial.exclude}{Specify if ther are any trials to exclude. Trial number}
 
 \item{files.merge}{Do you want to create a single merge output file?}
+
+\item{starttracking.message}{See start_tracking.message}
+
+\item{starttracking.match}{See start_tracking.match}
+
+\item{trialonset.message}{See trial_onset.message}
+
+\item{trialonset.match}{See trial_onset.match}
+
+\item{pretrial.duration}{See pre_trial.duration}
+
+\item{prebc.duration}{See pre_bc.duration}
+
+\item{bconset.message}{See bc_onset.duration}
+
+\item{bconset.match}{See bc_onset.match}
 }
 \description{
 This function will perform preprocessing on an entire folder of data files.
 It takes as input a specified folder path
 and outputs the preprocessed data to a specified folder path
 }
-\keyword{preprocess}
