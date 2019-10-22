@@ -26,7 +26,7 @@ The ideal scenario is that you were able to insert message markers, that were sy
 
 <img src="../reference/figures/pitch_trialproc_w_out_markers.png" align = "center" />
 
-This is an issue because we do not know when events actually occured and therefore cannot set the `starttracking.message`, `trialonset.message`, and `bconset.messsage`, parameters.
+This is an issue because we do not know when events actually occured and therefore cannot set the `start_tracking.message`, `trial_onset.message`, and `bc_onset.messsage`, parameters.
 
 We need to insert **Message Markers** from an external data file. Notice, in the Example Data set that you downloaded there was a file called **pitch_timing.csv**. This file was created to insert **Message Markers** into the eyetracking data file. I have supplied you with this file for this example. 
 
@@ -62,7 +62,7 @@ The file would be a dataframe that would look something like:
 
 <img src="../reference/figures/timing_file.png" align = "center" />
 
-Notice that the column names correspond directly to the **Message Marker** names in the above figure. The column names will be inserted as messages in the data and when setting the parameters, `starttracking.message`, `trialonset.message`, and `bconset.message`.
+Notice that the column names correspond directly to the **Message Marker** names in the above figure. The column names will be inserted as messages in the data and when setting the parameters, `start_tracking.message`, `trial_onset.message`, and `bc_onset.message`.
 
 The timing data for the first **Message Marker** MUST BE in absolute values (corresponding to the raw eyetracking data file Timing column). Whereas, the timing data for the other **Message Markers** can be in absolute values or values relative to the first **Message Marker**. Whichever is easiest for you to obtain.
 
@@ -73,13 +73,13 @@ This task only has six trials and one subject so the data file is not that large
 
 ### StartTracking Message
 
-If you do not have message markes in the data, then you will not have a **StartTracking** message at the start of each trial. Instead, you can use the first stimulus event (usually the pre-trial event) as the **StartTracking** message. For instance, in this case it would be, `starttracking.message <- "Fixation"` because there is a message labeled **Fixation** in the data stream at the start of every trial.
+If you do not have message markes in the data, then you will not have a **StartTracking** message at the start of each trial. Instead, you can use the first stimulus event (usually the pre-trial event) as the **StartTracking** message. For instance, in this case it would be, `start_tracking.message <- "Fixation"` because there is a message labeled **Fixation** in the data stream at the start of every trial.
 
 ### Trial Onset Message
 
 It is good practice in eye-tracking and pupillometry to have a pre-trial period before the trial actually begins. This does several things. One is that it allows the pupil response to return to normal after the previous trial (less interference from one trial to the next). Another is that research has shown the pre-trial pupil size is predictive of performance on the trial and therefore can be useful information.
 
-In this pitch discrimination task, the actual duration of the pre-trial period (in which there was a central fixation on the screen) was either 3000 or 2000 ms. To define what length we want the pre-trial duration to be cutoff at in the data file we need to specify the **TrialOnset** message. The **TrialOnset** message corresponds the message marker in the data file for the first stimulus of the actual trial. In this case it is **Tone 1**. Therefore, we can set `trialonset.message <- "Tone 1"`. Then we can set the pretrial duration relative to this message marker. Let's go ahead and just set it as `pretrial.duration <- 2000`.
+In this pitch discrimination task, the actual duration of the pre-trial period (in which there was a central fixation on the screen) was either 3000 or 2000 ms. To define what length we want the pre-trial duration to be cutoff at in the data file we need to specify the **TrialOnset** message. The **TrialOnset** message corresponds the message marker in the data file for the first stimulus of the actual trial. In this case it is **Tone 1**. Therefore, we can set `trial_onset.message <- "Tone 1"`. Then we can set the pretrial duration relative to this message marker. Let's go ahead and just set it as `pre_trial.duration <- 2000`.
 
 In the final preprocessed data file, the Time column will be set relative to the **TrialOnset** message. Therefore, the start of **Tone 1** will have a Time of or near 0, the pre-trial phase will have a Time value of -2000 to 0, and anything after **Tone 1** will have a positive value.
 
@@ -89,9 +89,9 @@ There will also be a column labeled **Stimulus** that has a value in every row c
 
 If testing for the difference in pupil dilation between conditions or participants, it is important to apply some type of baseline correction. 
 
-First, you need to specify where you want baseline correction to start being applied to by specifiying a message marker in the data, the **BC Onset** message. In this case (and many cases), the **BC Onset** message is the same as the **TrialOnset** message. Therefore we can set `bconset.message <- "Tone 1"`. You can even apply baseline correction multiple times in one trial. For instance, we could apply baseline correction at **Tone 2** as well if we set it as `bconset.message <- c("Tone 1", "Tone 2")`.
+First, you need to specify where you want baseline correction to start being applied to by specifiying a message marker in the data, the **BC Onset** message. In this case (and many cases), the **BC Onset** message is the same as the **TrialOnset** message. Therefore we can set `bc_onset.message <- "Tone 1"`. You can even apply baseline correction multiple times in one trial. For instance, we could apply baseline correction at **Tone 2** as well if we set it as `bc_onset.message <- c("Tone 1", "Tone 2")`.
 
-When applying baseline correction you need to calculate the **median** pupil size for a certain **duration** before the start of the **BC Onset** message. For this example let's set the duration to 200 ms, `bc.duration <- 200`.
+When applying baseline correction you need to calculate the **median** pupil size for a certain **duration** before the start of the **BC Onset** message. For this example let's set the duration to 200 ms, `pre_bc.duration <- 200`.
 
 You need to decide which type of baseline correction to apply, **subtractive** or **divisive**. 
 
@@ -117,12 +117,14 @@ taskname <- "Pitch_Discrimination"
 timing.file <- NULL
 
 # Eyetrackers save the subject number information in different ways and is not
-# always easy to obtain. For SMI eyetrackers we need to extract it from the
-# datafile name. You need to identify a unique subj.prefix pattern and
-# subj.suffix pattern that surrounds the subject # in the datafile name.
+# always easy to obtain. For SMI Red250m eyetrackers this is extracted from the
+# datafile name. For SR-Research Eyelink1000 eyetrackers this is extracted from 
+# the column name with the subject ID. You need to identify a unique subj.prefix 
+# pattern and subj.suffix pattern that surrounds the subject # in the 
+# datafile name/subject ID column.
 
-subj.prefix <- "n_"             ## For SMI Red250m eyetrackers
-subj.suffix <- "-"              ## For SMI Red250m eyetrackers
+subj.prefix <- "n_"
+subj.suffix <- "-"
 
 # File Output Information
 output.dir <- "data/Preprocessed"
@@ -133,15 +135,16 @@ files.merge <- FALSE
 eyetracker <- "smi"
 hz <- 250
 eye.use <- "left"
+px_to_mm.conversion <- NULL
 
 # Message Marker Information
-starttracking.message <- "Fixation"
-starttracking.match <- "exact"
-trialonset.message <- "Tone 1"
-trialonset.match <- "exact"
-pretrial.duration <- 1000
-bconset.message <- "Tone 1"
-bconset.match <- "exact"
+start_tracking.message <- "Fixation"
+start_tracking.match <- "exact"
+trial_onset.message <- "Tone 1"
+trial_onset.match <- "exact"
+pre_trial.duration <- 1000
+bc_onset.message <- "Tone 1"
+bc_onset.match <- "exact"
 
 # Preprocessing Options
 deblink.extend <- 100
@@ -151,7 +154,7 @@ interpolate <- "cubic-spline"
 interpolate.maxgap <- 750
 method.first <- "smooth"
 bc <- "subtractive"
-prebc.duration <- 200
+pre_bc.duration <- 200
 missing.allowed <- .30
 
 # Misc.
@@ -165,18 +168,20 @@ pupil_preprocess(import.dir = import.dir, pattern = pattern, taskname = taskname
                  timing.file = timing.file, output.dir = output.dir, 
                  output.steps = output.steps, files.merge = files.merge, 
                  eyetracker = eyetracker, hz = hz, eye.use = eye.use, 
-                 starttracking.message = starttracking.message, 
-                 starttracking.match = starttracking.match,
-                 trialonset.message = trialonset.message, 
-                 trialonset.match = trialonset.match,
-                 pretrial.duration = pretrial.duration, 
-                 bconset.message = bconset.message, 
-                 bconset.match = bconset.match, deblink.extend = deblink.extend,
+                 px_to_mm.conversion = px_to_mm.conversion, 
+                 start_tracking.message = start_tracking.message, 
+                 start_tracking.match = start_tracking.match,
+                 trial_onset.message = trial_onset.message, 
+                 trial_onset.match = trial_onset.match,
+                 pre_trial.duration = pre_trial.duration, 
+                 bc_onset.message = bc_onset.message, 
+                 bc_onset.match = bc_onset.match, 
+                 deblink.extend = deblink.extend, 
                  smooth = smooth, smooth.window = smooth.window, 
                  interpolate = interpolate, 
                  interpolate.maxgap = interpolate.maxgap, 
                  method.first = method.first, bc = bc, 
-                 prebc.duration = prebc.duration, 
+                 pre_bc.duration = pre_bc.duration, 
                  missing.allowed = missing.allowed, subset = subset, 
                  trial.exclude = trial.exclude)
 

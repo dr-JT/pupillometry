@@ -12,53 +12,53 @@ Your data file need to conatain messages that mark the onset/offset of trials, c
 
 For `pupil_preprocess()` these are the message markers you need to know
 
-### `starttracking.message = ""`
+### `start_tracking.message = ""`
 
 The first message marker is the **StartTracking** message. It is usually more practical to start saving data right at the beginning of a trial and stop saving at the end of a trial. This results in a smaller data file (less irrelevant data) than if you were to continously save data between trials or blocks. Different eye-tracker systems have a different default **StartTracking** message.
 
-`starttracking.message` is used to correctly set the trial index in the data file when importing the data file with `pupil_read()`.
+`start_tracking.message` is used to correctly set the trial index in the data file when importing the data file with `pupil_read()`.
 
 The SMI default is : "StartTracking.bmp"
 
-This parameter can be set to `starttracking.message <- "default"` to use the eyetracker default. If you are not using the default message then you need to specify the custom string you used.
+This parameter can be set to `start_tracking.message <- "default"` to use the eyetracker default. If you are not using the default message then you need to specify the custom string you used.
 
-In the case where you continuously saved data and do not have a **StartTracking** message at the start of each trial, you can use the first stimulus event (usually the pre-trial event) as the **StartTracking** message. For instance, in the Trial Procedure image above the first stimulus event with a message marker is **Fixation**. Therefore, you could set `starttracking.message <- "Fixation"` if you do not have **StartTracking** message at the start of each trial.
+In the case where you continuously saved data and do not have a **StartTracking** message at the start of each trial, you can use the first stimulus event (usually the pre-trial event) as the **StartTracking** message. For instance, in the Trial Procedure image above the first stimulus event with a message marker is **Fixation**. Therefore, you could set `start_tracking.message <- "Fixation"` if you do not have **StartTracking** message at the start of each trial.
 
-### `starttracking.match = c("exact", "pattern")`
+### `start_tracking.match = c("exact", "pattern")`
 
-There is an additional parameter `starttracking.match` that specifies whether `starttracking.message` needs to be an `"exact"` or a `"pattern"` match. This simply allows more flexibility. Such as, if the start recording message is different on each trial "TRIALID [trial number]", then a `"pattern"` match will need to be used to correctly set the trial index.
+There is an additional parameter `start_tracking.match` that specifies whether `start_tracking.message` needs to be an `"exact"` or a `"pattern"` match. This simply allows more flexibility. Such as, if the start recording message is different on each trial "TRIALID [trial number]", then a `"pattern"` match will need to be used to correctly set the trial index.
 
-### `trialonset.message = ""`
+### `trial_onset.message = ""`
 
-`trialonset.message` is the message in the data file that marks the onset of a trial. If you included a fixation as an inter-trial-interval (ITI) at the start of every trial, then the **trial onset should correspond to the stimulus after the fixation or ITI stimulus**. The fixation (ITI) period will be treated as a pre-trial period.
+`trial_onset.message` is the message in the data file that marks the onset of a trial. If you included a fixation as an inter-trial-interval (ITI) at the start of every trial, then the **trial onset should correspond to the stimulus after the fixation or ITI stimulus**. The fixation (ITI) period will be treated as a pre-trial period.
 
-In the Trial Procedure image above, we would set `trialonset.message <- "Cue"`.
+In the Trial Procedure image above, we would set `trial_onset.message <- "Cue"`.
 
-`trialonset.message` is used to set the timing relative to trial onset using `set_timing()`. Pre-trial periods will have a negative Time value, relative to trial onset. 
+`trial_onset.message` is used to set the timing relative to trial onset using `set_timing()`. Pre-trial periods will have a negative Time value, relative to trial onset. 
 
-### `trialonset.match = c("exact", "pattern")`
+### `trial_onset.match = c("exact", "pattern")`
 
-There is an additional parameter `trialonset.match` that specifies whether `trialonset.message` needs to be an `"exact"` or a `"pattern"` match. This simply allows more flexibility in how researchers may have included message markers in their task. `"pattern"` should be used if the `trialonset.message` marker is different on every trial (this can happen if the message includes information about the trial number). Within a trial, `trialonset.match` will only take the first match that occurs as the `trialonset.message`. 
+There is an additional parameter `trial_onset.match` that specifies whether `trial_onset.message` needs to be an `"exact"` or a `"pattern"` match. This simply allows more flexibility in how researchers may have included message markers in their task. `"pattern"` should be used if the `trial_onset.message` marker is different on every trial (this can happen if the message includes information about the trial number). Within a trial, `trial_onset.match` will only take the first match that occurs as the `trial_onset.message`. 
 
 Such as, if the start recording message is different on each trial "TRIALID [trial number]", then a `"pattern"` match will need to be used to correctly set the trial index.
 
-### `pretrial.duration = ""`
+### `pre_trial.duration = ""`
 
-The duration of the pre-trial period is set relative to the timing of the `trialonset.message` and that duration is specified by `pretrial.duration`.
+The duration of the pre-trial period is set relative to the timing of the `trial_onset.message` and that duration is specified by `pre_trial.duration`.
 
-For instance if `pretrial.duration <- 2000`, then the 2000 milliseconds before `trialonset.message` will be marked as a pre-trial period. This duration typically corresponds to the duration of the ITI period.
+For instance if `pre_trial.duration <- 2000`, then the 2000 milliseconds before `trial_onset.message` will be marked as a pre-trial period. This duration typically corresponds to the duration of the ITI period.
 
-### `bconset.message = ""`
+### `bc_onset.message = ""`
 
-`bconset.message` is the message that marks the onset of the critical task period that needs to be baseline corrected.
+`bc_onset.message` is the message that marks the onset of the critical task period that needs to be baseline corrected.
 
-For instance, in the Trial Procedue image above, we would set `bconset.message <- "Stimulus"`.
+For instance, in the Trial Procedue image above, we would set `bc_onset.message <- "Stimulus"`.
 
-`bconset.message` is used for baseline correction in `pupil_baselinecorrect()`.
+`bc_onset.message` is used for baseline correction in `pupil_baselinecorrect()`.
 
 ### `bconset.match = c("exact", "pattern")`
 
-There is an additional parameter `bconset.match` that specifies whether `bconset.message` needs to be an `"exact"` or a `"pattern"` match. This simply allows more flexibility in how researchers may have included message markers in their task. `"pattern"` should be used if the `baselineoffset.message` marker is different on every trial (this can happen if the message includes information about the trial number). Within a trial, `bconset.match` will only take the first match that occurs as the `bconset.message`. 
+There is an additional parameter `bc_onset.match` that specifies whether `bc_onset.message` needs to be an `"exact"` or a `"pattern"` match. This simply allows more flexibility in how researchers may have included message markers in their task. `"pattern"` should be used if the `bc_onset.message` marker is different on every trial (this can happen if the message includes information about the trial number). Within a trial, `bc_onset.match` will only take the first match that occurs as the `bc_onset.message`. 
 
 
 ### No Message Markers in Data File?

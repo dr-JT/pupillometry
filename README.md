@@ -24,7 +24,18 @@ devtools::install_github("dr-JT/pupillometry")
 
 The format and organization of the raw data file will depend on the type of Eyetracker used. The `pupil_read()` function imports the "messy" raw data file and it's output is a "tidy" raw data file with standardized column and value labels to be used by the other functions. 
 
-Currently, `pupil_read()` only supports data exported from BeGaze using an SMI eye-tracker or glasses. Support for other eye-trackers will be included in future updates.
+Currently, `pupil_read()` supports data exported from BeGaze using an SMI eye-tracker or glasses. 
+
+- SensoMotoric Instruments (SMI) eyetrackers: `eyetracker = "smi"`
+
+    - RED250m
+    
+    - Eye glasses
+    
+- SR Research EyeLink100 eyetrackers: `eyetracker = "eyelink"`
+
+- Support for other eye-trackers will be included in future updates.
+
 
 ## Usage
 
@@ -32,7 +43,7 @@ Currently, `pupil_read()` only supports data exported from BeGaze using an SMI e
 
 As such, you will need to pass many arguments to the `pupil_preprocess()` function that specifies all the details and preprocessing options.
 
-`pupil_preprocess()` will be performed on an entire `import.dir` directory of raw data files that match a certain `pattern`. The preprocessed data will be saved to a specified `output.dir` directory.
+`pupil_preprocess()` will be performed on an entire `import.dir` directory of raw data files that match a certain `pattern` in their filename. The preprocessed data will be saved to a specified `output.dir` directory.
 
 The overall workflow of `pupil_preprocess()` is:
 
@@ -66,7 +77,7 @@ If `output.steps == TRUE` a data file will be saved after steps 3, 4, and 5. Bef
 
 ### Message Markers
 
-You will need to supply message markers to correctly preprocess your data. This image is a representation of what the message markers `starttracking.message`, `trialonset.message`, and `bconset.message` correspond to. For further detail see [Example Data Set](https://dr-jt.github.io/pupillometry/articles/Example%20Data%20Set.html) and [Message Markers](https://dr-jt.github.io/pupillometry/articles/Message%20Markers.html) Articles.
+You will need to supply message markers to correctly preprocess your data. This image is a representation of what the message markers `start_tracking.message`, `trial_onset.message`, and `bc_onset.message` correspond to. For further detail see [Example Data Set](https://dr-jt.github.io/pupillometry/articles/Example%20Data%20Set.html) and [Message Markers](https://dr-jt.github.io/pupillometry/articles/Message%20Markers.html) Articles.
 
 <img src="./reference/figures/message_markers_1.png" align = "center" />
 
@@ -84,12 +95,14 @@ taskname <- "Pitch_Discrimination"
 timing.file <- NULL
 
 # Eyetrackers save the subject number information in different ways and is not
-# always easy to obtain. For SMI eyetrackers we need to extract it from the
-# datafile name. You need to identify a unique subj.prefix pattern and 
-# subj.suffix pattern that surrounds the subject # in the datafile name.
+# always easy to obtain. For SMI Red250m eyetrackers this is extracted from the
+# datafile name. For SR-Research Eyelink1000 eyetrackers this is extracted from 
+# the column name with the subject ID. You need to identify a unique subj.prefix 
+# pattern and subj.suffix pattern that surrounds the subject # in the 
+# datafile name/subject ID column.
 
-subj.prefix <- "n_"             ## For SMI Red50m eyetrackers
-subj.suffix <- "-"              ## For SMI Red250m eyetrackers
+subj.prefix <- "n_"
+subj.suffix <- "-"
 
 # File Output Information
 output.dir <- "data/Preprocessed"
@@ -100,15 +113,16 @@ files.merge <- FALSE
 eyetracker <- "smi"
 hz <- 250
 eye.use <- "left"
+px_to_mm.conversion <- NULL
 
 # Message Marker Information
-starttracking.message <- "default"
-starttracking.match <- "exact"
-trialonset.message <- "Tone 1" 
-trialonset.match <- "exact"
-pretrial.duration <- 1000
-bconset.message <- "Tone 1"
-bconset.match <- "exact"
+start_tracking.message <- "default"
+start_tracking.match <- "exact"
+trial_onset.message <- "Tone 1" 
+trial_onset.match <- "exact"
+pre_trial.duration <- 1000
+bc_onset.message <- "Tone 1"
+bc_onset.match <- "exact"
 
 # Preprocessing Options
 deblink.extend <- 100
@@ -118,7 +132,7 @@ interpolate <- "linear"
 interpolate.maxgap <- 750
 method.first <- "smooth"
 bc <- "subtractive"
-prebc.duration <- 200
+pre_bc.duration <- 200
 missing.allowed <- .30
 
 # Misc.
@@ -132,21 +146,25 @@ pupil_preprocess(import.dir = import.dir, pattern = pattern, taskname = taskname
                  timing.file = timing.file, output.dir = output.dir, 
                  output.steps = output.steps, files.merge = files.merge, 
                  eyetracker = eyetracker, hz = hz, eye.use = eye.use, 
-                 starttracking.message = starttracking.message, 
-                 starttracking.match = starttracking.match,
-                 trialonset.message = trialonset.message, 
-                 trialonset.match = trialonset.match,
-                 pretrial.duration = pretrial.duration, 
-                 bconset.message = bconset.message, 
-                 bconset.match = bconset.match, deblink.extend = deblink.extend,
+                 px_to_mm.conversion = px_to_mm.conversion, 
+                 start_tracking.message = start_tracking.message, 
+                 start_tracking.match = start_tracking.match,
+                 trial_onset.message = trial_onset.message, 
+                 trial_onset.match = trial_onset.match,
+                 pre_trial.duration = pre_trial.duration, 
+                 bc_onset.message = bc_onset.message, 
+                 bc_onset.match = bc_onset.match, 
+                 deblink.extend = deblink.extend, 
                  smooth = smooth, smooth.window = smooth.window, 
                  interpolate = interpolate, 
                  interpolate.maxgap = interpolate.maxgap, 
                  method.first = method.first, bc = bc, 
-                 prebc.duration = prebc.duration, 
+                 pre_bc.duration = pre_bc.duration, 
                  missing.allowed = missing.allowed, subset = subset, 
                  trial.exclude = trial.exclude)
 ```
+
+For any of the parameters that do not apply to your data or preprocessing steps, then you can just set them to `NULL` (e.g. `timing.file <- NULL`)
 
 ## Articles
 
