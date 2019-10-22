@@ -23,15 +23,15 @@ set_timing <- function(x, trial_onset.message = NULL, ms.conversion = 1,
     pre_trial.duration <- pretrial.duration
   }
   x <- dplyr::select(x, -ms_conversion)
-  pretrial.duration <- abs(pretrial.duration)*-1
+  pre_trial.duration <- abs(pre_trial.duration)*-1
 
   x <- dplyr::group_by(x, Trial)
   if (match == "exact"){
-    x <- dplyr::mutate(x, trialonset.time = ifelse(Message == trialonset.message,
+    x <- dplyr::mutate(x, trialonset.time = ifelse(Message == trial_onset.message,
                                                    Time, NA))
   } else if (match == "pattern"){
     x <- dplyr::mutate(x, trialonset.time =
-                         ifelse(stringr::str_detect(Message, trialonset.message),
+                         ifelse(stringr::str_detect(Message, trial_onset.message),
                                 Time, NA))
   }
   x <- dplyr::mutate(x,
@@ -45,10 +45,10 @@ set_timing <- function(x, trial_onset.message = NULL, ms.conversion = 1,
                                                     na.rm = FALSE,
                                                     fromLast = TRUE),
                      Time = (Time - trialonset.time) / ms.conversion,
-                     PreTrial = ifelse(Time >= pretrial.duration & Time < 0, 1,
+                     PreTrial = ifelse(Time >= pre_trial.duration & Time < 0, 1,
                                        ifelse(Time >= 0, 0, NA)))
   x <- dplyr::ungroup(x)
-  x <- dplyr::mutate(x, Trial = ifelse(Time >= pretrial.duration,Trial,0))
+  x <- dplyr::mutate(x, Trial = ifelse(Time >= pre_trial.duration,Trial,0))
   x <- dplyr::filter(x, Trial != 0, !is.na(Trial))
   x <- dplyr::select(x, -trialonset.time, -min)
   x <- dplyr::distinct(x, Trial, Time, .keep_all = TRUE)

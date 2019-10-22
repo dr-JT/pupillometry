@@ -39,7 +39,7 @@ pupil_read <- function(file, eyetracker = "", px_to_mm.conversion = NULL,
                        starttracking.message = NULL,
                        starttracking.match = NULL){
   if (!is.null(starttracking.message)) {
-    start_tracking.message <- starttracking.meassage
+    start_tracking.message <- starttracking.message
   }
   if (!is.null(starttracking.match)) {
     start_tracking.match <- starttracking.match
@@ -74,14 +74,14 @@ pupil_read <- function(file, eyetracker = "", px_to_mm.conversion = NULL,
   }
 
   if (eyetracker == "smi") {
-    if (starttracking.message == "default"){
-      starttracking.message <- "StartTracking.bmp"
+    if (start_tracking.message == "default"){
+      start_tracking.message <- "StartTracking.bmp"
     }
   }
 
   if (eyetracker == "eyelink") {
-    if (starttracking.message == "default"){
-      starttracking.message <- "TRIALID"
+    if (start_tracking.message == "default"){
+      start_tracking.message <- "TRIALID"
     }
     if (subset == "default"){
       subset <- "Time"
@@ -409,7 +409,7 @@ pupil_read <- function(file, eyetracker = "", px_to_mm.conversion = NULL,
 
   data$Message <- gsub("# Message: ", "", data$Message)
 
-  ## Set Trial at starttracking.message
+  ## Set Trial at start_tracking.message
   if (is.null(timing.file)) {
     timing_data <- data.frame()
   } else if (stringr::str_detect(timing.file, "csv")) {
@@ -423,8 +423,8 @@ pupil_read <- function(file, eyetracker = "", px_to_mm.conversion = NULL,
   }
   if (ncol(timing_data) > 0) {
     starttrack_timing <- dplyr::mutate(timing_data,
-                                       Time = get(starttracking.message),
-                                       Message = starttracking.message)
+                                       Time = get(start_tracking.message),
+                                       Message = start_tracking.message)
     starttrack_timing <- dplyr::select(starttrack_timing, Trial, Time, Message)
     data <- dplyr::full_join(data, starttrack_timing, by = "Time")
     data <- dplyr::rename(data, Message = Message.y)
@@ -444,15 +444,15 @@ pupil_read <- function(file, eyetracker = "", px_to_mm.conversion = NULL,
     }
     data <- dplyr::arrange(data, Subject, Time)
   }
-  if (starttracking.match == "exact"){
+  if (start_tracking.match == "exact"){
     data <- dplyr::mutate(data,
                           starttracking.time =
-                            ifelse(Message == starttracking.message, Time, NA))
-  } else if (starttracking.match == "pattern"){
+                            ifelse(Message == start_tracking.message, Time, NA))
+  } else if (start_tracking.match == "pattern"){
     data <- dplyr::mutate(data,
                           starttracking.time =
                             ifelse(stringr::str_detect(Message,
-                                                       starttracking.message),
+                                                       start_tracking.message),
                                    Time, NA))
   }
   data <- dplyr::mutate(data,
@@ -467,9 +467,9 @@ pupil_read <- function(file, eyetracker = "", px_to_mm.conversion = NULL,
     message_markers <- stringr::str_subset(message_markers,
                                            "Trial", negate = TRUE)
     message_markers <- stringr::str_subset(message_markers,
-                                           starttracking.message, negate = TRUE)
+                                           start_tracking.message, negate = TRUE)
     for (message in message_markers) {
-      message_start <- dplyr::filter(data, Message == starttracking.message)
+      message_start <- dplyr::filter(data, Message == start_tracking.message)
       message_start <- dplyr::select(message_start, Trial, Time,
                                      Message, starttracking.time)
       message_start <- merge(timing_data, message_start, by = "Trial")

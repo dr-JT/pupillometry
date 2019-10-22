@@ -228,8 +228,6 @@ pupil_preprocess <- function(import.dir = NULL, pattern = "*.txt",
 
     data <- pupil_deblink(data, extend = deblink.extend)
 
-
-
     ## Save data at this step?
     step <- "deblinked"
     if (step == final_step){
