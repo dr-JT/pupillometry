@@ -10,6 +10,13 @@
 #'
 
 pupil_deblink <- function(x, extend = 0){
+  if ("Pupil_Diameter.mm" %in% colnames(x)) {
+    real_name <- "Pupil_Diameter.mm"
+  } else {
+    real_name <- "Pupil_Diameter.px"
+  }
+
+  colnames(x)[which(colnames(x) == real_name)] <- "pupil_val"
   x <- dplyr::mutate(x,
                      blink = ifelse(!is.na(Event) & Event == "Blink", 1, 0),
                      blink.lag = dplyr::lag(blink),
@@ -26,10 +33,12 @@ pupil_deblink <- function(x, extend = 0){
                                       Time <= blink.start, 1, blink),
                      blink = ifelse(!is.na(blink.end) & Time <= blink.end + extend &
                                       Time >= blink.end, 1, blink),
-                     Pupil_Diameter.mm = ifelse(is.na(Event) |
-                                                  Pupil_Diameter.mm == 0 |
-                                                  blink == 1,
-                                                NA, Pupil_Diameter.mm))
+                     pupil_val = ifelse(is.na(Event) |
+                                          pupil_val == 0 |
+                                          blink == 1,
+                                        NA, pupil_val))
   x <- dplyr::select(x, -blink, -blink.lag, -blink.lead, -blink.start, -blink.end)
+  colnames(x)[which(colnames(x) == "pupil_val")] <- real_name
+
   return(x)
 }

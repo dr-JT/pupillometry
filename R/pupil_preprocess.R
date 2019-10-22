@@ -18,16 +18,18 @@
 #' @param hz At which frequency was pupil data sampled at?
 #'     (only required for interpolation and smoothing)
 #' @param eye.use Which eye to use? Left or right
-#' @param starttracking.message Message used in SMI experiment
+#' @param px_to_mm.conversion The conversion factor to go from
+#'     px pupil diameter to mm pupil diameter
+#' @param start_tracking.message Message used in SMI experiment
 #'     to mark StartTracking inline
-#' @param starttracking.match Should the message string be an "exact"
+#' @param start_tracking.match Should the message string be an "exact"
 #'     match or a "pattern" match?
-#' @param trialonset.message Message string that marks the start of a trial
-#' @param trialonset.match Should the message string be an "exact"
+#' @param trial_onset.message Message string that marks the start of a trial
+#' @param trial_onset.match Should the message string be an "exact"
 #'     match or a "pattern" match
 #' @param deblink.extend How many milliseconds to extend blinks
 #'     before and after blink detection
-#' @param pretrial.duration Duration of pre-trial baseline period
+#' @param pre_trial.duration Duration of pre-trial baseline period
 #'     in milliseconds
 #' @param missing.allowed What proportion of missing data is allowed,
 #'     on a trial-by-trial basis? (Default: 1)
@@ -42,15 +44,22 @@
 #'     (default: NULL)
 #' @param bc Do you want to use "subtractive" or "divisive"
 #'     baseline correction? (default: "subtractive")
-#' @param bconset.message Message string(s) that marks the offset of
+#' @param pre_bc.duration Duration baseline period(s) to use for correction
+#' @param bc_onset.message Message string(s) that marks the offset of
 #'     baseline period(s)
-#' @param bconset.match Message string(s) that marks the offset of
+#' @param bc_onset.match Message string(s) that marks the offset of
 #'     baseline period(s)
-#' @param prebc.duration Duration baseline period(s) to use for correction
 #' @param subset Which columns in the raw data output file do you want to keep
 #' @param trial.exclude Specify if ther are any trials to exclude. Trial number
 #' @param files.merge Do you want to create a single merge output file?
-#' @keywords preprocess
+#' @param starttracking.message See start_tracking.message
+#' @param starttracking.match See start_tracking.match
+#' @param trialonset.message See trial_onset.message
+#' @param trialonset.match See trial_onset.match
+#' @param pretrial.duration See pre_trial.duration
+#' @param prebc.duration See pre_bc.duration
+#' @param bconset.message See bc_onset.duration
+#' @param bconset.match See bc_onset.match
 #' @export
 #'
 
@@ -59,16 +68,49 @@ pupil_preprocess <- function(import.dir = NULL, pattern = "*.txt",
                              subj.suffix = NULL, timing.file = NULL,
                              output.dir = NULL, output.steps = FALSE,
                              eyetracker = NULL, hz = NULL, eye.use = NULL,
-                             starttracking.message = "default",
-                             starttracking.match = "exact",
-                             trialonset.message = NULL, trialonset.match = "exact",
-                             deblink.extend = 0, pretrial.duration = NULL,
+                             px_to_mm.conversion = NULL,
+                             start_tracking.message = "default",
+                             start_tracking.match = "exact",
+                             trial_onset.message = NULL,
+                             trial_onset.match = "exact",
+                             deblink.extend = 0, pre_trial.duration = NULL,
                              missing.allowed = 1, interpolate = NULL,
                              interpolate.maxgap = Inf, smooth = NULL,
                              smooth.window = 5, method.first = NULL, bc = NULL,
+                             pre_bc.duration = NULL, bc_onset.message = NULL,
+                             bc_onset.match = "exact", subset = "default",
+                             trial.exclude = c(), files.merge = FALSE,
+                             starttracking.message = NULL,
+                             starttracking.match = NULL,
+                             trialonset.message = NULL,
+                             trialonset.match = NULL, pretrial.duration = NULL,
                              prebc.duration = NULL, bconset.message = NULL,
-                             bconset.match = "exact", subset = "default",
-                             trial.exclude = c(), files.merge = FALSE){
+                             bconset.match = NULL){
+
+  if (!is.null(starttracking.message)) {
+    start_tracking.message <- starttracking.message
+  }
+  if (!is.null(starttracking.match)) {
+    start_tracking.match <- starttracking.match
+  }
+  if (!is.null(trialonset.message)) {
+    trial_onset.message <- trialonset.message
+  }
+  if (!is.null(trialonset.match)) {
+    trial_onset.match <- trialonset.match
+  }
+  if (!is.null(pretrial.duration)) {
+    pre_trial.duration <- pretrial.duration
+  }
+  if (!is.null(prebc.duration)) {
+    pre_bc.duration <- prebc.duration
+  }
+  if (!is.null(bconset.message)) {
+    bc_onset.message <- bconset.message
+  }
+  if (!is.null(bconset.match)) {
+    bc_onset.match <- bconset.match
+  }
 
   if (is.null(output.dir)){
     output.dir <- export
@@ -100,9 +142,9 @@ pupil_preprocess <- function(import.dir = NULL, pattern = "*.txt",
 
     if (!is.null(bc)){
       preprocessing <- paste(preprocessing.stage, "bc", sep = ".")
-      x <- pupil_baselinecorrect(x, message = bconset.message,
-                                 match = bconset.match,
-                                 pre.duration = prebc.duration, type = bc)
+      x <- pupil_baselinecorrect(x, message = bc_onset.message,
+                                 match = bc_onset.match,
+                                 pre.duration = pre_bc.duration, type = bc)
       x <- pupil_missing(x, missing.allowed = missing.allowed)
 
       ## Save file
@@ -142,29 +184,31 @@ pupil_preprocess <- function(import.dir = NULL, pattern = "*.txt",
 
     ## Convert messy to tidy
     data <- pupil_read(file, eyetracker = eyetracker,
-                       starttracking.message = starttracking.message,
-                       starttracking.match = starttracking.match,
+                       start_tracking.message = start_tracking.message,
+                       start_tracking.match = start_tracking.match,
                        subj.prefix = subj.prefix, subj.suffix = subj.suffix,
                        timing.file = timing.file,
                        subset = subset, trial.exclude = trial.exclude)
 
     #### ----- Preprocessing procedures ----- ####
 
-    ## Correlate pupil data from left and right eyes
-    left.recorded <- "L_Pupil_Diameter.mm" %in% colnames(data)
-    right.recorded <- "R_Pupil_Diameter.mm" %in% colnames(data)
-    if (left.recorded == TRUE & right.recorded == TRUE) {
-      data <- pupil_cor(data)
-    }
 
-    ## Select eyes and filter out trials with too much missing data
-    data <- select_eye(data, eye.use = eye.use)
+    left.recorded <- "L_Pupil_Diameter.mm" %in% colnames(data) |
+      "L_Pupil_Diameter.px" %in% colnames(data)
+    right.recorded <- "R_Pupil_Diameter.mm" %in% colnames(data) |
+      "R_Pupil_Diameter.px" %in% colnames(data)
+    if (left.recorded == TRUE & right.recorded == TRUE) {
+      ## Correlate pupil data from left and right eyes
+      data <- pupil_cor(data)
+      ## Select eyes and filter out trials with too much missing data
+      data <- select_eye(data, eye.use = eye.use)
+    }
 
     ## Sets the Timing column relative to the onset of each trial
     ms.conversion <- data$ms_conversion[1]
-    data <- set_timing(data, trialonset.message = trialonset.message,
-                       match = trialonset.match, ms.conversion = ms.conversion,
-                       pretrial.duration = pretrial.duration)
+    data <- set_timing(data, trial_onset.message = trial_onset.message,
+                       match = trial_onset.match, ms.conversion = ms.conversion,
+                       pre_trial.duration = pre_trial.duration)
 
     ## Creates a column that specifies the current stimulus
     ## (based on Messages in the data)

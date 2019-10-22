@@ -2,17 +2,26 @@
 #'
 #' This sets the timing variable relative to the onset of each trial
 #' @param x dataframe
-#' @param trialonset.message Message string that marks the start of a trial
+#' @param trial_onset.message Message string that marks the start of a trial
 #' @param ms.conversion Conversion factor to convert timing to milliseconds
-#' @param pretrial.duration Duration of pre-trial baseline period in milliseconds
+#' @param pre_trial.duration Duration of pre-trial baseline period in milliseconds
 #' @param match Should the message string be an "exact" match or a "pattern" match?
+#' @param trialonset.message See trial_onset.message
+#' @param pretrial.duration See pre_trial.duration
 #' @keywords set timing
 #' @export
 #' @examples
 #' set_timing(x, start.trial = "Fixation", ms.conversion = 1000)
 
-set_timing <- function(x, trialonset.message = NULL, ms.conversion = 1,
-                       pretrial.duration = 0, match = "exact"){
+set_timing <- function(x, trial_onset.message = NULL, ms.conversion = 1,
+                       pre_trial.duration = 0, match = "exact",
+                       trialonset.message = NULL, pretrial.duration = NULL){
+  if (!is.null(trialonset.message)) {
+    trial_onset.message <- trialonset.message
+  }
+  if (!is.null(pretrial.duration)) {
+    pre_trial.duration <- pretrial.duration
+  }
   x <- dplyr::select(x, -ms_conversion)
   pretrial.duration <- abs(pretrial.duration)*-1
 
@@ -46,8 +55,8 @@ set_timing <- function(x, trialonset.message = NULL, ms.conversion = 1,
   x <- dplyr::filter(x, !is.na(Subject))
 
   col_order <- c("Subject", "Trial", "PreTrial", "Time", "Message",
-                 "Message_Inserted", "Pupil_Diameter.mm", "Pupils.r",
-                 "Event", "Gaze_Position.x", "Gaze_Position.y",
+                 "Message_Inserted", "Pupil_Diameter.mm", "Pupil_Diameter.px",
+                 "Pupils.r", "Event", "Gaze_Position.x", "Gaze_Position.y",
                  "Gaze.quality", "Head_Dist.cm")
 
   col_order <- colnames(x)[order(match(colnames(x), col_order))]

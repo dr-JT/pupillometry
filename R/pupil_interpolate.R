@@ -11,27 +11,39 @@
 #'
 
 pupil_interpolate <- function(x, type = "cubic-spline", maxgap = Inf, hz = ""){
+  if ("Pupil_Diameter.mm" %in% colnames(x)) {
+    real_name <- "Pupil_Diameter.mm"
+  } else {
+    real_name <- "Pupil_Diameter.px"
+  }
+  colnames(x)[which(colnames(x) == real_name)] <- "pupil_val"
+
   if (maxgap != Inf){
     maxgap <- round(maxgap / (1000 / hz))
   }
   x <- dplyr::group_by(x, Trial)
-  if (type=="cubic-spline"){
+  if (type == "cubic-spline"){
     x <- dplyr::mutate(x,
-                       Missing.Total = ifelse(is.na(Pupil_Diameter.mm), 1, 0),
-                       Missing.Total = sum(Missing.Total, na.rm = TRUE)/dplyr::n(),
-                       index = ifelse(is.na(Pupil_Diameter.mm), NA, dplyr::row_number()),
+                       Missing.Total = ifelse(is.na(pupil_val), 1, 0),
+                       Missing.Total =
+                         sum(Missing.Total, na.rm = TRUE) / dplyr::n(),
+                       index =
+                         ifelse(is.na(pupil_val), NA, dplyr::row_number()),
                        index = zoo::na.approx(index, na.rm = FALSE),
-                       Pupil_Diameter.mm = ifelse(Missing.Total > .9, 999, Pupil_Diameter.mm),
-                       Pupil_Diameter.mm = zoo::na.spline(Pupil_Diameter.mm,
-                                                          na.rm = FALSE,
-                                                          x = index,
-                                                          maxgap = maxgap),
-                       Pupil_Diameter.mm = ifelse(Missing.Total > .9, NA, Pupil_Diameter.mm))
+                       pupil_val = ifelse(Missing.Total > .9, 999, pupil_val),
+                       pupil_val = zoo::na.spline(pupil_val,
+                                                  na.rm = FALSE,
+                                                  x = index,
+                                                  maxgap = maxgap),
+                       pupil_val = ifelse(Missing.Total > .9, NA, pupil_val))
     x <- dplyr::select(x, -index, -Missing.Total)
-  } else if (type=="linear"){
+  } else if (type == "linear"){
     x <- dplyr::mutate(x,
-                       Pupil_Diameter.mm = zoo::na.approx(Pupil_Diameter.mm, na.rm = FALSE, maxgap = maxgap))
+                       pupil_val = zoo::na.approx(pupil_val, na.rm = FALSE,
+                                                  maxgap = maxgap))
   }
   x <- dplyr::ungroup(x)
+  colnames(x)[which(colnames(x) == "pupil_val")] <- real_name
+
   return(x)
 }

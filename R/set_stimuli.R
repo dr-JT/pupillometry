@@ -15,8 +15,9 @@ set_stimuli <- function(x){
   x <- dplyr::filter(x, Message_Inserted == 0)
 
   col_order <- c("Subject", "Trial", "PreTrial", "Time", "Stimulus",
-                 "Pupil_Diameter.mm", "Pupils.r", "Event", "Gaze_Position.x",
-                 "Gaze_Position.y", "Gaze.quality", "Head_Dist.cm")
+                 "Pupil_Diameter.mm", "Pupil_Diameter.px", "Pupils.r", "Event",
+                 "Gaze_Position.x", "Gaze_Position.y", "Gaze.quality",
+                 "Head_Dist.cm")
 
   col_order <- colnames(x)[order(match(colnames(x), col_order))]
 
