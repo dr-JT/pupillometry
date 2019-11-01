@@ -10,7 +10,7 @@ Mathôt, S., Fabius, J., Van Heusden, E., & Van der Stigchel, S. (2018). Safe an
 
 The main goal of this package is to provide:
 
-1) ease of use for pupillometry researchers
+1) ease of use for pupillometry researchers to perform preprocessing steps
 
 2) flexibility in choosing which preprocessing methods and parameters are used. 
 
@@ -22,9 +22,9 @@ devtools::install_github("dr-JT/pupillometry")
 
 ## Eyetracker Support
 
-The format and organization of the raw data file will depend on the type of Eyetracker used. The `pupil_read()` function imports the "messy" raw data file and it's output is a "tidy" raw data file with standardized column and value labels to be used by the other functions. 
+The format and organization of the raw data file will depend on the type of Eyetracker used. The `pupil_read()` function imports the "messy" raw data file and its output is a "tidy" raw data file with standardized column names and value labels to be used by the other functions in this package. 
 
-Currently, `pupil_read()` supports data exported from BeGaze using an SMI eye-tracker or glasses. 
+Currently, `pupil_read()` supports:
 
 - SensoMotoric Instruments (SMI) eyetrackers: `eyetracker = "smi"`
 
@@ -39,9 +39,21 @@ Currently, `pupil_read()` supports data exported from BeGaze using an SMI eye-tr
 
 ## Usage
 
-**`pupil_preprocess()` is a wrapper around the other functions to allow full preprocessing of pupil data using a single function.**
+There are two general ways you can use this package to do preprocessing:
 
-As such, you will need to pass many arguments to the `pupil_preprocess()` function that specifies all the details and preprocessing options.
+1) Build your own sequence of preprocessing functions
+
+Documentation on using this method is provided in [Using the Preprocessing Functions](https://dr-jt.github.io/pupillometry/articles/Message%20Markers.html)
+
+or
+
+2) Use `pupil_preprocess()`
+
+**`pupil_preprocess()` is a wrapper around the other functions to allow full preprocessing of pupil data using a single function.**
+    
+## `pupil_preprocess()`
+
+Using this method, you will need to pass many arguments to the `pupil_preprocess()` function that specifies all the details and preprocessing options.
 
 `pupil_preprocess()` will be performed on an entire `import.dir` directory of raw data files that match a certain `pattern` in their filename. The preprocessed data will be saved to a specified `output.dir` directory.
 
@@ -58,6 +70,8 @@ The overall workflow of `pupil_preprocess()` is:
     - **Select** either left or right pupil data (if both eyes were recorded from). `select_eye()`
     
     - Set **Timing** variable to be relative to onset of each trial. `set_timing()`
+    
+    - Set **Stimulus** variable from **Message Markers**. `set_stimuli()`
     
 3. **De-blink** data. `pupil_deblink()`
 
@@ -172,15 +186,15 @@ For more detailed information on how to use `pupil_preprocess()` and other funct
 
 ## Planned Updates
 
-* Add data preprocessing visualizations?
+* Better error and warning messages
 
-* Add hampel filter option (maybe?)
+* Data preprocessing visualizations?
 
-* Add greater support for SR Research EyeLink Eyetrackers
+* hampel filter option (maybe?)
 
-* Add support for Tobii Eyetrackers
+* Support for Tobii Eyetrackers
 
-* Add support for GazePoint Eyetrackers
+* Support for GazePoint Eyetrackers
 
 ## Citation
 
