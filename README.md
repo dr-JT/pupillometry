@@ -43,7 +43,7 @@ There are two general ways you can use this package to do preprocessing:
 
 1) Build your own sequence of preprocessing functions
 
-Documentation on using this method is provided in [Using the Preprocessing Functions](https://dr-jt.github.io/pupillometry/articles/Message%20Markers.html)
+Documentation on using this method is provided in [Using the Preprocessing Functions](https://dr-jt.github.io/pupillometry/articles/Using%20the%20Preprocessing%20Functions.html)
 
 or
 
