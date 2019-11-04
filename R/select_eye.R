@@ -11,7 +11,7 @@
 
 
 select_eye <- function(x, eye.use = ""){
-  if ("L_Pupil_Diamter.mm" %in% colnames(x)) {
+  if ("L_Pupil_Diameter.mm" %in% colnames(x)) {
     if (eye.use == "left"){
       if ("L_Gaze_Position.x" %in% colnames(x)) {
         x <- dplyr::rename(x,

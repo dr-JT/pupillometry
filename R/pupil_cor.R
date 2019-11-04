@@ -9,7 +9,7 @@
 #'
 
 pupil_cor <- function(x){
-  if ("L_Pupil_Diamter.mm" %in% colnames(x)) {
+  if ("L_Pupil_Diameter.mm" %in% colnames(x)) {
     L_pupil_colname <- "L_Pupil_Diameter.mm"
     R_pupil_colname <- "R_Pupil_Diameter.mm"
   } else {
