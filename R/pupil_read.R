@@ -208,8 +208,8 @@ pupil_read <- function(file, eyetracker = "", px_to_mm.conversion = NULL,
     }
 
     if (model == "glasses") {
-      left.recorded == TRUE
-      right.recorded == TRUE
+      left.recorded <- TRUE
+      right.recorded <- TRUE
       subj <- subj.extract(data$Participant[1],
                            prefix = subj.prefix, suffix = subj.suffix)
       if ("Point_of_Regard_Binocular_X_px" %in% colnames(data)) {
