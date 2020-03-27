@@ -24,43 +24,72 @@ pupil_preprocess(import.dir = NULL, pattern = "*.txt",
 \arguments{
 \item{import.dir}{Folder path to raw data files}
 
-\item{pattern}{Pattern to look for in data files}
+\item{pattern}{Pattern to look for in data files (e.g. ".txt")}
 
 \item{taskname}{Name of task - to be used in naming pre-processed files}
 
 \item{subj.prefix}{The unique pattern prefix (letter(s) and/or symbol(s))
-that comes before the subject number in the data file}
+that comes before the subject number in the data file. This is mostly
+for SMI eyetrackers that are not good at including subject number
+in the data and therefore the subject number needs to be determined
+and extracted from the file name. If the filename is
+"pitch_discrimination_19-1_001 Samples.txt" and the Subject number is
+19, then the subj.prefix = "n_" because that uniquely identifies a
+pattern that comes directly before the subject number in the file path.
+This can also be used for EyeLink or other eyetrackers, that include a
+subject number in a column in the datafile, to remove characters or
+numbers in front of a subject number.}
 
 \item{subj.suffix}{The unique pattern suffix (letter(s) or symbol(s))
-that comes after the subject number in the data file}
+that comes after the subject number in the data file. This is mostly
+for SMI eyetrackers that are not good at including subject number
+in the data and therefore the subject number needs to be determined
+and extracted from the file name. If the filename is
+"pitch_discrimination_19-1_001 Samples.txt" and the Subject number is
+19, then the subj.suffix = "-1" because that uniquely identifies a
+pattern that comes directly before the subject number in the file path.
+This can also be used for EyeLink or other eyetrackers, that include a
+subject number in a column in the datafile, to remove characters or
+numbers following (coming after) a subject number.}
 
 \item{timing.file}{File location and name that contains timing
-information for message markers}
+information for message markers. This is only to be used if your
+data does not already have message markers embedded in the raw
+pupil data.}
 
 \item{output.dir}{Folder path to output preprocessed data to}
 
-\item{output.steps}{Output files for each step in preprocessing?}
+\item{output.steps}{Output files for each step in preprocessing?
+This creates many more data files and therefore takes up more
+storage, but this can be useful if you want to analyze the data
+before and after a certain preprocessing method.}
 
-\item{eyetracker}{Which eye-tracker was used to record data}
+\item{eyetracker}{The eye-tracker  used to record data. Options:
+"smi", "eyelink".}
 
 \item{hz}{At which frequency was pupil data sampled at?
 (only required for interpolation and smoothing)}
 
-\item{eye.use}{Which eye to use? Left or right}
+\item{eye.use}{Which eye to use? "left" or "right"}
 
 \item{px_to_mm.conversion}{The conversion factor to go from
 px pupil diameter to mm pupil diameter}
 
-\item{start_tracking.message}{Message used in SMI experiment
-to mark StartTracking inline}
+\item{start_tracking.message}{Message used to mark when eyetracking
+has started. For SMI eyetrackers, the default value is
+"StartTracking.bmp". For EyeLink eyetrackers, the default value is
+"TRIALID". For more information on how to use message markers see
+https://dr-jt.github.io/pupillometry/articles/message_markers.html}
 
 \item{start_tracking.match}{Should the message string be an "exact"
-match or a "pattern" match?}
+match or a partial "pattern" match?}
 
-\item{trial_onset.message}{Message string that marks the start of a trial}
+\item{trial_onset.message}{Message string that marks the start of a trial.
+For more information on how to use message markers see
+https://dr-jt.github.io/pupillometry/articles/message_markers.html}
 
 \item{trial_onset.match}{Should the message string be an "exact"
-match or a "pattern" match}
+match or a partial "pattern" match}
 
 \item{deblink.extend}{How many milliseconds to extend blinks
 before and after blink detection}
@@ -69,38 +98,43 @@ before and after blink detection}
 in milliseconds}
 
 \item{missing.allowed}{What proportion of missing data is allowed,
-on a trial-by-trial basis? (Default: 1)}
+on a trial-by-trial basis? If a trial exceeds this amount then it
+will be removed from further preprocessing.}
 
-\item{interpolate}{What type of interpolation to use? linear or cubic-spline}
+\item{interpolate}{What type of interpolation to use?
+"linear" or "cubic-spline"}
 
 \item{interpolate.maxgap}{Maximum number of NAs to interpolate over.
-Anything gaps over this value will not be interpolated.}
+Any missing data gaps over this value will not be interpolated.}
 
 \item{smooth}{The type of smoothing function to apply.
-hann or moving window average (mwa)}
+"hann" or "mwa" (moving window average)}
 
-\item{smooth.window}{Window size of smoothing function
-default is 5 milliseconds}
+\item{smooth.window}{Window size of smoothing function}
 
 \item{method.first}{Should "smooth" or "interpolate" be applied first?
-(default: NULL)}
+It is highly suggested to apply smoothing before interpolation. See:
+https://dr-jt.github.io/pupillometry/articles/smooth_interpolate_first.html}
 
-\item{bc}{Do you want to use "subtractive" or "divisive"
-baseline correction? (default: "subtractive")}
+\item{bc}{Do you want to use "subtractive" or "divisive" baseline correction?}
 
-\item{pre_bc.duration}{Duration baseline period(s) to use for correction}
+\item{pre_bc.duration}{Duration of baseline period to use that comes
+before the baseline corrected period}
 
-\item{bc_onset.message}{Message string(s) that marks the offset of
-baseline period(s)}
+\item{bc_onset.message}{Message string(s) that marks the onset of the
+period to be baseline corrected.
+For more information on how to use message markers see
+https://dr-jt.github.io/pupillometry/articles/message_markers.html}
 
-\item{bc_onset.match}{Message string(s) that marks the offset of
-baseline period(s)}
+\item{bc_onset.match}{Should the message string be an "exact"
+match or a partial "pattern" match}
 
-\item{subset}{Which columns in the raw data output file do you want to keep}
+\item{subset}{Extra columns from the raw data file to keep}
 
-\item{trial.exclude}{Specify if ther are any trials to exclude. Trial number}
+\item{trial.exclude}{Specify if there are any trials to exclude. Trial number}
 
-\item{files.merge}{Do you want to create a single merge output file?}
+\item{files.merge}{Do you want to create a single merge output file?
+TRUE or FALSE}
 
 \item{starttracking.message}{See start_tracking.message}
 
@@ -120,6 +154,7 @@ baseline period(s)}
 }
 \description{
 This function will perform preprocessing on an entire folder of data files.
-It takes as input a specified folder path
-and outputs the preprocessed data to a specified folder path
+It takes as input a specified folder path and outputs the
+preprocessed data to a specified folder path. For more details, see:
+https://dr-jt.github.io/pupillometry/articles/pupil_preprocess.html
 }
