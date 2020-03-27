@@ -16,7 +16,7 @@ The example data is from a simple pitch discrimination task I administered to my
 
 From these examples, it can be seen that if you are gonig to apply a **cubic-spline** interpolation, then you should also apply smoothing and it is important that you choose `method.first = "smooth"`. Otherwise the data get overly distorted if you apply interpolation first (see Trial 6).
 
-These data come from a pitch discrimination task as described in the [Example Data Set](https://dr-jt.github.io/pupillometry/articles/Example%20Data%20Set.html) article. Time = 0 is the onset of the first tone.
+These data come from a pitch discrimination task as described in the [Example Data Set](https://dr-jt.github.io/pupillometry/articles/example_data.html) article. Time = 0 is the onset of the first tone.
 
 ********
 

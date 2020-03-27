@@ -4,13 +4,13 @@
 \alias{pupil_baselinecorrect}
 \title{Apply baseline correction}
 \usage{
-pupil_baselinecorrect(x, message = "", pre.duration = 200,
+pupil_baselinecorrect(x, bc_onset.message = "", pre.duration = 200,
   type = "subtractive", match = "exact")
 }
 \arguments{
 \item{x}{dataframe}
 
-\item{message}{Message string(s) that marks the offset of baseline period(s)}
+\item{bc_onset.message}{Message string(s) that marks the offset of baseline period(s)}
 
 \item{pre.duration}{Duration baseline period(s) to use for correction}
 

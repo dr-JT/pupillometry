@@ -2,7 +2,7 @@
 #'
 #' This function applies a pre-trial baseline correction on the data
 #' @param x dataframe
-#' @param message Message string(s) that marks the offset of baseline period(s)
+#' @param bc_onset.message Message string(s) that marks the offset of baseline period(s)
 #' @param pre.duration Duration baseline period(s) to use for correction
 #' @param type Do you want to use "subtractive" or "divisive" baseline correction? (default: "subtractive")
 #' @param match Should the message string be an "exact" match or a "pattern" match?
@@ -10,7 +10,7 @@
 #' @export
 #'
 
-pupil_baselinecorrect <- function(x, message = "", pre.duration = 200,
+pupil_baselinecorrect <- function(x, bc_onset.message = "", pre.duration = 200,
                                   type = "subtractive", match = "exact"){
   if ("Pupil_Diameter.mm" %in% colnames(x)) {
     real_name <- "Pupil_Diameter.mm"
@@ -21,14 +21,14 @@ pupil_baselinecorrect <- function(x, message = "", pre.duration = 200,
   }
   colnames(x)[which(colnames(x) == real_name)] <- "pupil_val"
 
-  baselines.n <- length(message)
+  baselines.n <- length(bc_onset.message)
   x <- dplyr::group_by(x, Trial, Stimulus)
   x <- dplyr::mutate(x, onset.time = min(Time, na.rm = TRUE))
 
   x <- dplyr::group_by(x, Trial)
   x <- dplyr::mutate(x, PreTarget = 0, Target = 0)
-  for (m in message){
-    n <- match(m, message)
+  for (m in bc_onset.message){
+    n <- match(m, bc_onset.message)
     if (match == "exact"){
       x <- dplyr::mutate(x,
                          bconset.time = ifelse(Stimulus == m, onset.time, NA))

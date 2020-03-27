@@ -1,5 +1,5 @@
 ---
-title: "Example Data Set - Without Message Markers"
+title: "Example Data Set - What if My Data Doesn't Have Message Markers?"
 ---
 
 ### Script example for preprocessing raw data file that does not contain message markers
@@ -101,7 +101,7 @@ In the final preprocessed data file there will be a new column for baseline corr
 
 Once you have the message markers all figured out you need to specify which preprocessing options you want to use. 
 
-For more details on the different options see the Article [Preprocessing Options](https://dr-jt.github.io/pupillometry/articles/Preprocessing%20Options.html)
+For more details on the different options see the Article [Preprocessing Options](https://dr-jt.github.io/pupillometry/articles/preprocessing_options.html)
 
 ```{r message = FALSE, warning = FALSE, eval=FALSE}
 # devtools::install_github("dr-JT/pupillometry")

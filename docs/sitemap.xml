@@ -58,21 +58,24 @@
     <loc>https://dr-jt.github.io/pupillometry//reference/set_trial.html</loc>
   </url>
   <url>
-    <loc>https://dr-jt.github.io/pupillometry//articles/Comparison of Preprocessing Methods.html</loc>
+    <loc>https://dr-jt.github.io/pupillometry//articles/example_data.html</loc>
   </url>
   <url>
-    <loc>https://dr-jt.github.io/pupillometry//articles/Example Data Set without Message Markers.html</loc>
+    <loc>https://dr-jt.github.io/pupillometry//articles/example_data_w_out_messages.html</loc>
   </url>
   <url>
-    <loc>https://dr-jt.github.io/pupillometry//articles/Example Data Set.html</loc>
+    <loc>https://dr-jt.github.io/pupillometry//articles/message_markers.html</loc>
   </url>
   <url>
-    <loc>https://dr-jt.github.io/pupillometry//articles/Message Markers.html</loc>
+    <loc>https://dr-jt.github.io/pupillometry//articles/preprocessing_options.html</loc>
   </url>
   <url>
-    <loc>https://dr-jt.github.io/pupillometry//articles/Preprocessing Options.html</loc>
+    <loc>https://dr-jt.github.io/pupillometry//articles/pupil_preprocess.html</loc>
   </url>
   <url>
-    <loc>https://dr-jt.github.io/pupillometry//articles/Using the Preprocessing Functions.html</loc>
+    <loc>https://dr-jt.github.io/pupillometry//articles/pupillometry_functions.html</loc>
+  </url>
+  <url>
+    <loc>https://dr-jt.github.io/pupillometry//articles/smooth_interpolate_first.html</loc>
   </url>
 </urlset>

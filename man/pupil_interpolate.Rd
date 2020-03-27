@@ -9,7 +9,7 @@ pupil_interpolate(x, type = "cubic-spline", maxgap = Inf, hz = "")
 \arguments{
 \item{x}{dataframe}
 
-\item{type}{What type of interpolation to use? (default: cubic-spline)}
+\item{type}{What type of interpolation to use? "linear" or "cubic-spline"}
 
 \item{maxgap}{Maximum number of NAs to interpolate over. Anything gaps over this value will not be interpolated.}
 

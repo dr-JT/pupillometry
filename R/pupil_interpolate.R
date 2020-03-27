@@ -3,7 +3,7 @@
 #' This function performs a linear interpolation over missing values.
 #' The 'zoo' package is a dependency
 #' @param x dataframe
-#' @param type What type of interpolation to use? (default: cubic-spline)
+#' @param type What type of interpolation to use? "linear" or "cubic-spline"
 #' @param maxgap Maximum number of NAs to interpolate over. Anything gaps over this value will not be interpolated.
 #' @param hz The recording frequency (used to calculate window size)
 #' @keywords interpolate

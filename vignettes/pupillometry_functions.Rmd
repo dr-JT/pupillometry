@@ -1,5 +1,5 @@
 ---
-title: "Using the Preprocessing Functions"
+title: "Build Your Own Sequence of Pupillometry Functions"
 ---
 
 ```{r setup, include=FALSE}

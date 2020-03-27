@@ -2,9 +2,10 @@
 #'
 #' This function performs a smoothing function over an array of x
 #' The 'zoo' package is a dependency
-#' @param x xframe
-#' @param type The type of smoothing function to apply. Hann or moving window average
-#' @param window The size of the smoothing window (default = 5). Value is in milliseconds
+#' @param x dataframe
+#' @param type The type of smoothing function to apply. "hann" or "mwa"
+#' @param window The size of the smoothing window (default = 5).
+#'               Value is in milliseconds
 #' @param hz The recording frequency (used to calculate window size)
 #' @keywords smooth
 #' @export

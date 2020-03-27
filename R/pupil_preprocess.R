@@ -142,7 +142,7 @@ pupil_preprocess <- function(import.dir = NULL, pattern = "*.txt",
 
     if (!is.null(bc)){
       preprocessing <- paste(preprocessing.stage, "bc", sep = ".")
-      x <- pupil_baselinecorrect(x, message = bc_onset.message,
+      x <- pupil_baselinecorrect(x, bc_onset.message = bc_onset.message,
                                  match = bc_onset.match,
                                  pre.duration = pre_bc.duration, type = bc)
       x <- pupil_missing(x, missing.allowed = missing.allowed)

@@ -2,7 +2,7 @@ url: https://dr-jt.github.io/pupillometry/
 
 authors:
   Jason Tsukahara:
-    href: http://englelab.gatech.edu/jason.html
+    href: http://englelab.gatech.edu/jason
 
 template:
   params:
@@ -30,4 +30,24 @@ reference:
 - title: Visualize
   contents:
   - plot_comparison
+
+articles:
+- title: How To
+  navbar: How To
+  contents:
+  - pupil_preprocess
+  - pupillometry_functions
+  - message_markers
+
+- title: Example Data Sets
+  navbar: Example Data Sets
+  contents:
+  - example_data
+  - example_data_w_out_messages
+
+- title: More Details
+  navbar: More Details
+  contents:
+  - preprocessing_options
+  - smooth_interpolate_first
 
