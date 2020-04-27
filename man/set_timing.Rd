@@ -4,9 +4,15 @@
 \alias{set_timing}
 \title{Set timing relative to trial-onset}
 \usage{
-set_timing(x, trial_onset.message = NULL, ms.conversion = 1,
-  pre_trial.duration = 0, match = "exact", trialonset.message = NULL,
-  pretrial.duration = NULL)
+set_timing(
+  x,
+  trial_onset.message = NULL,
+  ms.conversion = 1,
+  pre_trial.duration = 0,
+  match = "exact",
+  trialonset.message = NULL,
+  pretrial.duration = NULL
+)
 }
 \arguments{
 \item{x}{dataframe}

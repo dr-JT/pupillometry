@@ -3,8 +3,4 @@
 \docType{package}
 \name{pupillometry}
 \alias{pupillometry}
-\alias{pupillometry-package}
 \title{ourPkg.}
-\description{
-ourPkg.
-}

@@ -4,8 +4,13 @@
 \alias{pupil_baselinecorrect}
 \title{Apply baseline correction}
 \usage{
-pupil_baselinecorrect(x, bc_onset.message = "", pre.duration = 200,
-  type = "subtractive", match = "exact")
+pupil_baselinecorrect(
+  x,
+  bc_onset.message = "",
+  pre.duration = 200,
+  type = "subtractive",
+  match = "exact"
+)
 }
 \arguments{
 \item{x}{dataframe}

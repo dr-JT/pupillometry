@@ -4,11 +4,20 @@
 \alias{pupil_read}
 \title{Convert "messy" raw data file to "tidy" raw data file}
 \usage{
-pupil_read(file, eyetracker = "", px_to_mm.conversion = NULL,
-  start_tracking.message = "default", start_tracking.match = "exact",
-  subj.prefix = NULL, subj.suffix = NULL, timing.file = NULL,
-  subset = "default", trial.exclude = c(),
-  starttracking.message = NULL, starttracking.match = NULL)
+pupil_read(
+  file,
+  eyetracker = "",
+  px_to_mm.conversion = NULL,
+  start_tracking.message = "default",
+  start_tracking.match = "exact",
+  subj.prefix = NULL,
+  subj.suffix = NULL,
+  timing.file = NULL,
+  subset = "default",
+  trial.exclude = c(),
+  starttracking.message = NULL,
+  starttracking.match = NULL
+)
 }
 \arguments{
 \item{file}{A file path to the raw data export file}

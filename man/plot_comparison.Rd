@@ -4,8 +4,14 @@
 \alias{plot_comparison}
 \title{Visually compare timeseries that used different preprocessing mehtods/parameters}
 \usage{
-plot_comparison(import, files = c(), labels = c(), trial, title = "",
-  legend.title = "Labels")
+plot_comparison(
+  import,
+  files = c(),
+  labels = c(),
+  trial,
+  title = "",
+  legend.title = "Labels"
+)
 }
 \arguments{
 \item{import}{Directory with preprocessed data files for comparison}
