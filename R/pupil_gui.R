@@ -192,11 +192,61 @@ pupil_gui <- function(){
   frame_execute <- gWidgets2::gframe("", horizontal = FALSE,
                           container = grp_4, pos = .5)
   button_execute <-
-    gWidgets2::gbutton("Execute Preprocessing",
-                       container = frame_execute,
-                       handler = function(h, ...){
-                         print(as.logical(gWidgets2::svalue(obj_output.steps)))
-                         print(as.logical(gWidgets2::svalue(obj_files.merge)))
+    gWidgets2::gbutton(
+      "Execute Preprocessing",
+      container = frame_execute,
+      handler = function(h, ...){
+        if (gWidgets2::svalue(obj_timing.file) == "") {
+          gWidgets2::svalue(obj_timing.file) <- NULL
+        }
+        if (gWidgets2::svalue(obj_subj.prefix) == ""){
+          gWidgets2::svalue(obj_subj.prefix) <- NULL
+        }
+        if (gWidgets2::svalue(obj_subj.suffix) == ""){
+          gWidgets2::svalue(obj_subj.suffix) <- NULL
+        }
+        if (gWidgets2::svalue(obj_conversion) == ""){
+          gWidgets2::svalue(obj_conversion) <- NULL
+        }
+        if (gWidgets2::svalue(obj_subset) == ""){
+          gWidgets2::svalue(obj_subset) <- "default"
+        }
+        if (gWidgets2::svalue(obj_trial.exclude) == ""){
+          gWidgets2::svalue(obj_trial.exclude) <- NULL
+        }
+
+        pupillometry::pupil_preprocess(
+          import.dir = gWidgets2::svalue(obj_import.dir),
+          pattern = gWidgets2::svalue(obj_pattern),
+          taskname = gWidgets2::svalue(obj_taskname),
+          subj.prefix = gWidgets2::svalue(obj_subj.prefix),
+          subj.suffix = gWidgets2::svalue(obj_subj.suffix),
+          timing.file = gWidgets2::svalue(obj_timing.file),
+          output.dir = gWidgets2::svalue(obj_output.dir),
+          output.steps = gWidgets2::svalue(obj_output.steps),
+          files.merge = gWidgets2::svalue(obj_files.merge),
+          eyetracker = gWidgets2::svalue(obj_eyetracker),
+          hz = gWidgets2::svalue(obj_hz),
+          eye.use = gWidgets2::svalue(obj_eye.use),
+          px_to_mm.conversion = gWidgets2::svalue(obj_conversion),
+          start_tracking.message = gWidgets2::svalue(obj_start_tracking.message),
+          start_tracking.match = gWidgets2::svalue(obj_start_tracking.match),
+          trial_onset.message = gWidgets2::svalue(obj_trial_onset.message),
+          trial_onset.match = gWidgets2::svalue(obj_trial_onset.match),
+          pre_trial.duration = gWidgets2::svalue(obj_pre_trial.duration),
+          bc_onset.message = gWidgets2::svalue(obj_bc_onset.message),
+          bc_onset.match = gWidgets2::svalue(obj_bc_onset.match),
+          deblink.extend = gWidgets2::svalue(obj_deblink.extend),
+          smooth = gWidgets2::svalue(obj_smooth),
+          smooth.window = gWidgets2::svalue(obj_smooth.window),
+          interpolate = gWidgets2::svalue(obj_interpolate),
+          interpolate.maxgap = gWidgets2::svalue(obj_interpolate.maxgap),
+          method.first = gWidgets2::svalue(obj_method.first),
+          pre_bc.duration = gWidgets2::svalue(obj_pre_bc.duration),
+          missing.allowed = gWidgets2::svalue(obj_missing.allowed),
+          subset = gWidgets2::svalue(obj_subset),
+          trial.exclude = gWidgets2::svalue(obj_trial.exclude)
+                         )
                          })
 
   button_rcode <-
@@ -206,10 +256,10 @@ pupil_gui <- function(){
                            gWidgets2::svalue(obj_timing.file) <- "NULL"
                           }
                          if (gWidgets2::svalue(obj_subj.prefix) == ""){
-                           gWidgets2::svalue(obj_subj.prefix) <- ""
+                           gWidgets2::svalue(obj_subj.prefix) <- "NULL"
                           }
                          if (gWidgets2::svalue(obj_subj.suffix) == ""){
-                           gWidgets2::svalue(obj_subj.suffix) <- ""
+                           gWidgets2::svalue(obj_subj.suffix) <- "NULL"
                           }
                          if (gWidgets2::svalue(obj_conversion) == ""){
                            gWidgets2::svalue(obj_conversion) <- "NULL"
@@ -245,7 +295,7 @@ pupil_gui <- function(){
                                             "\"", "\n",
                                             "subj.suffix <- ", "\"",
                                             gWidgets2::svalue(obj_subj.suffix),
-                                            "\"", "\n",
+                                            "\"", "\n", " \n",
                                             "# File Output Parameters\n",
                                             "output.dir <- ", "\"",
                                             gWidgets2::svalue(obj_output.dir),
@@ -267,7 +317,7 @@ pupil_gui <- function(){
                                             "\"", "\n",
                                             "px_to_mm.conversion <- ",
                                             gWidgets2::svalue(obj_conversion),
-                                            "\n",
+                                            "\n", " \n",
                                             "# Message Marker Parameters\n",
                                             "start_tracking.message <- ", "\"",
                                             gWidgets2::svalue(
@@ -295,6 +345,7 @@ pupil_gui <- function(){
                                             "bc_onset.match <- ", "\"",
                                             gWidgets2::svalue(
                                               obj_bc_onset.match), "\"", "\n",
+                                            " \n",
                                             "# Preprocessing Parameters\n",
                                             "deblink.extend <- ",
                                             gWidgets2::svalue(
@@ -323,6 +374,7 @@ pupil_gui <- function(){
                                             "missing.allowed <- ",
                                             gWidgets2::svalue(
                                               obj_missing.allowed), "\n",
+                                            " \n",
                                             "# Misc.\n",
                                             "subset <- ", "\"",
                                             gWidgets2::svalue(obj_subset),
