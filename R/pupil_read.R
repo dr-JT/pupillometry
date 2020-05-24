@@ -315,7 +315,7 @@ pupil_read <- function(file, eyetracker = "", px_to_mm.conversion = NULL,
                                                           na.rm = FALSE))
     data <- dplyr::arrange(data, Subject, Time)
   } else {
-    data <- dplyr::mutate(ddata(Message_Inserted = 0))
+    data <- dplyr::mutate(data, Message_Inserted = 0)
   }
   ########################################################
 
