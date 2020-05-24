@@ -10,10 +10,10 @@
 #' @export
 #'
 
-set_timing <- function(x, trial_onset.message = NULL, ms.conversion = 1,
-                       pretrial.duration = 0, match = "exact",
-                       trialonset.message = NULL, pre_trial.duration = NULL){
-  if (!is.null(trial_onset.message)) {
+set_timing <- function(x, trial_onset.message = NULL, pretrial.duration = 0,
+                       match = "exact", trialonset.message = NULL,
+                       pre_trial.duration = NULL){
+  if (!is.null(trialonset.message)) {
     trial_onset.message <- trialonset.message
   }
   if (!is.null(pre_trial.duration)) {
