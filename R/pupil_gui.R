@@ -50,7 +50,7 @@ pupil_gui <- function(){
                                    "eyetrackers this is extracted from",
                                    "the column name with the subject ID.",
                                    "You need to identify a unique",
-                                   "subj.prefix pattern and subj.suffix",
+                                   "subj_prefix pattern and subj_suffix",
                                    "pattern that surrounds the subject #",
                                    "in the  datafile name/subject ID",
                                    "column.", sep = " "))
@@ -82,7 +82,7 @@ pupil_gui <- function(){
                                   horizontal = FALSE,
                                   container = grp_1.2, pos = .5)
   form_misc <- gWidgets2::gformlayout(container = frame_misc, expand = TRUE)
-  obj_subset <- gWidgets2::gedit("",
+  obj_include_col <- gWidgets2::gedit("",
                       label = "include additional columns",
                       container = form_misc)
   obj_trial.exclude <- gWidgets2::gedit("",
@@ -133,7 +133,7 @@ pupil_gui <- function(){
                                                 select = 1,
                                                 label = "string match type",
                                                 container = form_message)
-  obj_pre_trial.duration <- gWidgets2::gedit("",
+  obj_pretrial.duration <- gWidgets2::gedit("",
                                   label = "pre trial duration",
                                   container = form_message)
   obj_bc_onset.message <- gWidgets2::gedit("",
@@ -208,44 +208,44 @@ pupil_gui <- function(){
         if (gWidgets2::svalue(obj_conversion) == ""){
           gWidgets2::svalue(obj_conversion) <- NULL
         }
-        if (gWidgets2::svalue(obj_subset) == ""){
-          gWidgets2::svalue(obj_subset) <- "default"
+        if (gWidgets2::svalue(obj_include_col) == ""){
+          gWidgets2::svalue(obj_include_col) <- "default"
         }
         if (gWidgets2::svalue(obj_trial.exclude) == ""){
           gWidgets2::svalue(obj_trial.exclude) <- NULL
         }
 
         pupillometry::pupil_preprocess(
-          import.dir = gWidgets2::svalue(obj_import.dir),
+          import_dir = gWidgets2::svalue(obj_import.dir),
           pattern = gWidgets2::svalue(obj_pattern),
           taskname = gWidgets2::svalue(obj_taskname),
-          subj.prefix = gWidgets2::svalue(obj_subj.prefix),
-          subj.suffix = gWidgets2::svalue(obj_subj.suffix),
-          timing.file = gWidgets2::svalue(obj_timing.file),
-          output.dir = gWidgets2::svalue(obj_output.dir),
-          output.steps = gWidgets2::svalue(obj_output.steps),
-          files.merge = gWidgets2::svalue(obj_files.merge),
+          subj_prefix = gWidgets2::svalue(obj_subj.prefix),
+          subj_suffix = gWidgets2::svalue(obj_subj.suffix),
+          timing_file = gWidgets2::svalue(obj_timing.file),
+          output_dir = gWidgets2::svalue(obj_output.dir),
+          output_steps = gWidgets2::svalue(obj_output.steps),
+          files_merge = gWidgets2::svalue(obj_files.merge),
           eyetracker = gWidgets2::svalue(obj_eyetracker),
           hz = gWidgets2::svalue(obj_hz),
-          eye.use = gWidgets2::svalue(obj_eye.use),
+          eye_use = gWidgets2::svalue(obj_eye.use),
           px_to_mm.conversion = gWidgets2::svalue(obj_conversion),
           start_tracking.message = gWidgets2::svalue(obj_start_tracking.message),
           start_tracking.match = gWidgets2::svalue(obj_start_tracking.match),
           trial_onset.message = gWidgets2::svalue(obj_trial_onset.message),
           trial_onset.match = gWidgets2::svalue(obj_trial_onset.match),
-          pre_trial.duration = gWidgets2::svalue(obj_pre_trial.duration),
+          pretrial.duration = gWidgets2::svalue(obj_pretrial.duration),
           bc_onset.message = gWidgets2::svalue(obj_bc_onset.message),
           bc_onset.match = gWidgets2::svalue(obj_bc_onset.match),
-          deblink.extend = gWidgets2::svalue(obj_deblink.extend),
+          deblink_extend = gWidgets2::svalue(obj_deblink.extend),
           smooth = gWidgets2::svalue(obj_smooth),
           smooth.window = gWidgets2::svalue(obj_smooth.window),
           interpolate = gWidgets2::svalue(obj_interpolate),
           interpolate.maxgap = gWidgets2::svalue(obj_interpolate.maxgap),
-          method.first = gWidgets2::svalue(obj_method.first),
+          method_first = gWidgets2::svalue(obj_method.first),
           pre_bc.duration = gWidgets2::svalue(obj_pre_bc.duration),
-          missing.allowed = gWidgets2::svalue(obj_missing.allowed),
-          subset = gWidgets2::svalue(obj_subset),
-          trial.exclude = gWidgets2::svalue(obj_trial.exclude)
+          missing_allowed = gWidgets2::svalue(obj_missing.allowed),
+          include_col = gWidgets2::svalue(obj_include_col),
+          trial_exclude = gWidgets2::svalue(obj_trial.exclude)
                          )
                          })
 
@@ -264,8 +264,8 @@ pupil_gui <- function(){
                          if (gWidgets2::svalue(obj_conversion) == ""){
                            gWidgets2::svalue(obj_conversion) <- "NULL"
                           }
-                         if (gWidgets2::svalue(obj_subset) == ""){
-                           gWidgets2::svalue(obj_subset) <- "default"
+                         if (gWidgets2::svalue(obj_include_col) == ""){
+                           gWidgets2::svalue(obj_include_col) <- "default"
                           }
                          if (gWidgets2::svalue(obj_trial.exclude) == ""){
                            gWidgets2::svalue(obj_trial.exclude) <- "NULL"
@@ -278,7 +278,7 @@ pupil_gui <- function(){
                                       paste("## Preprocessing Parameters\n",
                                             " \n",
                                             "# File Import Parameters\n",
-                                            "import.dir <- ", "\"",
+                                            "import_dir <- ", "\"",
                                             gWidgets2::svalue(obj_import.dir),
                                             "\"", "\n",
                                             "pattern <- ", "\"",
@@ -287,23 +287,23 @@ pupil_gui <- function(){
                                             "taskname <- ", "\"",
                                             gWidgets2::svalue(obj_taskname),
                                             "\"", "\n",
-                                            "timing.file <- ", "\"",
+                                            "timing_file <- ", "\"",
                                             gWidgets2::svalue(obj_timing.file),
                                             "\"", "\n",
-                                            "subj.prefix <- ", "\"",
+                                            "subj_prefix <- ", "\"",
                                             gWidgets2::svalue(obj_subj.prefix),
                                             "\"", "\n",
-                                            "subj.suffix <- ", "\"",
+                                            "subj_suffix <- ", "\"",
                                             gWidgets2::svalue(obj_subj.suffix),
                                             "\"", "\n", " \n",
                                             "# File Output Parameters\n",
-                                            "output.dir <- ", "\"",
+                                            "output_dir <- ", "\"",
                                             gWidgets2::svalue(obj_output.dir),
                                             "\"", "\n",
-                                            "output.steps <- ",
+                                            "output_steps <- ",
                                             gWidgets2::svalue(obj_output.steps),
                                             "\n",
-                                            "files.merge <- ",
+                                            "files_merge <- ",
                                             gWidgets2::svalue(obj_files.merge),
                                             "\n",
                                             "# Eyetracker Information\n",
@@ -312,7 +312,7 @@ pupil_gui <- function(){
                                             "\"", "\n",
                                             "hz <- ",
                                             gWidgets2::svalue(obj_hz), "\n",
-                                            "eye.use <- ", "\"",
+                                            "eye_use <- ", "\"",
                                             gWidgets2::svalue(obj_eye.use),
                                             "\"", "\n",
                                             "px_to_mm.conversion <- ",
@@ -335,9 +335,9 @@ pupil_gui <- function(){
                                             gWidgets2::svalue(
                                               obj_trial_onset.match),
                                             "\"", "\n",
-                                            "pre_trial.duration <- ",
+                                            "pretrial.duration <- ",
                                             gWidgets2::svalue(
-                                              obj_pre_trial.duration), "\n",
+                                              obj_pretrial.duration), "\n",
                                             "bc_onset.message <- ", "\"",
                                             gWidgets2::svalue(
                                               obj_bc_onset.message),
@@ -347,7 +347,7 @@ pupil_gui <- function(){
                                               obj_bc_onset.match), "\"", "\n",
                                             " \n",
                                             "# Preprocessing Parameters\n",
-                                            "deblink.extend <- ",
+                                            "deblink_extend <- ",
                                             gWidgets2::svalue(
                                               obj_deblink.extend), "\n",
                                             "smooth <- ", "\"",
@@ -362,7 +362,7 @@ pupil_gui <- function(){
                                             "interpolate.maxgap <- ",
                                             gWidgets2::svalue(
                                               obj_interpolate.maxgap), "\n",
-                                            "method.first <- ", "\"",
+                                            "method_first <- ", "\"",
                                             gWidgets2::svalue(obj_method.first),
                                             "\"", "\n",
                                             "bc <- ", "\"",
@@ -371,41 +371,41 @@ pupil_gui <- function(){
                                             "pre_bc.duration <- ",
                                             gWidgets2::svalue(
                                               obj_pre_bc.duration), "\n",
-                                            "missing.allowed <- ",
+                                            "missing_allowed <- ",
                                             gWidgets2::svalue(
                                               obj_missing.allowed), "\n",
                                             " \n",
                                             "# Misc.\n",
-                                            "subset <- ", "\"",
-                                            gWidgets2::svalue(obj_subset),
+                                            "include_col <- ", "\"",
+                                            gWidgets2::svalue(obj_include_col),
                                             "\"", "\n",
-                                            "trial.exclude <- ",
+                                            "trial_exclude <- ",
                                             gWidgets2::svalue(
                                               obj_trial.exclude), "\n",
                                             " \n",
                                             "#############################",
                                             " \n",
-                                            "pupil_preprocess(import.dir = import.dir, pattern = pattern, taskname = taskname,
-                  subj.prefix = subj.prefix, subj.suffix = subj.suffix,
-                  timing.file = timing.file, output.dir = output.dir,
-                  output.steps = output.steps, files.merge = files.merge,
-                  eyetracker = eyetracker, hz = hz, eye.use = eye.use,
+                                            "pupil_preprocess(import_dir = import_dir, pattern = pattern, taskname = taskname,
+                  subj_prefix = subj_prefix, subj_suffix = subj_suffix,
+                  timing_file = timing_file, output_dir = output_dir,
+                  output_steps = output_steps, files_merge = files_merge,
+                  eyetracker = eyetracker, hz = hz, eye_use = eye_use,
                  px_to_mm.conversion = px_to_mm.conversion,
                  start_tracking.message = start_tracking.message,
                  start_tracking.match = start_tracking.match,
                  trial_onset.message = trial_onset.message,
                  trial_onset.match = trial_onset.match,
-                 pre_trial.duration = pre_trial.duration,
+                 pretrial.duration = pretrial.duration,
                  bc_onset.message = bc_onset.message,
                  bc_onset.match = bc_onset.match,
-                 deblink.extend = deblink.extend,
+                 deblink_extend = deblink_extend,
                  smooth = smooth, smooth.window = smooth.window,
                  interpolate = interpolate,
                  interpolate.maxgap = interpolate.maxgap,
-                 method.first = method.first, bc = bc,
+                 method_first = method_first, bc = bc,
                  pre_bc.duration = pre_bc.duration,
-                 missing.allowed = missing.allowed, subset = subset,
-                 trial.exclude = trial.exclude)",
+                 missing_allowed = missing_allowed, include_col = include_col,
+                 trial_exclude = trial_exclude)",
                                                       sep = ""),
                                       "\"NULL\"", "NULL"))
                           })

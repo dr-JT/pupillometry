@@ -1,7 +1,7 @@
 Package: pupillometry
 Type: Package
 Title: Preprocessing of Pupil Data
-Version: 0.4.1
+Version: 0.5.0
 Authors@R: c(
     person("Jason", "Tsukahara", , "jtsukahara3@gatech.edu", 
     role = c("aut", "cre"), comment = c(ORCID = 0000-0003-3570-1977)))
@@ -12,6 +12,7 @@ Description: The package contains various functions for different steps in the
     raw pupil time series data all with one function.
 Imports: 
     dplyr,
+    tidyselect,
     readr,
     stringr,
     zoo,

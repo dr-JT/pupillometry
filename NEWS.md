@@ -1,10 +1,32 @@
+# pupillometry 0.5.0
+
+Updated: 05/24/2020
+
+* Added a GUI for `pupil_preprocess()`!
+
+* Updated support for SR-Research EyeLink 1000 eye tracker
+
+* Renamed some of the parameters (old parameter names may not work)
+
+* Added a quality check in `pupil_read()` to make sure trials were set correctly
+
+    A file "quality_check.csv" will be saved to the `output_dir` with the number
+    of trials in each data file.
+    
+    At the end of `pupil_preprocess()` the quality check will be printed to
+    the console.
+    
+    Future updates will include other quality checks and logs.
+
+* Added `tidyselect` as a dependency
+
 # pupillometry 0.4.1
 
 Updated: 10/21/2019
 
 * Full support for SR-Research EyeLink 1000 eyetracker `eyetracker = "eyelink"`
 
-* Added parameter to include conversion factor of pupil data in pixels (px) to pupil data in millimeters (mm)
+* Added parameter to include conversion factor of pupil data in pixels (px) to pupil data in millimeters (mm) `px_to_mm.conversion`
 
 * Renamed some of the parameters (old parameter names still work)
 
