@@ -4,7 +4,6 @@
 #' @param x dataframe
 #' @param bin.length Length of bins to average
 #' @param id Column name that identifies subject number
-#' @keywords downsample
 #' @export
 #'
 
