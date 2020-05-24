@@ -1,23 +1,21 @@
 #' Apply interpolation
 #'
-#' This function performs a linear interpolation over missing values.
+#' This function performs an interpolation over missing values.
 #' The 'zoo' package is a dependency
 #' @param x dataframe
 #' @param type What type of interpolation to use? "linear" or "cubic-spline"
-#' @param maxgap Maximum number of NAs to interpolate over. Anything gaps over this value will not be interpolated.
+#' @param maxgap Maximum number of NAs to interpolate over.
+#'     Any gaps over this value will not be interpolated.
 #' @param hz The recording frequency (used to calculate window size)
-#' @keywords interpolate
 #' @export
 #'
 
 pupil_interpolate <- function(x, type = "cubic-spline", maxgap = Inf, hz = ""){
-  if ("Pupil_Diameter.mm" %in% colnames(x)) {
-    real_name <- "Pupil_Diameter.mm"
-  } else {
-    real_name <- "Pupil_Diameter.px"
-  }
-  colnames(x)[which(colnames(x) == real_name)] <- "pupil_val"
 
+  real_name <- ifelse("Pupil_Diameter.mm" %in% colnames(x),
+                      "Pupil_Diameter.mm", "Pupil_Diameter.px")
+
+  colnames(x)[which(colnames(x) == real_name)] <- "pupil_val"
   if (maxgap != Inf){
     maxgap <- round(maxgap / (1000 / hz))
   }

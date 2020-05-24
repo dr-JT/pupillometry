@@ -14,7 +14,7 @@ Below, I demonstrate that at least when using this package to preprocess pupil d
 
 The example data is from a simple pitch discrimination task I administered to myself. There were only six trials. Trials 2 and 6 had the largest chuncks of missing data so I decided to test out whether applying smoothing or interpolation first changes the preprocessed data.
 
-From these examples, it can be seen that if you are gonig to apply a **cubic-spline** interpolation, then you should also apply smoothing and it is important that you choose `method.first = "smooth"`. Otherwise the data get overly distorted if you apply interpolation first (see Trial 6).
+From these examples, it can be seen that if you are gonig to apply a **cubic-spline** interpolation, then you should also apply smoothing and it is important that you choose `method_first = "smooth"`. Otherwise the data get overly distorted if you apply interpolation first (see Trial 6).
 
 These data come from a pitch discrimination task as described in the [Example Data Set](https://dr-jt.github.io/pupillometry/articles/example_data.html) article. Time = 0 is the onset of the first tone.
 
@@ -30,7 +30,7 @@ On Trial 6 there are a couple of "major" gaps of missing pupil data. You can see
 
 ********
 
-*Figure 2* shows the same trial but with smoothing applied. With either `method.first = "smooth"` (**green line**) or `method.first = "interpolate"` (**pink line**). Both lines used **cubic-spline interpolation**, the only difference is whether smoothing was applied first or not. You can see that applying smoothing before a cubice-spline interpolation avoids the issue seen in *Figure 1* and the pink line in *Figure 2*.
+*Figure 2* shows the same trial but with smoothing applied. With either `method_first = "smooth"` (**green line**) or `method_first = "interpolate"` (**pink line**). Both lines used **cubic-spline interpolation**, the only difference is whether smoothing was applied first or not. You can see that applying smoothing before a cubice-spline interpolation avoids the issue seen in *Figure 1* and the pink line in *Figure 2*.
 
 <img src="../reference/figures/Trial6--cubic-spline-hann.png" align = "center" />
 

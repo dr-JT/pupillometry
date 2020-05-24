@@ -1,5 +1,5 @@
 ---
-title: "How to Use Message Markers"
+title: "Use Message Markers"
 ---
 
 ```{r setup, include=FALSE}
@@ -42,11 +42,11 @@ There is an additional parameter `trial_onset.match` that specifies whether `tri
 
 Such as, if the start recording message is different on each trial "TRIALID [trial number]", then a `"pattern"` match will need to be used to correctly set the trial index.
 
-### `pre_trial.duration = ""`
+### `pretrial.duration = ""`
 
-The duration of the pre-trial period is set relative to the timing of the `trial_onset.message` and that duration is specified by `pre_trial.duration`.
+The duration of the pre-trial period is set relative to the timing of the `trial_onset.message` and that duration is specified by `pretrial.duration`.
 
-For instance if `pre_trial.duration <- 2000`, then the 2000 milliseconds before `trial_onset.message` will be marked as a pre-trial period. This duration typically corresponds to the duration of the ITI period.
+For instance if `pretrial.duration <- 2000`, then the 2000 milliseconds before `trial_onset.message` will be marked as a pre-trial period. This duration typically corresponds to the duration of the ITI period.
 
 ### `bc_onset.message = ""`
 
@@ -67,7 +67,7 @@ If you were not able to sync events in your experimental software to the eyetrac
 
 <img src="../reference/figures/message_markers_2.png" align = "center" />
 
-Notice there are no message markers, and the dotted lines represent that the data file does not contain any information as to when these events actually occured.
+Notice there are no message markers, and the dotted lines represent that the data file does not contain any information as to when these events actually occured. This is not very useful data without information of when certain events occured.
 
 See the Article [Example Data Set - What if My Data Doesn't Have Message Markers?](https://dr-jt.github.io/pupillometry/articles/example_data_w_out_messages.html) for an example of how to insert the messages into the data file.
 

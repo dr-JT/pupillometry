@@ -7,7 +7,6 @@
 #' @param trial Which trial to filter on
 #' @param title Title the graph
 #' @param legend.title Title the legend
-#' @keywords plot
 #' @export plot_comparison
 #'
 

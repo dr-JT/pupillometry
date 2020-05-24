@@ -2,7 +2,7 @@
 
 > An R Package to preprocess pupil data
 
-The package contains various functions for different steps in the preprocessing pipeline, such as interpolation, smoothing, and baseline correction.
+The package contains various functions for different steps in the preprocessing pipeline, such as deblinking, interpolation, smoothing, and baseline correction.
 
 The pre-processing steps are based on what has commonly been used in the literature and influenced by sensible preprocessing methods suggested by
 
@@ -43,7 +43,9 @@ There are two general ways you can use this package to do preprocessing:
 
 **1)** Use `pupil_preprocess()`
 
-Documentation on using this method is provided in [How to Use pupil_preprocess()](https://dr-jt.github.io/pupillometry/articles/pupil_preprocess.html)
+Documentation on using this method is provided in [Use pupil_preprocess()](https://dr-jt.github.io/pupillometry/articles/pupil_preprocess.html)
+
+You can also use `pupil_preprocess()` through a GUI window [Use the GUI](https://dr-jt.github.io/pupillometry/articles/gui.html)
 
 **or**
 
@@ -62,6 +64,10 @@ Documentation on using this method is provided in [Build Your Own Sequence of Pu
 * Support for Tobii Eyetrackers
 
 * Support for GazePoint Eyetrackers
+
+## Support
+
+If you are having difficulty getting the package to work or would like to make a feature request then do not hesitate to contact me: <jason.tsukahara@gatech.edu>
 
 ## Citation
 

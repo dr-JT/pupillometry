@@ -7,11 +7,10 @@
 set_timing(
   x,
   trial_onset.message = NULL,
-  ms.conversion = 1,
-  pre_trial.duration = 0,
+  pretrial.duration = 0,
   match = "exact",
   trialonset.message = NULL,
-  pretrial.duration = NULL
+  pre_trial.duration = NULL
 )
 }
 \arguments{
@@ -19,21 +18,14 @@ set_timing(
 
 \item{trial_onset.message}{Message string that marks the start of a trial}
 
-\item{ms.conversion}{Conversion factor to convert timing to milliseconds}
+\item{pretrial.duration}{Duration of pre-trial period in milliseconds}
 
-\item{pre_trial.duration}{Duration of pre-trial baseline period in milliseconds}
-
-\item{match}{Should the message string be an "exact" match or a "pattern" match?}
+\item{match}{Is message string an "exact" match or a "pattern" match?}
 
 \item{trialonset.message}{See trial_onset.message}
 
-\item{pretrial.duration}{See pre_trial.duration}
+\item{pre_trial.duration}{See pretrial.duration}
 }
 \description{
 This sets the timing variable relative to the onset of each trial
 }
-\examples{
-set_timing(x, start.trial = "Fixation", ms.conversion = 1000)
-}
-\keyword{set}
-\keyword{timing}

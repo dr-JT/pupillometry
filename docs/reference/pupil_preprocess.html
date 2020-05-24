@@ -54,8 +54,9 @@
 
 <meta property="og:title" content="Preprocess pupil data using this single function — pupil_preprocess" />
 <meta property="og:description" content="This function will perform preprocessing on an entire folder of data files.
-It takes as input a specified folder path
-and outputs the preprocessed data to a specified folder path" />
+It takes as input a specified folder path and outputs the
+preprocessed data to a specified folder path. For more details, see:
+https://dr-jt.github.io/pupillometry/articles/pupil_preprocess.html" />
 <meta property="og:image" content="https://dr-jt.github.io/pupillometry/logo.png" />
 
 
@@ -88,7 +89,7 @@ and outputs the preprocessed data to a specified folder path" />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">pupillometry</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.5.0</span>
       </span>
     </div>
 
@@ -113,13 +114,16 @@ and outputs the preprocessed data to a specified folder path" />
     <li class="divider"></li>
     <li class="dropdown-header">How To</li>
     <li>
-      <a href="../articles/pupil_preprocess.html">How to Use pupil_preprocess()</a>
+      <a href="../articles/pupil_preprocess.html">Use pupil_preprocess()</a>
+    </li>
+    <li>
+      <a href="../articles/gui.html">Use the GUI</a>
     </li>
     <li>
       <a href="../articles/pupillometry_functions.html">Build Your Own Sequence of Pupillometry Functions</a>
     </li>
     <li>
-      <a href="../articles/message_markers.html">How to Use Message Markers</a>
+      <a href="../articles/message_markers.html">Using Message Markers</a>
     </li>
     <li class="divider"></li>
     <li class="dropdown-header">Example Data Sets</li>
@@ -127,7 +131,7 @@ and outputs the preprocessed data to a specified folder path" />
       <a href="../articles/example_data.html">Example Data Set</a>
     </li>
     <li>
-      <a href="../articles/example_data_w_out_messages.html">Example Data Set - What if My Data Doesn't Have Message Markers?</a>
+      <a href="../articles/example_data_w_out_messages.html">What if My Data Doesn't Have Message Markers?</a>
     </li>
     <li class="divider"></li>
     <li class="dropdown-header">More Details</li>
@@ -176,68 +180,118 @@ and outputs the preprocessed data to a specified folder path" />
 
     <div class="ref-description">
     <p>This function will perform preprocessing on an entire folder of data files.
-It takes as input a specified folder path
-and outputs the preprocessed data to a specified folder path</p>
+It takes as input a specified folder path and outputs the
+preprocessed data to a specified folder path. For more details, see:
+https://dr-jt.github.io/pupillometry/articles/pupil_preprocess.html</p>
     </div>
 
-    <pre class="usage"><span class='fu'>pupil_preprocess</span>(<span class='kw'>import.dir</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>pattern</span> <span class='kw'>=</span> <span class='st'>"*.txt"</span>,
-  <span class='kw'>taskname</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>subj.prefix</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>subj.suffix</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>timing.file</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>output.dir</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>output.steps</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>eyetracker</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>hz</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>eye.use</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>px_to_mm.conversion</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>start_tracking.message</span> <span class='kw'>=</span> <span class='st'>"default"</span>,
-  <span class='kw'>start_tracking.match</span> <span class='kw'>=</span> <span class='st'>"exact"</span>, <span class='kw'>trial_onset.message</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>trial_onset.match</span> <span class='kw'>=</span> <span class='st'>"exact"</span>, <span class='kw'>deblink.extend</span> <span class='kw'>=</span> <span class='fl'>0</span>,
-  <span class='kw'>pre_trial.duration</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>missing.allowed</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>interpolate</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>interpolate.maxgap</span> <span class='kw'>=</span> <span class='fl'>Inf</span>, <span class='kw'>smooth</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>smooth.window</span> <span class='kw'>=</span> <span class='fl'>5</span>,
-  <span class='kw'>method.first</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>bc</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>pre_bc.duration</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>bc_onset.message</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>bc_onset.match</span> <span class='kw'>=</span> <span class='st'>"exact"</span>,
-  <span class='kw'>subset</span> <span class='kw'>=</span> <span class='st'>"default"</span>, <span class='kw'>trial.exclude</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(), <span class='kw'>files.merge</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>starttracking.message</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>starttracking.match</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>trialonset.message</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>trialonset.match</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>pretrial.duration</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>prebc.duration</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>bconset.message</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>bconset.match</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
+    <pre class="usage"><span class='fu'>pupil_preprocess</span>(
+  <span class='kw'>import_dir</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>pattern</span> <span class='kw'>=</span> <span class='st'>".txt"</span>,
+  <span class='kw'>taskname</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>subj_prefix</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>subj_suffix</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>timing_file</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>output_dir</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>output_steps</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>eyetracker</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>hz</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>eye_use</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>px_to_mm.conversion</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>start_tracking.message</span> <span class='kw'>=</span> <span class='st'>"default"</span>,
+  <span class='kw'>start_tracking.match</span> <span class='kw'>=</span> <span class='st'>"exact"</span>,
+  <span class='kw'>trial_onset.message</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>trial_onset.match</span> <span class='kw'>=</span> <span class='st'>"exact"</span>,
+  <span class='kw'>deblink_extend</span> <span class='kw'>=</span> <span class='fl'>0</span>,
+  <span class='kw'>pretrial.duration</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>missing_allowed</span> <span class='kw'>=</span> <span class='fl'>1</span>,
+  <span class='kw'>interpolate</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>interpolate.maxgap</span> <span class='kw'>=</span> <span class='fl'>Inf</span>,
+  <span class='kw'>smooth</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>smooth.window</span> <span class='kw'>=</span> <span class='fl'>5</span>,
+  <span class='kw'>method_first</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>bc</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>pre_bc.duration</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>bc_onset.message</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>bc_onset.match</span> <span class='kw'>=</span> <span class='st'>"exact"</span>,
+  <span class='kw'>include_col</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>trial_exclude</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(),
+  <span class='kw'>files_merge</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>starttracking.message</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>starttracking.match</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>trialonset.message</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>trialonset.match</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>pre_trial.duration</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>prebc.duration</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>bconset.message</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>bconset.match</span> <span class='kw'>=</span> <span class='kw'>NULL</span>
+)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>import.dir</th>
+      <th>import_dir</th>
       <td><p>Folder path to raw data files</p></td>
     </tr>
     <tr>
       <th>pattern</th>
-      <td><p>Pattern to look for in data files</p></td>
+      <td><p>Pattern to look for in data files (e.g. ".txt")</p></td>
     </tr>
     <tr>
       <th>taskname</th>
       <td><p>Name of task - to be used in naming pre-processed files</p></td>
     </tr>
     <tr>
-      <th>subj.prefix</th>
+      <th>subj_prefix</th>
       <td><p>The unique pattern prefix (letter(s) and/or symbol(s))
-that comes before the subject number in the data file</p></td>
+that comes before the subject number in the data file. This is mostly
+for SMI eyetrackers that are not good at including subject number
+in the data and therefore the subject number needs to be determined
+and extracted from the file name. If the filename is
+"pitch_discrimination_19-1_001 Samples.txt" and the Subject number is
+19, then the subj_prefix = "n_" because that uniquely identifies a
+pattern that comes directly before the subject number in the file path.
+This can also be used for EyeLink or other eyetrackers, that include a
+subject number in a column in the datafile, to remove characters or
+numbers in front of a subject number.</p></td>
     </tr>
     <tr>
-      <th>subj.suffix</th>
+      <th>subj_suffix</th>
       <td><p>The unique pattern suffix (letter(s) or symbol(s))
-that comes after the subject number in the data file</p></td>
+that comes after the subject number in the data file. This is mostly
+for SMI eyetrackers that are not good at including subject number
+in the data and therefore the subject number needs to be determined
+and extracted from the file name. If the filename is
+"pitch_discrimination_19-1_001 Samples.txt" and the Subject number is
+19, then the subj_suffix = "-1" because that uniquely identifies a
+pattern that comes directly before the subject number in the file path.
+This can also be used for EyeLink or other eyetrackers, that include a
+subject number in a column in the datafile, to remove characters or
+numbers following (coming after) a subject number.</p></td>
     </tr>
     <tr>
-      <th>timing.file</th>
+      <th>timing_file</th>
       <td><p>File location and name that contains timing
-information for message markers</p></td>
+information for message markers. This is only to be used if your
+data does not already have message markers embedded in the raw
+pupil data.</p></td>
     </tr>
     <tr>
-      <th>output.dir</th>
+      <th>output_dir</th>
       <td><p>Folder path to output preprocessed data to</p></td>
     </tr>
     <tr>
-      <th>output.steps</th>
-      <td><p>Output files for each step in preprocessing?</p></td>
+      <th>output_steps</th>
+      <td><p>Output files for each step in preprocessing?
+This creates many more data files and therefore takes up more
+storage, but this can be useful if you want to analyze the data
+before and after a certain preprocessing method.</p></td>
     </tr>
     <tr>
       <th>eyetracker</th>
-      <td><p>Which eye-tracker was used to record data</p></td>
+      <td><p>The eye-tracker  used to record data. Options:
+"smi", "eyelink".</p></td>
     </tr>
     <tr>
       <th>hz</th>
@@ -245,8 +299,8 @@ information for message markers</p></td>
 (only required for interpolation and smoothing)</p></td>
     </tr>
     <tr>
-      <th>eye.use</th>
-      <td><p>Which eye to use? Left or right</p></td>
+      <th>eye_use</th>
+      <td><p>Which eye to use? "left" or "right"</p></td>
     </tr>
     <tr>
       <th>px_to_mm.conversion</th>
@@ -255,92 +309,102 @@ px pupil diameter to mm pupil diameter</p></td>
     </tr>
     <tr>
       <th>start_tracking.message</th>
-      <td><p>Message used in SMI experiment
-to mark StartTracking inline</p></td>
+      <td><p>Message used to mark when eyetracking
+has started. For SMI eyetrackers, the default value is
+"StartTracking.bmp". For EyeLink eyetrackers, the default value is
+"TRIALID". For more information on how to use message markers see
+https://dr-jt.github.io/pupillometry/articles/message_markers.html</p></td>
     </tr>
     <tr>
       <th>start_tracking.match</th>
-      <td><p>Should the message string be an "exact"
-match or a "pattern" match?</p></td>
+      <td><p>Is the message string an "exact"
+match or a partial "pattern" match?</p></td>
     </tr>
     <tr>
       <th>trial_onset.message</th>
-      <td><p>Message string that marks the start of a trial</p></td>
+      <td><p>Message string that marks the start of a trial.
+For more information on how to use message markers see
+https://dr-jt.github.io/pupillometry/articles/message_markers.html</p></td>
     </tr>
     <tr>
       <th>trial_onset.match</th>
-      <td><p>Should the message string be an "exact"
-match or a "pattern" match</p></td>
+      <td><p>Is the message string an "exact"
+match or a partial "pattern" match</p></td>
     </tr>
     <tr>
-      <th>deblink.extend</th>
+      <th>deblink_extend</th>
       <td><p>How many milliseconds to extend blinks
 before and after blink detection</p></td>
     </tr>
     <tr>
-      <th>pre_trial.duration</th>
+      <th>pretrial.duration</th>
       <td><p>Duration of pre-trial baseline period
 in milliseconds</p></td>
     </tr>
     <tr>
-      <th>missing.allowed</th>
+      <th>missing_allowed</th>
       <td><p>What proportion of missing data is allowed,
-on a trial-by-trial basis? (Default: 1)</p></td>
+on a trial-by-trial basis? If a trial exceeds this amount then it
+will be removed from further preprocessing.</p></td>
     </tr>
     <tr>
       <th>interpolate</th>
-      <td><p>What type of interpolation to use? linear or cubic-spline</p></td>
+      <td><p>What type of interpolation to use?
+"linear" or "cubic-spline"</p></td>
     </tr>
     <tr>
       <th>interpolate.maxgap</th>
       <td><p>Maximum number of NAs to interpolate over.
-Anything gaps over this value will not be interpolated.</p></td>
+Any missing data gaps over this value will not be interpolated.</p></td>
     </tr>
     <tr>
       <th>smooth</th>
       <td><p>The type of smoothing function to apply.
-hann or moving window average (mwa)</p></td>
+"hann" or "mwa" (moving window average)</p></td>
     </tr>
     <tr>
       <th>smooth.window</th>
-      <td><p>Window size of smoothing function
-default is 5 milliseconds</p></td>
+      <td><p>Window size of smoothing function</p></td>
     </tr>
     <tr>
-      <th>method.first</th>
+      <th>method_first</th>
       <td><p>Should "smooth" or "interpolate" be applied first?
-(default: NULL)</p></td>
+It is highly suggested to apply smoothing before interpolation. See:
+https://dr-jt.github.io/pupillometry/articles/smooth_interpolate_first.html</p></td>
     </tr>
     <tr>
       <th>bc</th>
-      <td><p>Do you want to use "subtractive" or "divisive"
-baseline correction? (default: "subtractive")</p></td>
+      <td><p>Do you want to use "subtractive" or "divisive" baseline correction?</p></td>
     </tr>
     <tr>
       <th>pre_bc.duration</th>
-      <td><p>Duration baseline period(s) to use for correction</p></td>
+      <td><p>Duration of baseline period to use that comes
+before the baseline corrected period</p></td>
     </tr>
     <tr>
       <th>bc_onset.message</th>
-      <td><p>Message string(s) that marks the offset of
-baseline period(s)</p></td>
+      <td><p>Message string(s) that marks the onset of the
+period to be baseline corrected.
+For more information on how to use message markers see
+https://dr-jt.github.io/pupillometry/articles/message_markers.html</p></td>
     </tr>
     <tr>
       <th>bc_onset.match</th>
-      <td><p>Message string(s) that marks the offset of
-baseline period(s)</p></td>
+      <td><p>Is the message string an "exact"
+match or a partial "pattern" match</p></td>
     </tr>
     <tr>
-      <th>subset</th>
-      <td><p>Which columns in the raw data output file do you want to keep</p></td>
+      <th>include_col</th>
+      <td><p>Extra columns from the raw data file to include</p></td>
     </tr>
     <tr>
-      <th>trial.exclude</th>
-      <td><p>Specify if ther are any trials to exclude. Trial number</p></td>
+      <th>trial_exclude</th>
+      <td><p>Specify if there are any trials to exclude. Trial number</p></td>
     </tr>
     <tr>
-      <th>files.merge</th>
-      <td><p>Do you want to create a single merge output file?</p></td>
+      <th>files_merge</th>
+      <td><p>Do you want to create a single merge output file?
+TRUE or FALSE</p></td>
     </tr>
     <tr>
       <th>starttracking.message</th>
@@ -359,8 +423,8 @@ baseline period(s)</p></td>
       <td><p>See trial_onset.match</p></td>
     </tr>
     <tr>
-      <th>pretrial.duration</th>
-      <td><p>See pre_trial.duration</p></td>
+      <th>pre_trial.duration</th>
+      <td><p>See pretrial.duration</p></td>
     </tr>
     <tr>
       <th>prebc.duration</th>
@@ -392,7 +456,7 @@ baseline period(s)</p></td>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
 </div>
 
       </footer>

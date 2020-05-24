@@ -15,15 +15,16 @@ pupil_baselinecorrect(
 \arguments{
 \item{x}{dataframe}
 
-\item{bc_onset.message}{Message string(s) that marks the offset of baseline period(s)}
+\item{bc_onset.message}{Message string(s) that marks the offset of
+baseline period(s)}
 
 \item{pre.duration}{Duration baseline period(s) to use for correction}
 
-\item{type}{Do you want to use "subtractive" or "divisive" baseline correction? (default: "subtractive")}
+\item{type}{Do you want to use "subtractive" or "divisive"
+baseline correction? (default: "subtractive")}
 
-\item{match}{Should the message string be an "exact" match or a "pattern" match?}
+\item{match}{Is the message string an "exact" match or a "pattern" match?}
 }
 \description{
-This function applies a pre-trial baseline correction on the data
+This function applies a baseline correction on the data
 }
-\keyword{baseline}

@@ -4,14 +4,14 @@
 \alias{pupil_merge}
 \title{Merge multiple files together}
 \usage{
-pupil_merge(path = "", pattern = "", output.file = "")
+pupil_merge(path = "", pattern = "", output_file = "")
 }
 \arguments{
 \item{path}{Folder location of files to be merged}
 
 \item{pattern}{Pattern to identify files to be merged}
 
-\item{output.file}{File name and path to be saved to.}
+\item{output_file}{File name and path to be saved to.}
 }
 \description{
 This function merges multiple files together.

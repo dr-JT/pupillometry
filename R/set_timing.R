@@ -3,35 +3,34 @@
 #' This sets the timing variable relative to the onset of each trial
 #' @param x dataframe
 #' @param trial_onset.message Message string that marks the start of a trial
-#' @param ms.conversion Conversion factor to convert timing to milliseconds
-#' @param pre_trial.duration Duration of pre-trial baseline period in milliseconds
-#' @param match Should the message string be an "exact" match or a "pattern" match?
+#' @param pretrial.duration Duration of pre-trial period in milliseconds
+#' @param match Is message string an "exact" match or a "pattern" match?
 #' @param trialonset.message See trial_onset.message
-#' @param pretrial.duration See pre_trial.duration
-#' @keywords set timing
+#' @param pre_trial.duration See pretrial.duration
 #' @export
-#' @examples
-#' set_timing(x, start.trial = "Fixation", ms.conversion = 1000)
+#'
 
-set_timing <- function(x, trial_onset.message = NULL, ms.conversion = 1,
-                       pre_trial.duration = 0, match = "exact",
-                       trialonset.message = NULL, pretrial.duration = NULL){
+set_timing <- function(x, trial_onset.message = NULL, pretrial.duration = 0,
+                       match = "exact", trialonset.message = NULL,
+                       pre_trial.duration = NULL){
   if (!is.null(trialonset.message)) {
     trial_onset.message <- trialonset.message
   }
-  if (!is.null(pretrial.duration)) {
-    pre_trial.duration <- pretrial.duration
+  if (!is.null(pre_trial.duration)) {
+    pretrial.duration <- pre_trial.duration
   }
-  x <- dplyr::select(x, -ms_conversion)
-  pre_trial.duration <- abs(pre_trial.duration)*-1
+  pretrial.duration <- abs(pretrial.duration) * -1
 
   x <- dplyr::group_by(x, Trial)
   if (match == "exact"){
-    x <- dplyr::mutate(x, trialonset.time = ifelse(Message == trial_onset.message,
+    x <- dplyr::mutate(x,
+                       trialonset.time = ifelse(Message == trial_onset.message,
                                                    Time, NA))
   } else if (match == "pattern"){
-    x <- dplyr::mutate(x, trialonset.time =
-                         ifelse(stringr::str_detect(Message, trial_onset.message),
+    x <- dplyr::mutate(x,
+                       trialonset.time =
+                         ifelse(stringr::str_detect(Message,
+                                                    trial_onset.message),
                                 Time, NA))
   }
   x <- dplyr::mutate(x,
@@ -44,24 +43,16 @@ set_timing <- function(x, trial_onset.message = NULL, ms.conversion = 1,
                      trialonset.time = zoo::na.locf(trialonset.time,
                                                     na.rm = FALSE,
                                                     fromLast = TRUE),
-                     Time = (Time - trialonset.time) / ms.conversion,
-                     PreTrial = ifelse(Time >= pre_trial.duration & Time < 0, 1,
-                                       ifelse(Time >= 0, 0, NA)))
+                     Time = Time - trialonset.time,
+                     Trial_Phase =
+                       ifelse(Time >= pretrial.duration & Time < 0,
+                              "PreTrial", ifelse(Time >= 0, "Trial", NA)))
   x <- dplyr::ungroup(x)
-  x <- dplyr::mutate(x, Trial = ifelse(Time >= pre_trial.duration,Trial,0))
+  x <- dplyr::mutate(x, Trial = ifelse(Time >= pretrial.duration, Trial, 0))
   x <- dplyr::filter(x, Trial != 0, !is.na(Trial))
   x <- dplyr::select(x, -trialonset.time, -min)
   x <- dplyr::distinct(x, Trial, Time, .keep_all = TRUE)
   x <- dplyr::filter(x, !is.na(Subject))
-
-  col_order <- c("Subject", "Trial", "PreTrial", "Time", "Message",
-                 "Message_Inserted", "Pupil_Diameter.mm", "Pupil_Diameter.px",
-                 "Pupils.r", "Event", "Gaze_Position.x", "Gaze_Position.y",
-                 "Gaze.quality", "Head_Dist.cm")
-
-  col_order <- colnames(x)[order(match(colnames(x), col_order))]
-
-  x <- x[,col_order]
 
   return(x)
 }

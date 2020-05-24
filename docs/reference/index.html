@@ -85,7 +85,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">pupillometry</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.5.0</span>
       </span>
     </div>
 
@@ -110,13 +110,16 @@
     <li class="divider"></li>
     <li class="dropdown-header">How To</li>
     <li>
-      <a href="../articles/pupil_preprocess.html">How to Use pupil_preprocess()</a>
+      <a href="../articles/pupil_preprocess.html">Use pupil_preprocess()</a>
+    </li>
+    <li>
+      <a href="../articles/gui.html">Use the GUI</a>
     </li>
     <li>
       <a href="../articles/pupillometry_functions.html">Build Your Own Sequence of Pupillometry Functions</a>
     </li>
     <li>
-      <a href="../articles/message_markers.html">How to Use Message Markers</a>
+      <a href="../articles/message_markers.html">Using Message Markers</a>
     </li>
     <li class="divider"></li>
     <li class="dropdown-header">Example Data Sets</li>
@@ -124,7 +127,7 @@
       <a href="../articles/example_data.html">Example Data Set</a>
     </li>
     <li>
-      <a href="../articles/example_data_w_out_messages.html">Example Data Set - What if My Data Doesn't Have Message Markers?</a>
+      <a href="../articles/example_data_w_out_messages.html">What if My Data Doesn't Have Message Markers?</a>
     </li>
     <li class="divider"></li>
     <li class="dropdown-header">More Details</li>
@@ -198,6 +201,12 @@
       </tr><tr>
         
         <td>
+          <p><code><a href="set_timing.html">set_timing()</a></code> </p>
+        </td>
+        <td><p>Set timing relative to trial-onset</p></td>
+      </tr><tr>
+        
+        <td>
           <p><code><a href="pupil_cor.html">pupil_cor()</a></code> </p>
         </td>
         <td><p>Add column that is the correlation between left and rigth eyes</p></td>
@@ -207,18 +216,6 @@
           <p><code><a href="select_eye.html">select_eye()</a></code> </p>
         </td>
         <td><p>Select eye to keep for analysis</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="set_timing.html">set_timing()</a></code> </p>
-        </td>
-        <td><p>Set timing relative to trial-onset</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="set_stimuli.html">set_stimuli()</a></code> </p>
-        </td>
-        <td><p>Create a column of current stimulus period</p></td>
       </tr>
     </tbody><tbody>
       <tr>
@@ -238,6 +235,12 @@
           <p><code><a href="pupil_preprocess.html">pupil_preprocess()</a></code> </p>
         </td>
         <td><p>Preprocess pupil data using this single function</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="pupil_gui.html">pupil_gui()</a></code> </p>
+        </td>
+        <td><p>A call to open the GUI window</p></td>
       </tr><tr>
         
         <td>
@@ -267,18 +270,12 @@
         <td>
           <p><code><a href="pupil_missing.html">pupil_missing()</a></code> </p>
         </td>
-        <td><p>Evaluate the amount of missing data</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="pupil_downsample.html">pupil_downsample()</a></code> </p>
-        </td>
-        <td><p>Downsample pupil data</p></td>
+        <td><p>Remove trials with too much missing data</p></td>
       </tr>
     </tbody><tbody>
       <tr>
         <th colspan="2">
-          <h2 id="section-visualize" class="hasAnchor"><a href="#section-visualize" class="anchor"></a>Visualize</h2>
+          <h2 id="section-analysis" class="hasAnchor"><a href="#section-analysis" class="anchor"></a>Analysis</h2>
           <p class="section-desc"></p>
         </th>
       </tr>
@@ -290,9 +287,15 @@
       <tr>
         
         <td>
-          <p><code><a href="plot_comparison.html">plot_comparison()</a></code> </p>
+          <p><code><a href="pupil_downsample.html">pupil_downsample()</a></code> </p>
         </td>
-        <td><p>Visually compare timeseries that used different preprocessing mehtods/parameters</p></td>
+        <td><p>Downsample pupil data</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="aoi_downsample.html">aoi_downsample()</a></code> </p>
+        </td>
+        <td><p>aoi_downsample</p></td>
       </tr>
     </tbody>
     </table>
@@ -312,7 +315,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
 </div>
 
       </footer>

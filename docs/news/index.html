@@ -85,7 +85,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">pupillometry</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.5.0</span>
       </span>
     </div>
 
@@ -110,13 +110,16 @@
     <li class="divider"></li>
     <li class="dropdown-header">How To</li>
     <li>
-      <a href="../articles/pupil_preprocess.html">How to Use pupil_preprocess()</a>
+      <a href="../articles/pupil_preprocess.html">Use pupil_preprocess()</a>
+    </li>
+    <li>
+      <a href="../articles/gui.html">Use the GUI</a>
     </li>
     <li>
       <a href="../articles/pupillometry_functions.html">Build Your Own Sequence of Pupillometry Functions</a>
     </li>
     <li>
-      <a href="../articles/message_markers.html">How to Use Message Markers</a>
+      <a href="../articles/message_markers.html">Using Message Markers</a>
     </li>
     <li class="divider"></li>
     <li class="dropdown-header">Example Data Sets</li>
@@ -124,7 +127,7 @@
       <a href="../articles/example_data.html">Example Data Set</a>
     </li>
     <li>
-      <a href="../articles/example_data_w_out_messages.html">Example Data Set - What if My Data Doesn't Have Message Markers?</a>
+      <a href="../articles/example_data_w_out_messages.html">What if My Data Doesn't Have Message Markers?</a>
     </li>
     <li class="divider"></li>
     <li class="dropdown-header">More Details</li>
@@ -170,13 +173,30 @@
       <small>Source: <a href='https://github.com/dr-JT/pupillometry/blob/master/NEWS.md'><code>NEWS.md</code></a></small>
     </div>
 
+    <div id="pupillometry-050" class="section level1">
+<h1 class="page-header" data-toc-text="0.5.0">
+<a href="#pupillometry-050" class="anchor"></a>pupillometry 0.5.0</h1>
+<p>Updated: 05/24/2020</p>
+<ul>
+<li><p>Added a GUI for <code><a href="../reference/pupil_preprocess.html">pupil_preprocess()</a></code>!</p></li>
+<li><p>Updated support for SR-Research EyeLink 1000 eye tracker</p></li>
+<li><p>Renamed some of the parameters (old parameter names may not work)</p></li>
+<li>
+<p>Added a quality check in <code><a href="../reference/pupil_read.html">pupil_read()</a></code> to make sure trials were set correctly</p>
+<p>A file “quality_check.csv” will be saved to the <code>output_dir</code> with the number of trials in each data file.</p>
+<p>At the end of <code><a href="../reference/pupil_preprocess.html">pupil_preprocess()</a></code> the quality check will be printed to the console.</p>
+<p>Future updates will include other quality checks and logs.</p>
+</li>
+<li><p>Added <code>tidyselect</code> as a dependency</p></li>
+</ul>
+</div>
     <div id="pupillometry-041" class="section level1">
 <h1 class="page-header" data-toc-text="0.4.1">
 <a href="#pupillometry-041" class="anchor"></a>pupillometry 0.4.1</h1>
 <p>Updated: 10/21/2019</p>
 <ul>
 <li><p>Full support for SR-Research EyeLink 1000 eyetracker <code>eyetracker = "eyelink"</code></p></li>
-<li><p>Added parameter to include conversion factor of pupil data in pixels (px) to pupil data in millimeters (mm)</p></li>
+<li><p>Added parameter to include conversion factor of pupil data in pixels (px) to pupil data in millimeters (mm) <code>px_to_mm.conversion</code></p></li>
 <li><p>Renamed some of the parameters (old parameter names still work)</p></li>
 </ul>
 </div>
@@ -293,7 +313,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
 </div>
 
       </footer>

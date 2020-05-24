@@ -1,83 +1,48 @@
 #' Select eye to keep for analysis
 #'
-#' If both eyes were recorded from, then this function will correlate the timeseries pupil data from both eyes
-#' and select only one eye data to keep for further preprocessing and output.
-#' This function will also remove trials with too much missing data, specified by `missing.allowed`.
+#' If both eyes were recorded from, then this function will correlate the
+#' timeseries pupil data from both eyes and select only one eye data to keep
+#' for further preprocessing and output. This function will also remove
+#' trials with too much missing data, specified by `missing_allowed`.
 #' @param x xframe
-#' @param eye.use Which eye to use? Left or right
-#' @keywords select
+#' @param eye_use Which eye to use? Left or right
 #' @export
 #'
 
 
-select_eye <- function(x, eye.use = ""){
-  if ("L_Pupil_Diameter.mm" %in% colnames(x)) {
-    if (eye.use == "left"){
-      if ("L_Gaze_Position.x" %in% colnames(x)) {
-        x <- dplyr::rename(x,
-                           Pupil_Diameter.mm = L_Pupil_Diameter.mm,
-                           Event = L_Event,
-                           Gaze_Position.x = L_Gaze_Position.x,
-                           Gaze_Position.y = L_Gaze_Position.y)
-        x <- dplyr::select(x, -R_Pupil_Diameter.mm, -R_Event,
-                           -R_Gaze_Position.x, -R_Gaze_Position.y)
-      } else {
-        x <- dplyr::rename(x,
-                           Pupil_Diameter.mm = L_Pupil_Diameter.mm,
-                           Event = L_Event)
-        x <- dplyr::select(x, -R_Pupil_Diameter.mm, -R_Event)
-      }
+select_eye <- function(x, eye_use = ""){
 
-    } else if (eye.use == "right"){
-      if ("R_Gaze_Position.x" %in% colnames(x)) {
-        x <- dplyr::rename(x,
-                           Pupil_Diameter.mm = R_Pupil_Diameter.mm,
-                           Event = R_Event,
-                           Gaze_Position.x = R_Gaze_Position.x,
-                           Gaze_Position.y = R_Gaze_Position.y)
-        x <- dplyr::select(x, -L_Pupil_Diameter.mm, -L_Event,
-                           -L_Gaze_Position.x, -L_Gaze_Position.y)
-      } else {
-        x <- dplyr::rename(x,
-                           Pupil_Diameter.mm = R_Pupil_Diameter.mm,
-                           Event = R_Event)
-        x <- dplyr::select(x, -L_Pupil_Diameter.mm, -L_Event)
-      }
+  l_pupil <- ifelse("L_Pupil_Diameter.mm" %in% colnames(x),
+                    "L_Pupil_Diameter.mm", "L_Pupil_Diameter.px")
+  r_pupil <- ifelse("R_Pupil_Diameter.mm" %in% colnames(x),
+                    "R_Pupil_Diameter.mm", "R_Pupil_Diameter.px")
 
+  if (eye_use == "left") {
+    colnames(x)[which(colnames(x) == l_pupil)] <- "Pupil_Diameter.mm"
+    x <- dplyr::rename(x,
+                       Eye_Event = L_Eye_Event)
+    if ("L_Gaze_Position.x" %in% colnames(x)) {
+      x <- dplyr::rename(x,
+                         Gaze_Position.x = L_Gaze_Position.x,
+                         Gaze_Position.y = L_Gaze_Position.y)
     }
-  } else {
-    if (eye.use == "left"){
-      if ("L_Gaze_Position.x" %in% colnames(x)) {
-        x <- dplyr::rename(x,
-                           Pupil_Diameter.px = L_Pupil_Diameter.px,
-                           Event = L_Event,
-                           Gaze_Position.x = L_Gaze_Position.x,
-                           Gaze_Position.y = L_Gaze_Position.y)
-        x <- dplyr::select(x, -R_Pupil_Diameter.px, -R_Event,
-                           -R_Gaze_Position.x, -R_Gaze_Position.y)
-      } else {
-        x <- dplyr::rename(x,
-                           Pupil_Diameter.px = L_Pupil_Diameter.px,
-                           Event = L_Event)
-        x <- dplyr::select(x, -R_Pupil_Diameter.px, -R_Event)
-      }
-
-    } else if (eye.use == "right"){
-      if ("R_Gaze_Position.x" %in% colnames(x)) {
-        x <- dplyr::rename(x,
-                           Pupil_Diameter.px = R_Pupil_Diameter.px,
-                           Event = R_Event,
-                           Gaze_Position.x = R_Gaze_Position.x,
-                           Gaze_Position.y = R_Gaze_Position.y)
-        x <- dplyr::select(x, -L_Pupil_Diameter.px, -L_Event,
-                           -L_Gaze_Position.x, -L_Gaze_Position.y)
-      } else {
-        x <- dplyr::rename(x,
-                           Pupil_Diameter.px = R_Pupil_Diameter.px,
-                           Event = R_Event)
-        x <- dplyr::select(x, -L_Pupil_Diameter.px, -L_Event)
-      }
+    x <- dplyr::select(x, -tidyselect::any_of(r_pupil),
+                       -tidyselect::any_of(c("R_Gaze_Position.x",
+                                             "R_Gaze_Position.y")),
+                       -tidyselect::any_of("R_Eye_Event"))
+  } else if (eye_use == "right") {
+    colnames(x)[which(colnames(x) == r_pupil)] <- "Pupil_Diameter.mm"
+    x <- dplyr::rename(x,
+                       Eye_Event = R_Eye_Event)
+    if ("R_Gaze_Position.x" %in% colnames(x)) {
+      x <- dplyr::rename(x,
+                         Gaze_Position.x = R_Gaze_Position.x,
+                         Gaze_Position.y = R_Gaze_Position.y)
     }
+    x <- dplyr::select(x, -tidyselect::any_of(l_pupil),
+                       -tidyselect::any_of(c("L_Gaze_Position.x",
+                                             "L_Gaze_Position.y")),
+                       -tidyselect::any_of("L_Eye_Event"))
   }
   return(x)
 }

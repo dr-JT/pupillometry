@@ -1,5 +1,5 @@
 ---
-title: "How to Use pupil_preprocess()"
+title: "Use pupil_preprocess()"
 ---
 
 ```{r setup, include=FALSE}
@@ -10,7 +10,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 Using this method, you will need to pass many arguments to the `pupil_preprocess()` function that specifies all the details and preprocessing options.
 
-`pupil_preprocess()` will be performed on an entire `import.dir` directory of raw data files that match a certain `pattern` in their filename. The preprocessed data will be saved to a specified `output.dir` directory.
+`pupil_preprocess()` will be performed on an entire `import_dir` directory of raw data files that match a certain `pattern` in their filename. The preprocessed data will be saved to a specified `output_dir` directory.
 
 ## Workflow
 
@@ -18,19 +18,17 @@ The overall workflow of `pupil_preprocess()` is:
 
 1. **Read** in raw data files `pupil_read()`
 
-    - If `tracking.file` is supplied will also add message markers to the data
+    - If `tracking_file` is supplied will also add message markers to the data
     
 2. Clean up raw data files and more
+
+    - Set **Timing** variable to be relative to onset of each trial. `set_timing()`
 
     - **Correlate** left and right pupil size (if both eyes were recorded from). `pupil_cor()`
     
     - **Select** either left or right pupil data (if both eyes were recorded from). `select_eye()`
     
-    - Set **Timing** variable to be relative to onset of each trial. `set_timing()`
-    
-    - Set **Stimulus** variable from **Message Markers**. `set_stimuli()`
-    
-3. **De-blink** data. `pupil_deblink()`
+3. **Deblink** data. `pupil_deblink()`
 
 4. **Smooth** (if specified). `pupil_smooth()`
 
@@ -44,13 +42,13 @@ The overall workflow of `pupil_preprocess()` is:
 
 A final preprocessed data file will be saved for every original raw data file.
 
-If `output.steps == TRUE` a data file will be saved after steps 3, 4, and 5. Before saving the data file at each of these steps, the final two steps 6 and 7 are performed. This results in baseline corrected and missing data removed files before each major preprocessing step. This is obviously not necessary and so `output.steps = FALSE` is the default and will only save one final preprocessed data file per subject. 
+If `output_steps == TRUE` a data file will be saved after steps 3, 4, and 5. Before saving the data file at each of these steps, the final two steps 6 and 7 are performed. This results in baseline corrected and missing data removed files before each major preprocessing step. This is obviously not necessary and so `output_steps = FALSE` is the default and will only save one final preprocessed data file per subject. Saving a data file after each preprocessing steps would allow you to analyze your data at different stages to assess the influence of the preprocessing methods you chose.
 
 ## Message Markers
 
 You will need to supply message markers to correctly preprocess your data. This image is a representation of what the message markers `start_tracking.message`, `trial_onset.message`, and `bc_onset.message` correspond to. For further detail see [Example Data Set](https://dr-jt.github.io/pupillometry/articles/example_data.html) and [Message Markers](https://dr-jt.github.io/pupillometry/articles/message_markers.html) Articles.
 
-<img src="./reference/figures/message_markers_1.png" align = "center" />
+<img src="../reference/figures/message_markers_1.png" align = "center" />
 
 ## Script Template
 
@@ -60,30 +58,30 @@ You can copy and paste the following code into a script and use it as a template
 ## Preprocessing parameters
 
 # File Import Information
-import.dir <- "data/Raw"
+import_dir <- "data/Raw"
 pattern <- ".txt"
 taskname <- "Attention_Task"
-timing.file <- NULL
+timing_file <- NULL
 
-# Eyetrackers save the subject number information in different ways and is not
-# always easy to obtain. For SMI Red250m eyetrackers this is extracted from the
-# datafile name. For SR-Research Eyelink1000 eyetrackers this is extracted from 
-# the column name with the subject ID. You need to identify a unique subj.prefix 
-# pattern and subj.suffix pattern that surrounds the subject # in the 
-# datafile name/subject ID column.
+# Eye trackers save the subject number information in different ways and is not
+# always easy to obtain. For SMI Red250m eye trackers this is extracted from the
+# datafile name. For SR-Research Eyelink1000 eye trackers this is extracted from 
+# the column name with the subject ID. For SMI eye trackers you MUST identify a
+# unique subj_prefix pattern and subj_suffix pattern that surrounds the 
+# subject # in the datafile name/subject ID column.
 
-subj.prefix <- "n_"
-subj.suffix <- "-"
+subj_prefix <- "n_"
+subj_suffix <- "-"
 
 # File Output Information
-output.dir <- "data/Preprocessed"
-output.steps <- FALSE
-files.merge <- FALSE
+output_dir <- "data/Preprocessed"
+output_steps <- FALSE
+files_merge <- FALSE
 
-# Eyetracker Information
+# Eye tracker Information
 eyetracker <- "smi"
 hz <- 250
-eye.use <- "left"
+eye_use <- "left"
 px_to_mm.conversion <- NULL
 
 # Message Marker Information
@@ -91,50 +89,50 @@ start_tracking.message <- "StartTracking.bmp"
 start_tracking.match <- "exact"
 trial_onset.message <- "Cue" 
 trial_onset.match <- "exact"
-pre_trial.duration <- 1000
+pretrial.duration <- 1000
 bc_onset.message <- "Stimulus"
 bc_onset.match <- "exact"
 
 # Preprocessing Options
-deblink.extend <- 100
+deblink_extend <- 100
 smooth <- "hann"
 smooth.window <- 500
 interpolate <- "linear"
 interpolate.maxgap <- 750
-method.first <- "smooth"
+method_first <- "smooth"
 bc <- "subtractive"
 pre_bc.duration <- 200
-missing.allowed <- .30
+missing_allowed <- .30
 
 # Misc.
-subset <- "default"
-trial.exclude <- c()
+include_col <- NULL
+trial_exclude <- NULL
 
 ############################
 
-pupil_preprocess(import.dir = import.dir, pattern = pattern, taskname = taskname,
-                 subj.prefix = subj.prefix, subj.suffix = subj.suffix, 
-                 timing.file = timing.file, output.dir = output.dir, 
-                 output.steps = output.steps, files.merge = files.merge, 
-                 eyetracker = eyetracker, hz = hz, eye.use = eye.use, 
+pupil_preprocess(import_dir = import_dir, pattern = pattern, taskname = taskname,
+                 subj_prefix = subj_prefix, subj_suffix = subj_suffix, 
+                 timing_file = timing_file, output_dir = output_dir, 
+                 output_steps = output_steps, files_merge = files_merge, 
+                 eyetracker = eyetracker, hz = hz, eye_use = eye_use, 
                  px_to_mm.conversion = px_to_mm.conversion, 
                  start_tracking.message = start_tracking.message, 
                  start_tracking.match = start_tracking.match,
                  trial_onset.message = trial_onset.message, 
                  trial_onset.match = trial_onset.match,
-                 pre_trial.duration = pre_trial.duration, 
+                 pretrial.duration = pretrial.duration, 
                  bc_onset.message = bc_onset.message, 
                  bc_onset.match = bc_onset.match, 
-                 deblink.extend = deblink.extend, 
+                 deblink_extend = deblink_extend, 
                  smooth = smooth, smooth.window = smooth.window, 
                  interpolate = interpolate, 
                  interpolate.maxgap = interpolate.maxgap, 
-                 method.first = method.first, bc = bc, 
+                 method_first = method_first, bc = bc, 
                  pre_bc.duration = pre_bc.duration, 
-                 missing.allowed = missing.allowed, subset = subset, 
-                 trial.exclude = trial.exclude)
+                 missing_allowed = missing_allowed, include_col = include_col, 
+                 trial_exclude = trial_exclude)
 ```
 
-For any of the parameters that do not apply to your data or preprocessing steps, then you can just set them to `NULL` (e.g. `timing.file <- NULL`)
+For any of the parameters that do not apply to your data or preprocessing steps, then you can just set them to `NULL` (e.g. `timing_file <- NULL`)
 
 

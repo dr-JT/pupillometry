@@ -1,32 +1,32 @@
 #' Apply baseline correction
 #'
-#' This function applies a pre-trial baseline correction on the data
+#' This function applies a baseline correction on the data
 #' @param x dataframe
-#' @param bc_onset.message Message string(s) that marks the offset of baseline period(s)
+#' @param bc_onset.message Message string(s) that marks the offset of
+#'     baseline period(s)
 #' @param pre.duration Duration baseline period(s) to use for correction
-#' @param type Do you want to use "subtractive" or "divisive" baseline correction? (default: "subtractive")
-#' @param match Should the message string be an "exact" match or a "pattern" match?
-#' @keywords baseline
+#' @param type Do you want to use "subtractive" or "divisive"
+#'     baseline correction? (default: "subtractive")
+#' @param match Is the message string an "exact" match or a "pattern" match?
 #' @export
 #'
 
 pupil_baselinecorrect <- function(x, bc_onset.message = "", pre.duration = 200,
                                   type = "subtractive", match = "exact"){
-  if ("Pupil_Diameter.mm" %in% colnames(x)) {
-    real_name <- "Pupil_Diameter.mm"
-    real_name_bc <- "Pupil_Diameter_bc.mm"
-  } else {
-    real_name <- "Pupil_Diameter.px"
-    real_name_bc <- "Pupil_Diameter_bc.px"
-  }
+
+  real_name <- ifelse("Pupil_Diameter.mm" %in% colnames(x),
+                      "Pupil_Diameter.mm", "Pupil_Diameter.px")
+  real_name_bc <- ifelse("Pupil_Diameter.mm" %in% colnames(x),
+                         "Pupil_Diameter_bc.mm", "Pupil_Diameter_bc.px")
+
   colnames(x)[which(colnames(x) == real_name)] <- "pupil_val"
 
   baselines.n <- length(bc_onset.message)
   x <- dplyr::group_by(x, Trial, Stimulus)
   x <- dplyr::mutate(x, onset.time = min(Time, na.rm = TRUE))
-
   x <- dplyr::group_by(x, Trial)
   x <- dplyr::mutate(x, PreTarget = 0, Target = 0)
+
   for (m in bc_onset.message){
     n <- match(m, bc_onset.message)
     if (match == "exact"){
@@ -76,19 +76,13 @@ pupil_baselinecorrect <- function(x, bc_onset.message = "", pre.duration = 200,
   }
 
   x <- dplyr::ungroup(x)
+  x <- dplyr::mutate(x,
+                     Trial_Phase = ifelse(PreTarget > 0, "PreTarget",
+                                          ifelse(Target > 0, "Target",
+                                                 Trial_Phase)))
   x <- dplyr::select(x, -PreTarget.median, -bconset.time, -min, -onset.time)
   colnames(x)[which(colnames(x) == "pupil_val")] <- real_name
   colnames(x)[which(colnames(x) == "pupil_val_bc")] <- real_name_bc
-
-  col_order <- c("Subject", "Trial", "PreTrial", "Time", "Stimulus",
-                 "Pupil_Diameter.mm", "Pupil_Diameter_bc.mm",
-                 "Pupil_Diameter.px", "Pupil_Diameter_bc.px", "PreTareget",
-                 "Target", "Pupils.r", "Event", "Gaze_Position.x",
-                 "Gaze_Position.y", "Gaze.quality", "Head_Dist.cm")
-
-  col_order <- colnames(x)[order(match(colnames(x), col_order))]
-
-  x <- x[,col_order]
 
   return(x)
 }

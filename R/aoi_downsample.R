@@ -5,7 +5,6 @@
 #' @param x dataframe
 #' @param bin.length Length of bins to average
 #' @param aoi.col Column names that contain aoi measures
-#' @keywords downsample
 #' @export
 #'
 

@@ -87,7 +87,7 @@ to a &quot;tidy&quot; raw data file." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">pupillometry</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.5.0</span>
       </span>
     </div>
 
@@ -112,13 +112,16 @@ to a &quot;tidy&quot; raw data file." />
     <li class="divider"></li>
     <li class="dropdown-header">How To</li>
     <li>
-      <a href="../articles/pupil_preprocess.html">How to Use pupil_preprocess()</a>
+      <a href="../articles/pupil_preprocess.html">Use pupil_preprocess()</a>
+    </li>
+    <li>
+      <a href="../articles/gui.html">Use the GUI</a>
     </li>
     <li>
       <a href="../articles/pupillometry_functions.html">Build Your Own Sequence of Pupillometry Functions</a>
     </li>
     <li>
-      <a href="../articles/message_markers.html">How to Use Message Markers</a>
+      <a href="../articles/message_markers.html">Using Message Markers</a>
     </li>
     <li class="divider"></li>
     <li class="dropdown-header">Example Data Sets</li>
@@ -126,7 +129,7 @@ to a &quot;tidy&quot; raw data file." />
       <a href="../articles/example_data.html">Example Data Set</a>
     </li>
     <li>
-      <a href="../articles/example_data_w_out_messages.html">Example Data Set - What if My Data Doesn't Have Message Markers?</a>
+      <a href="../articles/example_data_w_out_messages.html">What if My Data Doesn't Have Message Markers?</a>
     </li>
     <li class="divider"></li>
     <li class="dropdown-header">More Details</li>
@@ -178,11 +181,21 @@ to a &quot;tidy&quot; raw data file." />
 to a "tidy" raw data file.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>pupil_read</span>(<span class='no'>file</span>, <span class='kw'>eyetracker</span> <span class='kw'>=</span> <span class='st'>""</span>, <span class='kw'>px_to_mm.conversion</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>start_tracking.message</span> <span class='kw'>=</span> <span class='st'>"default"</span>, <span class='kw'>start_tracking.match</span> <span class='kw'>=</span> <span class='st'>"exact"</span>,
-  <span class='kw'>subj.prefix</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>subj.suffix</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>timing.file</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>subset</span> <span class='kw'>=</span> <span class='st'>"default"</span>, <span class='kw'>trial.exclude</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(),
-  <span class='kw'>starttracking.message</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>starttracking.match</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
+    <pre class="usage"><span class='fu'>pupil_read</span>(
+  <span class='no'>file</span>,
+  <span class='kw'>eyetracker</span> <span class='kw'>=</span> <span class='st'>""</span>,
+  <span class='kw'>px_to_mm.conversion</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>start_tracking.message</span> <span class='kw'>=</span> <span class='st'>"default"</span>,
+  <span class='kw'>start_tracking.match</span> <span class='kw'>=</span> <span class='st'>"exact"</span>,
+  <span class='kw'>subj_prefix</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>subj_suffix</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>timing_file</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>include_col</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>trial_exclude</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>quality_check_dir</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>starttracking.message</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>starttracking.match</span> <span class='kw'>=</span> <span class='kw'>NULL</span>
+)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -211,27 +224,31 @@ mark StartTracking inline</p></td>
 "exact" match or a "pattern" match?</p></td>
     </tr>
     <tr>
-      <th>subj.prefix</th>
+      <th>subj_prefix</th>
       <td><p>The unique pattern prefix (letter(s)
 and/or symbol(s)) that comes before the subject number in the data file</p></td>
     </tr>
     <tr>
-      <th>subj.suffix</th>
+      <th>subj_suffix</th>
       <td><p>The unique pattern suffix (letter(s) or
 symbol(s)) that comes after the subject number in the data file</p></td>
     </tr>
     <tr>
-      <th>timing.file</th>
+      <th>timing_file</th>
       <td><p>File location and name that contains timing
 information for message markers</p></td>
     </tr>
     <tr>
-      <th>subset</th>
-      <td><p>Which columns in the raw data export file do you want to keep</p></td>
+      <th>include_col</th>
+      <td><p>Extra columns from the raw data file to include</p></td>
     </tr>
     <tr>
-      <th>trial.exclude</th>
+      <th>trial_exclude</th>
       <td><p>Specify if ther are any trials to exclude. Trial number</p></td>
+    </tr>
+    <tr>
+      <th>quality_check_dir</th>
+      <td><p>Directory to save quality check file</p></td>
     </tr>
     <tr>
       <th>starttracking.message</th>
@@ -268,7 +285,7 @@ and SR-Research EyeLink ("eyelink")</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
 </div>
 
       </footer>

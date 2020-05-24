@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Apply interpolation — pupil_interpolate • pupillometry</title>
+<title>A call to open the GUI window — pupil_gui • pupillometry</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -52,9 +52,8 @@
 
 
 
-<meta property="og:title" content="Apply interpolation — pupil_interpolate" />
-<meta property="og:description" content="This function performs an interpolation over missing values.
-The 'zoo' package is a dependency" />
+<meta property="og:title" content="A call to open the GUI window — pupil_gui" />
+<meta property="og:description" content="This function opens a GUI window for using pupil_preprocess()" />
 <meta property="og:image" content="https://dr-jt.github.io/pupillometry/logo.png" />
 
 
@@ -171,39 +170,17 @@ The 'zoo' package is a dependency" />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Apply interpolation</h1>
-    <small class="dont-index">Source: <a href='https://github.com/dr-JT/pupillometry/blob/master/R/pupil_interpolate.R'><code>R/pupil_interpolate.R</code></a></small>
-    <div class="hidden name"><code>pupil_interpolate.Rd</code></div>
+    <h1>A call to open the GUI window</h1>
+    <small class="dont-index">Source: <a href='https://github.com/dr-JT/pupillometry/blob/master/R/pupil_gui.R'><code>R/pupil_gui.R</code></a></small>
+    <div class="hidden name"><code>pupil_gui.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>This function performs an interpolation over missing values.
-The 'zoo' package is a dependency</p>
+    <p>This function opens a GUI window for using pupil_preprocess()</p>
     </div>
 
-    <pre class="usage"><span class='fu'>pupil_interpolate</span>(<span class='no'>x</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"cubic-spline"</span>, <span class='kw'>maxgap</span> <span class='kw'>=</span> <span class='fl'>Inf</span>, <span class='kw'>hz</span> <span class='kw'>=</span> <span class='st'>""</span>)</pre>
+    <pre class="usage"><span class='fu'>pupil_gui</span>()</pre>
 
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
-    <table class="ref-arguments">
-    <colgroup><col class="name" /><col class="desc" /></colgroup>
-    <tr>
-      <th>x</th>
-      <td><p>dataframe</p></td>
-    </tr>
-    <tr>
-      <th>type</th>
-      <td><p>What type of interpolation to use? "linear" or "cubic-spline"</p></td>
-    </tr>
-    <tr>
-      <th>maxgap</th>
-      <td><p>Maximum number of NAs to interpolate over.
-Any gaps over this value will not be interpolated.</p></td>
-    </tr>
-    <tr>
-      <th>hz</th>
-      <td><p>The recording frequency (used to calculate window size)</p></td>
-    </tr>
-    </table>
 
 
   </div>

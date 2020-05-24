@@ -19,4 +19,3 @@ Downsample aoi data
 \details{
 This function will reduce the sampling fequency
 }
-\keyword{downsample}

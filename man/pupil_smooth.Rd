@@ -20,4 +20,3 @@ Value is in milliseconds}
 This function performs a smoothing function over an array of x
 The 'zoo' package is a dependency
 }
-\keyword{smooth}
