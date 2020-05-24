@@ -38,23 +38,6 @@ pupil_gui <- function(){
                             container = frame_import)
   obj_timing.file <- gWidgets2::gfilebrowse(text = "", container = frame_import,
                                  quote = FALSE)
-  button_subj <- gWidgets2::gbutton("help", container = frame_import,
-                         handler = function(h,...) {
-                           gWidgets2::gmessage(
-                             paste("Eyetrackers save the subject number",
-                                   "information in different ways and is",
-                                   "not always easy to obtain. For SMI",
-                                   "Red250m eyetrackers this is extracted",
-                                   "from the datafile name.",
-                                   "For SR-Research Eyelink1000",
-                                   "eyetrackers this is extracted from",
-                                   "the column name with the subject ID.",
-                                   "You need to identify a unique",
-                                   "subj_prefix pattern and subj_suffix",
-                                   "pattern that surrounds the subject #",
-                                   "in the  datafile name/subject ID",
-                                   "column.", sep = " "))
-                         })
   ########
 
   ## Create Output and Misc. Section
@@ -410,6 +393,14 @@ pupil_gui <- function(){
                                                       sep = ""),
                                       "\"NULL\"", "NULL"))
                           })
+
+  button_help <- gWidgets2::gbutton("help", container = frame_execute,
+                                    handler = function(h,...) {
+                                      gWidgets2::gmessage(
+                                        paste("Go to this link for help documentation",
+                                              "https://dr-jt.github.io/pupillometry/articles/gui.html",
+                                              sep = "\n\n"))
+                                    })
   ########
 
   gWidgets2::visible(win) <- TRUE
