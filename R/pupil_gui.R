@@ -396,10 +396,9 @@ pupil_gui <- function(){
 
   button_help <- gWidgets2::gbutton("help", container = frame_execute,
                                     handler = function(h,...) {
-                                      gWidgets2::gmessage(
-                                        paste("Go to this link for help documentation",
-                                              "https://dr-jt.github.io/pupillometry/articles/gui.html",
-                                              sep = "\n\n"))
+                                      gWidgets2::ghtml(
+                                        "https://dr-jt.github.io/pupillometry/articles/gui.html"
+                                      )
                                     })
   ########
 
