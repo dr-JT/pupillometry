@@ -410,7 +410,7 @@ pupil_read <- function(file, eyetracker = "", px_to_mm.conversion = NULL,
   data <- dplyr::group_by(data, Trial)
   data <- dplyr::mutate(data, Stimulus = zoo::na.locf(Message, na.rm = FALSE))
   data <- dplyr::ungroup(data)
-  data <- dplyr::filter(data, Message_Inserted == 0, !is.na(Trial))
+  data <- dplyr::filter(data, Message_Inserted == 0)
   ###################################################
 
   ## Include extra columns and remove trials ####
