@@ -18,19 +18,17 @@ The overall workflow of `pupil_preprocess()` is:
 
 1. **Read** in raw data files `pupil_read()`
 
-    - If `tracking.file` is supplied will also add message markers to the data
+    - If `tracking_file` is supplied will also add message markers to the data
     
 2. Clean up raw data files and more
+
+    - Set **Timing** variable to be relative to onset of each trial. `set_timing()`
 
     - **Correlate** left and right pupil size (if both eyes were recorded from). `pupil_cor()`
     
     - **Select** either left or right pupil data (if both eyes were recorded from). `select_eye()`
     
-    - Set **Timing** variable to be relative to onset of each trial. `set_timing()`
-    
-    - Set **Stimulus** variable from **Message Markers**. `set_stimuli()`
-    
-3. **De-blink** data. `pupil_deblink()`
+3. **Deblink** data. `pupil_deblink()`
 
 4. **Smooth** (if specified). `pupil_smooth()`
 
@@ -44,7 +42,7 @@ The overall workflow of `pupil_preprocess()` is:
 
 A final preprocessed data file will be saved for every original raw data file.
 
-If `output.steps == TRUE` a data file will be saved after steps 3, 4, and 5. Before saving the data file at each of these steps, the final two steps 6 and 7 are performed. This results in baseline corrected and missing data removed files before each major preprocessing step. This is obviously not necessary and so `output.steps = FALSE` is the default and will only save one final preprocessed data file per subject. 
+If `output_steps == TRUE` a data file will be saved after steps 3, 4, and 5. Before saving the data file at each of these steps, the final two steps 6 and 7 are performed. This results in baseline corrected and missing data removed files before each major preprocessing step. This is obviously not necessary and so `output_steps = FALSE` is the default and will only save one final preprocessed data file per subject. Saving a data file after each preprocessing steps would allow you to analyze your data at different stages to assess the influence of the preprocessing methods you chose.
 
 ## Message Markers
 
