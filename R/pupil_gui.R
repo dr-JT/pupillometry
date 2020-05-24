@@ -215,6 +215,8 @@ pupil_gui <- function(){
           gWidgets2::svalue(obj_trial.exclude) <- NULL
         }
 
+        print(gWidgets2::svalue(obj_timing.file))
+
         pupillometry::pupil_preprocess(
           import_dir = gWidgets2::svalue(obj_import.dir),
           pattern = gWidgets2::svalue(obj_pattern),
