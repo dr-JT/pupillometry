@@ -18,8 +18,8 @@ select_eye <- function(x, eye_use = ""){
                     "R_Pupil_Diameter.mm", "R_Pupil_Diameter.px")
 
   if (eye_use == "left") {
+    colnames(which(colnames(x) == l_pupil)) <- "Pupil_Diameter.mm"
     x <- dplyr::rename(x,
-                       Pupil_Diameter.mm = l_pupil,
                        Eye_Event = L_Eye_Event)
     if ("L_Gaze_Position.x" %in% colnames(x)) {
       x <- dplyr::rename(x,
@@ -31,8 +31,8 @@ select_eye <- function(x, eye_use = ""){
                                              "R_Gaze_Position.y")),
                        -tidyselect::any_of("R_Eye_Event"))
   } else if (eye_use == "right") {
+    colnames(which(colnames(x) == r_pupil)) <- "Pupil_Diameter.mm"
     x <- dplyr::rename(x,
-                       Pupil_Diameter.mm = r_pupil,
                        Eye_Event = R_Eye_Event)
     if ("R_Gaze_Position.x" %in% colnames(x)) {
       x <- dplyr::rename(x,
