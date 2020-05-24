@@ -190,6 +190,12 @@ pupil_preprocess <- function(import_dir = NULL, pattern = ".txt",
                        quality_check_dir = output_dir)
     #####################################
 
+    #### ----- Set timing column relative to onset of each trial ----- ####
+    data <- set_timing(data, trial_onset.message = trial_onset.message,
+                       match = trial_onset.match,
+                       pretrial.duration = pretrial.duration)
+    ######################################################################
+
     #### ----- Select eye to preprocess ----- ####
     left_recorded <- ifelse("L_Pupil_Diameter.mm" %in% colnames(data), TRUE,
                             ifelse("L_Pupil_Diameter.px" %in% colnames(data),
@@ -204,12 +210,6 @@ pupil_preprocess <- function(import_dir = NULL, pattern = ".txt",
       data <- select_eye(data, eye_use = eye_use)
     }
     #############################################
-
-    #### ----- Set timing column relative to onset of each trial ----- ####
-    data <- set_timing(data, trial_onset.message = trial_onset.message,
-                       match = trial_onset.match,
-                       pretrial.duration = pretrial.duration)
-    ######################################################################
 
     #### ----- Save to file ----- ####
     step <- ""
