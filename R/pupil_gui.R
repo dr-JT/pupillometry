@@ -21,7 +21,7 @@ pupil_gui <- function(){
   obj_import.dir <- gWidgets2::gfilebrowse(text = "", type = "selectdir",
                                 container = frame_import, quote=FALSE)
   form_import <- gWidgets2::gformlayout(container = frame_import, expand = TRUE)
-  obj_pattern <- gWidgets2::gedit("",
+  obj_pattern <- gWidgets2::gedit(".txt",
                        label = "import file pattern string",
                        container = form_import)
   obj_taskname <- gWidgets2::gedit("",
@@ -63,16 +63,16 @@ pupil_gui <- function(){
   ## Output ####
   frame_output <- gWidgets2::gframe(" Output Parameters ", horizontal = FALSE,
                          container = grp_1.2, pos = .5)
-  lbl_import.dir <- gWidgets2::glabel("select output directory: ",
+  lbl_output.dir <- gWidgets2::glabel("select output directory: ",
                                       container = frame_output)
   obj_output.dir <- gWidgets2::gfilebrowse(text = "", type = "selectdir",
                                 container = frame_output, quote=FALSE)
 
   form_output <- gWidgets2::gformlayout(container = frame_output, expand = TRUE)
-  obj_output.steps <- gWidgets2::gcombobox(c("TRUE", "FALSE"), select = 1,
+  obj_output.steps <- gWidgets2::gcombobox(c("TRUE", "FALSE"), select = 2,
                                 label = "output files at each step?",
                                 container = form_output)
-  obj_files.merge <- gWidgets2::gcombobox(c("TRUE", "FALSE"), select = 1,
+  obj_files.merge <- gWidgets2::gcombobox(c("TRUE", "FALSE"), select = 2,
                                label = "create single merged file?",
                                container = form_output)
   ######
@@ -100,7 +100,7 @@ pupil_gui <- function(){
   form_eyetracker <- gWidgets2::gformlayout(container = frame_eyetracker,
                                             expand = TRUE)
   obj_eyetracker <- gWidgets2::gcombobox(c("Tobii", "EyeLink", "SMI"),
-                                         select = 1, label = "eye tracker",
+                                         select = 2, label = "eye tracker",
                                          container = form_eyetracker)
   obj_hz <- gWidgets2::gedit("",
                   label = "recording frequency (Hz)",
@@ -119,7 +119,7 @@ pupil_gui <- function(){
                                      container = grp_2, pos = .5)
   form_message <- gWidgets2::gformlayout(container = frame_message,
                                          expand = TRUE)
-  obj_start_tracking.message <- gWidgets2::gedit("",
+  obj_start_tracking.message <- gWidgets2::gedit("default",
                                       label = "start tracking message",
                                       container = form_message)
   obj_start_tracking.match <- gWidgets2::gcombobox(c("exact", "pattern"),
@@ -160,7 +160,7 @@ pupil_gui <- function(){
   obj_smooth <- gWidgets2::gcombobox(c("hann", "mwa"), select = 1,
                           label = "smoothing/filtering method",
                           container = form_preprocessing)
-  obj_smooth.window <- gWidgets2::gedit("",
+  obj_smooth.window <- gWidgets2::gedit(500,
                              label = "smooth window size (ms)",
                              container = form_preprocessing)
   obj_interpolate <- gWidgets2::gcombobox(c("cubic-spline", "linear"),
@@ -168,7 +168,7 @@ pupil_gui <- function(){
                                           label = "interpolation method",
                                           container = form_preprocessing)
   obj_interpolate.maxgap <-
-    gWidgets2::gedit("",
+    gWidgets2::gedit(Inf,
                      label = "maximum gap to interpolate over (ms)",
                      container = form_preprocessing)
   obj_method.first <-
@@ -209,7 +209,7 @@ pupil_gui <- function(){
           gWidgets2::svalue(obj_conversion) <- NULL
         }
         if (gWidgets2::svalue(obj_include_col) == ""){
-          gWidgets2::svalue(obj_include_col) <- "default"
+          gWidgets2::svalue(obj_include_col) <- NULL
         }
         if (gWidgets2::svalue(obj_trial.exclude) == ""){
           gWidgets2::svalue(obj_trial.exclude) <- NULL
@@ -265,7 +265,7 @@ pupil_gui <- function(){
                            gWidgets2::svalue(obj_conversion) <- "NULL"
                           }
                          if (gWidgets2::svalue(obj_include_col) == ""){
-                           gWidgets2::svalue(obj_include_col) <- "default"
+                           gWidgets2::svalue(obj_include_col) <- "NULL"
                           }
                          if (gWidgets2::svalue(obj_trial.exclude) == ""){
                            gWidgets2::svalue(obj_trial.exclude) <- "NULL"
@@ -305,7 +305,7 @@ pupil_gui <- function(){
                                             "\n",
                                             "files_merge <- ",
                                             gWidgets2::svalue(obj_files.merge),
-                                            "\n",
+                                            "\n", " \n",
                                             "# Eyetracker Information\n",
                                             "eyetracker <- ", "\"",
                                             gWidgets2::svalue(obj_eyetracker),
@@ -390,22 +390,22 @@ pupil_gui <- function(){
                   timing_file = timing_file, output_dir = output_dir,
                   output_steps = output_steps, files_merge = files_merge,
                   eyetracker = eyetracker, hz = hz, eye_use = eye_use,
-                 px_to_mm.conversion = px_to_mm.conversion,
-                 start_tracking.message = start_tracking.message,
-                 start_tracking.match = start_tracking.match,
-                 trial_onset.message = trial_onset.message,
-                 trial_onset.match = trial_onset.match,
-                 pretrial.duration = pretrial.duration,
-                 bc_onset.message = bc_onset.message,
-                 bc_onset.match = bc_onset.match,
-                 deblink_extend = deblink_extend,
-                 smooth = smooth, smooth.window = smooth.window,
-                 interpolate = interpolate,
-                 interpolate.maxgap = interpolate.maxgap,
-                 method_first = method_first, bc = bc,
-                 pre_bc.duration = pre_bc.duration,
-                 missing_allowed = missing_allowed, include_col = include_col,
-                 trial_exclude = trial_exclude)",
+                  px_to_mm.conversion = px_to_mm.conversion,
+                  start_tracking.message = start_tracking.message,
+                  start_tracking.match = start_tracking.match,
+                  trial_onset.message = trial_onset.message,
+                  trial_onset.match = trial_onset.match,
+                  pretrial.duration = pretrial.duration,
+                  bc_onset.message = bc_onset.message,
+                  bc_onset.match = bc_onset.match,
+                  deblink_extend = deblink_extend,
+                  smooth = smooth, smooth.window = smooth.window,
+                  interpolate = interpolate,
+                  interpolate.maxgap = interpolate.maxgap,
+                  method_first = method_first, bc = bc,
+                  pre_bc.duration = pre_bc.duration,
+                  missing_allowed = missing_allowed, include_col = include_col,
+                  trial_exclude = trial_exclude)",
                                                       sep = ""),
                                       "\"NULL\"", "NULL"))
                           })
