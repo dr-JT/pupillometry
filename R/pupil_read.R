@@ -415,7 +415,7 @@ pupil_read <- function(file, eyetracker = "", px_to_mm.conversion = NULL,
 
   ## Include extra columns and remove trials ####
   data <- dplyr::select(data, everything(), tidyselect::any_of(include_col))
-  data <- dplyr::select(data, -starttracking.time, -Message_Inserted, -Message)
+  data <- dplyr::select(data, -starttracking.time, -Message_Inserted)
 
   if (!is.null(trial_exclude)){
     data <- dplyr::filter(data, !(Trial %in% trial_exclude))
