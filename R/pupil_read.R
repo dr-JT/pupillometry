@@ -157,6 +157,7 @@ pupil_read <- function(file, eyetracker = "", px_to_mm.conversion = NULL,
       subj <- subj.extract(data$Participant[1], prefix = subj_prefix,
                            suffix = subj_suffix)
       ms_conversion <- 1
+      head.distance <- NA
 
       eye.gaze <- "Point_of_Regard_Binocular_X_px" %in% colnames(data)
 
@@ -203,6 +204,7 @@ pupil_read <- function(file, eyetracker = "", px_to_mm.conversion = NULL,
       }
       ######################################
     }
+    data <- dplyr::mutate(data, Head_Distance.cm = head.distance)
 
   } else if (eyetracker == "eyelink") {
     ## Eye tracker is EyeLink ####
@@ -212,12 +214,12 @@ pupil_read <- function(file, eyetracker = "", px_to_mm.conversion = NULL,
 
     data <- readr::read_delim(file, "\t", escape_double = FALSE,
                               trim_ws = TRUE, na = ".", guess_max = 100000)
-    data <- dplyr::rename(data, Time = TIMESTAMP, Message = SAMPLE_MESSAGE)
+    data <- dplyr::rename(data, Time = TIMESTAMP, Message = SAMPLE_MESSAGE,
+                          Head_Distance.cm = HTARGET_DISTANCE)
 
     subj <- subj.extract(data$RECORDING_SESSION_LABEL[1],
                          prefix = subj_prefix, suffix = subj_suffix)
     ms_conversion <- 1
-    head.distance <- NA
 
 
     left_recorded <- "LEFT_PUPIL_SIZE" %in% colnames(data)
@@ -226,7 +228,7 @@ pupil_read <- function(file, eyetracker = "", px_to_mm.conversion = NULL,
       data <- dplyr::mutate(data,
                             L_Eye_Event = ifelse(LEFT_IN_BLINK == 1,
                                                  "Blink", "Fixation/Saccade"))
-      if (!is.na(px_to_mm.conversion)) {
+      if (!is.null(px_to_mm.conversion)) {
         data <- dplyr::mutate(data,
                               L_Pupil_Diameter.mm =
                                 px_to_mm.conversion * LEFT_PUPIL_SIZE)
@@ -251,7 +253,7 @@ pupil_read <- function(file, eyetracker = "", px_to_mm.conversion = NULL,
       data <- dplyr::mutate(data,
                             R_Eye_Event = ifelse(RIGHT_IN_BLINK == 1,
                                                  "Blink", "Fixation/Saccade"))
-      if (!is.na(px_to_mm.conversion)) {
+      if (!is.null(px_to_mm.conversion)) {
         data <- dplyr::mutate(data,
                               R_Pupil_Diameter.mm =
                                 px_to_mm.conversion * RIGHT_PUPIL_SIZE)
@@ -276,10 +278,9 @@ pupil_read <- function(file, eyetracker = "", px_to_mm.conversion = NULL,
   data <- dplyr::mutate(data,
                         Subject = subj,
                         Time = Time / ms_conversion,
-                        Message = gsub("# Message: ", "", Message),
-                        Head_Distance.cm = head.distance)
+                        Message = gsub("# Message: ", "", Message))
   data <- dplyr::select(data,
-                        Subject, Time, Trial, Message,
+                        Subject, Time, tidyselect::any_of("Trial"), Message,
                         tidyselect::any_of("L_Pupil_Diameter.mm"),
                         tidyselect::any_of("L_Pupil_Diameter.px"),
                         tidyselect::any_of("R_Pupil_Diameter.mm"),
@@ -333,18 +334,18 @@ pupil_read <- function(file, eyetracker = "", px_to_mm.conversion = NULL,
                                                        start_tracking.message),
                                    Time, NA))
   }
-  check <- data
   data <- dplyr::mutate(data,
                         starttracking.time = zoo::na.locf(starttracking.time,
                                                            na.rm = FALSE),
                         Trial = dplyr::dense_rank(starttracking.time))
+  check <- data
   ###########################################
 
   ## Set trial quality check ####
-  check <- dplyr::select(check, Subject, Trial, starttracking.time)
-  check <- dplyr::filter(check, !is.na(starttracking.time))
+  check <- dplyr::select(check, Subject, Time, Trial, starttracking.time)
+  check <- dplyr::filter(check, Time == starttracking.time)
   check <- dplyr::group_by(check, Subject)
-  check <- dplyr::summarise(check, Trials = n())
+  check <- dplyr::summarise(check, Trials = dplyr::n())
   check <- dplyr::ungroup(check)
 
   if (!is.null(quality_check_dir)) {
