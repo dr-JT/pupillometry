@@ -296,7 +296,7 @@ pupil_read <- function(file, eyetracker = "", px_to_mm.conversion = NULL,
   ########################################
 
   ## If timing file exists insert start message marker ####
-  if (!is.null(timing_file) | timing_file != "") {
+  if (file.exists(timing_file)) {
     if (stringr::str_detect(timing_file, "csv")) {
       timing_data <- readr::read_csv(timing_file)
     } else if (stringr::str_detect(timing_file, "xlsx")) {
@@ -362,7 +362,7 @@ pupil_read <- function(file, eyetracker = "", px_to_mm.conversion = NULL,
   ###############################
 
   ## If timing file exists insert other message markers ####
-  if (!is.null(timing_file) | timing_file != "") {
+  if (file.exists(timing_file)) {
     message_markers <- stringr::str_subset(colnames(timing_data), "Subject",
                                            negate=TRUE)
     message_markers <- stringr::str_subset(message_markers,

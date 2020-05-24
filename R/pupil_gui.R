@@ -247,8 +247,7 @@ pupil_gui <- function(){
           pre_bc.duration = gWidgets2::svalue(obj_pre_bc.duration),
           missing_allowed = gWidgets2::svalue(obj_missing.allowed),
           include_col = gWidgets2::svalue(obj_include_col),
-          trial_exclude = gWidgets2::svalue(obj_trial.exclude)
-                         )
+          trial_exclude = gWidgets2::svalue(obj_trial.exclude))
                          })
 
   button_rcode <-
