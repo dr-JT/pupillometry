@@ -14,28 +14,29 @@ reference:
 - title: Import and Clean data
   contents:
   - pupil_read
+  - set_timing
   - pupil_cor
   - select_eye
-  - set_timing
-  - set_stimuli
 - title: Preprocessing Methods
   contents:
   - pupil_preprocess
+  - pupil_gui
   - pupil_deblink
   - pupil_smooth
   - pupil_interpolate
   - pupil_baselinecorrect
   - pupil_missing
-  - pupil_downsample
-- title: Visualize
+- title: Analysis
   contents:
-  - plot_comparison
+  - pupil_downsample
+  - aoi_downsample
 
 articles:
 - title: How To
   navbar: How To
   contents:
   - pupil_preprocess
+  - gui
   - pupillometry_functions
   - message_markers
 

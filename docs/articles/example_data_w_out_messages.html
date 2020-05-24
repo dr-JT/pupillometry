@@ -5,7 +5,7 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Example Data Set - What if My Data Doesn't Have Message Markers? • pupillometry</title>
+<title>What if My Data Doesn't Have Message Markers? • pupillometry</title>
 <!-- favicons --><link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
 <link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
 <link rel="apple-touch-icon" type="image/png" sizes="180x180" href="../apple-touch-icon.png">
@@ -19,7 +19,7 @@
 <!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
 <script src="../pkgdown.js"></script><!-- docsearch --><script src="../docsearch.js"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/docsearch.js/2.6.3/docsearch.min.css" integrity="sha256-QOSRU/ra9ActyXkIBbiIB144aDBdtvXBcNc3OTNuX/Q=" crossorigin="anonymous">
 <link href="../docsearch.css" rel="stylesheet">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/jquery.mark.min.js" integrity="sha256-4HLtjeVgH0eIB3aZ9mLYF6E8oU5chNdjU6p6rrXpl9U=" crossorigin="anonymous"></script><meta property="og:title" content="Example Data Set - What if My Data Doesn't Have Message Markers?">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/jquery.mark.min.js" integrity="sha256-4HLtjeVgH0eIB3aZ9mLYF6E8oU5chNdjU6p6rrXpl9U=" crossorigin="anonymous"></script><meta property="og:title" content="What if My Data Doesn't Have Message Markers?">
 <meta property="og:description" content="pupillometry">
 <meta property="og:image" content="https://dr-jt.github.io/pupillometry/logo.png">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
@@ -40,7 +40,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">pupillometry</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.5.0</span>
       </span>
     </div>
 
@@ -65,13 +65,16 @@
 <li class="divider">
     <li class="dropdown-header">How To</li>
     <li>
-      <a href="../articles/pupil_preprocess.html">How to Use pupil_preprocess()</a>
+      <a href="../articles/pupil_preprocess.html">Use pupil_preprocess()</a>
+    </li>
+    <li>
+      <a href="../articles/gui.html">Use the GUI</a>
     </li>
     <li>
       <a href="../articles/pupillometry_functions.html">Build Your Own Sequence of Pupillometry Functions</a>
     </li>
     <li>
-      <a href="../articles/message_markers.html">How to Use Message Markers</a>
+      <a href="../articles/message_markers.html">Using Message Markers</a>
     </li>
     <li class="divider">
     <li class="dropdown-header">Example Data Sets</li>
@@ -79,7 +82,7 @@
       <a href="../articles/example_data.html">Example Data Set</a>
     </li>
     <li>
-      <a href="../articles/example_data_w_out_messages.html">Example Data Set - What if My Data Doesn't Have Message Markers?</a>
+      <a href="../articles/example_data_w_out_messages.html">What if My Data Doesn't Have Message Markers?</a>
     </li>
     <li class="divider">
     <li class="dropdown-header">More Details</li>
@@ -121,7 +124,7 @@
       </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
-      <h1 data-toc-skip>Example Data Set - What if My Data Doesn’t Have Message Markers?</h1>
+      <h1 data-toc-skip>What if My Data Doesn’t Have Message Markers?</h1>
             
       
       <small class="dont-index">Source: <a href="https://github.com/dr-JT/pupillometry/blob/master/vignettes/example_data_w_out_messages.Rmd"><code>vignettes/example_data_w_out_messages.Rmd</code></a></small>
@@ -150,6 +153,7 @@
 </ul>
 <p>The ideal scenario is that you were able to insert message markers, that were synced to specific events in the experiment software, into the eyetracking data file itself. In this data set, that was not the case. <strong>There are no message markers in the data file indicating when the trial events (stimuli) occured</strong>. A depiction of a trial procedure with no message markers is given in the picture below.</p>
 <p><img src="../reference/figures/pitch_trialproc_w_out_markers.png" align="center"></p>
+<p>The dotted lines on the time axis represent that we don’t have any markers in the data file to know when these critical events actually occured.</p>
 <p>This is an issue because we do not know when events actually occured and therefore cannot set the <code>start_tracking.message</code>, <code>trial_onset.message</code>, and <code>bc_onset.messsage</code>, parameters.</p>
 <p>We need to insert <strong>Message Markers</strong> from an external data file. Notice, in the Example Data set that you downloaded there was a file called <strong>pitch_timing.csv</strong>. This file was created to insert <strong>Message Markers</strong> into the eyetracking data file. I have supplied you with this file for this example.</p>
 <p>In your actual data, you will have to create this file on your own from the behavioral data produced by the experimental software you used. In setting up your experiment, then, <strong>it is vital that you make sure your timing data in your behavioral file corresponds directly to your timing data in the eyetracking data file</strong>. Otherwise there may be no way of actually syncing events in the experimental software with events in the eyetracking file.</p>
@@ -187,7 +191,7 @@
 <h3 class="hasAnchor">
 <a href="#trial-onset-message" class="anchor"></a>Trial Onset Message</h3>
 <p>It is good practice in eye-tracking and pupillometry to have a pre-trial period before the trial actually begins. This does several things. One is that it allows the pupil response to return to normal after the previous trial (less interference from one trial to the next). Another is that research has shown the pre-trial pupil size is predictive of performance on the trial and therefore can be useful information.</p>
-<p>In this pitch discrimination task, the actual duration of the pre-trial period (in which there was a central fixation on the screen) was either 3000 or 2000 ms. To define what length we want the pre-trial duration to be cutoff at in the data file we need to specify the <strong>TrialOnset</strong> message. The <strong>TrialOnset</strong> message corresponds the message marker in the data file for the first stimulus of the actual trial. In this case it is <strong>Tone 1</strong>. Therefore, we can set <code>trial_onset.message &lt;- "Tone 1"</code>. Then we can set the pretrial duration relative to this message marker. Let’s go ahead and just set it as <code>pre_trial.duration &lt;- 2000</code>.</p>
+<p>In this pitch discrimination task, the actual duration of the pre-trial period (in which there was a central fixation on the screen) was either 3000 or 2000 ms. To define what length we want the pre-trial duration to be cutoff at in the data file we need to specify the <strong>TrialOnset</strong> message. The <strong>TrialOnset</strong> message corresponds the message marker in the data file for the first stimulus of the actual trial. In this case it is <strong>Tone 1</strong>. Therefore, we can set <code>trial_onset.message &lt;- "Tone 1"</code>. Then we can set the pretrial duration relative to this message marker. Let’s go ahead and just set it as <code>pretrial.duration &lt;- 2000</code>.</p>
 <p>In the final preprocessed data file, the Time column will be set relative to the <strong>TrialOnset</strong> message. Therefore, the start of <strong>Tone 1</strong> will have a Time of or near 0, the pre-trial phase will have a Time value of -2000 to 0, and anything after <strong>Tone 1</strong> will have a positive value.</p>
 <p>There will also be a column labeled <strong>Stimulus</strong> that has a value in every row corresponding to what stimulus event that eye sample belongs to (e.g. Tone 1, ISI, Tone 2, Response Start, etc.).</p>
 </div>
@@ -212,30 +216,30 @@
 <span class="co">## Preprocessing parameters</span>
 
 <span class="co"># File Import Information</span>
-<span class="no">import.dir</span> <span class="kw">&lt;-</span> <span class="st">"data/Raw"</span>
+<span class="no">import_dir</span> <span class="kw">&lt;-</span> <span class="st">"data/Raw"</span>
 <span class="no">pattern</span> <span class="kw">&lt;-</span> <span class="st">"messagesRemoved.txt"</span>
 <span class="no">taskname</span> <span class="kw">&lt;-</span> <span class="st">"Pitch_Discrimination"</span>
-<span class="no">timing.file</span> <span class="kw">&lt;-</span> <span class="kw">NULL</span>
+<span class="no">timing_file</span> <span class="kw">&lt;-</span> <span class="st">"data/Raw/timing_file.csv"</span>
 
 <span class="co"># Eyetrackers save the subject number information in different ways and is not</span>
 <span class="co"># always easy to obtain. For SMI Red250m eyetrackers this is extracted from the</span>
 <span class="co"># datafile name. For SR-Research Eyelink1000 eyetrackers this is extracted from </span>
-<span class="co"># the column name with the subject ID. You need to identify a unique subj.prefix </span>
-<span class="co"># pattern and subj.suffix pattern that surrounds the subject # in the </span>
+<span class="co"># the column name with the subject ID. You need to identify a unique subj_prefix </span>
+<span class="co"># pattern and subj_suffix pattern that surrounds the subject # in the </span>
 <span class="co"># datafile name/subject ID column.</span>
 
-<span class="no">subj.prefix</span> <span class="kw">&lt;-</span> <span class="st">"n_"</span>
-<span class="no">subj.suffix</span> <span class="kw">&lt;-</span> <span class="st">"-"</span>
+<span class="no">subj_prefix</span> <span class="kw">&lt;-</span> <span class="st">"n_"</span>
+<span class="no">subj_suffix</span> <span class="kw">&lt;-</span> <span class="st">"-"</span>
 
 <span class="co"># File Output Information</span>
-<span class="no">output.dir</span> <span class="kw">&lt;-</span> <span class="st">"data/Preprocessed"</span>
-<span class="no">output.steps</span> <span class="kw">&lt;-</span> <span class="fl">FALSE</span>
-<span class="no">files.merge</span> <span class="kw">&lt;-</span> <span class="fl">FALSE</span>
+<span class="no">output_dir</span> <span class="kw">&lt;-</span> <span class="st">"data/Preprocessed"</span>
+<span class="no">output_steps</span> <span class="kw">&lt;-</span> <span class="fl">FALSE</span>
+<span class="no">files_merge</span> <span class="kw">&lt;-</span> <span class="fl">FALSE</span>
 
 <span class="co"># Eyetracker Information</span>
 <span class="no">eyetracker</span> <span class="kw">&lt;-</span> <span class="st">"smi"</span>
 <span class="no">hz</span> <span class="kw">&lt;-</span> <span class="fl">250</span>
-<span class="no">eye.use</span> <span class="kw">&lt;-</span> <span class="st">"left"</span>
+<span class="no">eye_use</span> <span class="kw">&lt;-</span> <span class="st">"left"</span>
 <span class="no">px_to_mm.conversion</span> <span class="kw">&lt;-</span> <span class="kw">NULL</span>
 
 <span class="co"># Message Marker Information</span>
@@ -243,48 +247,48 @@
 <span class="no">start_tracking.match</span> <span class="kw">&lt;-</span> <span class="st">"exact"</span>
 <span class="no">trial_onset.message</span> <span class="kw">&lt;-</span> <span class="st">"Tone 1"</span>
 <span class="no">trial_onset.match</span> <span class="kw">&lt;-</span> <span class="st">"exact"</span>
-<span class="no">pre_trial.duration</span> <span class="kw">&lt;-</span> <span class="fl">1000</span>
+<span class="no">pretrial.duration</span> <span class="kw">&lt;-</span> <span class="fl">1000</span>
 <span class="no">bc_onset.message</span> <span class="kw">&lt;-</span> <span class="st">"Tone 1"</span>
 <span class="no">bc_onset.match</span> <span class="kw">&lt;-</span> <span class="st">"exact"</span>
 
 <span class="co"># Preprocessing Options</span>
-<span class="no">deblink.extend</span> <span class="kw">&lt;-</span> <span class="fl">100</span>
+<span class="no">deblink_extend</span> <span class="kw">&lt;-</span> <span class="fl">100</span>
 <span class="no">smooth</span> <span class="kw">&lt;-</span> <span class="st">"hann"</span>
 <span class="no">smooth.window</span> <span class="kw">&lt;-</span> <span class="fl">500</span>
 <span class="no">interpolate</span> <span class="kw">&lt;-</span> <span class="st">"cubic-spline"</span>
 <span class="no">interpolate.maxgap</span> <span class="kw">&lt;-</span> <span class="fl">750</span>
-<span class="no">method.first</span> <span class="kw">&lt;-</span> <span class="st">"smooth"</span>
+<span class="no">method_first</span> <span class="kw">&lt;-</span> <span class="st">"smooth"</span>
 <span class="no">bc</span> <span class="kw">&lt;-</span> <span class="st">"subtractive"</span>
 <span class="no">pre_bc.duration</span> <span class="kw">&lt;-</span> <span class="fl">200</span>
-<span class="no">missing.allowed</span> <span class="kw">&lt;-</span> <span class="fl">.30</span>
+<span class="no">missing_allowed</span> <span class="kw">&lt;-</span> <span class="fl">.30</span>
 
 <span class="co"># Misc.</span>
-<span class="no">subset</span> <span class="kw">&lt;-</span> <span class="st">"default"</span>
-<span class="no">trial.exclude</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>()
+<span class="no">include_col</span> <span class="kw">&lt;-</span> <span class="kw">NULL</span>
+<span class="no">trial_exclude</span> <span class="kw">&lt;-</span> <span class="kw">NULL</span>
 
 <span class="co">############################</span>
 
-<span class="fu"><a href="../reference/pupil_preprocess.html">pupil_preprocess</a></span>(<span class="kw">import.dir</span> <span class="kw">=</span> <span class="no">import.dir</span>, <span class="kw">pattern</span> <span class="kw">=</span> <span class="no">pattern</span>, <span class="kw">taskname</span> <span class="kw">=</span> <span class="no">taskname</span>,
-                 <span class="kw">subj.prefix</span> <span class="kw">=</span> <span class="no">subj.prefix</span>, <span class="kw">subj.suffix</span> <span class="kw">=</span> <span class="no">subj.suffix</span>,
-                 <span class="kw">timing.file</span> <span class="kw">=</span> <span class="no">timing.file</span>, <span class="kw">output.dir</span> <span class="kw">=</span> <span class="no">output.dir</span>,
-                 <span class="kw">output.steps</span> <span class="kw">=</span> <span class="no">output.steps</span>, <span class="kw">files.merge</span> <span class="kw">=</span> <span class="no">files.merge</span>,
-                 <span class="kw">eyetracker</span> <span class="kw">=</span> <span class="no">eyetracker</span>, <span class="kw">hz</span> <span class="kw">=</span> <span class="no">hz</span>, <span class="kw">eye.use</span> <span class="kw">=</span> <span class="no">eye.use</span>,
+<span class="fu"><a href="../reference/pupil_preprocess.html">pupil_preprocess</a></span>(<span class="kw">import_dir</span> <span class="kw">=</span> <span class="no">import_dir</span>, <span class="kw">pattern</span> <span class="kw">=</span> <span class="no">pattern</span>, <span class="kw">taskname</span> <span class="kw">=</span> <span class="no">taskname</span>,
+                 <span class="kw">subj_prefix</span> <span class="kw">=</span> <span class="no">subj_prefix</span>, <span class="kw">subj_suffix</span> <span class="kw">=</span> <span class="no">subj_suffix</span>,
+                 <span class="kw">timing_file</span> <span class="kw">=</span> <span class="no">timing_file</span>, <span class="kw">output_dir</span> <span class="kw">=</span> <span class="no">output_dir</span>,
+                 <span class="kw">output_steps</span> <span class="kw">=</span> <span class="no">output_steps</span>, <span class="kw">files_merge</span> <span class="kw">=</span> <span class="no">files_merge</span>,
+                 <span class="kw">eyetracker</span> <span class="kw">=</span> <span class="no">eyetracker</span>, <span class="kw">hz</span> <span class="kw">=</span> <span class="no">hz</span>, <span class="kw">eye_use</span> <span class="kw">=</span> <span class="no">eye_use</span>,
                  <span class="kw">px_to_mm.conversion</span> <span class="kw">=</span> <span class="no">px_to_mm.conversion</span>,
                  <span class="kw">start_tracking.message</span> <span class="kw">=</span> <span class="no">start_tracking.message</span>,
                  <span class="kw">start_tracking.match</span> <span class="kw">=</span> <span class="no">start_tracking.match</span>,
                  <span class="kw">trial_onset.message</span> <span class="kw">=</span> <span class="no">trial_onset.message</span>,
                  <span class="kw">trial_onset.match</span> <span class="kw">=</span> <span class="no">trial_onset.match</span>,
-                 <span class="kw">pre_trial.duration</span> <span class="kw">=</span> <span class="no">pre_trial.duration</span>,
+                 <span class="kw">pretrial.duration</span> <span class="kw">=</span> <span class="no">pretrial.duration</span>,
                  <span class="kw">bc_onset.message</span> <span class="kw">=</span> <span class="no">bc_onset.message</span>,
                  <span class="kw">bc_onset.match</span> <span class="kw">=</span> <span class="no">bc_onset.match</span>,
-                 <span class="kw">deblink.extend</span> <span class="kw">=</span> <span class="no">deblink.extend</span>,
+                 <span class="kw">deblink_extend</span> <span class="kw">=</span> <span class="no">deblink_extend</span>,
                  <span class="kw">smooth</span> <span class="kw">=</span> <span class="no">smooth</span>, <span class="kw">smooth.window</span> <span class="kw">=</span> <span class="no">smooth.window</span>,
                  <span class="kw">interpolate</span> <span class="kw">=</span> <span class="no">interpolate</span>,
                  <span class="kw">interpolate.maxgap</span> <span class="kw">=</span> <span class="no">interpolate.maxgap</span>,
-                 <span class="kw">method.first</span> <span class="kw">=</span> <span class="no">method.first</span>, <span class="kw">bc</span> <span class="kw">=</span> <span class="no">bc</span>,
+                 <span class="kw">method_first</span> <span class="kw">=</span> <span class="no">method_first</span>, <span class="kw">bc</span> <span class="kw">=</span> <span class="no">bc</span>,
                  <span class="kw">pre_bc.duration</span> <span class="kw">=</span> <span class="no">pre_bc.duration</span>,
-                 <span class="kw">missing.allowed</span> <span class="kw">=</span> <span class="no">missing.allowed</span>, <span class="kw">subset</span> <span class="kw">=</span> <span class="no">subset</span>,
-                 <span class="kw">trial.exclude</span> <span class="kw">=</span> <span class="no">trial.exclude</span>)</pre></body></html></div>
+                 <span class="kw">missing_allowed</span> <span class="kw">=</span> <span class="no">missing_allowed</span>, <span class="kw">include_col</span> <span class="kw">=</span> <span class="no">include_col</span>,
+                 <span class="kw">trial_exclude</span> <span class="kw">=</span> <span class="no">trial_exclude</span>)</pre></body></html></div>
 </div>
   </div>
 
@@ -301,7 +305,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
 </div>
 
       </footer>

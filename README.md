@@ -43,9 +43,9 @@ There are two general ways you can use this package to do preprocessing:
 
 **1)** Use `pupil_preprocess()`
 
-    Documentation on using this method is provided in [How to Use pupil_preprocess()](https://dr-jt.github.io/pupillometry/articles/pupil_preprocess.html)
+Documentation on using this method is provided in [Use pupil_preprocess()](https://dr-jt.github.io/pupillometry/articles/pupil_preprocess.html)
 
-    You can also use `pupil_preprocess()` through a GUI window [Using the GUI](https://dr-jt.github.io/pupillometry/articles/gui.html)
+You can also use `pupil_preprocess()` through a GUI window [Use the GUI](https://dr-jt.github.io/pupillometry/articles/gui.html)
 
 **or**
 

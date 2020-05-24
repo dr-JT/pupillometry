@@ -41,19 +41,17 @@ The overall workflow of `pupil_preprocess()` is:
 
 1. **Read** in raw data files `pupil_read()`
 
-    - If `tracking.file` is supplied will also add message markers to the data
+    - If `tracking_file` is supplied will also add message markers to the data
     
 2. Clean up raw data files and more
+
+    - Set **Timing** variable to be relative to onset of each trial. `set_timing()`
 
     - **Correlate** left and right pupil size (if both eyes were recorded from). `pupil_cor()`
     
     - **Select** either left or right pupil data (if both eyes were recorded from). `select_eye()`
     
-    - Set **Timing** variable to be relative to onset of each trial. `set_timing()`
-    
-    - Set **Stimulus** variable from **Message Markers**. `set_stimuli()`
-    
-3. **De-blink** data. `pupil_deblink()`
+3. **Deblink** data. `pupil_deblink()`
 
 4. **Smooth** (if specified). `pupil_smooth()`
 
@@ -74,34 +72,31 @@ data <- pupil_read(file = "data/raw/pitch_discrimination_19-1_001 Samples.txt",
                    eyetracker = "smi",
                    start_tracking.message = "default",
                    start_tracking.match = "exact",
-                   subj.prefix = "n_", subj.suffix = "-", timing.file = NULL,
-                   subset = "default", trial.exclude = c())
+                   subj_prefix = "n_", subj_suffix = "-", timing_file = NULL,
+                   include_col = NULL, trial_exclude = NULL
 ```
 
 Since we are using most of the default parameter arguments we can shorten it to
 
 ```{r eval = FALSE}
 data <- pupil_read(file = "data/raw/pitch_discrimination_19-1_001 Samples.txt", 
-                   eyetracker = "smi", subj.prefix = "n_", subj.suffix = "-")
+                   eyetracker = "smi", subj_prefix = "n_", subj_suffix = "-")
 ```
 
 ### 2. Clean up raw data files and more
 
-Because we have data from both left and right eyes we can calculate the correlation between the two eyes with `pupil_cor()`. After calculating the correlation, we only want to keep one of the eyes for analysis; `select_eye()`.
-
 The values in the Timing column are usually in absolute time from the start of recording. However, data analysis is much easier if the values are in relative time from the start of each Trial. So at every trial onset, Time = 0. We can do this with `set_timing()`.
 
-Data analysis is also easier if instead of relying on message markers (values only at onset or offset of an event), there was a column that had a value for every sample (row) in the data corresponding to what part of the trial that sample is in (e.g. Cue, Target, Fixation, Response, etc.). The function `set_stimuli()` uses the message markers to do so. 
+Because we have data from both left and right eyes we can calculate the correlation between the two eyes with `pupil_cor()`. After calculating the correlation, we only want to keep one of the eyes for analysis; `select_eye()`.
 
 Putting all these steps together would look like
 
 ```{r eval = FALSE}
 data <- data %>%
-  pupil_cor() %>%
-  select_eye(eye.use = "left") %>%
   set_timing(trial_onset.message = "Tone 1", match = "exact",
-             ms.conversion = 1000, pre_trial.duration = 1000) %>%
-  set_stimuli()
+             ms.conversion = 1000, pretrial.duration = 1000) %>%
+  pupil_cor() %>%
+  select_eye(eye_use = "left")
 ```
 
 ### 3. De-blink
@@ -142,7 +137,7 @@ data <- pupil_baselinecorrect(data, message = "Tone 1", match = "exact",
 Finally, it can be a good idea to go ahead and remove any trials that have too much missing data even after these preprocessing methods. You can set the criteria of what is too much missing data
 
 ```{r eval = FALSE}
-data <- pupil_missing(data, missing.allowed = .33)
+data <- pupil_missing(data, missing_allowed = .33)
 ```
 
 ---
@@ -151,18 +146,17 @@ Putting it all together, we get:
 
 ```{r eval = FALSE}
 data <- pupil_read(file = "data/raw/pitch_discrimination_19-1_001 Samples.txt", 
-                   eyetracker = "smi", subj.prefix = "n_", subj.suffix = "-") %>%
-  pupil_cor() %>%
-  select_eye(eye.use = "left") %>%
+                   eyetracker = "smi", subj_prefix = "n_", subj_suffix = "-") %>%
   set_timing(trial_onset.message = "Tone 1", match = "exact",
-             ms.conversion = 1000, pre_trial.duration = 1000) %>%
-  set_stimuli() %>%
+             ms.conversion = 1000, pretrial.duration = 1000) %>%
+  pupil_cor() %>%
+  select_eye(eye_use = "left") %>%
   pupil_deblink(extend = 100) %>%
   pupil_smooth(type = "hann", window = 500, hz = 250) %>%
   pupil_interpolate(type = "cubic-spline", maxgap = 750, hz = 250) %>%
   pupil_baselinecorrect(message = "Tone 1", match = "exact",
                         pre.duration = 200, type = "subtractive") %>%
-  pupil_missing(missing.allowed = .33)
+  pupil_missing(missing_allowed = .33)
   
 ```
 
@@ -180,24 +174,23 @@ library(readr)
 
 filelist <- list.files(path = "data/raw", pattern = ".txt", full.names = TRUE)
 for (file in filelist) {
-  data <- pupil_read(file = file, eyetracker = "smi", 
-                     subj.prefix = "n_", subj.suffix = "-") %>%
-    pupil_cor() %>%
-    select_eye(eye.use = "left") %>%
+  data <- pupil_read(file = "data/raw/pitch_discrimination_19-1_001 Samples.txt",
+                     eyetracker = "smi", subj_prefix = "n_", subj_suffix = "-") %>%
     set_timing(trial_onset.message = "Tone 1", match = "exact",
-               ms.conversion = 1000, pre_trial.duration = 1000) %>%
-    set_stimuli() %>%
+             ms.conversion = 1000, pretrial.duration = 1000) %>%
+    pupil_cor() %>%
+    select_eye(eye_use = "left") %>%
     pupil_deblink(extend = 100) %>%
     pupil_smooth(type = "hann", window = 500, hz = 250) %>%
     pupil_interpolate(type = "cubic-spline", maxgap = 750, hz = 250) %>%
     pupil_baselinecorrect(message = "Tone 1", match = "exact",
-                          pre.duration = 200, type = "subtractive") %>%
-    pupil_missing(missing.allowed = .33)
+                        pre.duration = 200, type = "subtractive") %>%
+    pupil_missing(missing_allowed = .33)
   
   subj <- data$Subject[1]
-  SaveAs <- paste("data/preprocessed/PitchDiscrimination_", subj,
-                  "_PupilData_smoothed.interpolated.bc.csv", sep = "")
-  write_csv(data, SaveAs)
+  output_file <- paste("data/preprocessed/PitchDiscrimination_", subj,
+                       "_PupilData_deblink.smooth.interpolate.bc.csv", sep = "")
+  write_csv(data, output_file)
 }
 ```
 
@@ -206,7 +199,7 @@ If you want to then create a single merged file you can add at the end (outside 
 ```{r eval = FALSE}
 pupil_merge(path = "data",
             pattern = "bc.csv",
-            output.file = "PitchDiscrimination_PupilData.csv")
+            output_file = "PitchDiscrimination_PupilData.csv")
 ```
 
 However, this may not be possible depending on your sample frequency (hz) and number of participants. This is because it may exceed the storage limits of R and possibly your computer. 

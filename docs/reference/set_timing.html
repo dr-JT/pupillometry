@@ -86,7 +86,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">pupillometry</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.5.0</span>
       </span>
     </div>
 
@@ -111,13 +111,16 @@
     <li class="divider"></li>
     <li class="dropdown-header">How To</li>
     <li>
-      <a href="../articles/pupil_preprocess.html">How to Use pupil_preprocess()</a>
+      <a href="../articles/pupil_preprocess.html">Use pupil_preprocess()</a>
+    </li>
+    <li>
+      <a href="../articles/gui.html">Use the GUI</a>
     </li>
     <li>
       <a href="../articles/pupillometry_functions.html">Build Your Own Sequence of Pupillometry Functions</a>
     </li>
     <li>
-      <a href="../articles/message_markers.html">How to Use Message Markers</a>
+      <a href="../articles/message_markers.html">Using Message Markers</a>
     </li>
     <li class="divider"></li>
     <li class="dropdown-header">Example Data Sets</li>
@@ -125,7 +128,7 @@
       <a href="../articles/example_data.html">Example Data Set</a>
     </li>
     <li>
-      <a href="../articles/example_data_w_out_messages.html">Example Data Set - What if My Data Doesn't Have Message Markers?</a>
+      <a href="../articles/example_data_w_out_messages.html">What if My Data Doesn't Have Message Markers?</a>
     </li>
     <li class="divider"></li>
     <li class="dropdown-header">More Details</li>
@@ -176,9 +179,14 @@
     <p>This sets the timing variable relative to the onset of each trial</p>
     </div>
 
-    <pre class="usage"><span class='fu'>set_timing</span>(<span class='no'>x</span>, <span class='kw'>trial_onset.message</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>ms.conversion</span> <span class='kw'>=</span> <span class='fl'>1</span>,
-  <span class='kw'>pre_trial.duration</span> <span class='kw'>=</span> <span class='fl'>0</span>, <span class='kw'>match</span> <span class='kw'>=</span> <span class='st'>"exact"</span>, <span class='kw'>trialonset.message</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>pretrial.duration</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
+    <pre class="usage"><span class='fu'>set_timing</span>(
+  <span class='no'>x</span>,
+  <span class='kw'>trial_onset.message</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>pretrial.duration</span> <span class='kw'>=</span> <span class='fl'>0</span>,
+  <span class='kw'>match</span> <span class='kw'>=</span> <span class='st'>"exact"</span>,
+  <span class='kw'>trialonset.message</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>pre_trial.duration</span> <span class='kw'>=</span> <span class='kw'>NULL</span>
+)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -192,30 +200,24 @@
       <td><p>Message string that marks the start of a trial</p></td>
     </tr>
     <tr>
-      <th>ms.conversion</th>
-      <td><p>Conversion factor to convert timing to milliseconds</p></td>
-    </tr>
-    <tr>
-      <th>pre_trial.duration</th>
-      <td><p>Duration of pre-trial baseline period in milliseconds</p></td>
+      <th>pretrial.duration</th>
+      <td><p>Duration of pre-trial period in milliseconds</p></td>
     </tr>
     <tr>
       <th>match</th>
-      <td><p>Should the message string be an "exact" match or a "pattern" match?</p></td>
+      <td><p>Is message string an "exact" match or a "pattern" match?</p></td>
     </tr>
     <tr>
       <th>trialonset.message</th>
       <td><p>See trial_onset.message</p></td>
     </tr>
     <tr>
-      <th>pretrial.duration</th>
-      <td><p>See pre_trial.duration</p></td>
+      <th>pre_trial.duration</th>
+      <td><p>See pretrial.duration</p></td>
     </tr>
     </table>
 
 
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>set_timing</span>(<span class='no'>x</span>, <span class='kw'>start.trial</span> <span class='kw'>=</span> <span class='st'>"Fixation"</span>, <span class='kw'>ms.conversion</span> <span class='kw'>=</span> <span class='fl'>1000</span>)</div><div class='output co'>#&gt; <span class='error'>Error in set_timing(x, start.trial = "Fixation", ms.conversion = 1000): unused argument (start.trial = "Fixation")</span></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -231,7 +233,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
 </div>
 
       </footer>

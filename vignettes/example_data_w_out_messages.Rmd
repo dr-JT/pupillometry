@@ -1,5 +1,5 @@
 ---
-title: "Example Data Set - What if My Data Doesn't Have Message Markers?"
+title: "What if My Data Doesn't Have Message Markers?"
 ---
 
 ### Script example for preprocessing raw data file that does not contain message markers
@@ -25,6 +25,8 @@ Information about example data set:
 The ideal scenario is that you were able to insert message markers, that were synced to specific events in the experiment software, into the eyetracking data file itself. In this data set, that was not the case. **There are no message markers in the data file indicating when the trial events (stimuli) occured**. A depiction of a trial procedure with no message markers is given in the picture below.
 
 <img src="../reference/figures/pitch_trialproc_w_out_markers.png" align = "center" />
+
+The dotted lines on the time axis represent that we don't have any markers in the data file to know when these critical events actually occured.
 
 This is an issue because we do not know when events actually occured and therefore cannot set the `start_tracking.message`, `trial_onset.message`, and `bc_onset.messsage`, parameters.
 
@@ -79,7 +81,7 @@ If you do not have message markes in the data, then you will not have a **StartT
 
 It is good practice in eye-tracking and pupillometry to have a pre-trial period before the trial actually begins. This does several things. One is that it allows the pupil response to return to normal after the previous trial (less interference from one trial to the next). Another is that research has shown the pre-trial pupil size is predictive of performance on the trial and therefore can be useful information.
 
-In this pitch discrimination task, the actual duration of the pre-trial period (in which there was a central fixation on the screen) was either 3000 or 2000 ms. To define what length we want the pre-trial duration to be cutoff at in the data file we need to specify the **TrialOnset** message. The **TrialOnset** message corresponds the message marker in the data file for the first stimulus of the actual trial. In this case it is **Tone 1**. Therefore, we can set `trial_onset.message <- "Tone 1"`. Then we can set the pretrial duration relative to this message marker. Let's go ahead and just set it as `pre_trial.duration <- 2000`.
+In this pitch discrimination task, the actual duration of the pre-trial period (in which there was a central fixation on the screen) was either 3000 or 2000 ms. To define what length we want the pre-trial duration to be cutoff at in the data file we need to specify the **TrialOnset** message. The **TrialOnset** message corresponds the message marker in the data file for the first stimulus of the actual trial. In this case it is **Tone 1**. Therefore, we can set `trial_onset.message <- "Tone 1"`. Then we can set the pretrial duration relative to this message marker. Let's go ahead and just set it as `pretrial.duration <- 2000`.
 
 In the final preprocessed data file, the Time column will be set relative to the **TrialOnset** message. Therefore, the start of **Tone 1** will have a Time of or near 0, the pre-trial phase will have a Time value of -2000 to 0, and anything after **Tone 1** will have a positive value.
 
@@ -111,30 +113,30 @@ library(pupillometry)
 ## Preprocessing parameters
 
 # File Import Information
-import.dir <- "data/Raw"
+import_dir <- "data/Raw"
 pattern <- "messagesRemoved.txt"
 taskname <- "Pitch_Discrimination"
-timing.file <- NULL
+timing_file <- "data/Raw/timing_file.csv"
 
 # Eyetrackers save the subject number information in different ways and is not
 # always easy to obtain. For SMI Red250m eyetrackers this is extracted from the
 # datafile name. For SR-Research Eyelink1000 eyetrackers this is extracted from 
-# the column name with the subject ID. You need to identify a unique subj.prefix 
-# pattern and subj.suffix pattern that surrounds the subject # in the 
+# the column name with the subject ID. You need to identify a unique subj_prefix 
+# pattern and subj_suffix pattern that surrounds the subject # in the 
 # datafile name/subject ID column.
 
-subj.prefix <- "n_"
-subj.suffix <- "-"
+subj_prefix <- "n_"
+subj_suffix <- "-"
 
 # File Output Information
-output.dir <- "data/Preprocessed"
-output.steps <- FALSE
-files.merge <- FALSE
+output_dir <- "data/Preprocessed"
+output_steps <- FALSE
+files_merge <- FALSE
 
 # Eyetracker Information
 eyetracker <- "smi"
 hz <- 250
-eye.use <- "left"
+eye_use <- "left"
 px_to_mm.conversion <- NULL
 
 # Message Marker Information
@@ -142,48 +144,48 @@ start_tracking.message <- "Fixation"
 start_tracking.match <- "exact"
 trial_onset.message <- "Tone 1"
 trial_onset.match <- "exact"
-pre_trial.duration <- 1000
+pretrial.duration <- 1000
 bc_onset.message <- "Tone 1"
 bc_onset.match <- "exact"
 
 # Preprocessing Options
-deblink.extend <- 100
+deblink_extend <- 100
 smooth <- "hann"
 smooth.window <- 500
 interpolate <- "cubic-spline"
 interpolate.maxgap <- 750
-method.first <- "smooth"
+method_first <- "smooth"
 bc <- "subtractive"
 pre_bc.duration <- 200
-missing.allowed <- .30
+missing_allowed <- .30
 
 # Misc.
-subset <- "default"
-trial.exclude <- c()
+include_col <- NULL
+trial_exclude <- NULL
 
 ############################
 
-pupil_preprocess(import.dir = import.dir, pattern = pattern, taskname = taskname,
-                 subj.prefix = subj.prefix, subj.suffix = subj.suffix, 
-                 timing.file = timing.file, output.dir = output.dir, 
-                 output.steps = output.steps, files.merge = files.merge, 
-                 eyetracker = eyetracker, hz = hz, eye.use = eye.use, 
+pupil_preprocess(import_dir = import_dir, pattern = pattern, taskname = taskname,
+                 subj_prefix = subj_prefix, subj_suffix = subj_suffix, 
+                 timing_file = timing_file, output_dir = output_dir, 
+                 output_steps = output_steps, files_merge = files_merge, 
+                 eyetracker = eyetracker, hz = hz, eye_use = eye_use, 
                  px_to_mm.conversion = px_to_mm.conversion, 
                  start_tracking.message = start_tracking.message, 
                  start_tracking.match = start_tracking.match,
                  trial_onset.message = trial_onset.message, 
                  trial_onset.match = trial_onset.match,
-                 pre_trial.duration = pre_trial.duration, 
+                 pretrial.duration = pretrial.duration, 
                  bc_onset.message = bc_onset.message, 
                  bc_onset.match = bc_onset.match, 
-                 deblink.extend = deblink.extend, 
+                 deblink_extend = deblink_extend, 
                  smooth = smooth, smooth.window = smooth.window, 
                  interpolate = interpolate, 
                  interpolate.maxgap = interpolate.maxgap, 
-                 method.first = method.first, bc = bc, 
+                 method_first = method_first, bc = bc, 
                  pre_bc.duration = pre_bc.duration, 
-                 missing.allowed = missing.allowed, subset = subset, 
-                 trial.exclude = trial.exclude)
+                 missing_allowed = missing_allowed, include_col = include_col, 
+                 trial_exclude = trial_exclude)
 
 ```
 

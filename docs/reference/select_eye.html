@@ -53,9 +53,10 @@
 
 
 <meta property="og:title" content="Select eye to keep for analysis — select_eye" />
-<meta property="og:description" content="If both eyes were recorded from, then this function will correlate the timeseries pupil data from both eyes
-and select only one eye data to keep for further preprocessing and output.
-This function will also remove trials with too much missing data, specified by `missing.allowed`." />
+<meta property="og:description" content="If both eyes were recorded from, then this function will correlate the
+timeseries pupil data from both eyes and select only one eye data to keep
+for further preprocessing and output. This function will also remove
+trials with too much missing data, specified by `missing_allowed`." />
 <meta property="og:image" content="https://dr-jt.github.io/pupillometry/logo.png" />
 
 
@@ -88,7 +89,7 @@ This function will also remove trials with too much missing data, specified by `
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">pupillometry</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.5.0</span>
       </span>
     </div>
 
@@ -113,13 +114,16 @@ This function will also remove trials with too much missing data, specified by `
     <li class="divider"></li>
     <li class="dropdown-header">How To</li>
     <li>
-      <a href="../articles/pupil_preprocess.html">How to Use pupil_preprocess()</a>
+      <a href="../articles/pupil_preprocess.html">Use pupil_preprocess()</a>
+    </li>
+    <li>
+      <a href="../articles/gui.html">Use the GUI</a>
     </li>
     <li>
       <a href="../articles/pupillometry_functions.html">Build Your Own Sequence of Pupillometry Functions</a>
     </li>
     <li>
-      <a href="../articles/message_markers.html">How to Use Message Markers</a>
+      <a href="../articles/message_markers.html">Using Message Markers</a>
     </li>
     <li class="divider"></li>
     <li class="dropdown-header">Example Data Sets</li>
@@ -127,7 +131,7 @@ This function will also remove trials with too much missing data, specified by `
       <a href="../articles/example_data.html">Example Data Set</a>
     </li>
     <li>
-      <a href="../articles/example_data_w_out_messages.html">Example Data Set - What if My Data Doesn't Have Message Markers?</a>
+      <a href="../articles/example_data_w_out_messages.html">What if My Data Doesn't Have Message Markers?</a>
     </li>
     <li class="divider"></li>
     <li class="dropdown-header">More Details</li>
@@ -175,12 +179,13 @@ This function will also remove trials with too much missing data, specified by `
     </div>
 
     <div class="ref-description">
-    <p>If both eyes were recorded from, then this function will correlate the timeseries pupil data from both eyes
-and select only one eye data to keep for further preprocessing and output.
-This function will also remove trials with too much missing data, specified by `missing.allowed`.</p>
+    <p>If both eyes were recorded from, then this function will correlate the
+timeseries pupil data from both eyes and select only one eye data to keep
+for further preprocessing and output. This function will also remove
+trials with too much missing data, specified by `missing_allowed`.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>select_eye</span>(<span class='no'>x</span>, <span class='kw'>eye.use</span> <span class='kw'>=</span> <span class='st'>""</span>)</pre>
+    <pre class="usage"><span class='fu'>select_eye</span>(<span class='no'>x</span>, <span class='kw'>eye_use</span> <span class='kw'>=</span> <span class='st'>""</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -190,7 +195,7 @@ This function will also remove trials with too much missing data, specified by `
       <td><p>xframe</p></td>
     </tr>
     <tr>
-      <th>eye.use</th>
+      <th>eye_use</th>
       <td><p>Which eye to use? Left or right</p></td>
     </tr>
     </table>
@@ -211,7 +216,7 @@ This function will also remove trials with too much missing data, specified by `
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
 </div>
 
       </footer>

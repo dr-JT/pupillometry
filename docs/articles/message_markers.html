@@ -5,7 +5,7 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>How to Use Message Markers • pupillometry</title>
+<title>Using Message Markers • pupillometry</title>
 <!-- favicons --><link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
 <link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
 <link rel="apple-touch-icon" type="image/png" sizes="180x180" href="../apple-touch-icon.png">
@@ -19,7 +19,7 @@
 <!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
 <script src="../pkgdown.js"></script><!-- docsearch --><script src="../docsearch.js"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/docsearch.js/2.6.3/docsearch.min.css" integrity="sha256-QOSRU/ra9ActyXkIBbiIB144aDBdtvXBcNc3OTNuX/Q=" crossorigin="anonymous">
 <link href="../docsearch.css" rel="stylesheet">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/jquery.mark.min.js" integrity="sha256-4HLtjeVgH0eIB3aZ9mLYF6E8oU5chNdjU6p6rrXpl9U=" crossorigin="anonymous"></script><meta property="og:title" content="How to Use Message Markers">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/jquery.mark.min.js" integrity="sha256-4HLtjeVgH0eIB3aZ9mLYF6E8oU5chNdjU6p6rrXpl9U=" crossorigin="anonymous"></script><meta property="og:title" content="Using Message Markers">
 <meta property="og:description" content="pupillometry">
 <meta property="og:image" content="https://dr-jt.github.io/pupillometry/logo.png">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
@@ -40,7 +40,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">pupillometry</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.5.0</span>
       </span>
     </div>
 
@@ -65,13 +65,16 @@
 <li class="divider">
     <li class="dropdown-header">How To</li>
     <li>
-      <a href="../articles/pupil_preprocess.html">How to Use pupil_preprocess()</a>
+      <a href="../articles/pupil_preprocess.html">Use pupil_preprocess()</a>
+    </li>
+    <li>
+      <a href="../articles/gui.html">Use the GUI</a>
     </li>
     <li>
       <a href="../articles/pupillometry_functions.html">Build Your Own Sequence of Pupillometry Functions</a>
     </li>
     <li>
-      <a href="../articles/message_markers.html">How to Use Message Markers</a>
+      <a href="../articles/message_markers.html">Using Message Markers</a>
     </li>
     <li class="divider">
     <li class="dropdown-header">Example Data Sets</li>
@@ -79,7 +82,7 @@
       <a href="../articles/example_data.html">Example Data Set</a>
     </li>
     <li>
-      <a href="../articles/example_data_w_out_messages.html">Example Data Set - What if My Data Doesn't Have Message Markers?</a>
+      <a href="../articles/example_data_w_out_messages.html">What if My Data Doesn't Have Message Markers?</a>
     </li>
     <li class="divider">
     <li class="dropdown-header">More Details</li>
@@ -121,7 +124,7 @@
       </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
-      <h1 data-toc-skip>How to Use Message Markers</h1>
+      <h1 data-toc-skip>Using Message Markers</h1>
             
       
       <small class="dont-index">Source: <a href="https://github.com/dr-JT/pupillometry/blob/master/vignettes/message_markers.Rmd"><code>vignettes/message_markers.Rmd</code></a></small>
@@ -165,12 +168,12 @@
 <p>There is an additional parameter <code>trial_onset.match</code> that specifies whether <code>trial_onset.message</code> needs to be an <code>"exact"</code> or a <code>"pattern"</code> match. This simply allows more flexibility in how researchers may have included message markers in their task. <code>"pattern"</code> should be used if the <code>trial_onset.message</code> marker is different on every trial (this can happen if the message includes information about the trial number). Within a trial, <code>trial_onset.match</code> will only take the first match that occurs as the <code>trial_onset.message</code>.</p>
 <p>Such as, if the start recording message is different on each trial “TRIALID [trial number]”, then a <code>"pattern"</code> match will need to be used to correctly set the trial index.</p>
 </div>
-<div id="pre_trial-duration" class="section level3">
+<div id="pretrial-duration" class="section level3">
 <h3 class="hasAnchor">
-<a href="#pre_trial-duration" class="anchor"></a><code>pre_trial.duration = ""</code>
+<a href="#pretrial-duration" class="anchor"></a><code>pretrial.duration = ""</code>
 </h3>
-<p>The duration of the pre-trial period is set relative to the timing of the <code>trial_onset.message</code> and that duration is specified by <code>pre_trial.duration</code>.</p>
-<p>For instance if <code>pre_trial.duration &lt;- 2000</code>, then the 2000 milliseconds before <code>trial_onset.message</code> will be marked as a pre-trial period. This duration typically corresponds to the duration of the ITI period.</p>
+<p>The duration of the pre-trial period is set relative to the timing of the <code>trial_onset.message</code> and that duration is specified by <code>pretrial.duration</code>.</p>
+<p>For instance if <code>pretrial.duration &lt;- 2000</code>, then the 2000 milliseconds before <code>trial_onset.message</code> will be marked as a pre-trial period. This duration typically corresponds to the duration of the ITI period.</p>
 </div>
 <div id="bc_onset-message" class="section level3">
 <h3 class="hasAnchor">
@@ -191,7 +194,7 @@
 <a href="#no-message-markers-in-data-file" class="anchor"></a>No Message Markers in Data File?</h3>
 <p>If you were not able to sync events in your experimental software to the eyetracking data file you will need to insert Message Markers with an external file that has timing data in it. Your data file would be missing critical information to apply preprocessing and analysis procedures. You would not know when certain events actually occured. This is illustrated in the image below.</p>
 <p><img src="../reference/figures/message_markers_2.png" align="center"></p>
-<p>Notice there are no message markers, and the dotted lines represent that the data file does not contain any information as to when these events actually occured.</p>
+<p>Notice there are no message markers, and the dotted lines represent that the data file does not contain any information as to when these events actually occured. This is not very useful data without information of when certain events occured.</p>
 <p>See the Article <a href="https://dr-jt.github.io/pupillometry/articles/example_data_w_out_messages.html">Example Data Set - What if My Data Doesn’t Have Message Markers?</a> for an example of how to insert the messages into the data file.</p>
 </div>
   </div>
@@ -209,7 +212,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
 </div>
 
       </footer>

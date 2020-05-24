@@ -53,9 +53,8 @@
 
 
 <meta property="og:title" content="Add column that is the correlation between left and rigth eyes — pupil_cor" />
-<meta property="og:description" content="This function is for preprocessing baseline pupil data. It takes as input a data file that has been processed
-with the .convert() functions. The output of this function is a preprocessed data file. Preprocessing steps can
-include interpolation and smoothing" />
+<meta property="og:description" content="This function will simply calculate the correlation between
+left and right eyes" />
 <meta property="og:image" content="https://dr-jt.github.io/pupillometry/logo.png" />
 
 
@@ -88,7 +87,7 @@ include interpolation and smoothing" />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">pupillometry</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.5.0</span>
       </span>
     </div>
 
@@ -113,13 +112,16 @@ include interpolation and smoothing" />
     <li class="divider"></li>
     <li class="dropdown-header">How To</li>
     <li>
-      <a href="../articles/pupil_preprocess.html">How to Use pupil_preprocess()</a>
+      <a href="../articles/pupil_preprocess.html">Use pupil_preprocess()</a>
+    </li>
+    <li>
+      <a href="../articles/gui.html">Use the GUI</a>
     </li>
     <li>
       <a href="../articles/pupillometry_functions.html">Build Your Own Sequence of Pupillometry Functions</a>
     </li>
     <li>
-      <a href="../articles/message_markers.html">How to Use Message Markers</a>
+      <a href="../articles/message_markers.html">Using Message Markers</a>
     </li>
     <li class="divider"></li>
     <li class="dropdown-header">Example Data Sets</li>
@@ -127,7 +129,7 @@ include interpolation and smoothing" />
       <a href="../articles/example_data.html">Example Data Set</a>
     </li>
     <li>
-      <a href="../articles/example_data_w_out_messages.html">Example Data Set - What if My Data Doesn't Have Message Markers?</a>
+      <a href="../articles/example_data_w_out_messages.html">What if My Data Doesn't Have Message Markers?</a>
     </li>
     <li class="divider"></li>
     <li class="dropdown-header">More Details</li>
@@ -175,9 +177,8 @@ include interpolation and smoothing" />
     </div>
 
     <div class="ref-description">
-    <p>This function is for preprocessing baseline pupil data. It takes as input a data file that has been processed
-with the .convert() functions. The output of this function is a preprocessed data file. Preprocessing steps can
-include interpolation and smoothing</p>
+    <p>This function will simply calculate the correlation between
+left and right eyes</p>
     </div>
 
     <pre class="usage"><span class='fu'>pupil_cor</span>(<span class='no'>x</span>)</pre>
@@ -207,7 +208,7 @@ include interpolation and smoothing</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
 </div>
 
       </footer>

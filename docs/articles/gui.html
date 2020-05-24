@@ -5,7 +5,7 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Smooth or Interpolation First? • pupillometry</title>
+<title>Use the GUI • pupillometry</title>
 <!-- favicons --><link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
 <link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
 <link rel="apple-touch-icon" type="image/png" sizes="180x180" href="../apple-touch-icon.png">
@@ -19,7 +19,7 @@
 <!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
 <script src="../pkgdown.js"></script><!-- docsearch --><script src="../docsearch.js"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/docsearch.js/2.6.3/docsearch.min.css" integrity="sha256-QOSRU/ra9ActyXkIBbiIB144aDBdtvXBcNc3OTNuX/Q=" crossorigin="anonymous">
 <link href="../docsearch.css" rel="stylesheet">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/jquery.mark.min.js" integrity="sha256-4HLtjeVgH0eIB3aZ9mLYF6E8oU5chNdjU6p6rrXpl9U=" crossorigin="anonymous"></script><meta property="og:title" content="Smooth or Interpolation First?">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/jquery.mark.min.js" integrity="sha256-4HLtjeVgH0eIB3aZ9mLYF6E8oU5chNdjU6p6rrXpl9U=" crossorigin="anonymous"></script><meta property="og:title" content="Use the GUI">
 <meta property="og:description" content="pupillometry">
 <meta property="og:image" content="https://dr-jt.github.io/pupillometry/logo.png">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
@@ -124,51 +124,64 @@
       </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
-      <h1 data-toc-skip>Smooth or Interpolation First?</h1>
+      <h1 data-toc-skip>Use the GUI</h1>
             
       
-      <small class="dont-index">Source: <a href="https://github.com/dr-JT/pupillometry/blob/master/vignettes/smooth_interpolate_first.Rmd"><code>vignettes/smooth_interpolate_first.Rmd</code></a></small>
-      <div class="hidden name"><code>smooth_interpolate_first.Rmd</code></div>
+      <small class="dont-index">Source: <a href="https://github.com/dr-JT/pupillometry/blob/master/vignettes/gui.Rmd"><code>vignettes/gui.Rmd</code></a></small>
+      <div class="hidden name"><code>gui.Rmd</code></div>
 
     </div>
 
     
     
-<p>One question when considering preprocessing methods is whether to first smooth the data or first interpolate missing values?</p>
-<p>Below, I demonstrate that at least when using this package to preprocess pupil data it is better to smooth the data before applying a <strong>cubic-spline</strong> interpolation. There is not as big of a difference if you are applying a <strong>linear</strong> interpolation. Therefore, it is advisable to apply smoothing before interpolation.</p>
-<div id="example-data" class="section level2">
+<p><strong><code><a href="../reference/pupil_preprocess.html">pupil_preprocess()</a></code> is a wrapper around the other functions to allow full preprocessing of raw pupil data using a single function.</strong></p>
+<p>Using this method, you will need to pass many arguments to the <code><a href="../reference/pupil_preprocess.html">pupil_preprocess()</a></code> function that specifies all the details and preprocessing options.</p>
+<p><code><a href="../reference/pupil_preprocess.html">pupil_preprocess()</a></code> will be performed on an entire <code>import_dir</code> directory of raw data files that match a certain <code>pattern</code> in their filename. The preprocessed data will be saved to a specified <code>output_dir</code> directory.</p>
+<div id="workflow" class="section level2">
 <h2 class="hasAnchor">
-<a href="#example-data" class="anchor"></a>Example Data</h2>
-<p>The example data is from a simple pitch discrimination task I administered to myself. There were only six trials. Trials 2 and 6 had the largest chuncks of missing data so I decided to test out whether applying smoothing or interpolation first changes the preprocessed data.</p>
-<p>From these examples, it can be seen that if you are gonig to apply a <strong>cubic-spline</strong> interpolation, then you should also apply smoothing and it is important that you choose <code>method_first = "smooth"</code>. Otherwise the data get overly distorted if you apply interpolation first (see Trial 6).</p>
-<p>These data come from a pitch discrimination task as described in the <a href="https://dr-jt.github.io/pupillometry/articles/example_data.html">Example Data Set</a> article. Time = 0 is the onset of the first tone.</p>
-<hr>
-<p>In all the figures, at some point the time-series “lines” might overlap considerably and it only looks like one color is there. In fact, all colored lines are present during those periods, they are just overlapping. If smoothing was applied, then <code>smooth.window = 500</code>.</p>
-<p>On Trial 6 there are a couple of “major” gaps of missing pupil data. You can see that if you use <code>cubic-spline</code> interpolation without smoothing (<em>Figure 1</em>), then the interpolated values are exaggerated and most likely unrealistic (see the period of 0 - 500 ms). It is very unlikely that pupil size is decreasing and then increasing by over 1 mm within a 500 ms interval. Thee <code>cubic-spline</code> interpolation might be modeling too much high frequency noise in the data. You can see that the <code>linear</code> interpolation does not suffer from the same problem. However, if there was truly a decrease during that interval then the <code>linear</code> interpolation is not capturing that.</p>
-<p><img src="../reference/figures/Trial6-interpolation.type.png" align="center"></p>
-<p><em>Figure 1. Interpolation only. Cubic-spline interpolation (pink line) results in unrealistic interpolated values</em></p>
-<hr>
-<p><em>Figure 2</em> shows the same trial but with smoothing applied. With either <code>method_first = "smooth"</code> (<strong>green line</strong>) or <code>method_first = "interpolate"</code> (<strong>pink line</strong>). Both lines used <strong>cubic-spline interpolation</strong>, the only difference is whether smoothing was applied first or not. You can see that applying smoothing before a cubice-spline interpolation avoids the issue seen in <em>Figure 1</em> and the pink line in <em>Figure 2</em>.</p>
-<p><img src="../reference/figures/Trial6--cubic-spline-hann.png" align="center"></p>
-<p><em>Figrue 2. Applying smoothing before cubic-spline interpolation (green line) results in more realistic values than applying smoothing after cubic-spline interpolation (pink line)</em></p>
-<p><br><br></p>
-<hr>
-<p>There is not as big of a difference for <code>linear</code> interpolation.</p>
-<p>For <code>linear</code> interpolation, the issue of applying smoothing first or not is not as big of an issue (<em>Figure 3</em>).</p>
-<p><img src="../reference/figures/Trial6--linear-hann.png" align="center"></p>
-<p><em>Figure 3. Applying smoothing before linear interpolation (green line) results in slightly different values then applying smoothing after linear interpolation (pink line). If anything, applying smoothing after linear interpolation is slightly more accurate. However, after aggregation over trials the result would not be different between the two.</em></p>
-<p><br><br></p>
-<hr>
-<p>And here is Trial 6 if you were to do smoothing but no interpolation (<em>Figure 4</em>)</p>
-<p><img src="../reference/figures/Trial6-smooth.type.png" align="center"></p>
-<p><em>Figure 4. This just shows the difference between the two smoothing methods available.</em></p>
-<p><br><br></p>
-<hr>
-<p>Trial 2 shows a similar pattern when you use cubic-spline interpolation (<em>Figure 5</em>).</p>
-<p><img src="../reference/figures/Trial2--cubic-spline-hann.png" align="center"></p>
-<p><em>Figure 5. Applying smoothing before cubic-spline interpolation (green line) results in more realistic values than applying smoothing after cubic-spline interpolation (pink line)</em></p>
-<hr>
-<p>These comparisons demonstrate the importance of being careful what types of preprocessing paramteres you specify. Based on this small sample of data it is suggested, that if you are going to apply an interpolation method, that you first apply smoothing, particularly if you are applying cubic-spline interpolation.</p>
+<a href="#workflow" class="anchor"></a>Workflow</h2>
+<p>The overall workflow of <code><a href="../reference/pupil_preprocess.html">pupil_preprocess()</a></code> is:</p>
+<ol style="list-style-type: decimal">
+<li>
+<p><strong>Read</strong> in raw data files <code><a href="../reference/pupil_read.html">pupil_read()</a></code></p>
+<ul>
+<li>If <code>tracking_file</code> is supplied will also add message markers to the data</li>
+</ul>
+</li>
+<li>
+<p>Clean up raw data files and more</p>
+<ul>
+<li><p>Set <strong>Timing</strong> variable to be relative to onset of each trial. <code><a href="../reference/set_timing.html">set_timing()</a></code></p></li>
+<li><p><strong>Correlate</strong> left and right pupil size (if both eyes were recorded from). <code><a href="../reference/pupil_cor.html">pupil_cor()</a></code></p></li>
+<li><p><strong>Select</strong> either left or right pupil data (if both eyes were recorded from). <code><a href="../reference/select_eye.html">select_eye()</a></code></p></li>
+</ul>
+</li>
+<li><p><strong>Deblink</strong> data. <code><a href="../reference/pupil_deblink.html">pupil_deblink()</a></code></p></li>
+<li><p><strong>Smooth</strong> (if specified). <code><a href="../reference/pupil_smooth.html">pupil_smooth()</a></code></p></li>
+<li><p><strong>Interpolate</strong> (if specified). <code><a href="../reference/pupil_interpolate.html">pupil_interpolate()</a></code></p></li>
+<li><p><strong>Baseline Correct</strong> (if specified). <code><a href="../reference/pupil_baselinecorrect.html">pupil_baselinecorrect()</a></code></p></li>
+<li><p>Remove trials with too much <strong>Missing Data</strong>. <code><a href="../reference/pupil_missing.html">pupil_missing()</a></code></p></li>
+<li><p><strong>Merges</strong> files into a single merged file (if specified). <code><a href="../reference/pupil_merge.html">pupil_merge()</a></code></p></li>
+</ol>
+<p>A final preprocessed data file will be saved for every original raw data file.</p>
+<p>If <code>output_steps == TRUE</code> a data file will be saved after steps 3, 4, and 5. Before saving the data file at each of these steps, the final two steps 6 and 7 are performed. This results in baseline corrected and missing data removed files before each major preprocessing step. This is obviously not necessary and so <code>output_steps = FALSE</code> is the default and will only save one final preprocessed data file per subject. Saving a data file after each preprocessing steps would allow you to analyze your data at different stages to assess the influence of the preprocessing methods you chose.</p>
+</div>
+<div id="message-markers" class="section level2">
+<h2 class="hasAnchor">
+<a href="#message-markers" class="anchor"></a>Message Markers</h2>
+<p>You will need to supply message markers to correctly preprocess your data. This image is a representation of what the message markers <code>start_tracking.message</code>, <code>trial_onset.message</code>, and <code>bc_onset.message</code> correspond to. For further detail see <a href="https://dr-jt.github.io/pupillometry/articles/example_data.html">Example Data Set</a> and <a href="https://dr-jt.github.io/pupillometry/articles/message_markers.html">Message Markers</a> Articles.</p>
+<p><img src="../reference/figures/message_markers_1.png" align="center"></p>
+</div>
+<div id="gui-window" class="section level2">
+<h2 class="hasAnchor">
+<a href="#gui-window" class="anchor"></a>GUI Window</h2>
+<p>To call the GUI window execute the function in your console</p>
+<div class="sourceCode" id="cb1"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">pupillometry</span>)
+<span class="fu"><a href="../reference/pupil_gui.html">pupil_gui</a></span>()</pre></body></html></div>
+<p>You will see the following window:</p>
+<p><img src="../reference/figures/gui.png" align="center"></p>
+<p>For any of the parameters that do not apply to your data or preprocessing steps, then you can just leave them blank</p>
+<p>You can both execute the <code><a href="../reference/pupil_preprocess.html">pupil_preprocess()</a></code> function from the GUI itself and/or, based on the information you entered, you can copy and paste the generated R code into an R script file and save it. I highly suggest you save an R script - that way you can easily go back and change or assess what parameters you specified.</p>
 </div>
   </div>
 
