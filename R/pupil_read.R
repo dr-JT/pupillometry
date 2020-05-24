@@ -292,22 +292,15 @@ pupil_read <- function(file, eyetracker = "", px_to_mm.conversion = NULL,
                         tidyselect::any_of(include_col))
   ########################################
 
-  ## Import timing file if exists ####
-  if (is.null(timing_file)) {
-    timing_data <- data.frame()
-  } else if (stringr::str_detect(timing_file, "csv")) {
-    timing_data <- readr::read_csv(timing_file)
-  } else if (stringr::str_detect(timing_file, "xlsx")) {
-    timing_data <- readxl::read_excel(timing_file)
-  }
-  if ("Subject" %in% colnames(timing_data)) {
+  ## If timing file exists insert start message marker ####
+  if (!is.null(timing_file)) {
+    if (stringr::str_detect(timing_file, "csv")) {
+      timing_data <- readr::read_csv(timing_file)
+    } else if (stringr::str_detect(timing_file, "xlsx")) {
+      timing_data <- readxl::read_excel(timing_file)
+    }
     subj <- data$Subject[1]
     timing_data <- dplyr::filter(timing_data, Subject == subj)
-  }
-  ######################################
-
-  ## If timing file exists insert start message marker ####
-  if (ncol(timing_data) > 0) {
     starttrack_timing <- dplyr::mutate(timing_data,
                                        Time = get(start_tracking.message),
                                        Message = start_tracking.message)
@@ -321,6 +314,8 @@ pupil_read <- function(file, eyetracker = "", px_to_mm.conversion = NULL,
                           Head_Distance.cm = zoo::na.locf(Head_Distance.cm,
                                                           na.rm = FALSE))
     data <- dplyr::arrange(data, Subject, Time)
+  } else {
+    data <- dplyr::mutate(ddata(Message_Inserted = 0))
   }
   ########################################################
 
@@ -364,7 +359,7 @@ pupil_read <- function(file, eyetracker = "", px_to_mm.conversion = NULL,
   ###############################
 
   ## If timing file exists insert other message markers ####
-  if (ncol(timing_data) > 0) {
+  if (!is.null(timing_file)) {
     message_markers <- stringr::str_subset(colnames(timing_data), "Subject",
                                            negate=TRUE)
     message_markers <- stringr::str_subset(message_markers,

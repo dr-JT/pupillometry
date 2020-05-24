@@ -6,7 +6,7 @@ library(pupillometry)
 
 # File Import Information
 import_dir <- "test/Raw"
-pattern <- "NoMessageMarkers"
+pattern <- "Samples.txt"
 taskname <- "Pitch_Discrimination"
 
 # Eyetrackers save the subject number information in different ways and is not
@@ -16,7 +16,7 @@ taskname <- "Pitch_Discrimination"
 
 subj_prefix <- "n_"             ## For SMI eyetrackers
 subj_suffix <- "-"              ## For SMI eyetrackers
-timing_file <- "test/pitch_timing.csv"
+timing_file <- NULL
 
 # File Output Information
 output_dir <- "test/Preprocessed"
@@ -49,7 +49,7 @@ pre_bc.duration <- 200
 missing_allowed <- .30
 
 # Misc.
-subset <- "default"
+include_col <- NULL
 trial_exclude <- c()
 
 ############################
@@ -70,5 +70,5 @@ pupil_preprocess(import_dir = import_dir, pattern = pattern, taskname = taskname
                  interpolate.maxgap = interpolate.maxgap,
                  method_first = method_first, bc = bc,
                  pre_bc.duration = pre_bc.duration,
-                 missing_allowed = missing_allowed, subset = subset,
+                 missing_allowed = missing_allowed, include_col = include_col,
                  trial_exclude = trial_exclude)
