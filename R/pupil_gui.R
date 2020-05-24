@@ -99,7 +99,7 @@ pupil_gui <- function(){
                                         container = grp_2, pos = .5)
   form_eyetracker <- gWidgets2::gformlayout(container = frame_eyetracker,
                                             expand = TRUE)
-  obj_eyetracker <- gWidgets2::gcombobox(c("Tobii", "EyeLink", "SMI"),
+  obj_eyetracker <- gWidgets2::gcombobox(c("tobii", "eyelink", "smi"),
                                          select = 2, label = "eye tracker",
                                          container = form_eyetracker)
   obj_hz <- gWidgets2::gedit("",
