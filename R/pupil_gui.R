@@ -396,9 +396,7 @@ pupil_gui <- function(){
 
   button_help <- gWidgets2::gbutton("help", container = frame_execute,
                                     handler = function(h,...) {
-                                      gWidgets2::ghtml(
-                                        "https://dr-jt.github.io/pupillometry/articles/gui.html"
-                                      )
+                                      utils::broweURL("https://dr-jt.github.io/pupillometry/articles/gui.html")
                                     })
   ########
 
