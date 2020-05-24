@@ -152,18 +152,18 @@ pupil_preprocess <- function(import_dir = NULL, pattern = ".txt",
   }
 
   save_file <- function(x, ext = "", to, task) {
-    x <- select(x, Subject, Trial, Time, Stimulus,
-                tidyselect::any_of(include_col),
-                tidyselect::any_of("Pupil_Diameter.mm"),
-                tidyselect::any_of("Pupil_Diameter.px"),
-                tidyselect::any_of("Pupil_Diameter_bc.mm"),
-                tidyselect::any_of("Pupil_Diameter_bc.px"),
-                tidyselect::any_of("Eye_Event"),
-                tidyselect::any_of("Trial_Phase"),
-                tidyselect::any_of("Pupils.r"),
-                tidyselect::any_of("Gaze_Position.x"),
-                tidyselect::any_of("Gaze_Position.y"),
-                tidyselect::any_of("Head_Distance.cm"))
+    x <- dplyr::select(x, Subject, Trial, Time, Stimulus,
+                       tidyselect::any_of(include_col),
+                       tidyselect::any_of("Pupil_Diameter.mm"),
+                       tidyselect::any_of("Pupil_Diameter.px"),
+                       tidyselect::any_of("Pupil_Diameter_bc.mm"),
+                       tidyselect::any_of("Pupil_Diameter_bc.px"),
+                       tidyselect::any_of("Eye_Event"),
+                       tidyselect::any_of("Trial_Phase"),
+                       tidyselect::any_of("Pupils.r"),
+                       tidyselect::any_of("Gaze_Position.x"),
+                       tidyselect::any_of("Gaze_Position.y"),
+                       tidyselect::any_of("Head_Distance.cm"))
     if (nrow(x) == 0) {
       message("No Trials with enough non-missing data. Subject: ", x$Subject[1])
     } else {
