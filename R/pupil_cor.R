@@ -8,9 +8,9 @@
 
 pupil_cor <- function(x){
 
-  l_pupil <- ifelse("L_Pupil_Diameter.mm" %in% colnames(data),
+  l_pupil <- ifelse("L_Pupil_Diameter.mm" %in% colnames(x),
                     "L_Pupil_Diameter.mm", "L_Pupil_Diameter.px")
-  r_pupil <- ifelse("R_Pupil_Diameter.mm" %in% colnames(data),
+  r_pupil <- ifelse("R_Pupil_Diameter.mm" %in% colnames(x),
                     "R_Pupil_Diameter.mm", "R_Pupil_Diameter.px")
 
   x <- dplyr::mutate(x, Pupils.r = stats::cor(get(l_pupil), get(r_pupil),

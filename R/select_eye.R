@@ -12,9 +12,9 @@
 
 select_eye <- function(x, eye_use = ""){
 
-  l_pupil <- ifelse("L_Pupil_Diameter.mm" %in% colnames(data),
+  l_pupil <- ifelse("L_Pupil_Diameter.mm" %in% colnames(x),
                     "L_Pupil_Diameter.mm", "L_Pupil_Diameter.px")
-  r_pupil <- ifelse("R_Pupil_Diameter.mm" %in% colnames(data),
+  r_pupil <- ifelse("R_Pupil_Diameter.mm" %in% colnames(x),
                     "R_Pupil_Diameter.mm", "R_Pupil_Diameter.px")
 
   if (eye_use == "left") {
