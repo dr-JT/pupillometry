@@ -7,7 +7,6 @@
 set_timing(
   x,
   trial_onset.message = NULL,
-  ms.conversion = 1,
   pretrial.duration = 0,
   match = "exact",
   trialonset.message = NULL,
