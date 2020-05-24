@@ -48,7 +48,7 @@ set_timing <- function(x, trial_onset.message = NULL, ms.conversion = 1,
                        ifelse(Time >= pretrial.duration & Time < 0,
                               "PreTrial", ifelse(Time >= 0, "Trial", NA)))
   x <- dplyr::ungroup(x)
-  x <- dplyr::mutate(x, Trial = ifelse(Time >= pretrial.duration,Trial,0))
+  x <- dplyr::mutate(x, Trial = ifelse(Time >= pretrial.duration, Trial, 0))
   x <- dplyr::filter(x, Trial != 0, !is.na(Trial))
   x <- dplyr::select(x, -trialonset.time, -min)
   x <- dplyr::distinct(x, Trial, Time, .keep_all = TRUE)

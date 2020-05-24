@@ -128,6 +128,7 @@ pupil_read <- function(file, eyetracker = "", px_to_mm.conversion = NULL,
       right_gaze <- "R_POR_X_px" %in% colnames(data)
       if (left_recorded == TRUE) {
         data <- dplyr::mutate(data,
+                              L_Pupil_Diameter.mm = L_Pupil_Diameter_mm,
                               L_Eye_Event = ifelse((L_Event_Info == "-" |
                                                       is.na(L_Event_Info)),
                                                    NA, L_Event_Info))
@@ -140,6 +141,7 @@ pupil_read <- function(file, eyetracker = "", px_to_mm.conversion = NULL,
 
       if (right_recorded == TRUE) {
         data <- dplyr::mutate(data,
+                              R_Pupil_Diameter.mm = R_Pupil_Diameter_mm,
                               R_Eye_Event = ifelse((R_Event_Info == "-" |
                                                       is.na(R_Event_Info)),
                                                    NA, R_Event_Info))
@@ -408,12 +410,12 @@ pupil_read <- function(file, eyetracker = "", px_to_mm.conversion = NULL,
   data <- dplyr::group_by(data, Trial)
   data <- dplyr::mutate(data, Stimulus = zoo::na.locf(Message, na.rm = FALSE))
   data <- dplyr::ungroup(data)
-  data <- dplyr::filter(data, Message_Inserted == 0)
+  data <- dplyr::filter(data, Message_Inserted == 0, !is.na(Trial))
   ###################################################
 
   ## Include extra columns and remove trials ####
-  data <- dplyr::select(data, -starttracking.time, -Message_Inserted, -Message,
-                        everything(), tidyselect::any_of(include_col))
+  data <- dplyr::select(data, everything(), tidyselect::any_of(include_col))
+  data <- dplyr::select(data, -starttracking.time, -Message_Inserted, -Message)
 
   if (!is.null(trial_exclude)){
     data <- dplyr::filter(data, !(Trial %in% trial_exclude))
