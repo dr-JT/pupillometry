@@ -91,7 +91,7 @@
 #' @param starttracking.match See start_tracking.match
 #' @param trialonset.message See trial_onset.message
 #' @param trialonset.match See trial_onset.match
-#' @param pretrial.duration See pretrial.duration
+#' @param pre_trial.duration See pretrial.duration
 #' @param prebc.duration See pre_bc.duration
 #' @param bconset.message See bc_onset.duration
 #' @param bconset.match See bc_onset.match
@@ -118,7 +118,7 @@ pupil_preprocess <- function(import_dir = NULL, pattern = ".txt",
                              starttracking.message = NULL,
                              starttracking.match = NULL,
                              trialonset.message = NULL,
-                             trialonset.match = NULL, pretrial.duration = NULL,
+                             trialonset.match = NULL, pre_trial.duration = NULL,
                              prebc.duration = NULL, bconset.message = NULL,
                              bconset.match = NULL) {
 
