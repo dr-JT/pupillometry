@@ -16,4 +16,3 @@ before and after blink detection}
 This function will deblink pupil data with the option to extend
     blinks before and after blink detection
 }
-\keyword{deblink}

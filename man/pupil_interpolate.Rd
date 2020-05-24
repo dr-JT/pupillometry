@@ -11,12 +11,12 @@ pupil_interpolate(x, type = "cubic-spline", maxgap = Inf, hz = "")
 
 \item{type}{What type of interpolation to use? "linear" or "cubic-spline"}
 
-\item{maxgap}{Maximum number of NAs to interpolate over. Anything gaps over this value will not be interpolated.}
+\item{maxgap}{Maximum number of NAs to interpolate over.
+Any gaps over this value will not be interpolated.}
 
 \item{hz}{The recording frequency (used to calculate window size)}
 }
 \description{
-This function performs a linear interpolation over missing values.
+This function performs an interpolation over missing values.
 The 'zoo' package is a dependency
 }
-\keyword{interpolate}

@@ -16,4 +16,3 @@ pupil_downsample(x, bin.length = NULL, id = "Subject")
 \description{
 This function will reduce the sampling fequency
 }
-\keyword{downsample}

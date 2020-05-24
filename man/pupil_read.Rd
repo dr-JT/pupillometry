@@ -10,11 +10,12 @@ pupil_read(
   px_to_mm.conversion = NULL,
   start_tracking.message = "default",
   start_tracking.match = "exact",
-  subj.prefix = NULL,
-  subj.suffix = NULL,
-  timing.file = NULL,
-  subset = "default",
-  trial.exclude = c(),
+  subj_prefix = NULL,
+  subj_suffix = NULL,
+  timing_file = NULL,
+  include_col = NULL,
+  trial_exclude = NULL,
+  quality_check_dir = NULL,
   starttracking.message = NULL,
   starttracking.match = NULL
 )
@@ -33,18 +34,20 @@ mark StartTracking inline}
 \item{start_tracking.match}{Should the message string be an
 "exact" match or a "pattern" match?}
 
-\item{subj.prefix}{The unique pattern prefix (letter(s)
+\item{subj_prefix}{The unique pattern prefix (letter(s)
 and/or symbol(s)) that comes before the subject number in the data file}
 
-\item{subj.suffix}{The unique pattern suffix (letter(s) or
+\item{subj_suffix}{The unique pattern suffix (letter(s) or
 symbol(s)) that comes after the subject number in the data file}
 
-\item{timing.file}{File location and name that contains timing
+\item{timing_file}{File location and name that contains timing
 information for message markers}
 
-\item{subset}{Which columns in the raw data export file do you want to keep}
+\item{include_col}{Extra columns from the raw data file to include}
 
-\item{trial.exclude}{Specify if ther are any trials to exclude. Trial number}
+\item{trial_exclude}{Specify if ther are any trials to exclude. Trial number}
+
+\item{quality_check_dir}{Directory to save quality check file}
 
 \item{starttracking.message}{See start_tracking.message}
 

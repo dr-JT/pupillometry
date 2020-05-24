@@ -151,7 +151,7 @@ pupil_preprocess <- function(import_dir = NULL, pattern = ".txt",
     output_dir <- export
   }
 
-  save_file <- function(x, ext = "", to, task,) {
+  save_file <- function(x, ext = "", to, task) {
     x <- select(x, Subject, Trial, Time, Stimulus,
                 tidyselect::any_of(include_col),
                 tidyselect::any_of("Pupil_Diameter.mm"),
@@ -164,7 +164,7 @@ pupil_preprocess <- function(import_dir = NULL, pattern = ".txt",
                 tidyselect::any_of("Gaze_Position.x"),
                 tidyselect::any_of("Gaze_Position.y"),
                 tidyselect::any_of("Head_Distance.cm"))
-    if (nrow(x) == 0){
+    if (nrow(x) == 0) {
       message("No Trials with enough non-missing data. Subject: ", x$Subject[1])
     } else {
       output_file <- paste(to, "/", task, "_", x$Subject[1],

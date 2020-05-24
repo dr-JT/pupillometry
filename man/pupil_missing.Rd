@@ -2,22 +2,15 @@
 % Please edit documentation in R/pupil_missing.R
 \name{pupil_missing}
 \alias{pupil_missing}
-\title{Evaluate the amount of missing data}
+\title{Remove trials with too much missing data}
 \usage{
-pupil_missing(x, missing.allowed = 1, velocity = "", margin = "")
+pupil_missing(x, missing_allowed = 1, velocity = "", margin = "")
 }
 \arguments{
 \item{x}{dataframe}
 
-\item{missing.allowed}{What proportion of missing data is allowed, per trial?}
-
-\item{velocity}{The velocity threshold for Blink detection}
-
-\item{margin}{The margin before and after Blink onset and offset}
+\item{missing_allowed}{What proportion of missing data is allowed, per trial?}
 }
 \description{
-This function is for preprocessing baseline pupil x. It takes as input a x file that has been processed
-with the .convert() functions. The output of this function is a preprocessed x file. Preprocessing steps can
-include interpolation and smoothing
+This function will remove trials that have too much missing data
 }
-\keyword{preprocess}

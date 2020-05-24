@@ -10,8 +10,6 @@ pupil_cor(x)
 \item{x}{dataframe}
 }
 \description{
-This function is for preprocessing baseline pupil data. It takes as input a data file that has been processed
-with the .convert() functions. The output of this function is a preprocessed data file. Preprocessing steps can
-include interpolation and smoothing
+This function will simply calculate the correlation between
+left and right eyes
 }
-\keyword{eye}

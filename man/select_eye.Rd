@@ -4,16 +4,16 @@
 \alias{select_eye}
 \title{Select eye to keep for analysis}
 \usage{
-select_eye(x, eye.use = "")
+select_eye(x, eye_use = "")
 }
 \arguments{
 \item{x}{xframe}
 
-\item{eye.use}{Which eye to use? Left or right}
+\item{eye_use}{Which eye to use? Left or right}
 }
 \description{
-If both eyes were recorded from, then this function will correlate the timeseries pupil data from both eyes
-and select only one eye data to keep for further preprocessing and output.
-This function will also remove trials with too much missing data, specified by `missing.allowed`.
+If both eyes were recorded from, then this function will correlate the
+timeseries pupil data from both eyes and select only one eye data to keep
+for further preprocessing and output. This function will also remove
+trials with too much missing data, specified by `missing_allowed`.
 }
-\keyword{select}

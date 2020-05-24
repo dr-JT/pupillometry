@@ -30,7 +30,7 @@ select_eye <- function(x, eye_use = ""){
                        -tidyselect::any_of(c("R_Gaze_Position.x",
                                              "R_Gaze_Position.y")),
                        -tidyselect::any_of("R_Eye_Event"))
-  } else if (eye_use = "right") {
+  } else if (eye_use == "right") {
     x <- dplyr::rename(x,
                        Pupil_Diameter.mm = get(r_pupil),
                        Eye_Event = R_Eye_Event)
