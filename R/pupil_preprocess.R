@@ -324,9 +324,11 @@ pupil_preprocess <- function(import_dir = NULL, pattern = ".txt",
   #### ----- Print Quality Check ----- ####
   data_check <- readr::read_csv(paste(output_dir, "quality_check.csv",
                                       sep = "/"))
-  message("---- Quality Check ---- \n",
+  message("---- Quality Check ----",
+          "\n \n",
           "Number of Trials in Data Files: ", unique(data_check$Trials),
-          "\n -----------------------")
+          "\n \n",
+          "-----------------------")
   #########################################
 
   #### ----- Merge Individual Files ----- ####

@@ -6,8 +6,8 @@ library(pupillometry)
 
 # File Import Information
 import_dir <- "test/Raw"
-pattern <- "Samples.txt"
-taskname <- "Pitch_Discrimination"
+pattern <- "messagesRemoved"
+taskname <- "Pitch_Discrimination_messagesRemoved"
 
 # Eyetrackers save the subject number information in different ways and is not
 # always easy to obtain. For SMI eyetrackers we need to extract it from the
@@ -16,7 +16,7 @@ taskname <- "Pitch_Discrimination"
 
 subj_prefix <- "n_"             ## For SMI eyetrackers
 subj_suffix <- "-"              ## For SMI eyetrackers
-timing_file <- NULL
+timing_file <- "test/Raw/pitch_timing.csv"
 
 # File Output Information
 output_dir <- "test/Preprocessed"
