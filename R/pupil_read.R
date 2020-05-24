@@ -346,6 +346,7 @@ pupil_read <- function(file, eyetracker = "", px_to_mm.conversion = NULL,
   check <- dplyr::group_by(check, Subject)
   check <- dplyr::summarise(check, Trials = n())
   check <- dplyr::ungroup(check)
+  check <- dplyr::distinct(check)
 
   if (!is.null(quality_check_dir)) {
     if (!dir.exists(quality_check_dir)) dir.create(quality_check_dir)
