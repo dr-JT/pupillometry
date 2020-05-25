@@ -3,7 +3,7 @@ Type: Package
 Title: Preprocessing of Pupil Data
 Version: 0.5.0
 Authors@R: c(
-    person("Jason", "Tsukahara", , "jtsukahara3@gatech.edu", 
+    person("Jason", "Tsukahara", , "jason.tsukahara@gatech.edu", 
     role = c("aut", "cre"), comment = c(ORCID = 0000-0003-3570-1977)))
 Description: The package contains various functions for different steps in the 
     preprocessing pipeline of pupil data, such as interpolation or baseline 

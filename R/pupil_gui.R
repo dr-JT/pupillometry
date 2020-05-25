@@ -44,7 +44,7 @@ pupil_gui <- function(){
   grp_1.2 <- gWidgets2::ggroup(horizontal = FALSE, container = grp_1)
 
   ## Output ####
-  frame_output <- gWidgets2::gframe(" Output Parameters ", horizontal = FALSE,
+  frame_output <- gWidgets2::gframe(" Output Options ", horizontal = FALSE,
                          container = grp_1.2, pos = .5)
   lbl_output.dir <- gWidgets2::glabel("select output directory: ",
                                       container = frame_output)
@@ -61,7 +61,7 @@ pupil_gui <- function(){
   ######
 
   ## Misc. ####
-  frame_misc <- gWidgets2::gframe(" Miscelaneous Parameters ",
+  frame_misc <- gWidgets2::gframe(" Miscelaneous Options ",
                                   horizontal = FALSE,
                                   container = grp_1.2, pos = .5)
   form_misc <- gWidgets2::gformlayout(container = frame_misc, expand = TRUE)
@@ -97,7 +97,7 @@ pupil_gui <- function(){
   ########
 
   ## Message Markers ####
-  frame_message <- gWidgets2::gframe(" Message Marker Parameters ",
+  frame_message <- gWidgets2::gframe(" Message Marker Information ",
                                      horizontal = FALSE,
                                      container = grp_2, pos = .5)
   form_message <- gWidgets2::gformlayout(container = frame_message,
