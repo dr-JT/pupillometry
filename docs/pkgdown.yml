@@ -1,4 +1,4 @@
-pandoc: 2.7.2
+pandoc: 2.7.3
 pkgdown: 1.5.1
 pkgdown_sha: ~
 articles:
@@ -10,7 +10,7 @@ articles:
   pupil_preprocess: pupil_preprocess.html
   pupillometry_functions: pupillometry_functions.html
   smooth_interpolate_first: smooth_interpolate_first.html
-last_built: 2020-05-24T19:23Z
+last_built: 2020-05-25T23:36Z
 urls:
   reference: https://dr-jt.github.io/pupillometry//reference
   article: https://dr-jt.github.io/pupillometry//articles
