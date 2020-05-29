@@ -81,7 +81,7 @@ pupil_read <- function(file, eyetracker = "", px_to_mm.conversion = NULL,
   if (eyetracker == "smi") {
     ## Eye tracker is SMI
     ## Header ####
-    if (start_tracking.message == "default"){
+    if (!is.null(start_tracking.message) & start_tracking.message == "default"){
       start_tracking.message <- "StartTracking.bmp"
     }
     header <- readr::read_table(file, col_names = FALSE)
@@ -208,7 +208,7 @@ pupil_read <- function(file, eyetracker = "", px_to_mm.conversion = NULL,
 
   } else if (eyetracker == "eyelink") {
     ## Eye tracker is EyeLink ####
-    if (start_tracking.message == "default"){
+    if (!is.null(start_tracking.message) & start_tracking.message == "default"){
       start_tracking.message <- "TRIALID"
     }
 
