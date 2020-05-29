@@ -326,31 +326,35 @@ pupil_read <- function(file, eyetracker = "", px_to_mm.conversion = NULL,
   ########################################################
 
   ## Set Trial at start_tracking.message ####
-  if (start_tracking.match == "exact"){
+  if (!is.null(start_tracking.match)) {
+    if (start_tracking.match == "exact"){
+      data <- dplyr::mutate(data,
+                            starttracking.time =
+                              ifelse(Message == start_tracking.message,
+                                     Time, NA))
+    } else if (start_tracking.match == "pattern"){
+      data <- dplyr::mutate(data,
+                            starttracking.time =
+                              ifelse(stringr::str_detect(
+                                Message, start_tracking.message),
+                                Time, NA))
+    }
     data <- dplyr::mutate(data,
-                          starttracking.time =
-                            ifelse(Message == start_tracking.message, Time, NA))
-  } else if (start_tracking.match == "pattern"){
-    data <- dplyr::mutate(data,
-                          starttracking.time =
-                            ifelse(stringr::str_detect(Message,
-                                                       start_tracking.message),
-                                   Time, NA))
+                          starttracking.time = zoo::na.locf(starttracking.time,
+                                                            na.rm = FALSE),
+                          Trial = dplyr::dense_rank(starttracking.time))
+    check <- data
+    check <- dplyr::select(check, Subject, Time, Trial, starttracking.time)
+    check <- dplyr::filter(check, Time == starttracking.time)
+    check <- dplyr::group_by(check, Subject)
+    check <- dplyr::summarise(check, Trials = dplyr::n())
+    check <- dplyr::ungroup(check)
+  } else {
+    check <- data.frame()
   }
-  data <- dplyr::mutate(data,
-                        starttracking.time = zoo::na.locf(starttracking.time,
-                                                           na.rm = FALSE),
-                        Trial = dplyr::dense_rank(starttracking.time))
-  check <- data
   ###########################################
 
   ## Set trial quality check ####
-  check <- dplyr::select(check, Subject, Time, Trial, starttracking.time)
-  check <- dplyr::filter(check, Time == starttracking.time)
-  check <- dplyr::group_by(check, Subject)
-  check <- dplyr::summarise(check, Trials = dplyr::n())
-  check <- dplyr::ungroup(check)
-
   if (!is.null(quality_check_dir)) {
     if (!dir.exists(quality_check_dir)) dir.create(quality_check_dir)
     check_file <- paste(quality_check_dir, "quality_check.csv", sep = "/")
