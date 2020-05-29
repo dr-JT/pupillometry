@@ -421,6 +421,10 @@ pupil_read <- function(file, eyetracker = "", px_to_mm.conversion = NULL,
   }
   ##########################################################
 
+  if(is.null(start_tracking.message)) {
+    data <- dplyr::mutate(data, Trial = 1)
+  }
+
   ## Convert Message column into Stimulus column ####
   data <- dplyr::group_by(data, Trial)
   data <- dplyr::mutate(data, Stimulus = zoo::na.locf(Message, na.rm = FALSE))
