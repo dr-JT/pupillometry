@@ -331,7 +331,7 @@ pupil_read <- function(file, eyetracker = "", px_to_mm.conversion = NULL,
   ########################################################
 
   ## Set Trial at start_tracking.message ####
-  if (!is.null(start_tracking.match)) {
+  if (!is.null(start_tracking.message)) {
     if (start_tracking.match == "exact"){
       data <- dplyr::mutate(data,
                             starttracking.time =
