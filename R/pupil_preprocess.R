@@ -191,9 +191,11 @@ pupil_preprocess <- function(import_dir = NULL, pattern = ".txt",
     #####################################
 
     #### ----- Set timing column relative to onset of each trial ----- ####
-    data <- set_timing(data, trial_onset.message = trial_onset.message,
-                       match = trial_onset.match,
-                       pretrial.duration = pretrial.duration)
+    if (!is.null(start_tracking.message)) {
+      data <- set_timing(data, trial_onset.message = trial_onset.message,
+                         match = trial_onset.match,
+                         pretrial.duration = pretrial.duration)
+    }
     ######################################################################
 
     #### ----- Select eye to preprocess ----- ####
