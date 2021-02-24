@@ -1,4 +1,4 @@
-# pupillometry <img src = "man/figures/logo_small.png" align = "right" />
+# pupillometry <img src="man/figures/logo_small.png" align="right"/>
 
 > An R Package to preprocess pupil data
 
@@ -10,32 +10,31 @@ Mathôt, S., Fabius, J., Van Heusden, E., & Van der Stigchel, S. (2018). Safe an
 
 The main goal of this package is to provide:
 
-1) ease of use for pupillometry researchers to perform preprocessing steps
+1\) ease of use for pupillometry researchers to perform preprocessing steps
 
-2) flexibility in choosing which preprocessing methods and parameters are used. 
+2\) flexibility in choosing which preprocessing methods and parameters are used.
 
 ## Install
 
-```r
+``` r
 devtools::install_github("dr-JT/pupillometry")
 ```
 
 ## Eyetracker Support
 
-The format and organization of the raw data file will depend on the type of Eyetracker used. The `pupil_read()` function imports the "messy" raw data file and its output is a "tidy" raw data file with standardized column names and value labels to be used by the other functions in this package. 
+The format and organization of the raw data file will depend on the type of Eyetracker used. The `pupil_read()` function imports the "messy" raw data file and its output is a "tidy" raw data file with standardized column names and value labels to be used by the other functions in this package.
 
 Currently, `pupil_read()` supports:
 
-- SensoMotoric Instruments (SMI) eyetrackers: `eyetracker = "smi"`
+-   SensoMotoric Instruments (SMI) eyetrackers: `eyetracker = "smi"`
 
-    - RED250m
-    
-    - Eye glasses
-    
-- SR Research EyeLink100 eyetrackers: `eyetracker = "eyelink"`
+    -   RED250m
 
-- Support for other eye-trackers will be included in future updates.
+    -   Eye glasses
 
+-   SR Research EyeLink100 eyetrackers: `eyetracker = "eyelink"`
+
+-   Support for other eye-trackers will be included in future updates.
 
 ## Usage
 
@@ -55,21 +54,22 @@ Documentation on using this method is provided in [Build Your Own Sequence of Pu
 
 ## Planned Updates
 
-* Better error and warning messages
+-   Better error and warning messages
 
-* Data preprocessing visualizations?
+-   Data preprocessing visualizations?
 
-* hampel filter option (maybe?)
+-   hampel filter option (maybe?)
 
-* Support for Tobii Eyetrackers
+-   Support for Tobii Eyetrackers
 
-* Support for GazePoint Eyetrackers
+-   Support for GazePoint Eyetrackers
 
 ## Support
 
-If you are having difficulty getting the package to work or would like to make a feature request then do not hesitate to contact me: <jason.tsukahara@gatech.edu>
+If you are having difficulty getting the package to work or would like to make a feature request then do not hesitate to contact me: [jason.tsukahara\@gatech.edu](mailto:jason.tsukahara@gatech.edu)
 
 ## Citation
 
-> Tsukahara, J.S. (2020). pupillometry: An R Package to Preprocess Pupil Data. Retrieved from https://dr-jt.github.io/pupillometry
+[![DOI](https://zenodo.org/badge/146345641.svg)](https://zenodo.org/badge/latestdoi/146345641)
 
+> Tsukahara, J.S. (2020). pupillometry: An R package to preprocess pupil data (v0.5.0). <http://doi.org/10.5281/zenodo.4464854>

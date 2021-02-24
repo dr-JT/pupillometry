@@ -121,7 +121,8 @@
 
       
 
-      </header><div class="row">
+      </header><script src="example_data_files/header-attrs-2.5/header-attrs.js"></script><link href="example_data_files/anchor-sections-1.0/anchor-sections.css" rel="stylesheet">
+<script src="example_data_files/anchor-sections-1.0/anchor-sections.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Example Data Set</h1>
@@ -183,17 +184,18 @@
 <a href="#other-parameters" class="anchor"></a>Other Parameters</h3>
 <p>Once you have the message markers all figured out you need to specify which preprocessing options you want to use.</p>
 <p>For more details on the different options see the Article <a href="https://dr-jt.github.io/pupillometry/articles/Preprocessing%20Options.html">Preprocessing Options</a></p>
-<div class="sourceCode" id="cb1"><html><body><pre class="r"><span class="co"># devtools::install_github("dr-JT/pupillometry")</span>
+<div class="sourceCode" id="cb1"><pre class="downlit">
+<span class="co"># devtools::install_github("dr-JT/pupillometry")</span>
 
-<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">pupillometry</span>)
+<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="kw"><a href="https://github.com/dr-JT/pupillometry">pupillometry</a></span>)
 
 <span class="co">## Preprocessing parameters</span>
 
 <span class="co"># File Import Information</span>
-<span class="no">import_dir</span> <span class="kw">&lt;-</span> <span class="st">"data/Raw"</span>
-<span class="no">pattern</span> <span class="kw">&lt;-</span> <span class="st">"Samples.txt"</span>
-<span class="no">taskname</span> <span class="kw">&lt;-</span> <span class="st">"Pitch_Discrimination"</span>
-<span class="no">timing_file</span> <span class="kw">&lt;-</span> <span class="kw">NULL</span>
+<span class="kw">import_dir</span> <span class="op">&lt;-</span> <span class="st">"data/Raw"</span>
+<span class="kw">pattern</span> <span class="op">&lt;-</span> <span class="st">"Samples.txt"</span>
+<span class="kw">taskname</span> <span class="op">&lt;-</span> <span class="st">"Pitch_Discrimination"</span>
+<span class="kw">timing_file</span> <span class="op">&lt;-</span> <span class="kw">NULL</span>
 
 <span class="co"># Eyetrackers save the subject number information in different ways and is not</span>
 <span class="co"># always easy to obtain. For SMI Red250m eyetrackers this is extracted from the</span>
@@ -202,67 +204,68 @@
 <span class="co"># pattern and subj_suffix pattern that surrounds the subject # in the </span>
 <span class="co"># datafile name/subject ID column.</span>
 
-<span class="no">subj_prefix</span> <span class="kw">&lt;-</span> <span class="st">"n_"</span>
-<span class="no">subj_suffix</span> <span class="kw">&lt;-</span> <span class="st">"-"</span>
+<span class="kw">subj_prefix</span> <span class="op">&lt;-</span> <span class="st">"n_"</span>
+<span class="kw">subj_suffix</span> <span class="op">&lt;-</span> <span class="st">"-"</span>
 
 <span class="co"># File Output Information</span>
-<span class="no">output_dir</span> <span class="kw">&lt;-</span> <span class="st">"data/Preprocessed"</span>
-<span class="no">output_steps</span> <span class="kw">&lt;-</span> <span class="fl">FALSE</span>
-<span class="no">files_merge</span> <span class="kw">&lt;-</span> <span class="fl">FALSE</span>
+<span class="kw">output_dir</span> <span class="op">&lt;-</span> <span class="st">"data/Preprocessed"</span>
+<span class="kw">output_steps</span> <span class="op">&lt;-</span> <span class="fl">FALSE</span>
+<span class="kw">files_merge</span> <span class="op">&lt;-</span> <span class="fl">FALSE</span>
 
 <span class="co"># Eyetracker Information</span>
-<span class="no">eyetracker</span> <span class="kw">&lt;-</span> <span class="st">"smi"</span>
-<span class="no">hz</span> <span class="kw">&lt;-</span> <span class="fl">250</span>
-<span class="no">eye_use</span> <span class="kw">&lt;-</span> <span class="st">"left"</span>
-<span class="no">px_to_mm.conversion</span> <span class="kw">&lt;-</span> <span class="kw">NULL</span>
+<span class="kw">eyetracker</span> <span class="op">&lt;-</span> <span class="st">"smi"</span>
+<span class="kw">hz</span> <span class="op">&lt;-</span> <span class="fl">250</span>
+<span class="kw">eye_use</span> <span class="op">&lt;-</span> <span class="st">"left"</span>
+<span class="kw">px_to_mm.conversion</span> <span class="op">&lt;-</span> <span class="kw">NULL</span>
 
 <span class="co"># Message Marker Information</span>
-<span class="no">start_tracking.message</span> <span class="kw">&lt;-</span> <span class="st">"Fixation"</span>
-<span class="no">start_tracking.match</span> <span class="kw">&lt;-</span> <span class="st">"exact"</span>
-<span class="no">trial_onset.message</span> <span class="kw">&lt;-</span> <span class="st">"Tone 1"</span>
-<span class="no">trial_onset.match</span> <span class="kw">&lt;-</span> <span class="st">"exact"</span>
-<span class="no">pretrial.duration</span> <span class="kw">&lt;-</span> <span class="fl">1000</span>
-<span class="no">bc_onset.message</span> <span class="kw">&lt;-</span> <span class="st">"Tone 1"</span>
-<span class="no">bc_onset.match</span> <span class="kw">&lt;-</span> <span class="st">"exact"</span>
+<span class="kw">start_tracking.message</span> <span class="op">&lt;-</span> <span class="st">"Fixation"</span>
+<span class="kw">start_tracking.match</span> <span class="op">&lt;-</span> <span class="st">"exact"</span>
+<span class="kw">trial_onset.message</span> <span class="op">&lt;-</span> <span class="st">"Tone 1"</span>
+<span class="kw">trial_onset.match</span> <span class="op">&lt;-</span> <span class="st">"exact"</span>
+<span class="kw">pretrial.duration</span> <span class="op">&lt;-</span> <span class="fl">1000</span>
+<span class="kw">bc_onset.message</span> <span class="op">&lt;-</span> <span class="st">"Tone 1"</span>
+<span class="kw">bc_onset.match</span> <span class="op">&lt;-</span> <span class="st">"exact"</span>
 
 <span class="co"># Preprocessing Options</span>
-<span class="no">deblink_extend</span> <span class="kw">&lt;-</span> <span class="fl">100</span>
-<span class="no">smooth</span> <span class="kw">&lt;-</span> <span class="st">"hann"</span>
-<span class="no">smooth.window</span> <span class="kw">&lt;-</span> <span class="fl">500</span>
-<span class="no">interpolate</span> <span class="kw">&lt;-</span> <span class="st">"cubic-spline"</span>
-<span class="no">interpolate.maxgap</span> <span class="kw">&lt;-</span> <span class="fl">750</span>
-<span class="no">method_first</span> <span class="kw">&lt;-</span> <span class="st">"smooth"</span>
-<span class="no">bc</span> <span class="kw">&lt;-</span> <span class="st">"subtractive"</span>
-<span class="no">pre_bc.duration</span> <span class="kw">&lt;-</span> <span class="fl">200</span>
-<span class="no">missing_allowed</span> <span class="kw">&lt;-</span> <span class="fl">.30</span>
+<span class="kw">deblink_extend</span> <span class="op">&lt;-</span> <span class="fl">100</span>
+<span class="kw">smooth</span> <span class="op">&lt;-</span> <span class="st">"hann"</span>
+<span class="kw">smooth.window</span> <span class="op">&lt;-</span> <span class="fl">500</span>
+<span class="kw">interpolate</span> <span class="op">&lt;-</span> <span class="st">"cubic-spline"</span>
+<span class="kw">interpolate.maxgap</span> <span class="op">&lt;-</span> <span class="fl">750</span>
+<span class="kw">method_first</span> <span class="op">&lt;-</span> <span class="st">"smooth"</span>
+<span class="kw">bc</span> <span class="op">&lt;-</span> <span class="st">"subtractive"</span>
+<span class="kw">pre_bc.duration</span> <span class="op">&lt;-</span> <span class="fl">200</span>
+<span class="kw">missing_allowed</span> <span class="op">&lt;-</span> <span class="fl">.30</span>
 
 <span class="co"># Misc.</span>
-<span class="no">include_col</span> <span class="kw">&lt;-</span> <span class="kw">NULL</span>
-<span class="no">trial_exclude</span> <span class="kw">&lt;-</span> <span class="kw">NULL</span>
+<span class="kw">include_col</span> <span class="op">&lt;-</span> <span class="kw">NULL</span>
+<span class="kw">trial_exclude</span> <span class="op">&lt;-</span> <span class="kw">NULL</span>
 
 <span class="co">############################</span>
 
-<span class="fu"><a href="../reference/pupil_preprocess.html">pupil_preprocess</a></span>(<span class="kw">import_dir</span> <span class="kw">=</span> <span class="no">import_dir</span>, <span class="kw">pattern</span> <span class="kw">=</span> <span class="no">pattern</span>, <span class="kw">taskname</span> <span class="kw">=</span> <span class="no">taskname</span>,
-                 <span class="kw">subj_prefix</span> <span class="kw">=</span> <span class="no">subj_prefix</span>, <span class="kw">subj_suffix</span> <span class="kw">=</span> <span class="no">subj_suffix</span>,
-                 <span class="kw">timing_file</span> <span class="kw">=</span> <span class="no">timing_file</span>, <span class="kw">output_dir</span> <span class="kw">=</span> <span class="no">output_dir</span>,
-                 <span class="kw">output_steps</span> <span class="kw">=</span> <span class="no">output_steps</span>, <span class="kw">files_merge</span> <span class="kw">=</span> <span class="no">files_merge</span>,
-                 <span class="kw">eyetracker</span> <span class="kw">=</span> <span class="no">eyetracker</span>, <span class="kw">hz</span> <span class="kw">=</span> <span class="no">hz</span>, <span class="kw">eye_use</span> <span class="kw">=</span> <span class="no">eye_use</span>,
-                 <span class="kw">px_to_mm.conversion</span> <span class="kw">=</span> <span class="no">px_to_mm.conversion</span>,
-                 <span class="kw">start_tracking.message</span> <span class="kw">=</span> <span class="no">start_tracking.message</span>,
-                 <span class="kw">start_tracking.match</span> <span class="kw">=</span> <span class="no">start_tracking.match</span>,
-                 <span class="kw">trial_onset.message</span> <span class="kw">=</span> <span class="no">trial_onset.message</span>,
-                 <span class="kw">trial_onset.match</span> <span class="kw">=</span> <span class="no">trial_onset.match</span>,
-                 <span class="kw">pretrial.duration</span> <span class="kw">=</span> <span class="no">pretrial.duration</span>,
-                 <span class="kw">bc_onset.message</span> <span class="kw">=</span> <span class="no">bc_onset.message</span>,
-                 <span class="kw">bc_onset.match</span> <span class="kw">=</span> <span class="no">bc_onset.match</span>,
-                 <span class="kw">deblink_extend</span> <span class="kw">=</span> <span class="no">deblink_extend</span>,
-                 <span class="kw">smooth</span> <span class="kw">=</span> <span class="no">smooth</span>, <span class="kw">smooth.window</span> <span class="kw">=</span> <span class="no">smooth.window</span>,
-                 <span class="kw">interpolate</span> <span class="kw">=</span> <span class="no">interpolate</span>,
-                 <span class="kw">interpolate.maxgap</span> <span class="kw">=</span> <span class="no">interpolate.maxgap</span>,
-                 <span class="kw">method_first</span> <span class="kw">=</span> <span class="no">method_first</span>, <span class="kw">bc</span> <span class="kw">=</span> <span class="no">bc</span>,
-                 <span class="kw">pre_bc.duration</span> <span class="kw">=</span> <span class="no">pre_bc.duration</span>,
-                 <span class="kw">missing_allowed</span> <span class="kw">=</span> <span class="no">missing_allowed</span>, <span class="kw">include_col</span> <span class="kw">=</span> <span class="no">include_col</span>,
-                 <span class="kw">trial_exclude</span> <span class="kw">=</span> <span class="no">trial_exclude</span>)</pre></body></html></div>
+<span class="fu"><a href="../reference/pupil_preprocess.html">pupil_preprocess</a></span>(import_dir = <span class="kw">import_dir</span>, pattern = <span class="kw">pattern</span>, taskname = <span class="kw">taskname</span>,
+                 subj_prefix = <span class="kw">subj_prefix</span>, subj_suffix = <span class="kw">subj_suffix</span>, 
+                 timing_file = <span class="kw">timing_file</span>, output_dir = <span class="kw">output_dir</span>, 
+                 output_steps = <span class="kw">output_steps</span>, files_merge = <span class="kw">files_merge</span>, 
+                 eyetracker = <span class="kw">eyetracker</span>, hz = <span class="kw">hz</span>, eye_use = <span class="kw">eye_use</span>, 
+                 px_to_mm.conversion = <span class="kw">px_to_mm.conversion</span>, 
+                 start_tracking.message = <span class="kw">start_tracking.message</span>, 
+                 start_tracking.match = <span class="kw">start_tracking.match</span>,
+                 trial_onset.message = <span class="kw">trial_onset.message</span>, 
+                 trial_onset.match = <span class="kw">trial_onset.match</span>,
+                 pretrial.duration = <span class="kw">pretrial.duration</span>, 
+                 bc_onset.message = <span class="kw">bc_onset.message</span>, 
+                 bc_onset.match = <span class="kw">bc_onset.match</span>, 
+                 deblink_extend = <span class="kw">deblink_extend</span>, 
+                 smooth = <span class="kw">smooth</span>, smooth.window = <span class="kw">smooth.window</span>, 
+                 interpolate = <span class="kw">interpolate</span>, 
+                 interpolate.maxgap = <span class="kw">interpolate.maxgap</span>, 
+                 method_first = <span class="kw">method_first</span>, bc = <span class="kw">bc</span>, 
+                 pre_bc.duration = <span class="kw">pre_bc.duration</span>, 
+                 missing_allowed = <span class="kw">missing_allowed</span>, include_col = <span class="kw">include_col</span>, 
+                 trial_exclude = <span class="kw">trial_exclude</span>)
+</pre></div>
 </div>
   </div>
 
@@ -279,7 +282,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>
