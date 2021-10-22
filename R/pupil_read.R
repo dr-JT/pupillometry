@@ -472,6 +472,7 @@ pupil_read <- function(file, eyetracker = "", px_to_mm.conversion = NULL,
       data <- dplyr::mutate(data, Time = Time / ms_conversion)
     }
     if (start_tracking.message == "default") start_tracking.message <- NULL
+    print(start_tracking.message)
       ####################################
   }
 
