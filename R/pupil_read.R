@@ -623,6 +623,7 @@ pupil_read <- function(file, eyetracker = "", px_to_mm.conversion = NULL,
   if(is.null(start_tracking.message)) {
     data <- dplyr::mutate(data, Trial = 1, starttracking.time = NA,
                           Message_Inserted = 0)
+    data <- dplyr::relocate(data, Trial, .before = "Time")
   }
 
   ## Convert Message column into Stimulus column ####
