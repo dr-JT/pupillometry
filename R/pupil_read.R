@@ -348,10 +348,10 @@ pupil_read <- function(file, eyetracker = "", px_to_mm.conversion = NULL,
   } else if (eyetracker == "") {
     ## Eye tracker is not specified ####
     if (delim == "\t") {
-      data <- dplyr::read_delim(file, delim = "\t", escape_double = FALSE,
+      data <- readr::read_delim(file, delim = "\t", escape_double = FALSE,
                                 trim_ws = TRUE, guess_max = 100000)
     } else if (delim == "," | delim == "csv") {
-      data <- dplyr::read_csv(file, guess_max = 100000)
+      data <- readr::read_csv(file, guess_max = 100000)
     }
 
     data <- dplyr::select(data,
