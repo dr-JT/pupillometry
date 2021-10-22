@@ -86,7 +86,7 @@
 #' @export
 #'
 
-pupil_read <- function(file, eyetracker = NULL, px_to_mm.conversion = NULL,
+pupil_read <- function(file, eyetracker = "", px_to_mm.conversion = NULL,
                        start_tracking.message = "default",
                        start_tracking.match = "exact", subj_prefix = NULL,
                        subj_suffix = NULL, timing_file = NULL,
@@ -345,7 +345,7 @@ pupil_read <- function(file, eyetracker = NULL, px_to_mm.conversion = NULL,
       }
     }
     ################################
-  } else if (is.null(eyetracker)) {
+  } else if (eyetracker == "") {
     ## Eye tracker is not specified ####
     if (delim == "\t") {
       data <- dplyr::read_delim(file, delim = "\t", escape_double = FALSE,
@@ -455,7 +455,7 @@ pupil_read <- function(file, eyetracker = NULL, px_to_mm.conversion = NULL,
     ####################################
   }
 
-  if (!is.null(eyetracker)) {
+  if (eyetracker == "") {
     data <- dplyr::mutate(data,
                           Subject = subj,
                           Time = Time / ms_conversion,
