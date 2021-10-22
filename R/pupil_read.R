@@ -12,6 +12,7 @@
 #' and SR-Research EyeLink ("eyelink")
 #' @param file A file path to the raw data export file
 #' @param eyetracker Which eye-tracker system was used to record data?
+#'     options: "smi", "eyelink", NULL
 #' @param start_tracking.message Message used in SMI experiment to
 #'     mark StartTracking inline
 #' @param start_tracking.match Should the message string be an
@@ -26,18 +27,86 @@
 #' @param starttracking.match See start_tracking.match
 #' @param timing_file File location and name that contains timing
 #'     information for message markers
-#' @param include_col Extra columns from the raw data file to include
 #' @param trial_exclude Specify if ther are any trials to exclude. Trial number
 #' @param quality_check_dir Directory to save quality check file
+#' @param delim If eyetracker is not specified, then specify file delimiter type
+#' @param subject If eyetracker is not specified, then specify column name
+#'     that contains subject IDs
+#' @param trial If eyetracker is not specified, then specify column name
+#'     that contains the trial variable
+#' @param time If eyetracker is not specified, then specify column name
+#'     that contains the timing variable
+#' @param message_event If eyetracker is not specified, then specify column name
+#'     that contains the message markers
+#' @param left_pupil.mm If eyetracker is not specified, then specify column name
+#'     that contains the left pupil data in millimeters
+#' @param right_pupil.mm If eyetracker is not specified, then specify column name
+#'     that contains the right pupil data in millimeters
+#' @param left_pupil.px If eyetracker is not specified, then specify column name
+#'     that contains the left pupil data in pixels
+#' @param right_pupil.px If eyetracker is not specified, then specify column name
+#'     that contains the right pupil data in pixels
+#' @param gaze.x If eyetracker is not specified, then specify column name
+#'     that contains the gaze position on the x-axis
+#' @param gaze.y If eyetracker is not specified, then specify column name
+#'     that contains the gaze position on the y-axis
+#' @param left_gaze.x If eyetracker is not specified, then specify column name
+#'     that contains the left eye gaze position on the x-axis
+#' @param left_gaze.y If eyetracker is not specified, then specify column name
+#'     that contains the left eye gaze position on the y-axis
+#' @param right_gaze.x If eyetracker is not specified, then specify column name
+#'     that contains the right eye gaze position on the x-axis
+#' @param right_gaze.y If eyetracker is not specified, then specify column name
+#'     that contains the right eye gaze position on the y-axis
+#' @param eye_event If eyetracker is not specified, then specify column name
+#'     that contains the eye event (e.g., fixation, saccade, and blink) data
+#' @param blink_event If eyetracker is not specified, then specify column name
+#'     that contains the blink event data
+#' @param fixation_event If eyetracker is not specified, then specify column name
+#'     that contains the fixation event data
+#' @param saccade_event If eyetracker is not specified, then specify column name
+#'     that contains the saccade event data
+#' @param left_eye_event If eyetracker is not specified, then specify column name
+#'     that contains the left eye event (e.g., fixation, saccade, and blink) data
+#' @param left_blink_event If eyetracker is not specified, then specify column name
+#'     that contains the left blink event data
+#' @param left_fixation_event If eyetracker is not specified, then specify column name
+#'     that contains the left fixation event data
+#' @param left_saccade_event If eyetracker is not specified, then specify column name
+#'     that contains the left saccade event data
+#' @param right_eye_event If eyetracker is not specified, then specify column name
+#'     that contains the eye event (e.g., fixation, saccade, and blink) data
+#' @param right_blink_event If eyetracker is not specified, then specify column name
+#'     that contains the blink event data
+#' @param right_fixation_event If eyetracker is not specified, then specify column name
+#'     that contains the fixation event data
+#' @param right_saccade_event If eyetracker is not specified, then specify column name
+#'     that contains the saccade event data
+#' @param include_col Extra columns from the raw data file to include
 #' @export
 #'
 
-pupil_read <- function(file, eyetracker = "", px_to_mm.conversion = NULL,
+pupil_read <- function(file, eyetracker = NULL, px_to_mm.conversion = NULL,
                        start_tracking.message = "default",
                        start_tracking.match = "exact", subj_prefix = NULL,
                        subj_suffix = NULL, timing_file = NULL,
-                       include_col = NULL, trial_exclude = NULL,
+                       trial_exclude = NULL,
                        quality_check_dir = NULL,
+                       delim = NULL, subject = NULL,
+                       trial = NULL, time = NULL, message_event = NULL,
+                       left_pupil.mm = NULL, right_pupil.mm = NULL,
+                       left_pupil.px = NULL, right_pupil.px = NULL,
+                       gaze.x = NULL, gaze.y = NULL,
+                       left_gaze.x = NULL, left_gaze.y = NULL,
+                       right_gaze.x = NULL, right_gaze.y = NULL,
+                       eye_event = NULL, blink_event = NULL,
+                       fixation_event = NULL, saccade_event = NULL,
+                       left_eye_event = NULL, right_eye_event = NULL,
+                       left_blink_event = NULL, right_blink_event = NULL,
+                       left_fixation_event = NULL, right_fixation_event = NULL,
+                       left_saccade_event = NULL, right_saccade_event = NULL,
+                       ms_conversion = NULL,
+                       include_col = NULL,
                        starttracking.message = NULL,
                        starttracking.match = NULL){
   ## Setup and functions ####
@@ -79,8 +148,7 @@ pupil_read <- function(file, eyetracker = "", px_to_mm.conversion = NULL,
 
   ## Import and Standardize ####
   if (eyetracker == "smi") {
-    ## Eye tracker is SMI
-    ## Header ####
+    ## Eye tracker is SMI ####
     if (!is.null(start_tracking.message)) {
       if (start_tracking.message == "default"){
         start_tracking.message <- "StartTracking.bmp"
@@ -106,8 +174,6 @@ pupil_read <- function(file, eyetracker = "", px_to_mm.conversion = NULL,
                               guess_max = 100000)
     names(data) <- gsub(" ", "_", gsub("\\[mm\\]", "mm",
                                        gsub("\\[px\\]", "px", names(data))))
-
-    ################
 
     if ("Time" %in% colnames(data)) {
       model <- "Red250m"
@@ -208,7 +274,7 @@ pupil_read <- function(file, eyetracker = "", px_to_mm.conversion = NULL,
       ######################################
     }
     data <- dplyr::mutate(data, Head_Distance.cm = head.distance)
-
+    ################################
   } else if (eyetracker == "eyelink") {
     ## Eye tracker is EyeLink ####
     if (!is.null(start_tracking.message)) {
@@ -279,25 +345,137 @@ pupil_read <- function(file, eyetracker = "", px_to_mm.conversion = NULL,
       }
     }
     ################################
+  } else if (is.null(eyetracker)) {
+    ## Eye tracker is not specified ####
+    if (delim == "\t") {
+      data <- dplyr::read_delim(file, delim = "\t", escape_double = FALSE,
+                                trim_ws = TRUE, guess_max = 100000)
+    } else if (delim == "," | delim == "csv") {
+      data <- dplyr::read_csv(file, guess_max = 100000)
+    }
+
+    data <- dplyr::select(data,
+                          Subject = subject, Trial = trial,
+                          Time = time, Message = message_event,
+                          L_Pupil_Diameter.mm = left_pupil.mm,
+                          L_Pupil_Diameter.px = left_pupil.px,
+                          R_Pupil_Diameter.mm = right_pupil.mm,
+                          R_Pupil_Diameter.px = right_pupil.px,
+                          Gaze_Position.x = gaze.x, Gaze_Position.y = gaze.y,
+                          L_Gaze_Position.x = left_gaze.x,
+                          L_Gaze_Position.y = left_gaze.y,
+                          R_Gaze_Position.x = right_gaze.x,
+                          R_Gaze_Position.y = right_gaze.y,
+                          Eye_Event = eye_event, Blink_Event = blink_event,
+                          Fixation_Event = fixation_event,
+                          Saccade_Event = saccade_event,
+                          L_Eye_Event = left_eye_event,
+                          L_Blink_Event = left_blink_event,
+                          L_Fixation_Event = left_fixation_event,
+                          L_Saccade_Event = left_saccade_event,
+                          R_Eye_Event = right_eye_event,
+                          R_Blink_Event = right_blink_event,
+                          R_Fixation_Event = right_fixation_event,
+                          R_Saccade_Event = right_saccade_event,
+                          include_col)
+
+    if (is.null(eye_event) & is.null(left_eye_event) & is.null(right_eye_event)) {
+      data <- dplyr::mutate(data, Eye_Event = NA, L_Eye_Event = NA,
+                            R_Eye_Event = NA)
+
+      if (!is.null(blink_event)) {
+        data <- dplyr::mutate(data,
+                              Eye_Event =
+                                ifelse(!is.na(Blink_Event) |
+                                         Blink_Event == 1, "Blink",
+                                       Eye_Event))
+      }
+      if (!is.null(fixation_event)) {
+        data <- dplyr::mutate(data,
+                              Eye_Event =
+                                ifelse(!is.na(Fixation_Event) |
+                                         Fixation_Event == 1, "Fixation",
+                                       Eye_Event))
+      }
+      if (!is.null(saccade_event)) {
+        data <- dplyr::mutate(data,
+                              Eye_Event =
+                                ifelse(!is.na(Saccade_Event) |
+                                         Saccade_Event == 1, "Saccade",
+                                       Eye_Event))
+      }
+
+      if (!is.null(left_blink_event)) {
+        data <- dplyr::mutate(data,
+                              L_Eye_Event =
+                                ifelse(!is.na(L_Blink_Event) |
+                                         L_Blink_Event == 1, "Blink",
+                                       L_Eye_Event))
+      }
+      if (!is.null(left_fixation_event)) {
+        data <- dplyr::mutate(data,
+                              L_Eye_Event =
+                                ifelse(!is.na(L_Fixation_Event) |
+                                         L_Fixation_Event == 1, "Fixation",
+                                       L_Eye_Event))
+      }
+      if (!is.null(left_saccade_event)) {
+        data <- dplyr::mutate(data,
+                              L_Eye_Event =
+                                ifelse(!is.na(L_Saccade_Event) |
+                                         L_Saccade_Event == 1, "Saccade",
+                                       L_Eye_Event))
+      }
+
+      if (!is.null(right_blink_event)) {
+        data <- dplyr::mutate(data,
+                              R_Eye_Event =
+                                ifelse(!is.na(R_Blink_Event) |
+                                         R_Blink_Event == 1, "Blink",
+                                       R_Eye_Event))
+      }
+      if (!is.null(right_fixation_event)) {
+        data <- dplyr::mutate(data,
+                              R_Eye_Event =
+                                ifelse(!is.na(R_Fixation_Event) |
+                                         R_Fixation_Event == 1, "Fixation",
+                                       R_Eye_Event))
+      }
+      if (!is.null(right_saccade_event)) {
+        data <- dplyr::mutate(data,
+                              R_Eye_Event =
+                                ifelse(!is.na(R_Saccade_Event) |
+                                         R_Saccade_Event == 1, "Saccade",
+                                       R_Eye_Event))
+      }
+    }
+    if (!is.null(ms_conversion)) {
+      data <- dplyar::mutate(data, Time = Time / ms_conversion)
+    }
+    ####################################
   }
-  data <- dplyr::mutate(data,
-                        Subject = subj,
-                        Time = Time / ms_conversion,
-                        Message = gsub("# Message: ", "", Message))
-  data <- dplyr::select(data,
-                        Subject, Time, tidyselect::any_of("Trial"), Message,
-                        tidyselect::any_of("L_Pupil_Diameter.mm"),
-                        tidyselect::any_of("L_Pupil_Diameter.px"),
-                        tidyselect::any_of("R_Pupil_Diameter.mm"),
-                        tidyselect::any_of("R_Pupil_Diameter.px"),
-                        tidyselect::any_of("L_Eye_Event"),
-                        tidyselect::any_of("R_Eye_Event"),
-                        tidyselect::any_of("L_Gaze_Position.x"),
-                        tidyselect::any_of("L_Gaze_Position.y"),
-                        tidyselect::any_of("R_Gaze_Position.x"),
-                        tidyselect::any_of("R_Gaze_Position.y"),
-                        tidyselect::any_of("Head_Distance.cm"),
-                        tidyselect::any_of(include_col))
+
+  if (!is.null(eyetracker)) {
+    data <- dplyr::mutate(data,
+                          Subject = subj,
+                          Time = Time / ms_conversion,
+                          Message = gsub("# Message: ", "", Message))
+    data <- dplyr::select(data,
+                          Subject, Time, tidyselect::any_of("Trial"), Message,
+                          tidyselect::any_of("L_Pupil_Diameter.mm"),
+                          tidyselect::any_of("L_Pupil_Diameter.px"),
+                          tidyselect::any_of("R_Pupil_Diameter.mm"),
+                          tidyselect::any_of("R_Pupil_Diameter.px"),
+                          tidyselect::any_of("L_Eye_Event"),
+                          tidyselect::any_of("R_Eye_Event"),
+                          tidyselect::any_of("L_Gaze_Position.x"),
+                          tidyselect::any_of("L_Gaze_Position.y"),
+                          tidyselect::any_of("R_Gaze_Position.x"),
+                          tidyselect::any_of("R_Gaze_Position.y"),
+                          tidyselect::any_of("Head_Distance.cm"),
+                          tidyselect::any_of(include_col))
+  }
+
   ########################################
 
   ## If timing file exists insert start message marker ####

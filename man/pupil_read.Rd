@@ -6,16 +6,44 @@
 \usage{
 pupil_read(
   file,
-  eyetracker = "",
+  eyetracker = NULL,
   px_to_mm.conversion = NULL,
   start_tracking.message = "default",
   start_tracking.match = "exact",
   subj_prefix = NULL,
   subj_suffix = NULL,
   timing_file = NULL,
-  include_col = NULL,
   trial_exclude = NULL,
   quality_check_dir = NULL,
+  delim = NULL,
+  subject = NULL,
+  trial = NULL,
+  time = NULL,
+  message_event = NULL,
+  left_pupil.mm = NULL,
+  right_pupil.mm = NULL,
+  left_pupil.px = NULL,
+  right_pupil.px = NULL,
+  gaze.x = NULL,
+  gaze.y = NULL,
+  left_gaze.x = NULL,
+  left_gaze.y = NULL,
+  right_gaze.x = NULL,
+  right_gaze.y = NULL,
+  eye_event = NULL,
+  blink_event = NULL,
+  fixation_event = NULL,
+  saccade_event = NULL,
+  left_eye_event = NULL,
+  right_eye_event = NULL,
+  left_blink_event = NULL,
+  right_blink_event = NULL,
+  left_fixation_event = NULL,
+  right_fixation_event = NULL,
+  left_saccade_event = NULL,
+  right_saccade_event = NULL,
+  ms_conversion = NULL,
+  include_col = NULL,
   starttracking.message = NULL,
   starttracking.match = NULL
 )
@@ -23,7 +51,8 @@ pupil_read(
 \arguments{
 \item{file}{A file path to the raw data export file}
 
-\item{eyetracker}{Which eye-tracker system was used to record data?}
+\item{eyetracker}{Which eye-tracker system was used to record data?
+options: "smi", "eyelink", NULL}
 
 \item{px_to_mm.conversion}{The conversion factor to go from
 px pupil diameter to mm pupil diameter}
@@ -43,11 +72,91 @@ symbol(s)) that comes after the subject number in the data file}
 \item{timing_file}{File location and name that contains timing
 information for message markers}
 
-\item{include_col}{Extra columns from the raw data file to include}
-
 \item{trial_exclude}{Specify if ther are any trials to exclude. Trial number}
 
 \item{quality_check_dir}{Directory to save quality check file}
+
+\item{delim}{If eyetracker is not specified, then specify file delimiter type}
+
+\item{subject}{If eyetracker is not specified, then specify column name
+that contains subject IDs}
+
+\item{trial}{If eyetracker is not specified, then specify column name
+that contains the trial variable}
+
+\item{time}{If eyetracker is not specified, then specify column name
+that contains the timing variable}
+
+\item{message_event}{If eyetracker is not specified, then specify column name
+that contains the message markers}
+
+\item{left_pupil.mm}{If eyetracker is not specified, then specify column name
+that contains the left pupil data in millimeters}
+
+\item{right_pupil.mm}{If eyetracker is not specified, then specify column name
+that contains the right pupil data in millimeters}
+
+\item{left_pupil.px}{If eyetracker is not specified, then specify column name
+that contains the left pupil data in pixels}
+
+\item{right_pupil.px}{If eyetracker is not specified, then specify column name
+that contains the right pupil data in pixels}
+
+\item{gaze.x}{If eyetracker is not specified, then specify column name
+that contains the gaze position on the x-axis}
+
+\item{gaze.y}{If eyetracker is not specified, then specify column name
+that contains the gaze position on the y-axis}
+
+\item{left_gaze.x}{If eyetracker is not specified, then specify column name
+that contains the left eye gaze position on the x-axis}
+
+\item{left_gaze.y}{If eyetracker is not specified, then specify column name
+that contains the left eye gaze position on the y-axis}
+
+\item{right_gaze.x}{If eyetracker is not specified, then specify column name
+that contains the right eye gaze position on the x-axis}
+
+\item{right_gaze.y}{If eyetracker is not specified, then specify column name
+that contains the right eye gaze position on the y-axis}
+
+\item{eye_event}{If eyetracker is not specified, then specify column name
+that contains the eye event (e.g., fixation, saccade, and blink) data}
+
+\item{blink_event}{If eyetracker is not specified, then specify column name
+that contains the blink event data}
+
+\item{fixation_event}{If eyetracker is not specified, then specify column name
+that contains the fixation event data}
+
+\item{saccade_event}{If eyetracker is not specified, then specify column name
+that contains the saccade event data}
+
+\item{left_eye_event}{If eyetracker is not specified, then specify column name
+that contains the left eye event (e.g., fixation, saccade, and blink) data}
+
+\item{right_eye_event}{If eyetracker is not specified, then specify column name
+that contains the eye event (e.g., fixation, saccade, and blink) data}
+
+\item{left_blink_event}{If eyetracker is not specified, then specify column name
+that contains the left blink event data}
+
+\item{right_blink_event}{If eyetracker is not specified, then specify column name
+that contains the blink event data}
+
+\item{left_fixation_event}{If eyetracker is not specified, then specify column name
+that contains the left fixation event data}
+
+\item{right_fixation_event}{If eyetracker is not specified, then specify column name
+that contains the fixation event data}
+
+\item{left_saccade_event}{If eyetracker is not specified, then specify column name
+that contains the left saccade event data}
+
+\item{right_saccade_event}{If eyetracker is not specified, then specify column name
+that contains the saccade event data}
+
+\item{include_col}{Extra columns from the raw data file to include}
 
 \item{starttracking.message}{See start_tracking.message}
 
