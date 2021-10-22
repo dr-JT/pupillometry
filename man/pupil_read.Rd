@@ -6,7 +6,7 @@
 \usage{
 pupil_read(
   file,
-  eyetracker = NULL,
+  eyetracker = "",
   px_to_mm.conversion = NULL,
   start_tracking.message = "default",
   start_tracking.match = "exact",
