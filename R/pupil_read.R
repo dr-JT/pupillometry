@@ -386,76 +386,95 @@ pupil_read <- function(file, eyetracker = "", px_to_mm.conversion = NULL,
       if (!is.null(blink_event)) {
         data <- dplyr::mutate(data,
                               Eye_Event =
-                                ifelse(!is.na(Blink_Event) |
-                                         Blink_Event == 1, "Blink",
+                                ifelse(!is.na(Blink_Event),
+                                       ifelse(Blink_Event == 1,
+                                              "Blink", Eye_Event),
                                        Eye_Event))
       }
       if (!is.null(fixation_event)) {
         data <- dplyr::mutate(data,
                               Eye_Event =
-                                ifelse(!is.na(Fixation_Event) |
-                                         Fixation_Event == 1, "Fixation",
+                                ifelse(!is.na(Fixation_Event),
+                                       ifelse(Fixation_Event == 1,
+                                              "Fixation", Eye_Event),
                                        Eye_Event))
       }
       if (!is.null(saccade_event)) {
         data <- dplyr::mutate(data,
                               Eye_Event =
-                                ifelse(!is.na(Saccade_Event) |
-                                         Saccade_Event == 1, "Saccade",
+                                ifelse(!is.na(Saccade_Event),
+                                       ifelse(Saccade_Event == 1,
+                                              "Saccade", Eye_Event),
                                        Eye_Event))
       }
 
       if (!is.null(left_blink_event)) {
         data <- dplyr::mutate(data,
                               L_Eye_Event =
-                                ifelse(!is.na(L_Blink_Event) |
-                                         L_Blink_Event == 1, "Blink",
+                                ifelse(!is.na(L_Blink_Event),
+                                       ifelse(L_Blink_Event == 1,
+                                              "Blink", L_Eye_Event),
                                        L_Eye_Event))
       }
       if (!is.null(left_fixation_event)) {
         data <- dplyr::mutate(data,
                               L_Eye_Event =
-                                ifelse(!is.na(L_Fixation_Event) |
-                                         L_Fixation_Event == 1, "Fixation",
+                                ifelse(!is.na(L_Fixation_Event),
+                                       ifelse(L_Fixation_Event == 1,
+                                              "Fixation", L_Eye_Event),
                                        L_Eye_Event))
       }
       if (!is.null(left_saccade_event)) {
         data <- dplyr::mutate(data,
                               L_Eye_Event =
-                                ifelse(!is.na(L_Saccade_Event) |
-                                         L_Saccade_Event == 1, "Saccade",
+                                ifelse(!is.na(L_Saccade_Event),
+                                       ifelse(L_Saccade_Event == 1,
+                                              "Saccade", L_Eye_Event),
                                        L_Eye_Event))
       }
 
       if (!is.null(right_blink_event)) {
         data <- dplyr::mutate(data,
                               R_Eye_Event =
-                                ifelse(!is.na(R_Blink_Event) |
-                                         R_Blink_Event == 1, "Blink",
+                                ifelse(!is.na(R_Blink_Event),
+                                       ifelse(R_Blink_Event == 1,
+                                              "Blink", R_Eye_Event),
                                        R_Eye_Event))
       }
       if (!is.null(right_fixation_event)) {
         data <- dplyr::mutate(data,
                               R_Eye_Event =
-                                ifelse(!is.na(R_Fixation_Event) |
-                                         R_Fixation_Event == 1, "Fixation",
+                                ifelse(!is.na(R_Fixation_Event),
+                                       ifelse(R_Fixation_Event == 1,
+                                              "Fixation", R_Eye_Event),
                                        R_Eye_Event))
       }
       if (!is.null(right_saccade_event)) {
         data <- dplyr::mutate(data,
                               R_Eye_Event =
-                                ifelse(!is.na(R_Saccade_Event) |
-                                         R_Saccade_Event == 1, "Saccade",
+                                ifelse(!is.na(R_Saccade_Event),
+                                       ifelse(R_Saccade_Event == 1,
+                                              "Saccade", R_Eye_Event),
                                        R_Eye_Event))
+      }
+
+      if (length(which(!is.na(data$Eye_Event))) == 0) {
+        data <- dplyr::select(data, -Eye_Event)
+      }
+      if (length(which(!is.na(data$L_Eye_Event))) == 0) {
+        data <- dplyr::select(data, -L_Eye_Event)
+      }
+      if (length(which(!is.na(data$R_Eye_Event))) == 0) {
+        data <- dplyr::select(data, -R_Eye_Event)
       }
     }
     if (!is.null(ms_conversion)) {
-      data <- dplyar::mutate(data, Time = Time / ms_conversion)
+      data <- dplyr::mutate(data, Time = Time / ms_conversion)
     }
     ####################################
   }
 
-  if (eyetracker == "") {
+  if (eyetracker != "") {
     data <- dplyr::mutate(data,
                           Subject = subj,
                           Time = Time / ms_conversion,
