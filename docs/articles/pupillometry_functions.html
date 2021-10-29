@@ -40,7 +40,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">pupillometry</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.5.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.6.0</span>
       </span>
     </div>
 
@@ -48,7 +48,7 @@
       <ul class="nav navbar-nav">
 <li>
   <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -101,7 +101,7 @@
 <ul class="nav navbar-nav navbar-right">
 <li>
   <a href="https://github.com/dr-JT/pupillometry/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -121,8 +121,7 @@
 
       
 
-      </header><script src="pupillometry_functions_files/header-attrs-2.5/header-attrs.js"></script><link href="pupillometry_functions_files/anchor-sections-1.0/anchor-sections.css" rel="stylesheet">
-<script src="pupillometry_functions_files/anchor-sections-1.0/anchor-sections.js"></script><div class="row">
+      </header><script src="pupillometry_functions_files/header-attrs-2.8/header-attrs.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Build Your Own Sequence of Pupillometry Functions</h1>
@@ -191,10 +190,9 @@
 <span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>                   <span class="at">subj_prefix =</span> <span class="st">"n_"</span>, <span class="at">subj_suffix =</span> <span class="st">"-"</span>, <span class="at">timing_file =</span> <span class="cn">NULL</span>,</span>
 <span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>                   <span class="at">include_col =</span> <span class="cn">NULL</span>, <span class="at">trial_exclude =</span> <span class="cn">NULL</span></span></code></pre></div>
 <p>Since we are using most of the default parameter arguments we can shorten it to</p>
-<div class="sourceCode" id="cb2"><pre class="downlit">
-<span class="kw">data</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/pupil_read.html">pupil_read</a></span>(file = <span class="st">"data/raw/pitch_discrimination_19-1_001 Samples.txt"</span>, 
-                   eyetracker = <span class="st">"smi"</span>, subj_prefix = <span class="st">"n_"</span>, subj_suffix = <span class="st">"-"</span>)
-</pre></div>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">data</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/pupil_read.html">pupil_read</a></span><span class="op">(</span>file <span class="op">=</span> <span class="st">"data/raw/pitch_discrimination_19-1_001 Samples.txt"</span>, 
+                   eyetracker <span class="op">=</span> <span class="st">"smi"</span>, subj_prefix <span class="op">=</span> <span class="st">"n_"</span>, subj_suffix <span class="op">=</span> <span class="st">"-"</span><span class="op">)</span></code></pre></div>
 </div>
 <div id="clean-up-raw-data-files-and-more" class="section level3">
 <h3 class="hasAnchor">
@@ -202,70 +200,63 @@
 <p>The values in the Timing column are usually in absolute time from the start of recording. However, data analysis is much easier if the values are in relative time from the start of each Trial. So at every trial onset, Time = 0. We can do this with <code><a href="../reference/set_timing.html">set_timing()</a></code>.</p>
 <p>Because we have data from both left and right eyes we can calculate the correlation between the two eyes with <code><a href="../reference/pupil_cor.html">pupil_cor()</a></code>. After calculating the correlation, we only want to keep one of the eyes for analysis; <code><a href="../reference/select_eye.html">select_eye()</a></code>.</p>
 <p>Putting all these steps together would look like</p>
-<div class="sourceCode" id="cb3"><pre class="downlit">
-<span class="kw">data</span> <span class="op">&lt;-</span> <span class="kw">data</span> <span class="op">%&gt;%</span>
-  <span class="fu"><a href="../reference/set_timing.html">set_timing</a></span>(trial_onset.message = <span class="st">"Tone 1"</span>, match = <span class="st">"exact"</span>,
-             ms.conversion = <span class="fl">1000</span>, pretrial.duration = <span class="fl">1000</span>) <span class="op">%&gt;%</span>
-  <span class="fu"><a href="../reference/pupil_cor.html">pupil_cor</a></span>() <span class="op">%&gt;%</span>
-  <span class="fu"><a href="../reference/select_eye.html">select_eye</a></span>(eye_use = <span class="st">"left"</span>)
-</pre></div>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">data</span> <span class="op">&lt;-</span> <span class="va">data</span> <span class="op">%&gt;%</span>
+  <span class="fu"><a href="../reference/set_timing.html">set_timing</a></span><span class="op">(</span>trial_onset.message <span class="op">=</span> <span class="st">"Tone 1"</span>, match <span class="op">=</span> <span class="st">"exact"</span>,
+             ms.conversion <span class="op">=</span> <span class="fl">1000</span>, pretrial.duration <span class="op">=</span> <span class="fl">1000</span><span class="op">)</span> <span class="op">%&gt;%</span>
+  <span class="fu"><a href="../reference/pupil_cor.html">pupil_cor</a></span><span class="op">(</span><span class="op">)</span> <span class="op">%&gt;%</span>
+  <span class="fu"><a href="../reference/select_eye.html">select_eye</a></span><span class="op">(</span>eye_use <span class="op">=</span> <span class="st">"left"</span><span class="op">)</span></code></pre></div>
 </div>
 <div id="de-blink" class="section level3">
 <h3 class="hasAnchor">
 <a href="#de-blink" class="anchor"></a>3. De-blink</h3>
 <p>It is important to make sure that blinks are coded as having missing values, and you may even want to extend the de-blink duration depending on which eyetracker you are using (this is suggested when using EyeLink eyetrackers)</p>
-<div class="sourceCode" id="cb4"><pre class="downlit">
-<span class="kw">data</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/pupil_deblink.html">pupil_deblink</a></span>(<span class="kw">data</span>, extend = <span class="fl">100</span>)
-</pre></div>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">data</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/pupil_deblink.html">pupil_deblink</a></span><span class="op">(</span><span class="va">data</span>, extend <span class="op">=</span> <span class="fl">100</span><span class="op">)</span></code></pre></div>
 </div>
 <div id="smooth" class="section level3">
 <h3 class="hasAnchor">
 <a href="#smooth" class="anchor"></a>4. Smooth</h3>
 <p>You need to be careful about the window size you specify for smoothing. Window size is specified in milliseconds rather than number of samples. Therefore, you should think carefully about what your recording frequency is when specifying the window size.</p>
-<div class="sourceCode" id="cb5"><pre class="downlit">
-<span class="kw">data</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/pupil_smooth.html">pupil_smooth</a></span>(<span class="kw">data</span>, type = <span class="st">"hann"</span>, window = <span class="fl">500</span>, hz = <span class="fl">250</span>)
-</pre></div>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">data</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/pupil_smooth.html">pupil_smooth</a></span><span class="op">(</span><span class="va">data</span>, type <span class="op">=</span> <span class="st">"hann"</span>, window <span class="op">=</span> <span class="fl">500</span>, hz <span class="op">=</span> <span class="fl">250</span><span class="op">)</span></code></pre></div>
 </div>
 <div id="interpolate" class="section level3">
 <h3 class="hasAnchor">
 <a href="#interpolate" class="anchor"></a>5. Interpolate</h3>
 <p>You may want to consider setting a maximum gap of missing values that you are comfortable interpolating over. For instance, if a subject has a gap of missing data that covers the entire critical period where you are looking for an effect, then it might be a good idea to make sure data is not interpolated over gaps larger than the critical task period.</p>
-<div class="sourceCode" id="cb6"><pre class="downlit">
-<span class="kw">data</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/pupil_interpolate.html">pupil_interpolate</a></span>(<span class="kw">data</span>, type = <span class="st">"cubic-spline"</span>, maxgap = <span class="fl">750</span>, hz = <span class="fl">250</span>)
-</pre></div>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">data</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/pupil_interpolate.html">pupil_interpolate</a></span><span class="op">(</span><span class="va">data</span>, type <span class="op">=</span> <span class="st">"cubic-spline"</span>, maxgap <span class="op">=</span> <span class="fl">750</span>, hz <span class="op">=</span> <span class="fl">250</span><span class="op">)</span></code></pre></div>
 </div>
 <div id="baseline-correction" class="section level3">
 <h3 class="hasAnchor">
 <a href="#baseline-correction" class="anchor"></a>6. Baseline correction</h3>
 <p>This function will create a new column of baseline corrected data called <code>Pupil_Diameter_bc.mm</code></p>
-<div class="sourceCode" id="cb7"><pre class="downlit">
-<span class="kw">data</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/pupil_baselinecorrect.html">pupil_baselinecorrect</a></span>(<span class="kw">data</span>, message = <span class="st">"Tone 1"</span>, match = <span class="st">"exact"</span>,
-                              pre.duration = <span class="fl">200</span>, type = <span class="st">"subtractive"</span>)
-</pre></div>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">data</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/pupil_baselinecorrect.html">pupil_baselinecorrect</a></span><span class="op">(</span><span class="va">data</span>, message <span class="op">=</span> <span class="st">"Tone 1"</span>, match <span class="op">=</span> <span class="st">"exact"</span>,
+                              pre.duration <span class="op">=</span> <span class="fl">200</span>, type <span class="op">=</span> <span class="st">"subtractive"</span><span class="op">)</span></code></pre></div>
 </div>
 <div id="remove-trials-with-too-much-missing-data" class="section level3">
 <h3 class="hasAnchor">
 <a href="#remove-trials-with-too-much-missing-data" class="anchor"></a>7. Remove trials with too much missing data</h3>
 <p>Finally, it can be a good idea to go ahead and remove any trials that have too much missing data even after these preprocessing methods. You can set the criteria of what is too much missing data</p>
-<div class="sourceCode" id="cb8"><pre class="downlit">
-<span class="kw">data</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/pupil_missing.html">pupil_missing</a></span>(<span class="kw">data</span>, missing_allowed = <span class="fl">.33</span>)
-</pre></div>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">data</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/pupil_missing.html">pupil_missing</a></span><span class="op">(</span><span class="va">data</span>, missing_allowed <span class="op">=</span> <span class="fl">.33</span><span class="op">)</span></code></pre></div>
 <hr>
 <p>Putting it all together, we get:</p>
-<div class="sourceCode" id="cb9"><pre class="downlit">
-<span class="kw">data</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/pupil_read.html">pupil_read</a></span>(file = <span class="st">"data/raw/pitch_discrimination_19-1_001 Samples.txt"</span>, 
-                   eyetracker = <span class="st">"smi"</span>, subj_prefix = <span class="st">"n_"</span>, subj_suffix = <span class="st">"-"</span>) <span class="op">%&gt;%</span>
-  <span class="fu"><a href="../reference/set_timing.html">set_timing</a></span>(trial_onset.message = <span class="st">"Tone 1"</span>, match = <span class="st">"exact"</span>,
-             ms.conversion = <span class="fl">1000</span>, pretrial.duration = <span class="fl">1000</span>) <span class="op">%&gt;%</span>
-  <span class="fu"><a href="../reference/pupil_cor.html">pupil_cor</a></span>() <span class="op">%&gt;%</span>
-  <span class="fu"><a href="../reference/select_eye.html">select_eye</a></span>(eye_use = <span class="st">"left"</span>) <span class="op">%&gt;%</span>
-  <span class="fu"><a href="../reference/pupil_deblink.html">pupil_deblink</a></span>(extend = <span class="fl">100</span>) <span class="op">%&gt;%</span>
-  <span class="fu"><a href="../reference/pupil_smooth.html">pupil_smooth</a></span>(type = <span class="st">"hann"</span>, window = <span class="fl">500</span>, hz = <span class="fl">250</span>) <span class="op">%&gt;%</span>
-  <span class="fu"><a href="../reference/pupil_interpolate.html">pupil_interpolate</a></span>(type = <span class="st">"cubic-spline"</span>, maxgap = <span class="fl">750</span>, hz = <span class="fl">250</span>) <span class="op">%&gt;%</span>
-  <span class="fu"><a href="../reference/pupil_baselinecorrect.html">pupil_baselinecorrect</a></span>(message = <span class="st">"Tone 1"</span>, match = <span class="st">"exact"</span>,
-                        pre.duration = <span class="fl">200</span>, type = <span class="st">"subtractive"</span>) <span class="op">%&gt;%</span>
-  <span class="fu"><a href="../reference/pupil_missing.html">pupil_missing</a></span>(missing_allowed = <span class="fl">.33</span>)
-</pre></div>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">data</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/pupil_read.html">pupil_read</a></span><span class="op">(</span>file <span class="op">=</span> <span class="st">"data/raw/pitch_discrimination_19-1_001 Samples.txt"</span>, 
+                   eyetracker <span class="op">=</span> <span class="st">"smi"</span>, subj_prefix <span class="op">=</span> <span class="st">"n_"</span>, subj_suffix <span class="op">=</span> <span class="st">"-"</span><span class="op">)</span> <span class="op">%&gt;%</span>
+  <span class="fu"><a href="../reference/set_timing.html">set_timing</a></span><span class="op">(</span>trial_onset.message <span class="op">=</span> <span class="st">"Tone 1"</span>, match <span class="op">=</span> <span class="st">"exact"</span>,
+             ms.conversion <span class="op">=</span> <span class="fl">1000</span>, pretrial.duration <span class="op">=</span> <span class="fl">1000</span><span class="op">)</span> <span class="op">%&gt;%</span>
+  <span class="fu"><a href="../reference/pupil_cor.html">pupil_cor</a></span><span class="op">(</span><span class="op">)</span> <span class="op">%&gt;%</span>
+  <span class="fu"><a href="../reference/select_eye.html">select_eye</a></span><span class="op">(</span>eye_use <span class="op">=</span> <span class="st">"left"</span><span class="op">)</span> <span class="op">%&gt;%</span>
+  <span class="fu"><a href="../reference/pupil_deblink.html">pupil_deblink</a></span><span class="op">(</span>extend <span class="op">=</span> <span class="fl">100</span><span class="op">)</span> <span class="op">%&gt;%</span>
+  <span class="fu"><a href="../reference/pupil_smooth.html">pupil_smooth</a></span><span class="op">(</span>type <span class="op">=</span> <span class="st">"hann"</span>, window <span class="op">=</span> <span class="fl">500</span>, hz <span class="op">=</span> <span class="fl">250</span><span class="op">)</span> <span class="op">%&gt;%</span>
+  <span class="fu"><a href="../reference/pupil_interpolate.html">pupil_interpolate</a></span><span class="op">(</span>type <span class="op">=</span> <span class="st">"cubic-spline"</span>, maxgap <span class="op">=</span> <span class="fl">750</span>, hz <span class="op">=</span> <span class="fl">250</span><span class="op">)</span> <span class="op">%&gt;%</span>
+  <span class="fu"><a href="../reference/pupil_baselinecorrect.html">pupil_baselinecorrect</a></span><span class="op">(</span>message <span class="op">=</span> <span class="st">"Tone 1"</span>, match <span class="op">=</span> <span class="st">"exact"</span>,
+                        pre.duration <span class="op">=</span> <span class="fl">200</span>, type <span class="op">=</span> <span class="st">"subtractive"</span><span class="op">)</span> <span class="op">%&gt;%</span>
+  <span class="fu"><a href="../reference/pupil_missing.html">pupil_missing</a></span><span class="op">(</span>missing_allowed <span class="op">=</span> <span class="fl">.33</span><span class="op">)</span></code></pre></div>
 <hr>
 <p>In this way you can build your own sequence of preprocessing steps. To leave out a preprocessing method, just leave out the function.</p>
 </div>
@@ -274,37 +265,35 @@
 <h2 class="hasAnchor">
 <a href="#doing-this-for-multiple-files" class="anchor"></a>Doing this for multiple files</h2>
 <p>The chunk of code was adequate for performing preprocessing data from one file. To perform this same process for each of your subject data files you just need to put it in a <strong>for loop</strong>.</p>
-<div class="sourceCode" id="cb10"><pre class="downlit">
-<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="kw"><a href="https://github.com/dr-JT/pupillometry">pupillometry</a></span>)
-<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="kw"><a href="https://readr.tidyverse.org">readr</a></span>)
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/dr-JT/pupillometry">pupillometry</a></span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://readr.tidyverse.org">readr</a></span><span class="op">)</span>
 
-<span class="kw">filelist</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.files.html">list.files</a></span>(path = <span class="st">"data/raw"</span>, pattern = <span class="st">".txt"</span>, full.names = <span class="fl">TRUE</span>)
-<span class="co">for</span> (<span class="kw">file</span> <span class="co">in</span> <span class="kw">filelist</span>) {
-  <span class="kw">data</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/pupil_read.html">pupil_read</a></span>(file = <span class="st">"data/raw/pitch_discrimination_19-1_001 Samples.txt"</span>,
-                     eyetracker = <span class="st">"smi"</span>, subj_prefix = <span class="st">"n_"</span>, subj_suffix = <span class="st">"-"</span>) <span class="op">%&gt;%</span>
-    <span class="fu"><a href="../reference/set_timing.html">set_timing</a></span>(trial_onset.message = <span class="st">"Tone 1"</span>, match = <span class="st">"exact"</span>,
-             ms.conversion = <span class="fl">1000</span>, pretrial.duration = <span class="fl">1000</span>) <span class="op">%&gt;%</span>
-    <span class="fu"><a href="../reference/pupil_cor.html">pupil_cor</a></span>() <span class="op">%&gt;%</span>
-    <span class="fu"><a href="../reference/select_eye.html">select_eye</a></span>(eye_use = <span class="st">"left"</span>) <span class="op">%&gt;%</span>
-    <span class="fu"><a href="../reference/pupil_deblink.html">pupil_deblink</a></span>(extend = <span class="fl">100</span>) <span class="op">%&gt;%</span>
-    <span class="fu"><a href="../reference/pupil_smooth.html">pupil_smooth</a></span>(type = <span class="st">"hann"</span>, window = <span class="fl">500</span>, hz = <span class="fl">250</span>) <span class="op">%&gt;%</span>
-    <span class="fu"><a href="../reference/pupil_interpolate.html">pupil_interpolate</a></span>(type = <span class="st">"cubic-spline"</span>, maxgap = <span class="fl">750</span>, hz = <span class="fl">250</span>) <span class="op">%&gt;%</span>
-    <span class="fu"><a href="../reference/pupil_baselinecorrect.html">pupil_baselinecorrect</a></span>(message = <span class="st">"Tone 1"</span>, match = <span class="st">"exact"</span>,
-                        pre.duration = <span class="fl">200</span>, type = <span class="st">"subtractive"</span>) <span class="op">%&gt;%</span>
-    <span class="fu"><a href="../reference/pupil_missing.html">pupil_missing</a></span>(missing_allowed = <span class="fl">.33</span>)
+<span class="va">filelist</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.files.html">list.files</a></span><span class="op">(</span>path <span class="op">=</span> <span class="st">"data/raw"</span>, pattern <span class="op">=</span> <span class="st">".txt"</span>, full.names <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
+<span class="kw">for</span> <span class="op">(</span><span class="va">file</span> <span class="kw">in</span> <span class="va">filelist</span><span class="op">)</span> <span class="op">{</span>
+  <span class="va">data</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/pupil_read.html">pupil_read</a></span><span class="op">(</span>file <span class="op">=</span> <span class="st">"data/raw/pitch_discrimination_19-1_001 Samples.txt"</span>,
+                     eyetracker <span class="op">=</span> <span class="st">"smi"</span>, subj_prefix <span class="op">=</span> <span class="st">"n_"</span>, subj_suffix <span class="op">=</span> <span class="st">"-"</span><span class="op">)</span> <span class="op">%&gt;%</span>
+    <span class="fu"><a href="../reference/set_timing.html">set_timing</a></span><span class="op">(</span>trial_onset.message <span class="op">=</span> <span class="st">"Tone 1"</span>, match <span class="op">=</span> <span class="st">"exact"</span>,
+             ms.conversion <span class="op">=</span> <span class="fl">1000</span>, pretrial.duration <span class="op">=</span> <span class="fl">1000</span><span class="op">)</span> <span class="op">%&gt;%</span>
+    <span class="fu"><a href="../reference/pupil_cor.html">pupil_cor</a></span><span class="op">(</span><span class="op">)</span> <span class="op">%&gt;%</span>
+    <span class="fu"><a href="../reference/select_eye.html">select_eye</a></span><span class="op">(</span>eye_use <span class="op">=</span> <span class="st">"left"</span><span class="op">)</span> <span class="op">%&gt;%</span>
+    <span class="fu"><a href="../reference/pupil_deblink.html">pupil_deblink</a></span><span class="op">(</span>extend <span class="op">=</span> <span class="fl">100</span><span class="op">)</span> <span class="op">%&gt;%</span>
+    <span class="fu"><a href="../reference/pupil_smooth.html">pupil_smooth</a></span><span class="op">(</span>type <span class="op">=</span> <span class="st">"hann"</span>, window <span class="op">=</span> <span class="fl">500</span>, hz <span class="op">=</span> <span class="fl">250</span><span class="op">)</span> <span class="op">%&gt;%</span>
+    <span class="fu"><a href="../reference/pupil_interpolate.html">pupil_interpolate</a></span><span class="op">(</span>type <span class="op">=</span> <span class="st">"cubic-spline"</span>, maxgap <span class="op">=</span> <span class="fl">750</span>, hz <span class="op">=</span> <span class="fl">250</span><span class="op">)</span> <span class="op">%&gt;%</span>
+    <span class="fu"><a href="../reference/pupil_baselinecorrect.html">pupil_baselinecorrect</a></span><span class="op">(</span>message <span class="op">=</span> <span class="st">"Tone 1"</span>, match <span class="op">=</span> <span class="st">"exact"</span>,
+                        pre.duration <span class="op">=</span> <span class="fl">200</span>, type <span class="op">=</span> <span class="st">"subtractive"</span><span class="op">)</span> <span class="op">%&gt;%</span>
+    <span class="fu"><a href="../reference/pupil_missing.html">pupil_missing</a></span><span class="op">(</span>missing_allowed <span class="op">=</span> <span class="fl">.33</span><span class="op">)</span>
   
-  <span class="kw">subj</span> <span class="op">&lt;-</span> <span class="kw">data</span><span class="op">$</span><span class="kw">Subject</span>[<span class="fl">1</span>]
-  <span class="kw">output_file</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste</a></span>(<span class="st">"data/preprocessed/PitchDiscrimination_"</span>, <span class="kw">subj</span>,
-                       <span class="st">"_PupilData_deblink.smooth.interpolate.bc.csv"</span>, sep = <span class="st">""</span>)
-  <span class="fu"><a href="https://readr.tidyverse.org/reference/write_delim.html">write_csv</a></span>(<span class="kw">data</span>, <span class="kw">output_file</span>)
-}
-</pre></div>
+  <span class="va">subj</span> <span class="op">&lt;-</span> <span class="va">data</span><span class="op">$</span><span class="va">Subject</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>
+  <span class="va">output_file</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste</a></span><span class="op">(</span><span class="st">"data/preprocessed/PitchDiscrimination_"</span>, <span class="va">subj</span>,
+                       <span class="st">"_PupilData_deblink.smooth.interpolate.bc.csv"</span>, sep <span class="op">=</span> <span class="st">""</span><span class="op">)</span>
+  <span class="fu"><a href="https://readr.tidyverse.org/reference/write_delim.html">write_csv</a></span><span class="op">(</span><span class="va">data</span>, <span class="va">output_file</span><span class="op">)</span>
+<span class="op">}</span></code></pre></div>
 <p>If you want to then create a single merged file you can add at the end (outside of the for loop):</p>
-<div class="sourceCode" id="cb11"><pre class="downlit">
-<span class="fu"><a href="../reference/pupil_merge.html">pupil_merge</a></span>(path = <span class="st">"data"</span>,
-            pattern = <span class="st">"bc.csv"</span>,
-            output_file = <span class="st">"PitchDiscrimination_PupilData.csv"</span>)
-</pre></div>
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="../reference/pupil_merge.html">pupil_merge</a></span><span class="op">(</span>path <span class="op">=</span> <span class="st">"data"</span>,
+            pattern <span class="op">=</span> <span class="st">"bc.csv"</span>,
+            output_file <span class="op">=</span> <span class="st">"PitchDiscrimination_PupilData.csv"</span><span class="op">)</span></code></pre></div>
 <p>However, this may not be possible depending on your sample frequency (hz) and number of participants. This is because it may exceed the storage limits of R and possibly your computer.</p>
 </div>
   </div>

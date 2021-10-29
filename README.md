@@ -34,7 +34,9 @@ Currently, `pupil_read()` supports:
 
 -   SR Research EyeLink100 eyetrackers: `eyetracker = "eyelink"`
 
--   Support for other eye-trackers will be included in future updates.
+-   Any eye tracker data file: `eyetracker = ""`
+
+    - Need to specify column names for certain variables. See `pupil_read()`
 
 ## Usage
 
@@ -59,10 +61,6 @@ Documentation on using this method is provided in [Build Your Own Sequence of Pu
 -   Data preprocessing visualizations?
 
 -   hampel filter option (maybe?)
-
--   Support for Tobii Eyetrackers
-
--   Support for GazePoint Eyetrackers
 
 ## Support
 

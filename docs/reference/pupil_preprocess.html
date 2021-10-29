@@ -89,7 +89,7 @@ https://dr-jt.github.io/pupillometry/articles/pupil_preprocess.html" />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">pupillometry</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.5.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.6.0</span>
       </span>
     </div>
 
@@ -97,7 +97,7 @@ https://dr-jt.github.io/pupillometry/articles/pupil_preprocess.html" />
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -150,7 +150,7 @@ https://dr-jt.github.io/pupillometry/articles/pupil_preprocess.html" />
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/dr-JT/pupillometry/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -185,47 +185,47 @@ preprocessed data to a specified folder path. For more details, see:
 https://dr-jt.github.io/pupillometry/articles/pupil_preprocess.html</p>
     </div>
 
-    <pre class="usage"><span class='fu'>pupil_preprocess</span>(
-  import_dir = <span class='kw'>NULL</span>,
-  pattern = <span class='st'>".txt"</span>,
-  taskname = <span class='kw'>NULL</span>,
-  subj_prefix = <span class='kw'>NULL</span>,
-  subj_suffix = <span class='kw'>NULL</span>,
-  timing_file = <span class='kw'>NULL</span>,
-  output_dir = <span class='kw'>NULL</span>,
-  output_steps = <span class='fl'>FALSE</span>,
-  eyetracker = <span class='kw'>NULL</span>,
-  hz = <span class='kw'>NULL</span>,
-  eye_use = <span class='kw'>NULL</span>,
-  px_to_mm.conversion = <span class='kw'>NULL</span>,
-  start_tracking.message = <span class='st'>"default"</span>,
-  start_tracking.match = <span class='st'>"exact"</span>,
-  trial_onset.message = <span class='kw'>NULL</span>,
-  trial_onset.match = <span class='st'>"exact"</span>,
-  deblink_extend = <span class='fl'>0</span>,
-  pretrial.duration = <span class='kw'>NULL</span>,
-  missing_allowed = <span class='fl'>1</span>,
-  interpolate = <span class='kw'>NULL</span>,
-  interpolate.maxgap = <span class='fl'>Inf</span>,
-  smooth = <span class='kw'>NULL</span>,
-  smooth.window = <span class='fl'>5</span>,
-  method_first = <span class='kw'>NULL</span>,
-  bc = <span class='kw'>NULL</span>,
-  pre_bc.duration = <span class='kw'>NULL</span>,
-  bc_onset.message = <span class='kw'>NULL</span>,
-  bc_onset.match = <span class='st'>"exact"</span>,
-  include_col = <span class='kw'>NULL</span>,
-  trial_exclude = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(),
-  files_merge = <span class='fl'>FALSE</span>,
-  starttracking.message = <span class='kw'>NULL</span>,
-  starttracking.match = <span class='kw'>NULL</span>,
-  trialonset.message = <span class='kw'>NULL</span>,
-  trialonset.match = <span class='kw'>NULL</span>,
-  pre_trial.duration = <span class='kw'>NULL</span>,
-  prebc.duration = <span class='kw'>NULL</span>,
-  bconset.message = <span class='kw'>NULL</span>,
-  bconset.match = <span class='kw'>NULL</span>
-)</pre>
+    <pre class="usage"><span class='fu'>pupil_preprocess</span><span class='op'>(</span>
+  import_dir <span class='op'>=</span> <span class='cn'>NULL</span>,
+  pattern <span class='op'>=</span> <span class='st'>".txt"</span>,
+  taskname <span class='op'>=</span> <span class='cn'>NULL</span>,
+  subj_prefix <span class='op'>=</span> <span class='cn'>NULL</span>,
+  subj_suffix <span class='op'>=</span> <span class='cn'>NULL</span>,
+  timing_file <span class='op'>=</span> <span class='cn'>NULL</span>,
+  output_dir <span class='op'>=</span> <span class='cn'>NULL</span>,
+  output_steps <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  eyetracker <span class='op'>=</span> <span class='cn'>NULL</span>,
+  hz <span class='op'>=</span> <span class='cn'>NULL</span>,
+  eye_use <span class='op'>=</span> <span class='cn'>NULL</span>,
+  px_to_mm.conversion <span class='op'>=</span> <span class='cn'>NULL</span>,
+  start_tracking.message <span class='op'>=</span> <span class='st'>"default"</span>,
+  start_tracking.match <span class='op'>=</span> <span class='st'>"exact"</span>,
+  trial_onset.message <span class='op'>=</span> <span class='cn'>NULL</span>,
+  trial_onset.match <span class='op'>=</span> <span class='st'>"exact"</span>,
+  deblink_extend <span class='op'>=</span> <span class='fl'>0</span>,
+  pretrial.duration <span class='op'>=</span> <span class='cn'>NULL</span>,
+  missing_allowed <span class='op'>=</span> <span class='fl'>1</span>,
+  interpolate <span class='op'>=</span> <span class='cn'>NULL</span>,
+  interpolate.maxgap <span class='op'>=</span> <span class='cn'>Inf</span>,
+  smooth <span class='op'>=</span> <span class='cn'>NULL</span>,
+  smooth.window <span class='op'>=</span> <span class='fl'>5</span>,
+  method_first <span class='op'>=</span> <span class='cn'>NULL</span>,
+  bc <span class='op'>=</span> <span class='cn'>NULL</span>,
+  pre_bc.duration <span class='op'>=</span> <span class='cn'>NULL</span>,
+  bc_onset.message <span class='op'>=</span> <span class='cn'>NULL</span>,
+  bc_onset.match <span class='op'>=</span> <span class='st'>"exact"</span>,
+  include_col <span class='op'>=</span> <span class='cn'>NULL</span>,
+  trial_exclude <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='op'>)</span>,
+  files_merge <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  starttracking.message <span class='op'>=</span> <span class='cn'>NULL</span>,
+  starttracking.match <span class='op'>=</span> <span class='cn'>NULL</span>,
+  trialonset.message <span class='op'>=</span> <span class='cn'>NULL</span>,
+  trialonset.match <span class='op'>=</span> <span class='cn'>NULL</span>,
+  pre_trial.duration <span class='op'>=</span> <span class='cn'>NULL</span>,
+  prebc.duration <span class='op'>=</span> <span class='cn'>NULL</span>,
+  bconset.message <span class='op'>=</span> <span class='cn'>NULL</span>,
+  bconset.match <span class='op'>=</span> <span class='cn'>NULL</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">

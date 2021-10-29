@@ -44,7 +44,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">pupillometry</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.5.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.6.0</span>
       </span>
     </div>
 
@@ -52,7 +52,7 @@
       <ul class="nav navbar-nav">
 <li>
   <a href="index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -105,7 +105,7 @@
 <ul class="nav navbar-nav navbar-right">
 <li>
   <a href="https://github.com/dr-JT/pupillometry/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -143,9 +143,8 @@
 <div id="install" class="section level2">
 <h2 class="hasAnchor">
 <a href="#install" class="anchor"></a>Install</h2>
-<div class="sourceCode" id="cb1"><pre class="downlit">
-<span class="kw">devtools</span>::<span class="fu"><a href="https://devtools.r-lib.org//reference/remote-reexports.html">install_github</a></span>(<span class="st">"dr-JT/pupillometry"</span>)
-</pre></div>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://devtools.r-lib.org//reference/remote-reexports.html">install_github</a></span><span class="op">(</span><span class="st">"dr-JT/pupillometry"</span><span class="op">)</span></code></pre></div>
 </div>
 <div id="eyetracker-support" class="section level2">
 <h2 class="hasAnchor">
@@ -161,7 +160,13 @@
 </ul>
 </li>
 <li><p>SR Research EyeLink100 eyetrackers: <code>eyetracker = "eyelink"</code></p></li>
-<li><p>Support for other eye-trackers will be included in future updates.</p></li>
+<li>
+<p>Any eye tracker data file: <code>eyetracker = ""</code></p>
+<ul>
+<li>Need to specify column names for certain variables. See <code><a href="reference/pupil_read.html">pupil_read()</a></code>
+</li>
+</ul>
+</li>
 </ul>
 </div>
 <div id="usage" class="section level2">
@@ -182,8 +187,6 @@
 <li><p>Better error and warning messages</p></li>
 <li><p>Data preprocessing visualizations?</p></li>
 <li><p>hampel filter option (maybe?)</p></li>
-<li><p>Support for Tobii Eyetrackers</p></li>
-<li><p>Support for GazePoint Eyetrackers</p></li>
 </ul>
 </div>
 <div id="support" class="section level2">

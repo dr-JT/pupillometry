@@ -1,3 +1,13 @@
+# pupillometry 0.6.0
+
+Updated: 10/22/2021
+
+* Added support for any eye tracker data file. 
+
+    Leave the `eyetracker` argument at the default value `""`
+    
+    You need to specify which column names go to which variable (e.g., GazePoint systems `left_pupil.mm = "LPMM"`). See `pupil_read()`
+
 # pupillometry 0.5.0
 
 Updated: 05/24/2020
