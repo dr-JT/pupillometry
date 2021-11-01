@@ -381,6 +381,28 @@ pupil_read <- function(file, eyetracker = "", px_to_mm.conversion = NULL,
                           R_Saccade_Event = right_saccade_event,
                           include_col)
 
+    if (is.na(left_pupil.mm) & is.na(left_pupil.px)) {
+      if (!is.na(right_pupil.mm)) {
+        data <- dplyr::rename(data,
+                              Pupil_Diameter.mm = R_Pupil_Diameter.mm)
+      }
+      if (!is.na(right_pupil.px)) {
+        data <- dplyr::rename(data,
+                              Pupil_Diameter.px = R_Pupil_Diameter.px)
+      }
+    }
+
+    if (is.na(right_pupil.mm) & is.na(right_pupil.px)) {
+      if (!is.na(left_pupil.mm)) {
+        data <- dplyr::rename(data,
+                              Pupil_Diameter.mm = L_Pupil_Diameter.mm)
+      }
+      if (!is.na(left_pupil.px)) {
+        data <- dplyr::rename(data,
+                              Pupil_Diameter.px = L_Pupil_Diameter.px)
+      }
+    }
+
     if (is.null(eye_event) & is.null(left_eye_event) & is.null(right_eye_event)) {
       data <- dplyr::mutate(data, Eye_Event = NA, L_Eye_Event = NA,
                             R_Eye_Event = NA)

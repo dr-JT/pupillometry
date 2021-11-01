@@ -79,7 +79,7 @@ pupil_baselinecorrect <- function(x, bc_onset.message = "", pre.duration = 200,
   x <- dplyr::mutate(x,
                      Trial_Phase = ifelse(PreTarget > 0, "PreTarget",
                                           ifelse(Target > 0, "Target",
-                                                 Trial_Phase)))
+                                                 NA)))
   x <- dplyr::select(x, -PreTarget.median, -bconset.time, -min, -onset.time)
   colnames(x)[which(colnames(x) == "pupil_val")] <- real_name
   colnames(x)[which(colnames(x) == "pupil_val_bc")] <- real_name_bc
