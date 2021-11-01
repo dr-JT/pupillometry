@@ -38,6 +38,8 @@
 #'     that contains the timing variable
 #' @param message_event If eyetracker is not specified, then specify column name
 #'     that contains the message markers
+#' @param stimulus If eyetracker is not specified, then specify column name
+#'     that contains the stimulus information
 #' @param left_pupil.mm If eyetracker is not specified, then specify column name
 #'     that contains the left pupil data in millimeters
 #' @param right_pupil.mm If eyetracker is not specified, then specify column name
@@ -92,8 +94,8 @@ pupil_read <- function(file, eyetracker = "", px_to_mm.conversion = NULL,
                        subj_suffix = NULL, timing_file = NULL,
                        trial_exclude = NULL,
                        quality_check_dir = NULL,
-                       delim = NULL, subject = NULL,
-                       trial = NULL, time = NULL, message_event = NULL,
+                       delim = NULL, subject = NULL, trial = NULL, time = NULL,
+                       message_event = NULL, stimulus = NULL,
                        left_pupil.mm = NULL, right_pupil.mm = NULL,
                        left_pupil.px = NULL, right_pupil.px = NULL,
                        gaze.x = NULL, gaze.y = NULL,
@@ -355,8 +357,8 @@ pupil_read <- function(file, eyetracker = "", px_to_mm.conversion = NULL,
     }
 
     data <- dplyr::select(data,
-                          Subject = subject, Trial = trial,
-                          Time = time, Message = message_event,
+                          Subject = subject, Trial = trial, Time = time,
+                          Message = message_event, Stimulus = stimulus,
                           L_Pupil_Diameter.mm = left_pupil.mm,
                           L_Pupil_Diameter.px = left_pupil.px,
                           R_Pupil_Diameter.mm = right_pupil.mm,
@@ -621,7 +623,10 @@ pupil_read <- function(file, eyetracker = "", px_to_mm.conversion = NULL,
   ##########################################################
 
   if(is.null(start_tracking.message)) {
-    data <- dplyr::mutate(data, Trial = 1, starttracking.time = NA,
+    if ("Trial" %in% colnames(data)) {
+      data <- dplyr::mutate(data, Trial = 1)
+    }
+    data <- dplyr::mutate(data, starttracking.time = NA,
                           Message_Inserted = 0)
     data <- dplyr::relocate(data, Trial, .before = "Time")
   }
