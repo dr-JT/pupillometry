@@ -20,8 +20,10 @@ select_eye <- function(x, eye_use = ""){
   if (eye_use == "left") {
     colnames(x)[which(colnames(x) == l_pupil)] <- stringr::str_remove(l_pupil,
                                                                       "L_")
-    x <- dplyr::rename(x,
-                       Eye_Event = L_Eye_Event)
+    if ("L_Eye_Event" %in% colnames(x)) {
+      x <- dplyr::rename(x,
+                         Eye_Event = L_Eye_Event)
+    }
     if ("L_Gaze_Position.x" %in% colnames(x)) {
       x <- dplyr::rename(x,
                          Gaze_Position.x = L_Gaze_Position.x,
@@ -34,8 +36,10 @@ select_eye <- function(x, eye_use = ""){
   } else if (eye_use == "right") {
     colnames(x)[which(colnames(x) == r_pupil)] <- stringr::str_remove(r_pupil,
                                                                       "R_")
-    x <- dplyr::rename(x,
-                       Eye_Event = R_Eye_Event)
+    if ("R_Eye_Event" %in% colnames(x)) {
+      x <- dplyr::rename(x,
+                         Eye_Event = R_Eye_Event)
+    }
     if ("R_Gaze_Position.x" %in% colnames(x)) {
       x <- dplyr::rename(x,
                          Gaze_Position.x = R_Gaze_Position.x,
