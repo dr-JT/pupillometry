@@ -623,7 +623,7 @@ pupil_read <- function(file, eyetracker = "", px_to_mm.conversion = NULL,
   ##########################################################
 
   if(is.null(start_tracking.message)) {
-    if ("Trial" %in% colnames(data)) {
+    if (!("Trial" %in% colnames(data))) {
       data <- dplyr::mutate(data, Trial = 1)
     }
     data <- dplyr::mutate(data, starttracking.time = NA,
