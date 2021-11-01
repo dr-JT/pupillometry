@@ -42,17 +42,15 @@ Currently, `pupil_read()` supports:
 
 There are two general ways you can use this package to do preprocessing:
 
-**1)** Use `pupil_preprocess()`
+**1)** Build your own sequence of pupillometry functions (recommended)
+
+Documentation on using this method is provided in [Build Your Own Sequence of Pupillometry Functions](https://dr-jt.github.io/pupillometry/articles/pupillometry_functions.html)
+
+**2)** Use `pupil_preprocess()`
 
 Documentation on using this method is provided in [Use pupil_preprocess()](https://dr-jt.github.io/pupillometry/articles/pupil_preprocess.html)
 
 You can also use `pupil_preprocess()` through a GUI window [Use the GUI](https://dr-jt.github.io/pupillometry/articles/gui.html)
-
-**or**
-
-**2)** Build your own sequence of pupillometry functions
-
-Documentation on using this method is provided in [Build Your Own Sequence of Pupillometry Functions](https://dr-jt.github.io/pupillometry/articles/pupillometry_functions.html)
 
 ## Planned Updates
 

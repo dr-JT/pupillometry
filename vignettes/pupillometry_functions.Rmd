@@ -6,11 +6,11 @@ title: "Build Your Own Sequence of Pupillometry Functions"
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-If you prefer not to use `pupil_preprocess()` then you can custom build your own sequence of preprocessing functions. I will provide an example on how to do so in this Article.
+This article will cover how to custom build your own sequence of preprocessing functions.
 
 We will use the example data provided in the other Articles:
 
-Download the [Example Data Set](http://englelab.gatech.edu/R/example_data/Example_Pitch.zip) and run the script below
+Download the [Example Data Set](http://englelab.gatech.edu/R/example_data/Example_Pitch.zip) and run the script below. [Currently not available, yikes! Will be updating]
 
 ### Pitch Discrimination Task
 
@@ -68,12 +68,12 @@ Let's go over these steps one by one.
 ### 1. Read in raw files
 
 ```{r eval = FALSE}
-data <- pupil_read(file = "data/raw/pitch_discrimination_19-1_001 Samples.txt", 
+data <- pupil_read(file = "test/Raw/pitch_discrimination_19-1_001 Samples.txt", 
                    eyetracker = "smi",
                    start_tracking.message = "default",
                    start_tracking.match = "exact",
                    subj_prefix = "n_", subj_suffix = "-", timing_file = NULL,
-                   include_col = NULL, trial_exclude = NULL
+                   include_col = NULL, trial_exclude = NULL)
 ```
 
 Since we are using most of the default parameter arguments we can shorten it to
@@ -85,7 +85,11 @@ data <- pupil_read(file = "data/raw/pitch_discrimination_19-1_001 Samples.txt",
 
 ### 2. Clean up raw data files and more
 
+**Set timing**
+
 The values in the Timing column are usually in absolute time from the start of recording. However, data analysis is much easier if the values are in relative time from the start of each Trial. So at every trial onset, Time = 0. We can do this with `set_timing()`.
+
+**Correlate and select eyes**
 
 Because we have data from both left and right eyes we can calculate the correlation between the two eyes with `pupil_cor()`. After calculating the correlation, we only want to keep one of the eyes for analysis; `select_eye()`.
 
@@ -93,15 +97,14 @@ Putting all these steps together would look like
 
 ```{r eval = FALSE}
 data <- data %>%
-  set_timing(trial_onset.message = "Tone 1", match = "exact",
-             ms.conversion = 1000, pretrial.duration = 1000) %>%
+  set_timing(trial_onset.message = "Tone 1", match = "exact") %>%
   pupil_cor() %>%
   select_eye(eye_use = "left")
 ```
 
 ### 3. De-blink
 
-It is important to make sure that blinks are coded as having missing values, and you may even want to extend the de-blink duration depending on which eyetracker you are using (this is suggested when using EyeLink eyetrackers)
+It is important to make sure that blinks are coded as having missing values, and you may even want to extend the de-blink duration depending on which eye tracker you are using (this is suggested when using EyeLink eye trackers)
 
 ```{r eval = FALSE}
 data <- pupil_deblink(data, extend = 100)
@@ -128,7 +131,8 @@ data <- pupil_interpolate(data, type = "cubic-spline", maxgap = 750, hz = 250)
 This function will create a new column of baseline corrected data called `Pupil_Diameter_bc.mm`
 
 ```{r eval = FALSE}
-data <- pupil_baselinecorrect(data, message = "Tone 1", match = "exact",
+data <- pupil_baselinecorrect(data, 
+                              bc_onset.message = "Tone 1", match = "exact",
                               pre.duration = 200, type = "subtractive")
 ```
 
@@ -147,14 +151,13 @@ Putting it all together, we get:
 ```{r eval = FALSE}
 data <- pupil_read(file = "data/raw/pitch_discrimination_19-1_001 Samples.txt", 
                    eyetracker = "smi", subj_prefix = "n_", subj_suffix = "-") %>%
-  set_timing(trial_onset.message = "Tone 1", match = "exact",
-             ms.conversion = 1000, pretrial.duration = 1000) %>%
+  set_timing(trial_onset.message = "Tone 1", match = "exact") %>%
   pupil_cor() %>%
   select_eye(eye_use = "left") %>%
   pupil_deblink(extend = 100) %>%
   pupil_smooth(type = "hann", window = 500, hz = 250) %>%
   pupil_interpolate(type = "cubic-spline", maxgap = 750, hz = 250) %>%
-  pupil_baselinecorrect(message = "Tone 1", match = "exact",
+  pupil_baselinecorrect(bc_onset.message = "Tone 1", match = "exact",
                         pre.duration = 200, type = "subtractive") %>%
   pupil_missing(missing_allowed = .33)
   
@@ -176,14 +179,13 @@ filelist <- list.files(path = "data/raw", pattern = ".txt", full.names = TRUE)
 for (file in filelist) {
   data <- pupil_read(file = "data/raw/pitch_discrimination_19-1_001 Samples.txt",
                      eyetracker = "smi", subj_prefix = "n_", subj_suffix = "-") %>%
-    set_timing(trial_onset.message = "Tone 1", match = "exact",
-             ms.conversion = 1000, pretrial.duration = 1000) %>%
+    set_timing(trial_onset.message = "Tone 1", match = "exact") %>%
     pupil_cor() %>%
     select_eye(eye_use = "left") %>%
     pupil_deblink(extend = 100) %>%
     pupil_smooth(type = "hann", window = 500, hz = 250) %>%
     pupil_interpolate(type = "cubic-spline", maxgap = 750, hz = 250) %>%
-    pupil_baselinecorrect(message = "Tone 1", match = "exact",
+    pupil_baselinecorrect(bc_onset.message = "Tone 1", match = "exact",
                         pre.duration = 200, type = "subtractive") %>%
     pupil_missing(missing_allowed = .33)
   
