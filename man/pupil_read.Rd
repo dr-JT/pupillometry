@@ -20,6 +20,7 @@ pupil_read(
   trial = NULL,
   time = NULL,
   message_event = NULL,
+  stimulus = NULL,
   left_pupil.mm = NULL,
   right_pupil.mm = NULL,
   left_pupil.px = NULL,
@@ -89,6 +90,9 @@ that contains the timing variable}
 
 \item{message_event}{If eyetracker is not specified, then specify column name
 that contains the message markers}
+
+\item{stimulus}{If eyetracker is not specified, then specify column name
+that contains the stimulus information}
 
 \item{left_pupil.mm}{If eyetracker is not specified, then specify column name
 that contains the left pupil data in millimeters}
