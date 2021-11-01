@@ -27,7 +27,7 @@ set_timing <- function(x, trial_onset.message = NULL, pretrial.duration = 0,
                        trialonset.time = ifelse(Stimulus == trial_onset.message,
                                                 min(Time, na.rm = TRUE), NA))
     x <- dplyr::group_by(x, Trial)
-    x <- dplyr::fill(x, trialonset.time, .direction = "updown")
+    x <- tidyr::fill(x, trialonset.time, .direction = "updown")
     x <- dplyr::mutate(x, Time = Time - trialonset.time)
   } else if ("Message" %in% colnames(x)) {
     x <- dplyr::group_by(x, Trial)
