@@ -3,10 +3,10 @@
 #' This sets the timing variable relative to the onset of each trial
 #' @param x dataframe
 #' @param trial_onset.message Message string that marks the start of a trial
-#' @param pretrial.duration Duration of pre-trial period in milliseconds
 #' @param match Is message string an "exact" match or a "pattern" match?
-#' @param trialonset.message See trial_onset.message
-#' @param pre_trial.duration See pretrial.duration
+#' @param pretrial.duration deprecated
+#' @param trialonset.message deprecated
+#' @param pre_trial.duration deprecated
 #' @export
 #'
 
@@ -21,36 +21,43 @@ set_timing <- function(x, trial_onset.message = NULL, pretrial.duration = 0,
   }
   pretrial.duration <- abs(pretrial.duration) * -1
 
-  x <- dplyr::group_by(x, Trial)
-  if (match == "exact"){
+  if ("Stimulus" %in% colnames(x)) {
+    x <- dplyr::group_by(x, Trial, Stimulus)
     x <- dplyr::mutate(x,
-                       trialonset.time = ifelse(Message == trial_onset.message,
-                                                   Time, NA))
-  } else if (match == "pattern"){
+                       trialonset.time = ifelse(Stimulus == trial_onset.message,
+                                                min(Time, na.rm = TRUE), NA))
+    x <- dplyr::group_by(x, Trial)
+    x <- dplyr::fill(x, trialonset.time, .direction = "updown")
+    x <- dplyr::mutate(x, Time = Time - trialonset.time)
+  } else if ("Message" %in% colnames(x)) {
+    x <- dplyr::group_by(x, Trial)
+    if (match == "exact"){
+      x <- dplyr::mutate(x,
+                         trialonset.time = ifelse(Message == trial_onset.message,
+                                                  Time, NA))
+    } else if (match == "pattern"){
+      x <- dplyr::mutate(x,
+                         trialonset.time =
+                           ifelse(stringr::str_detect(Message,
+                                                      trial_onset.message),
+                                  Time, NA))
+    }
     x <- dplyr::mutate(x,
-                       trialonset.time =
-                         ifelse(stringr::str_detect(Message,
-                                                    trial_onset.message),
-                                Time, NA))
+                       min = min(trialonset.time, na.rm = TRUE),
+                       trialonset.time = ifelse(is.na(trialonset.time) |
+                                                  trialonset.time != min,
+                                                NA, trialonset.time),
+                       trialonset.time = zoo::na.locf(trialonset.time,
+                                                      na.rm = FALSE),
+                       trialonset.time = zoo::na.locf(trialonset.time,
+                                                      na.rm = FALSE,
+                                                      fromLast = TRUE),
+                       Time = Time - trialonset.time)
+    x <- dplyr::select(x, -min)
   }
-  x <- dplyr::mutate(x,
-                     min = min(trialonset.time, na.rm = TRUE),
-                     trialonset.time = ifelse(is.na(trialonset.time) |
-                                                trialonset.time != min,
-                                              NA, trialonset.time),
-                     trialonset.time = zoo::na.locf(trialonset.time,
-                                                    na.rm = FALSE),
-                     trialonset.time = zoo::na.locf(trialonset.time,
-                                                    na.rm = FALSE,
-                                                    fromLast = TRUE),
-                     Time = Time - trialonset.time,
-                     Trial_Phase =
-                       ifelse(Time >= pretrial.duration & Time < 0,
-                              "PreTrial", ifelse(Time >= 0, "Trial", NA)))
+
   x <- dplyr::ungroup(x)
-  x <- dplyr::mutate(x, Trial = ifelse(Time >= pretrial.duration, Trial, 0))
-  x <- dplyr::filter(x, Trial != 0, !is.na(Trial))
-  x <- dplyr::select(x, -trialonset.time, -min)
+  x <- dplyr::select(x, -trialonset.time)
   x <- dplyr::distinct(x, Trial, Time, .keep_all = TRUE)
   x <- dplyr::filter(x, !is.na(Subject))
 

@@ -18,13 +18,13 @@ set_timing(
 
 \item{trial_onset.message}{Message string that marks the start of a trial}
 
-\item{pretrial.duration}{Duration of pre-trial period in milliseconds}
+\item{pretrial.duration}{deprecated}
 
 \item{match}{Is message string an "exact" match or a "pattern" match?}
 
-\item{trialonset.message}{See trial_onset.message}
+\item{trialonset.message}{deprecated}
 
-\item{pre_trial.duration}{See pretrial.duration}
+\item{pre_trial.duration}{deprecated}
 }
 \description{
 This sets the timing variable relative to the onset of each trial
