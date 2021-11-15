@@ -4,17 +4,19 @@
 \alias{pupil_smooth}
 \title{Apply smoothing/low frequency filter}
 \usage{
-pupil_smooth(x, type = "hann", window = 5, hz = "")
+pupil_smooth(x, type = "hann", n = NULL, window = NULL, hz = NULL)
 }
 \arguments{
 \item{x}{dataframe}
 
 \item{type}{The type of smoothing function to apply. "hann" or "mwa"}
 
-\item{window}{The size of the smoothing window (default = 5).
-Value is in milliseconds}
+\item{n}{Number of samples to smooth over
+(length of hanning filter for "hann" and window size for "mwa")}
 
-\item{hz}{The recording frequency (used to calculate window size)}
+\item{window}{deprecated. See n}
+
+\item{hz}{deprecated. See n}
 }
 \description{
 This function performs a smoothing function over an array of x
