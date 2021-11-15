@@ -287,14 +287,13 @@ pupil_read <- function(file, eyetracker = "", px_to_mm.conversion = NULL,
 
     data <- readr::read_delim(file, "\t", escape_double = FALSE,
                               trim_ws = TRUE, na = ".", guess_max = 100000)
-    data <- dplyr::rename(data, Time = TIMESTAMP, Message = SAMPLE_MESSAGE,
-                          Head_Distance.cm = HTARGET_DISTANCE)
-
+    data <- dplyr::rename(data, Time = TIMESTAMP, Message = SAMPLE_MESSAGE)
+    if ("HTARGET_DISTANCE" %in% colnames(data)) {
+      data <- dplyr::rename(data, Head_Distance.cm = HTARGET_DISTANCE)
+    }
     subj <- subj.extract(data$RECORDING_SESSION_LABEL[1],
                          prefix = subj_prefix, suffix = subj_suffix)
     ms_conversion <- 1
-
-
     left_recorded <- "LEFT_PUPIL_SIZE" %in% colnames(data)
     right_recorded <- "RIGHT_PUPIL_SIZE" %in% colnames(data)
     if (left_recorded == TRUE) {
