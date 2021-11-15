@@ -8,7 +8,7 @@
 #' @export plot_comparison
 #'
 
-plot_comparison <- function(x, aggregate = NULL){
+pupil_inspect <- function(x, aggregate = NULL){
   real_name <- ifelse("Pupil_Diameter.mm" %in% colnames(x),
                       "Pupil_Diameter.mm", "Pupil_Diameter.px")
   colnames(x)[which(colnames(x) == real_name)] <- "pupil_val"
