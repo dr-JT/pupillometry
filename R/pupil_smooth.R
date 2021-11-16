@@ -5,8 +5,8 @@
 #'
 #' @section Smoothing functions:
 #'
-#' This function applies either a hanning filter or
-#' n-point moving average smoothing function.
+#' This function applies either a hanning low-pass filter or an
+#' n-point moving average function.
 #'
 #' The hanning filter uses the `dplR::hanning()` function.
 #' The n-point moving average uses the `zoo::rollapply(FUN = mean)` function.
