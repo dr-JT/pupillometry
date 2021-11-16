@@ -2,23 +2,68 @@
 % Please edit documentation in R/pupil_smooth.R
 \name{pupil_smooth}
 \alias{pupil_smooth}
-\title{Apply smoothing/low frequency filter}
+\title{Apply a smoothing function on pupil data}
 \usage{
-pupil_smooth(x, type = "hann", n = NULL, window = NULL, hz = NULL)
+pupil_smooth(
+  x,
+  type = "hann",
+  n = NULL,
+  plot = FALSE,
+  plot_aggregate = NULL,
+  window = NULL,
+  hz = NULL
+)
 }
 \arguments{
 \item{x}{dataframe}
 
 \item{type}{The type of smoothing function to apply. "hann" or "mwa"}
 
-\item{n}{Number of samples to smooth over
-(length of hanning filter for "hann" and window size for "mwa")}
+\item{n}{The size of the smoothing window in samples}
 
-\item{window}{deprecated. See n}
+\item{plot}{Logical. Inspect a plot of how pupil values changed?}
 
-\item{hz}{deprecated. See n}
+\item{plot_aggregate}{The name of the column to aggregate the plot by}
+
+\item{window}{Deprecated. Use n.
+The size of the smoothing window in milliseconds}
+
+\item{hz}{Deprecated. Use n. The recording frequency.
+Needed if specified a window size in milliseconds}
 }
 \description{
-This function performs a smoothing function over an array of x
-The 'zoo' package is a dependency
+The purpose of smoothing is to reduce high-frequency
+fluctuations in the data (noise).
 }
+\section{Smoothing functions}{
+
+
+This function applies either a hanning filter or
+n-point moving average smoothing function.
+
+The hanning filter uses the `dplR::hanning()` function.
+The n-point moving average uses the `zoo::rollapply(FUN = mean)` function.
+
+The window size (n) determines how much smoothing is applied, with a larger
+window size resulting in more smoothing. In general, it is advised not to
+use too large of a window size as this can result in diminishing meaningful
+signals in the data in addition to noise.
+
+The window size (n) needs to be specified in terms of the number of
+samples. When determining what window size to set, the sampling frequency
+of the pupil data needs to be taken into consideration. For example, a
+5-point (n = 5) moving average at 250Hz is averaging over a 20 ms window,
+whereas a 5-point moving average at 1000Hz is averaging over a 5 ms window.
+}
+
+\section{Plot inspection}{
+
+
+To inspect how the preprocesing step changed pupil size values,
+use `plot = TRUE`.
+
+Warning: this will create a separate plot for every trial and therefore can
+be time consuming and overwhelming. There is also the option to create
+aggregated plots over trial conditions with the `plot_aggregate` argument.
+}
+
