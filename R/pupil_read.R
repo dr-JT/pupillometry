@@ -17,6 +17,7 @@
 #'     mark StartTracking inline
 #' @param start_tracking.match Should the message string be an
 #'     "exact" match or a "pattern" match?
+#' @param eye_use Which eye to use? Left or right
 #' @param subj_prefix The unique pattern prefix (letter(s)
 #'     and/or symbol(s)) that comes before the subject number in the data file
 #' @param subj_suffix The unique pattern suffix (letter(s) or
@@ -88,11 +89,12 @@
 #' @export
 #'
 
-pupil_read <- function(file, eyetracker = "", px_to_mm.conversion = NULL,
+pupil_read <- function(file, eyetracker = "",
                        start_tracking.message = "default",
-                       start_tracking.match = "exact", subj_prefix = NULL,
-                       subj_suffix = NULL, timing_file = NULL,
-                       trial_exclude = NULL,
+                       start_tracking.match = "exact", eye_use = NULL,
+                       subj_prefix = NULL, subj_suffix = NULL,
+                       px_to_mm.conversion = NULL,
+                       timing_file = NULL, trial_exclude = NULL,
                        quality_check_dir = NULL,
                        delim = NULL, subject = NULL, trial = NULL, time = NULL,
                        message_event = NULL, stimulus = NULL,
@@ -521,6 +523,18 @@ pupil_read <- function(file, eyetracker = "", px_to_mm.conversion = NULL,
   }
 
   ########################################
+
+  ## Select eye ####
+  if (!is.null(eye_use)) {
+    if (("L_Pupil_Diameter.mm" %in% colnames(data) &
+         "R_Pupil_Diameter.mm" %in% colnames(data)) |
+        ("L_Pupil_Diameter.px" %in% colnames(data) &
+         "R_Pupil_Diameter.px" %in% colnames(data))) {
+      data <- pupil_cor(data)
+    }
+    data <- select_eye(data, eye_use = eye_use)
+  }
+  ##################
 
   ## If timing file exists insert start message marker ####
   if (!is.null(timing_file)) {

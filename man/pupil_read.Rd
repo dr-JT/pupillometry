@@ -7,11 +7,12 @@
 pupil_read(
   file,
   eyetracker = "",
-  px_to_mm.conversion = NULL,
   start_tracking.message = "default",
   start_tracking.match = "exact",
+  eye_use = NULL,
   subj_prefix = NULL,
   subj_suffix = NULL,
+  px_to_mm.conversion = NULL,
   timing_file = NULL,
   trial_exclude = NULL,
   quality_check_dir = NULL,
@@ -55,20 +56,22 @@ pupil_read(
 \item{eyetracker}{Which eye-tracker system was used to record data?
 options: "smi", "eyelink", NULL}
 
-\item{px_to_mm.conversion}{The conversion factor to go from
-px pupil diameter to mm pupil diameter}
-
 \item{start_tracking.message}{Message used in SMI experiment to
 mark StartTracking inline}
 
 \item{start_tracking.match}{Should the message string be an
 "exact" match or a "pattern" match?}
 
+\item{eye_use}{Which eye to use? Left or right}
+
 \item{subj_prefix}{The unique pattern prefix (letter(s)
 and/or symbol(s)) that comes before the subject number in the data file}
 
 \item{subj_suffix}{The unique pattern suffix (letter(s) or
 symbol(s)) that comes after the subject number in the data file}
+
+\item{px_to_mm.conversion}{The conversion factor to go from
+px pupil diameter to mm pupil diameter}
 
 \item{timing_file}{File location and name that contains timing
 information for message markers}
