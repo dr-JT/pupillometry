@@ -8,7 +8,9 @@ An exploratory function only.}
 pupil_plot(x, y, aggregate = NULL)
 }
 \arguments{
-\item{x}{dataframe}
+\item{x}{data before preprocessing step}
+
+\item{y}{data after preprocessing step}
 
 \item{aggregate}{column name to aggregate the plot by.
 For individual trial plots leave as NULL.}

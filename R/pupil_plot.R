@@ -2,7 +2,8 @@
 #' An exploratory function only.
 #'
 #' This function will print ggplot figures of either trial level or aggregated pupil data
-#' @param x dataframe
+#' @param x data before preprocessing step
+#' @param y data after preprocessing step
 #' @param aggregate column name to aggregate the plot by.
 #'     For individual trial plots leave as NULL.
 #' @export pupil_plot
@@ -34,8 +35,8 @@ pupil_plot <- function(x, y, aggregate = NULL) {
     }
   } else {
     for (group in unique(x[[aggregate]])) {
-      x_group <- dplyr::filter(x, get(aggregate) == group)
-      plot <- ggplot2::ggplot(x_group,
+      data_group <- dplyr::filter(data_plot, get(aggregate) == group)
+      plot <- ggplot2::ggplot(data_group,
                               ggplot2::aes(Time, group = get(aggregate))) +
         ggplot2::stat_summary(ggplot2::aes(y = pupil_val_before),
                               fun = mean, na.rm = TRUE,
@@ -45,7 +46,7 @@ pupil_plot <- function(x, y, aggregate = NULL) {
                               geom = "line") +
         ggplot2::ggtitle(paste("Group: ", x[1,aggregate], sep = "")) +
         ggplot2::theme(plot.title = ggplot2::element_text(hjust = 0.5)) +
-        ggplot2::labs(y = real_name, x = "Time (ms)")
+        ggplot2::labs(y = "Pupil Size", x = "Time (ms)")
       # Print plot
       grid::grid.newpage()
       grid::grid.draw(plot)
