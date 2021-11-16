@@ -31,6 +31,8 @@
 #' be time consuming and overwhelming. There is also the option to create
 #' aggregated plots over trial conditions with the `plot_aggregate` argument.
 #'
+#' The plot argument is meant for initial exploratory steps to determine the
+#' appropriate preprocessing parameters.
 #'
 #' @param x dataframe
 #' @param type The type of smoothing function to apply. "hann" or "mwa"
