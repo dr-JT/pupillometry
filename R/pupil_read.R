@@ -158,7 +158,7 @@ pupil_read <- function(file, eyetracker = "", px_to_mm.conversion = NULL,
     }
 
     header <- readr::read_table(file, col_names = FALSE)
-    if (ncol(header) == 1) {
+    if (ncol(header) >= 1) {
       samples.total <- as.numeric(strsplit(header$X1[10], "\t")[[1]][2])
       head.distance <- as.numeric(strsplit(header$X1[24], "\t")[[1]][2])/10
       found <- NA
