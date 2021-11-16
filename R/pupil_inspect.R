@@ -5,10 +5,10 @@
 #' @param x dataframe
 #' @param aggregate column name to aggregate the plots by.
 #'     For individual trial plots leave as NULL.
-#' @export plot_comparison
+#' @export pupil_plot
 #'
 
-pupil_inspect <- function(x, aggregate = NULL){
+pupil_plot <- function(x, aggregate = NULL){
   real_name <- ifelse("Pupil_Diameter.mm" %in% colnames(x),
                       "Pupil_Diameter.mm", "Pupil_Diameter.px")
   colnames(x)[which(colnames(x) == real_name)] <- "pupil_val"
