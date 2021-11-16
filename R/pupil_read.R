@@ -552,54 +552,6 @@ pupil_read <- function(file, eyetracker = "", px_to_mm.conversion = NULL,
   }
   ########################################################
 
-  ## If timing file exists insert other message markers ####
-  if (!is.null(timing_file)) {
-    if (file.exists(timing_file)) {
-      message_markers <- stringr::str_subset(colnames(timing_data), "Subject",
-                                             negate = TRUE)
-      message_markers <- stringr::str_subset(message_markers,
-                                             "Trial", negate = TRUE)
-      message_markers <- stringr::str_subset(message_markers,
-                                             start_tracking.message,
-                                             negate = TRUE)
-      for (message in message_markers) {
-        message_start <- dplyr::filter(data, Message == start_tracking.message)
-        message_start <- dplyr::select(message_start, Trial, Time,
-                                       Message, starttracking.time)
-        message_start <- merge(timing_data, message_start, by = "Trial")
-        message_start <- dplyr::mutate(message_start,
-                                       check =
-                                         ifelse(
-                                           get(message) - starttracking.time > 0,
-                                           "abs", "rel"),
-                                       Time = ifelse(check == "abs",
-                                                     get(message),
-                                                     Time + get(message)),
-                                       Message = message)
-        message_start <- dplyr::select(message_start, Trial, Time, Message)
-        data <- dplyr::full_join(data, message_start, by = "Time")
-        data <- dplyr::mutate(data,
-                              Message = dplyr::case_when(
-                                !is.na(Message.x) ~ Message.x,
-                                !is.na(Message.y) ~ Message.y,
-                                TRUE ~ as.character(NA)),
-                              Trial = ifelse(is.na(Trial.x), Trial.y,
-                                             ifelse(is.na(Trial.y),
-                                                    Trial.x, Trial.x)))
-        data <- dplyr::select(data, -Trial.y, -Message.x, -Message.y)
-        data <- dplyr::mutate(data,
-                              Message_Inserted = ifelse(is.na(Subject),
-                                                        1, Message_Inserted),
-                              Subject = zoo::na.locf(Subject, na.rm = FALSE),
-                              Head_Distance.cm = zoo::na.locf(Head_Distance.cm,
-                                                              na.rm = FALSE))
-
-        data <- dplyr::arrange(data, Subject, Trial, Time)
-      }
-    }
-  }
-  ##########################################################
-
   ## Set Trial at start_tracking.message ####
   if (!is.null(start_tracking.message)) {
     if (start_tracking.match == "exact"){
@@ -647,6 +599,54 @@ pupil_read <- function(file, eyetracker = "", px_to_mm.conversion = NULL,
     }
   }
   ###############################
+
+  ## If timing file exists insert other message markers ####
+  if (!is.null(timing_file)) {
+    if (file.exists(timing_file)) {
+      message_markers <- stringr::str_subset(colnames(timing_data), "Subject",
+                                             negate = TRUE)
+      message_markers <- stringr::str_subset(message_markers,
+                                             "Trial", negate = TRUE)
+      message_markers <- stringr::str_subset(message_markers,
+                                             start_tracking.message,
+                                             negate = TRUE)
+      for (message in message_markers) {
+        message_start <- dplyr::filter(data, Message == start_tracking.message)
+        message_start <- dplyr::select(message_start, Trial, Time,
+                                       Message, starttracking.time)
+        message_start <- merge(timing_data, message_start, by = "Trial")
+        message_start <- dplyr::mutate(message_start,
+                                       check =
+                                         ifelse(
+                                           get(message) - starttracking.time > 0,
+                                           "abs", "rel"),
+                                       Time = ifelse(check == "abs",
+                                                     get(message),
+                                                     Time + get(message)),
+                                       Message = message)
+        message_start <- dplyr::select(message_start, Trial, Time, Message)
+        data <- dplyr::full_join(data, message_start, by = "Time")
+        data <- dplyr::mutate(data,
+                              Message = dplyr::case_when(
+                                !is.na(Message.x) ~ Message.x,
+                                !is.na(Message.y) ~ Message.y,
+                                TRUE ~ as.character(NA)),
+                              Trial = ifelse(is.na(Trial.x), Trial.y,
+                                             ifelse(is.na(Trial.y),
+                                                    Trial.x, Trial.x)))
+        data <- dplyr::select(data, -Trial.y, -Message.x, -Message.y)
+        data <- dplyr::mutate(data,
+                              Message_Inserted = ifelse(is.na(Subject),
+                                                        1, Message_Inserted),
+                              Subject = zoo::na.locf(Subject, na.rm = FALSE),
+                              Head_Distance.cm = zoo::na.locf(Head_Distance.cm,
+                                                              na.rm = FALSE))
+
+        data <- dplyr::arrange(data, Subject, Trial, Time)
+      }
+    }
+  }
+  ##########################################################
 
   if(is.null(start_tracking.message)) {
     if (!("Trial" %in% colnames(data))) {
