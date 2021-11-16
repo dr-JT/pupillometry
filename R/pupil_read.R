@@ -552,54 +552,11 @@ pupil_read <- function(file, eyetracker = "", px_to_mm.conversion = NULL,
   }
   ########################################################
 
-  ## Set Trial at start_tracking.message ####
-  if (!is.null(start_tracking.message)) {
-    if (start_tracking.match == "exact"){
-      data <- dplyr::mutate(data,
-                            starttracking.time =
-                              ifelse(Message == start_tracking.message,
-                                     Time, NA))
-    } else if (start_tracking.match == "pattern"){
-      data <- dplyr::mutate(data,
-                            starttracking.time =
-                              ifelse(stringr::str_detect(
-                                Message, start_tracking.message),
-                                Time, NA))
-    }
-    data <- dplyr::mutate(data,
-                          starttracking.time = zoo::na.locf(starttracking.time,
-                                                            na.rm = FALSE),
-                          Trial = dplyr::dense_rank(starttracking.time))
-    check <- data
-    check <- dplyr::select(check, Subject, Time, Trial, starttracking.time)
-    check <- dplyr::filter(check, Time == starttracking.time)
-    check <- dplyr::group_by(check, Subject)
-    check <- dplyr::summarise(check, Trials = dplyr::n())
-    check <- dplyr::ungroup(check)
-  } else {
-    check <- data.frame()
-  }
-  ###########################################
-
-  ## Set trial quality check ####
-  if (!is.null(quality_check_dir)) {
-    if (!dir.exists(quality_check_dir)) dir.create(quality_check_dir)
-    check_file <- paste(quality_check_dir, "quality_check.csv", sep = "/")
-    if (!file.exists(check_file)) {
-      readr::write_csv(check, check_file)
-    } else {
-      data_check <- readr::read_csv(check_file)
-      data_check <- dplyr::bind_rows(data_check, check)
-      readr::write_csv(data_check, check_file)
-    }
-  }
-  ###############################
-
   ## If timing file exists insert other message markers ####
   if (!is.null(timing_file)) {
     if (file.exists(timing_file)) {
       message_markers <- stringr::str_subset(colnames(timing_data), "Subject",
-                                             negate=TRUE)
+                                             negate = TRUE)
       message_markers <- stringr::str_subset(message_markers,
                                              "Trial", negate = TRUE)
       message_markers <- stringr::str_subset(message_markers,
@@ -642,6 +599,54 @@ pupil_read <- function(file, eyetracker = "", px_to_mm.conversion = NULL,
     }
   }
   ##########################################################
+
+  ## Set Trial at start_tracking.message ####
+  if (!is.null(start_tracking.message)) {
+    if (start_tracking.match == "exact"){
+      data <- dplyr::mutate(data,
+                            starttracking.time =
+                              ifelse(Message == start_tracking.message,
+                                     Time, NA))
+    } else if (start_tracking.match == "pattern"){
+      data <- dplyr::mutate(data,
+                            starttracking.time =
+                              ifelse(stringr::str_detect(
+                                Message, start_tracking.message),
+                                Time, NA))
+    }
+    data <- dplyr::mutate(data,
+                          starttracking.time = zoo::na.locf(starttracking.time,
+                                                            na.rm = FALSE),
+                          Trial = dplyr::dense_rank(starttracking.time))
+    check <- data
+    check <- pupil_missing(check)
+    check <- dplyr::select(check, Subject, Time, Trial,
+                           Pupil_Missing, starttracking.time)
+    check <- dplyr::filter(check, Time == starttracking.time)
+    check <- dplyr::group_by(check, Subject)
+    check <- dplyr::summarise(check,
+                              Trials = dplyr::n(),
+                              Pupil_Missing.mean =
+                                mean(Pupil_Missing, na.rm = TRUE))
+    check <- dplyr::ungroup(check)
+  } else {
+    check <- data.frame()
+  }
+  ###########################################
+
+  ## Save trial quality check ####
+  if (!is.null(quality_check_dir)) {
+    if (!dir.exists(quality_check_dir)) dir.create(quality_check_dir)
+    check_file <- paste(quality_check_dir, "quality_check.csv", sep = "/")
+    if (!file.exists(check_file)) {
+      readr::write_csv(check, check_file)
+    } else {
+      data_check <- readr::read_csv(check_file)
+      data_check <- dplyr::bind_rows(data_check, check)
+      readr::write_csv(data_check, check_file)
+    }
+  }
+  ###############################
 
   if(is.null(start_tracking.message)) {
     if (!("Trial" %in% colnames(data))) {
