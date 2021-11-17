@@ -90,6 +90,7 @@ pupil_smooth <- function(x, type = "hann", n = NULL, upsample = FALSE,
   if (upsample == TRUE) {
     x <- dplyr::mutate(x,
                        pupil_val = ifelse(is.na(pupil_before), NA, pupil_val))
+    x <- dplyr::select(x, -pupil_before)
   }
 
   colnames(x)[which(colnames(x) == "pupil_val")] <- real_name
