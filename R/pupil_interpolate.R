@@ -6,11 +6,14 @@
 #' @param type What type of interpolation to use? "linear" or "cubic-spline"
 #' @param maxgap Maximum number of NAs to interpolate over.
 #'     Any gaps over this value will not be interpolated.
+#' @param plot Logical. Inspect a plot of how pupil values changed?
 #' @param hz The recording frequency (used to calculate window size)
 #' @export
 #'
 
-pupil_interpolate <- function(x, type = "cubic-spline", maxgap = Inf, hz = ""){
+pupil_interpolate <- function(x, type = "cubic-spline",
+                              maxgap = Inf, hz = "", plot = FALSE){
+  x_before <- x
 
   real_name <- ifelse("Pupil_Diameter.mm" %in% colnames(x),
                       "Pupil_Diameter.mm", "Pupil_Diameter.px")
@@ -42,6 +45,8 @@ pupil_interpolate <- function(x, type = "cubic-spline", maxgap = Inf, hz = ""){
   }
   x <- dplyr::ungroup(x)
   colnames(x)[which(colnames(x) == "pupil_val")] <- real_name
+
+  if (plot == TRUE) pupil_plot(x_before, x)
 
   return(x)
 }
