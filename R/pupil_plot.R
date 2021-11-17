@@ -26,7 +26,7 @@ pupil_plot <- function(x, y, aggregate = NULL) {
       plot <- ggplot2::ggplot(data_trial, ggplot2::aes(Time)) +
         ggplot2::geom_line(ggplot2::aes(y = pupil_val_before), alpha = .35) +
         ggplot2::geom_line(ggplot2::aes(y = pupil_val_after)) +
-        ggplot2::ggtitle(paste("Trial: ", x$Trial[1], sep = "")) +
+        ggplot2::ggtitle(paste("Trial: ", data_trial$Trial[1], sep = "")) +
         ggplot2::theme(plot.title = ggplot2::element_text(hjust = 0.5)) +
         ggplot2::labs(y = "Pupil Size", x = "Time (ms)")
       # Print plot
@@ -34,7 +34,7 @@ pupil_plot <- function(x, y, aggregate = NULL) {
     }
   } else {
     for (group in unique(x[[aggregate]])) {
-      data_group <- dplyr::filter(data_plot, get(aggregate) == group)
+      data_group <- dplyr::filter(data_plot, aggregate == group)
       plot <- ggplot2::ggplot(data_group,
                               ggplot2::aes(Time, group = get(aggregate))) +
         ggplot2::stat_summary(ggplot2::aes(y = pupil_val_before),
@@ -43,7 +43,7 @@ pupil_plot <- function(x, y, aggregate = NULL) {
         ggplot2::stat_summary(ggplot2::aes(y = pupil_val_after),
                               fun = mean, na.rm = TRUE,
                               geom = "line") +
-        ggplot2::ggtitle(paste("Group: ", x[1,aggregate], sep = "")) +
+        ggplot2::ggtitle(paste("Group: ", data_group[1,aggregate], sep = "")) +
         ggplot2::theme(plot.title = ggplot2::element_text(hjust = 0.5)) +
         ggplot2::labs(y = "Pupil Size", x = "Time (ms)")
       # Print plot
