@@ -54,7 +54,7 @@ pupil_plot <- function(x, y, aggregate = NULL) {
                             stroke = .5, size = .75, ) +
         ggplot2::ggtitle(paste("Trial: ", data_trial$Trial[1], sep = "")) +
         ggplot2::labs(y = "Pupil Size", x = "Time (ms)") +
-        theme_spacious() + ggplot2::theme_linedraw() +
+        ggplot2::theme_linedraw() + theme_spacious() +
         ggplot2::theme(plot.title = ggplot2::element_text(hjust = 0.5))
       # Print plot
       grid::grid.draw(plot)
@@ -73,7 +73,7 @@ pupil_plot <- function(x, y, aggregate = NULL) {
                               stroke = .5, size = .75) +
         ggplot2::ggtitle(paste("Group: ", data_group[1,aggregate], sep = "")) +
         ggplot2::labs(y = "Pupil Size", x = "Time (ms)") +
-        theme_spacious() + ggplot2::theme_linedraw() +
+        ggplot2::theme_linedraw() + theme_spacious() +
         ggplot2::theme(plot.title = ggplot2::element_text(hjust = 0.5))
       # Print plot
       grid::grid.draw(plot)
