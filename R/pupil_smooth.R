@@ -28,18 +28,14 @@
 #' use `plot = TRUE`.
 #'
 #' Warning: this will create a separate plot for every trial and therefore can
-#' be time consuming and overwhelming. There is also the option to create
-#' aggregated plots over trial conditions with the `plot_aggregate` argument.
-#'
-#' The plot argument is meant for initial exploratory steps to determine the
-#' appropriate preprocessing parameters.
+#' be time consuming and overwhelming. The plot argument is meant for initial
+#' exploratory steps to determine the appropriate preprocessing parameters.
 #'
 #' @param x dataframe
 #' @param type The type of smoothing function to apply. "hann" or "mwa"
 #' @param n The size of the smoothing window in samples
 #' @param upsample Logical. Upsample the data to 1000Hz?
 #' @param plot Logical. Inspect a plot of how pupil values changed?
-#' @param plot_aggregate The name of the column to aggregate the plot by
 #' @param window Deprecated. Use n.
 #'     The size of the smoothing window in milliseconds
 #' @param hz Deprecated. Use n. The recording frequency.
@@ -49,8 +45,7 @@
 #'
 
 pupil_smooth <- function(x, type = "hann", n = NULL, upsample = FALSE,
-                         plot = FALSE, plot_aggregate = NULL,
-                         window = NULL, hz = NULL){
+                         plot = FALSE, window = NULL, hz = NULL){
   real_name <- ifelse("Pupil_Diameter.mm" %in% colnames(x),
                       "Pupil_Diameter.mm", "Pupil_Diameter.px")
 
