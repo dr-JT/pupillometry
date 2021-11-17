@@ -5,15 +5,12 @@
 \title{Plot and inspect how preprocessing steps are changing the pupil data.
 An exploratory function only.}
 \usage{
-pupil_plot(x, y, aggregate = NULL)
+pupil_plot(x, y)
 }
 \arguments{
 \item{x}{data before preprocessing step}
 
 \item{y}{data after preprocessing step}
-
-\item{aggregate}{column name to aggregate the plot by.
-For individual trial plots leave as NULL.}
 }
 \description{
 This function will print ggplot figures of either trial level or aggregated pupil data
