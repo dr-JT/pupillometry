@@ -78,7 +78,7 @@ pupil_smooth <- function(x, type = "hann", n = NULL,
                                              width = n,
                                              FUN = mean,
                                              na.rm = TRUE,
-                                             partial = TRUE),
+                                             partial = FALSE),
                        hold = zoo::na.approx(hold, rule = 2),
                        pupil_val = ifelse(is.na(pupil_val), NA, hold))
   }
