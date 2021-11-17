@@ -49,7 +49,7 @@ pupil_plot <- function(x, y) {
       ggplot2::geom_point(ggplot2::aes(y = pupil_val_after),
                           stroke = .5, size = .75) +
       ggplot2::geom_point(ggplot2::aes(y = pupil_val_before),
-                          stroke = .5, size = .75, color = "grey50", alpha = .25) +
+                          stroke = .5, size = .75, color = "grey65", alpha = .75) +
       ggplot2::ggtitle(paste("Trial: ", data_trial$Trial[1], sep = "")) +
       ggplot2::labs(y = "Pupil Size", x = "Time (ms)") +
       ggplot2::theme_linedraw() + theme_spacious() +
