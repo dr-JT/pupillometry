@@ -94,7 +94,7 @@ pupil_smooth <- function(x, type = "hann", n = NULL, upsample = FALSE,
 
   colnames(x)[which(colnames(x) == "pupil_val")] <- real_name
 
-  if (plot == TRUE) pupil_plot(x_before, x, aggregate = plot_aggregate)
+  if (plot == TRUE) pupil_plot(x_before, x)
 
   return(x)
 }
