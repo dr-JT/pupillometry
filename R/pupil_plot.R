@@ -33,8 +33,8 @@ pupil_plot <- function(x, y, aggregate = NULL) {
       grid::grid.draw(plot)
     }
   } else {
-    for (group in unique(x[[aggregate]])) {
-      data_group <- dplyr::filter(data_plot, aggregate == group)
+    for (condition in unique(x[[aggregate]])) {
+      data_group <- dplyr::filter(data_plot, aggregate == condition)
       plot <- ggplot2::ggplot(data_group,
                               ggplot2::aes(Time)) +
         ggplot2::stat_summary(ggplot2::aes(y = pupil_val_before, group = 1),
