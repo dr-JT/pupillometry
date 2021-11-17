@@ -36,7 +36,7 @@ pupil_plot <- function(x, y, aggregate = NULL) {
     for (group in unique(x[[aggregate]])) {
       data_group <- dplyr::filter(data_plot, aggregate == group)
       plot <- ggplot2::ggplot(data_group,
-                              ggplot2::aes(Time, group = get(aggregate))) +
+                              ggplot2::aes(Time, group = aggregate)) +
         ggplot2::stat_summary(ggplot2::aes(y = pupil_val_before),
                               fun = mean, na.rm = TRUE,
                               geom = "line", alpha = .35) +
