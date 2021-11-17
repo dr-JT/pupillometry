@@ -696,6 +696,7 @@ pupil_read <- function(file, eyetracker = "",
     data <- dplyr::filter(data, !(Trial %in% trial_exclude))
   }
   data <- dplyr::filter(data, !is.na(Trial))
+  data <- dplyr::mutate(data, Time = round(Time))
   #################################################
 
   return(data)
