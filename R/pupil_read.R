@@ -664,7 +664,8 @@ pupil_read <- function(file, eyetracker = "",
       }
       data <- dplyr::mutate(data,
                             Message_Inserted = ifelse(is.na(Message),
-                                                      0, 1))
+                                                      0, 1),
+                            Message = dplyr::lag(Message))
     }
   }
   ##########################################################
