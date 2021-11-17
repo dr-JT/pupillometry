@@ -55,7 +55,7 @@ pupil_plot <- function(x, y, aggregate = NULL) {
         ggplot2::ggtitle(paste("Trial: ", data_trial$Trial[1], sep = "")) +
         ggplot2::theme(plot.title = ggplot2::element_text(hjust = 0.5)) +
         ggplot2::labs(y = "Pupil Size", x = "Time (ms)") +
-        theme_spacious()
+        theme_spacious() + ggplot2::theme_linedraw()
 
       # Print plot
       grid::grid.draw(plot)
