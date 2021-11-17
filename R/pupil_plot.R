@@ -30,7 +30,6 @@ pupil_plot <- function(x, y, aggregate = NULL) {
         ggplot2::theme(plot.title = ggplot2::element_text(hjust = 0.5)) +
         ggplot2::labs(y = "Pupil Size", x = "Time (ms)")
       # Print plot
-      grid::grid.newpage()
       grid::grid.draw(plot)
     }
   } else {
@@ -48,7 +47,6 @@ pupil_plot <- function(x, y, aggregate = NULL) {
         ggplot2::theme(plot.title = ggplot2::element_text(hjust = 0.5)) +
         ggplot2::labs(y = "Pupil Size", x = "Time (ms)")
       # Print plot
-      grid::grid.newpage()
       grid::grid.draw(plot)
     }
   }
