@@ -4,7 +4,13 @@
 \alias{pupil_interpolate}
 \title{Apply interpolation}
 \usage{
-pupil_interpolate(x, type = "cubic-spline", maxgap = Inf, hz = "")
+pupil_interpolate(
+  x,
+  type = "cubic-spline",
+  maxgap = Inf,
+  hz = "",
+  plot = FALSE
+)
 }
 \arguments{
 \item{x}{dataframe}
@@ -15,6 +21,8 @@ pupil_interpolate(x, type = "cubic-spline", maxgap = Inf, hz = "")
 Any gaps over this value will not be interpolated.}
 
 \item{hz}{The recording frequency (used to calculate window size)}
+
+\item{plot}{Logical. Inspect a plot of how pupil values changed?}
 }
 \description{
 This function performs an interpolation over missing values.
