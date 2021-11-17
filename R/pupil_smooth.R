@@ -51,13 +51,14 @@
 pupil_smooth <- function(x, type = "hann", n = NULL, upsample = FALSE,
                          plot = FALSE, plot_aggregate = NULL,
                          window = NULL, hz = NULL){
-  x_before <- x
+
   real_name <- ifelse("Pupil_Diameter.mm" %in% colnames(x),
                       "Pupil_Diameter.mm", "Pupil_Diameter.px")
   colnames(x)[which(colnames(x) == real_name)] <- "pupil_val"
 
   if (upsample == TRUE) {
     x <- pupil_upsample(x)
+    x_before <- x
     x <- dplyr::mutate(x, pupil_before = pupil_val)
     colnames(x)[which(colnames(x) == "pupil_val")] <- real_name
     x <- pupil_interpolate(x, type = "linear")
