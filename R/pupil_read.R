@@ -548,6 +548,7 @@ pupil_read <- function(file, eyetracker = "",
       timing_data <- dplyr::filter(timing_data, Subject == subj)
       starttrack_timing <- dplyr::mutate(timing_data,
                                          Time = get(start_tracking.message),
+                                         Time = Time / ms_conversion,
                                          Message = start_tracking.message)
       starttrack_timing <- dplyr::select(starttrack_timing, Trial, Time, Message)
       data <- dplyr::select(data, -Message, -tidyselect::any_of("Trial"))
