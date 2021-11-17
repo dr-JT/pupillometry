@@ -37,6 +37,7 @@
 #' @param x dataframe
 #' @param type The type of smoothing function to apply. "hann" or "mwa"
 #' @param n The size of the smoothing window in samples
+#' @param upsample Logical. Upsample the data to 1000Hz?
 #' @param plot Logical. Inspect a plot of how pupil values changed?
 #' @param plot_aggregate The name of the column to aggregate the plot by
 #' @param window Deprecated. Use n.
@@ -47,18 +48,23 @@
 #'
 #'
 
-pupil_smooth <- function(x, type = "hann", n = NULL,
+pupil_smooth <- function(x, type = "hann", n = NULL, upsample = FALSE,
                          plot = FALSE, plot_aggregate = NULL,
                          window = NULL, hz = NULL){
   x_before <- x
-
   real_name <- ifelse("Pupil_Diameter.mm" %in% colnames(x),
                       "Pupil_Diameter.mm", "Pupil_Diameter.px")
-
-  x <- dplyr::group_by(x, Trial)
-
   colnames(x)[which(colnames(x) == real_name)] <- "pupil_val"
 
+  if (upsample == TRUE) {
+    x <- pupil_upsample(x)
+    x <- dplyr::mutate(x, pupil_before = pupil_val)
+    x <- pupil_interpolate(x, type = "linear")
+    x <- dplyr::mutate(x,
+                       pupil_val = ifelse(is.na(pupil_before), NA, pupil_val))
+  }
+
+  x <- dplyr::group_by(x, Trial)
   if (!is.null(window)) {
     n <- round(window / (1000 / hz))
     if (!(n %% 2)) {
@@ -84,6 +90,11 @@ pupil_smooth <- function(x, type = "hann", n = NULL,
   }
   x <- dplyr::select(x, -hold)
   x <- dplyr::ungroup(x)
+
+  if (upsample == TRUE) {
+    x <- x
+  }
+
   colnames(x)[which(colnames(x) == "pupil_val")] <- real_name
 
   if (plot == TRUE) pupil_plot(x_before, x, aggregate = plot_aggregate)
