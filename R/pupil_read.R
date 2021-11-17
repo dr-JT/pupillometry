@@ -636,8 +636,11 @@ pupil_read <- function(file, eyetracker = "",
                                            get(message) - starttracking.time > 0,
                                            "abs", "rel"),
                                        Time = ifelse(check == "abs",
-                                                     get(message),
-                                                     Time + get(message)),
+                                                     get(message) /
+                                                       ms_conversion,
+                                                     Time +
+                                                       (get(message) /
+                                                          ms_conversion)),
                                        Message = message)
         message_start <- dplyr::select(message_start, Trial, Time, Message)
         data <- dplyr::full_join(data, message_start, by = "Time")
