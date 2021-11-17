@@ -42,9 +42,10 @@ pupil_plot <- function(x, y, aggregate = NULL) {
   colnames(y)[which(colnames(y) == real_name)] <- "pupil_val_after"
   x <- dplyr::select(x, Trial, Time, pupil_val_before, dplyr::any_of(aggregate))
   y <- dplyr::select(y, Trial, Time, pupil_val_after, dplyr::any_of(aggregate))
-  data_plot <- merge(x, y, by = c("Trial", "Time"), all = TRUE)
+
 
   if (is.null(aggregate)) {
+    data_plot <- merge(x, y, by = c("Trial", "Time"), all = TRUE)
     for (trial in unique(x$Trial)) {
       data_trial <- dplyr::filter(data_plot, Trial == trial)
       plot <- ggplot2::ggplot(data_trial, ggplot2::aes(Time)) +
@@ -60,6 +61,7 @@ pupil_plot <- function(x, y, aggregate = NULL) {
       grid::grid.draw(plot)
     }
   } else {
+    data_plot <- merge(x, y, by = c("Trial", "Time", aggregate), all = TRUE)
     for (condition in unique(x[[aggregate]])) {
       data_group <- dplyr::filter(data_plot, aggregate == condition)
       plot <- ggplot2::ggplot(data_group, ggplot2::aes(Time)) +
