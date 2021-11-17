@@ -43,7 +43,7 @@ pupil_interpolate <- function(x, type = "cubic-spline",
                        pupil_val = zoo::na.approx(pupil_val, na.rm = FALSE,
                                                   maxgap = maxgap))
   }
-  x <- dplyr::arrange(x, Time)
+  x <- dplyr::arrange(x, Trial, Time)
   x <- dplyr::ungroup(x)
   colnames(x)[which(colnames(x) == "pupil_val")] <- real_name
 
