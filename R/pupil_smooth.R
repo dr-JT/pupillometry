@@ -85,6 +85,7 @@ pupil_smooth <- function(x, type = "hann", n = NULL, upsample = FALSE,
                        pupil_val = ifelse(is.na(pupil_val), NA, hold))
   }
   x <- dplyr::select(x, -hold)
+  x <- dplyr::arrange(x, Time)
   x <- dplyr::ungroup(x)
 
   if (upsample == TRUE) {
