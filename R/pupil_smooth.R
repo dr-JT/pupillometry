@@ -62,8 +62,6 @@ pupil_smooth <- function(x, type = "hann", n = NULL, upsample = FALSE,
     colnames(x)[which(colnames(x) == "pupil_val")] <- real_name
     x <- pupil_interpolate(x, type = "linear")
     colnames(x)[which(colnames(x) == real_name)] <- "pupil_val"
-    x <- dplyr::mutate(x,
-                       pupil_val = ifelse(is.na(pupil_before), NA, pupil_val))
   }
 
   x <- dplyr::group_by(x, Trial)
@@ -94,7 +92,8 @@ pupil_smooth <- function(x, type = "hann", n = NULL, upsample = FALSE,
   x <- dplyr::ungroup(x)
 
   if (upsample == TRUE) {
-    x <- x
+    x <- dplyr::mutate(x,
+                       pupil_val = ifelse(is.na(pupil_before), NA, pupil_val))
   }
 
   colnames(x)[which(colnames(x) == "pupil_val")] <- real_name
