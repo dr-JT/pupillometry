@@ -2,13 +2,14 @@
 % Please edit documentation in R/set_timing.R
 \name{set_timing}
 \alias{set_timing}
-\title{Set timing relative to trial-onset}
+\title{Set timing relative to some event onset}
 \usage{
 set_timing(
   x,
+  onset_message = NULL,
+  match = "exact",
   trial_onset.message = NULL,
   pretrial.duration = 0,
-  match = "exact",
   trialonset.message = NULL,
   pre_trial.duration = NULL
 )
@@ -16,16 +17,18 @@ set_timing(
 \arguments{
 \item{x}{dataframe}
 
-\item{trial_onset.message}{Message string that marks the start of a trial}
-
-\item{pretrial.duration}{deprecated}
+\item{onset_message}{Message string that marks the start of the event}
 
 \item{match}{Is message string an "exact" match or a "pattern" match?}
+
+\item{trial_onset.message}{deprecated. Use onset_message.}
+
+\item{pretrial.duration}{deprecated}
 
 \item{trialonset.message}{deprecated}
 
 \item{pre_trial.duration}{deprecated}
 }
 \description{
-This sets the timing variable relative to the onset of each trial
+This sets the timing variable relative to the onset of an event
 }
