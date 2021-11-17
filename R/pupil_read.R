@@ -695,6 +695,7 @@ pupil_read <- function(file, eyetracker = "",
   if (!is.null(trial_exclude)){
     data <- dplyr::filter(data, !(Trial %in% trial_exclude))
   }
+  data <- dplyr::filter(data, !is.na(Trial))
   #################################################
 
   return(data)
