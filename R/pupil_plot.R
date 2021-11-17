@@ -49,13 +49,13 @@ pupil_plot <- function(x, y, aggregate = NULL) {
       data_trial <- dplyr::filter(data_plot, Trial == trial)
       plot <- ggplot2::ggplot(data_trial, ggplot2::aes(Time)) +
         ggplot2::geom_point(ggplot2::aes(y = pupil_val_before),
-                            stroke = .5, size = .75, color = "gray", alpha = .35) +
+                            stroke = .5, size = .75, color = "gray", alpha = 35) +
         ggplot2::geom_point(ggplot2::aes(y = pupil_val_after),
                             stroke = .5, size = .75, ) +
         ggplot2::ggtitle(paste("Trial: ", data_trial$Trial[1], sep = "")) +
-        ggplot2::theme(plot.title = ggplot2::element_text(hjust = 0.5)) +
         ggplot2::labs(y = "Pupil Size", x = "Time (ms)") +
-        theme_spacious() + ggplot2::theme_linedraw()
+        theme_spacious() + ggplot2::theme_linedraw() +
+        ggplot2::theme(plot.title = ggplot2::element_text(hjust = 0.5))
       # Print plot
       grid::grid.draw(plot)
     }
@@ -66,15 +66,15 @@ pupil_plot <- function(x, y, aggregate = NULL) {
         ggplot2::stat_summary(ggplot2::aes(y = pupil_val_before),
                               fun = mean, na.rm = TRUE,
                               geom = "point",
-                              stroke = .5, size = .75, color = "gray", alpha = .35) +
+                              stroke = .5, size = .75, color = "gray", alpha = .5) +
         ggplot2::stat_summary(ggplot2::aes(y = pupil_val_after),
                               fun = mean, na.rm = TRUE,
                               geom = "point",
                               stroke = .5, size = .75) +
         ggplot2::ggtitle(paste("Group: ", data_group[1,aggregate], sep = "")) +
-        ggplot2::theme(plot.title = ggplot2::element_text(hjust = 0.5)) +
         ggplot2::labs(y = "Pupil Size", x = "Time (ms)") +
-        theme_spacious() + ggplot2::theme_linedraw()
+        theme_spacious() + ggplot2::theme_linedraw() +
+        ggplot2::theme(plot.title = ggplot2::element_text(hjust = 0.5))
       # Print plot
       grid::grid.draw(plot)
     }
