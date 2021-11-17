@@ -53,17 +53,18 @@ pupil_smooth <- function(x, type = "hann", n = NULL, upsample = FALSE,
                          window = NULL, hz = NULL){
   real_name <- ifelse("Pupil_Diameter.mm" %in% colnames(x),
                       "Pupil_Diameter.mm", "Pupil_Diameter.px")
-  colnames(x)[which(colnames(x) == real_name)] <- "pupil_val"
+
 
   if (upsample == TRUE) {
     x <- pupil_upsample(x)
     x_before <- x
+    colnames(x)[which(colnames(x) == real_name)] <- "pupil_val"
     x <- dplyr::mutate(x, pupil_before = pupil_val)
     colnames(x)[which(colnames(x) == "pupil_val")] <- real_name
     x <- pupil_interpolate(x, type = "linear")
-    colnames(x)[which(colnames(x) == real_name)] <- "pupil_val"
   }
 
+  colnames(x)[which(colnames(x) == real_name)] <- "pupil_val"
   x <- dplyr::group_by(x, Trial)
   if (!is.null(window)) {
     n <- round(window / (1000 / hz))
@@ -97,7 +98,6 @@ pupil_smooth <- function(x, type = "hann", n = NULL, upsample = FALSE,
   }
 
   colnames(x)[which(colnames(x) == "pupil_val")] <- real_name
-  colnames(x_before)[which(colnames(x_before) == "pupil_val")] <- real_name
 
   if (plot == TRUE) pupil_plot(x_before, x, aggregate = plot_aggregate)
 
