@@ -11,7 +11,7 @@
 
 pupil_plot <- function(x, y, aggregate = NULL) {
   real_name <- dplyr::case_when("Pupil_Diameter.mm" %in% colnames(x) ~
-                                  "Pupil_Diammeter.mm",
+                                  "Pupil_Diameter.mm",
                                 "Pupil_Diameter.px" %in% colnames(x) ~
                                   "Pupil_Diameter.px")
   colnames(x)[which(colnames(x) == real_name)] <- "pupil_val_before"
