@@ -8,6 +8,7 @@ pupil_smooth(
   x,
   type = "hann",
   n = NULL,
+  upsample = FALSE,
   plot = FALSE,
   plot_aggregate = NULL,
   window = NULL,
@@ -20,6 +21,8 @@ pupil_smooth(
 \item{type}{The type of smoothing function to apply. "hann" or "mwa"}
 
 \item{n}{The size of the smoothing window in samples}
+
+\item{upsample}{Logical. Upsample the data to 1000Hz?}
 
 \item{plot}{Logical. Inspect a plot of how pupil values changed?}
 
