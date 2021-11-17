@@ -561,7 +561,6 @@ pupil_read <- function(file, eyetracker = "",
                                                             na.rm = FALSE))
       data <- dplyr::arrange(data, Subject, Time)
     }
-    data <- dplyr::mutate(data, Message_Inserted = 0)
   } else {
     data <- dplyr::mutate(data, Message_Inserted = 0)
   }
@@ -663,6 +662,9 @@ pupil_read <- function(file, eyetracker = "",
         data <- dplyr::arrange(data, Subject, Trial, Time)
         data <- dplyr::relocate(data, Trial, .before = "Time")
       }
+      data <- dplyr::mutate(data,
+                            Message_Inserted = ifelse(is.na(Message),
+                                                      0, 1))
     }
   }
   ##########################################################
