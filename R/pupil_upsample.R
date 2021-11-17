@@ -12,7 +12,7 @@ pupil_upsample <- function(x){
     x <- merge(x, time_up, by = "Time", all = TRUE)
     x <- dplyr::arrange(x, Subject, Time, Trial)
     x <- dplyr::relocate(x, Time, .after = "Trial")
-    x <- tidry::fill(x, everything(), .direction = "down")
+    x <- tidyr::fill(x, everything(), .direction = "down")
   }
   return(x)
 }
