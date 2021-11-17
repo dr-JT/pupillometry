@@ -63,7 +63,7 @@ pupil_plot <- function(x, y, aggregate = NULL) {
   } else {
     data_plot <- merge(x, y, by = c("Trial", "Time", aggregate), all = TRUE)
     for (condition in unique(x[[aggregate]])) {
-      data_group <- dplyr::filter(data_plot, aggregate == condition)
+      data_group <- dplyr::filter(data_plot, get(aggregate) == condition)
       plot <- ggplot2::ggplot(data_group, ggplot2::aes(Time)) +
         ggplot2::stat_summary(ggplot2::aes(y = pupil_val_before),
                               fun = mean, na.rm = TRUE,
