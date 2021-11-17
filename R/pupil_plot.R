@@ -10,6 +10,30 @@
 #'
 
 pupil_plot <- function(x, y, aggregate = NULL) {
+  theme_spacious <- function(font.size = 14, bold = TRUE){
+    key.size <- trunc(font.size*.8)
+    if (bold == TRUE) {
+      face.type <- "bold"
+    } else {
+      face.type <- "plain"
+    }
+
+    ggplot2::theme(text = ggplot2::element_text(size = font.size),
+                   axis.title.x =
+                     ggplot2::element_text(margin =
+                                             ggplot2::margin(t = 20, r = 0,
+                                                             b = 0, l = 0),
+                                           face = face.type),
+                   axis.title.y =
+                     ggplot2::element_text(margin =
+                                             ggplot2::margin(t = 0, r = 15,
+                                                             b = 0, l = 0),
+                                           face = face.type),
+                   legend.title = ggplot2::element_text(face = face.type),
+                   legend.spacing = ggplot2::unit(20, "pt"),
+                   legend.text = ggplot2::element_text(size = key.size))
+  }
+
   real_name <- dplyr::case_when("Pupil_Diameter.mm" %in% colnames(x) ~
                                   "Pupil_Diameter.mm",
                                 "Pupil_Diameter.px" %in% colnames(x) ~
@@ -30,7 +54,9 @@ pupil_plot <- function(x, y, aggregate = NULL) {
                             stroke = .5, size = .75, ) +
         ggplot2::ggtitle(paste("Trial: ", data_trial$Trial[1], sep = "")) +
         ggplot2::theme(plot.title = ggplot2::element_text(hjust = 0.5)) +
-        ggplot2::labs(y = "Pupil Size", x = "Time (ms)")
+        ggplot2::labs(y = "Pupil Size", x = "Time (ms)") +
+        theme_spacious()
+
       # Print plot
       grid::grid.draw(plot)
     }
