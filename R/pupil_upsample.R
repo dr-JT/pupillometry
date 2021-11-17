@@ -13,7 +13,7 @@ pupil_upsample <- function(x){
     x <- dplyr::arrange(x, Subject, Time, Trial)
     x <- dplyr::relocate(x, Time, .after = "Trial")
     x <- tidyr::fill(x,
-                     -tidyr::any_of("Pupil_Diameter.mm", "Pupil_Diameter.px",
+                     -tidyselect::any_of("Pupil_Diameter.mm", "Pupil_Diameter.px",
                                     "Gaze_Position.x", "Gaze_Position.y"),
                      .direction = "down")
   }
