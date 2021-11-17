@@ -10,7 +10,6 @@ pupil_smooth(
   n = NULL,
   upsample = FALSE,
   plot = FALSE,
-  plot_aggregate = NULL,
   window = NULL,
   hz = NULL
 )
@@ -25,8 +24,6 @@ pupil_smooth(
 \item{upsample}{Logical. Upsample the data to 1000Hz?}
 
 \item{plot}{Logical. Inspect a plot of how pupil values changed?}
-
-\item{plot_aggregate}{The name of the column to aggregate the plot by}
 
 \item{window}{Deprecated. Use n.
 The size of the smoothing window in milliseconds}
@@ -66,10 +63,7 @@ To inspect how the preprocesing step changed pupil size values,
 use `plot = TRUE`.
 
 Warning: this will create a separate plot for every trial and therefore can
-be time consuming and overwhelming. There is also the option to create
-aggregated plots over trial conditions with the `plot_aggregate` argument.
-
-The plot argument is meant for initial exploratory steps to determine the
-appropriate preprocessing parameters.
+be time consuming and overwhelming. The plot argument is meant for initial
+exploratory steps to determine the appropriate preprocessing parameters.
 }
 
