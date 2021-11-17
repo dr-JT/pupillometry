@@ -56,7 +56,6 @@ pupil_plot <- function(x, y, aggregate = NULL) {
         ggplot2::theme(plot.title = ggplot2::element_text(hjust = 0.5)) +
         ggplot2::labs(y = "Pupil Size", x = "Time (ms)") +
         theme_spacious() + ggplot2::theme_linedraw()
-
       # Print plot
       grid::grid.draw(plot)
     }
@@ -66,13 +65,16 @@ pupil_plot <- function(x, y, aggregate = NULL) {
       plot <- ggplot2::ggplot(data_group, ggplot2::aes(Time)) +
         ggplot2::stat_summary(ggplot2::aes(y = pupil_val_before),
                               fun = mean, na.rm = TRUE,
-                              geom = "point", alpha = .35) +
+                              geom = "point",
+                              stroke = .5, size = .75, color = "gray", alpha = .35) +
         ggplot2::stat_summary(ggplot2::aes(y = pupil_val_after),
                               fun = mean, na.rm = TRUE,
-                              geom = "point") +
+                              geom = "point",
+                              stroke = .5, size = .75) +
         ggplot2::ggtitle(paste("Group: ", data_group[1,aggregate], sep = "")) +
         ggplot2::theme(plot.title = ggplot2::element_text(hjust = 0.5)) +
-        ggplot2::labs(y = "Pupil Size", x = "Time (ms)")
+        ggplot2::labs(y = "Pupil Size", x = "Time (ms)") +
+        theme_spacious() + ggplot2::theme_linedraw()
       # Print plot
       grid::grid.draw(plot)
     }
