@@ -652,7 +652,7 @@ pupil_read <- function(file, eyetracker = "",
                               Trial = ifelse(is.na(Trial.x), Trial.y,
                                              ifelse(is.na(Trial.y),
                                                     Trial.x, Trial.x)))
-        data <- dplyr::select(data, -Trial.y, -Message.x, -Message.y)
+        data <- dplyr::select(data, -Trial.y, -Trial.x, -Message.x, -Message.y)
         data <- dplyr::mutate(data,
                               Message_Inserted = ifelse(is.na(Subject),
                                                         1, Message_Inserted),
@@ -661,6 +661,7 @@ pupil_read <- function(file, eyetracker = "",
                                                               na.rm = FALSE))
 
         data <- dplyr::arrange(data, Subject, Trial, Time)
+        data <- dplyr::relocate(data, Trial, .before = "Time")
       }
     }
   }
