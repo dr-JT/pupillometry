@@ -1,0 +1,67 @@
+#' Artifact rejection
+#'
+#' Sets pupil samples detected as artifacts to missing.
+#'
+#' See https://dr-jt.github.io/pupillometry/index.html for more information.
+#'
+#' @section Output:
+#'
+#' Changes values in the column that contains pupil data.
+#'
+#' @section Median absolute deviation (MAD):
+#'
+#' The median absolute deviation (MAD) statistic can be used to detect changes
+#' in pupil size that are abnormally fast such that they are likely to be an
+#' artifact, such as fast changes in pupil size due to the occlusion of the
+#' pupil during a blink.
+#'
+#' A threshold value for the speed of pupil size change is calculated based on a
+#' constant, `n`. If the speed for a given pupil size sample exceeds this
+#' threshold, then the pupil value will be set to missing in the data.
+#'
+#' The default value of the constant is set at `n = 16`.
+#'
+#' @section Plot inspection:
+#'
+#' To inspect how the preprocesing step changed pupil size values,
+#' use `plot = TRUE`.
+#'
+#' Warning: this will create a separate plot for every trial and therefore can
+#' be time consuming and overwhelming. The plot argument is meant for initial
+#' exploratory steps to determine the appropriate preprocessing parameters.
+#'
+#' @param x dataframe.
+#' @param n constant used to calculate threshold.
+#' @export
+#'
+
+pupil_artifact <- function(x, n = 16, plot = FALSE){
+
+  x_before <- x
+
+  real_name <- ifelse("Pupil_Diameter.mm" %in% colnames(x),
+                      "Pupil_Diameter.mm", "Pupil_Diameter.px")
+  colnames(x)[which(colnames(x) == real_name)] <- "pupil_val"
+
+  speed <- function(x, y) {
+    diff <- diff(x) / diff(y)
+    pupil <- abs(cbind(c(NA, diff), c(diff, NA)))
+    pupil <- apply(pupil, 1, max, na.rm = TRUE)
+    pupil <- ifelse(pupil == -Inf, NA, pupil)
+  }
+
+  x <- dplyr::mutate(x, pupil_speed = speed(pupil_val, Time))
+  x <- dplyr::mutate(x,
+                     median_speed = median(pupil_speed, na.rm = TRUE),
+                     MAD = median(abs(pupil_speed - median_speed), na.rm = TRUE),
+                     MAD_Threshold = median_speed + (n * MAD),
+                     pupil_val =
+                       ifelse(pupil_speed >= MAD_Threshold, NA, pupil_val))
+  x <- dplyr::select(x, -pupil_speed, -median_speed, -MAD, -MAD_Threshold)
+
+  colnames(x)[which(colnames(x) == "pupil_val")] <- real_name
+
+  if (plot == TRUE) pupil_plot(x_before, x)
+
+  return(x)
+}
