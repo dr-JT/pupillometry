@@ -2,44 +2,49 @@
 % Please edit documentation in R/pupil_smooth.R
 \name{pupil_smooth}
 \alias{pupil_smooth}
-\title{Apply a smoothing function on pupil data}
+\title{Smooth pupil data}
 \usage{
 pupil_smooth(
   x,
   type = "hann",
   n = NULL,
-  upsample = FALSE,
   plot = FALSE,
   window = NULL,
   hz = NULL
 )
 }
 \arguments{
-\item{x}{dataframe}
+\item{x}{dataframe.}
 
-\item{type}{The type of smoothing function to apply. "hann" or "mwa"}
+\item{type}{The type of smoothing function to apply. "hann" or "mwa".}
 
-\item{n}{The size of the smoothing window in samples}
-
-\item{upsample}{Logical. Upsample the data to 1000Hz?}
+\item{n}{The size of the smoothing window in samples.}
 
 \item{plot}{Logical. Inspect a plot of how pupil values changed?}
 
 \item{window}{Deprecated. Use n.
-The size of the smoothing window in milliseconds}
+The size of the smoothing window in milliseconds.}
 
 \item{hz}{Deprecated. Use n. The recording frequency.
-Needed if specified a window size in milliseconds}
+Needed if specified a window size in milliseconds.}
 }
 \description{
-The purpose of smoothing is to reduce high-frequency
-fluctuations in the data (noise).
+Reduces noise in the data by applying a smoothing function.
 }
+\details{
+See https://dr-jt.github.io/pupillometry/index.html for more information.
+}
+\section{Output}{
+
+
+Changes values in the column containing pupil data.
+}
+
 \section{Smoothing functions}{
 
 
-This function applies either a hanning low-pass filter or an
-n-point moving average function.
+Applies either a hanning low-pass filter or an n-point moving
+average function.
 
 The hanning filter uses the `dplR::hanning()` function.
 The n-point moving average uses the `zoo::rollapply(FUN = mean)` function.
@@ -65,5 +70,40 @@ use `plot = TRUE`.
 Warning: this will create a separate plot for every trial and therefore can
 be time consuming and overwhelming. The plot argument is meant for initial
 exploratory steps to determine the appropriate preprocessing parameters.
+}
+
+\section{Up-sample to 1000Hz}{
+
+
+There are some advantages to up-sampling the data to a sampling frequency of
+1000Hz, and is even a recommended step in preprocessing by
+Kiret & Sjak-Shie (2019).
+
+Up-sampling, should occur before smoothing and interpolation. In general,
+it is safer to apply smoothing before interpolation (particularly if
+cubic-spline interpolation is to be used). However, if up-sampling is to be
+used, interpolation needs to occur first in order to fill in the missing
+up-sampled values. The question, then, is how can we apply smoothing first
+while still doing up-sampling?
+
+This is resolved in this package by first up-sampling with `pupil_upsample()`
+and then smoothing `pupil_smooth()`. `pupil_upsample()` will not interpolate
+the missing up-sampled values. Instead, a linear interpolation will be
+done in`pupil_smooth()`, if `pupil_upsample()` was used prior, followed
+by smoothing and then after smoothing, originally missing values (including
+the missing up-sampled values and missing values due to blinks and other
+reasons) will replace the linearly interpolated values (essentially undoing
+the initial interpolation). After `pupil_smooth()`, interpolation can then
+be applied to the up-sampled-smoothed data with `pupil_interpolate()`.
+
+This is all to say that, the intuitive workflow can still be used in which,
+`pupil_upsample()` is used, followed by `pupil_smooth()`, followed by
+`pupil_interpolate()`.
+
+Alternatively, to interpolate before smoothing, `pupil_upsample()` is used,
+followed by `pupil_interpolate()`, followed by `pupil_smooth()`. The
+difference being that, in this case, no interpolation and then replacing
+the missing values back in the data is done in `pupil_smooth()` because
+interpolation was performed first anyways.
 }
 
