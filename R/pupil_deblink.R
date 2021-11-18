@@ -1,19 +1,38 @@
-#' Evaluate the amount of missing data
+#' Deblink
 #'
-#' This function will deblink pupil data with the option to extend
-#'     blinks before and after blink detection
-#' @param x dataframe
+#' Deblink pupil data with the option to extend blinks before and after
+#' blink detection.
+#'
+#' See https://dr-jt.github.io/pupillometry/index.html for more information.
+#'
+#' @section Output:
+#'
+#' Changes values in column containing pupil data.
+#'
+#' @section Plot inspection:
+#'
+#' To inspect how the preprocesing step changed pupil size values,
+#' use `plot = TRUE`.
+#'
+#' Warning: this will create a separate plot for every trial and therefore can
+#' be time consuming and overwhelming. The plot argument is meant for initial
+#' exploratory steps to determine the appropriate preprocessing parameters.
+#'
+#' @param x dataframe.
 #' @param extend How many milliseconds to extend blinks
-#'     before and after blink detection
+#'     before and after blink detection.
+#' @param plot Logical. Inspect a plot of how pupil values changed?
 #' @export
 #'
 
-pupil_deblink <- function(x, extend = 0){
+pupil_deblink <- function(x, extend = 0, plot = FALSE){
+
+  x_before <- x
 
   real_name <- ifelse("Pupil_Diameter.mm" %in% colnames(x),
                        "Pupil_Diameter.mm", "Pupil_Diameter.px")
-
   colnames(x)[which(colnames(x) == real_name)] <- "pupil_val"
+
   x <- dplyr::mutate(x,
                      blink =
                        ifelse(!is.na(Eye_Event) & Eye_Event == "Blink", 1,
@@ -39,9 +58,13 @@ pupil_deblink <- function(x, extend = 0){
                      pupil_val = ifelse(pupil_val == 0 |
                                           blink == 1,
                                         NA, pupil_val))
+
   x <- dplyr::select(x, -blink, -blink.lag, -blink.lead,
                      -blink.start, -blink.end)
+
   colnames(x)[which(colnames(x) == "pupil_val")] <- real_name
+
+  if (plot == TRUE) pupil_plot(x_before, x)
 
   return(x)
 }

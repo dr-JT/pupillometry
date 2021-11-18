@@ -2,17 +2,39 @@
 % Please edit documentation in R/pupil_deblink.R
 \name{pupil_deblink}
 \alias{pupil_deblink}
-\title{Evaluate the amount of missing data}
+\title{Deblink}
 \usage{
-pupil_deblink(x, extend = 0)
+pupil_deblink(x, extend = 0, plot = FALSE)
 }
 \arguments{
-\item{x}{dataframe}
+\item{x}{dataframe.}
 
 \item{extend}{How many milliseconds to extend blinks
-before and after blink detection}
+before and after blink detection.}
+
+\item{plot}{Logical. Inspect a plot of how pupil values changed?}
 }
 \description{
-This function will deblink pupil data with the option to extend
-    blinks before and after blink detection
+Deblink pupil data with the option to extend blinks before and after
+blink detection.
 }
+\details{
+See https://dr-jt.github.io/pupillometry/index.html for more information.
+}
+\section{Output}{
+
+
+Changes values in column containing pupil data.
+}
+
+\section{Plot inspection}{
+
+
+To inspect how the preprocesing step changed pupil size values,
+use `plot = TRUE`.
+
+Warning: this will create a separate plot for every trial and therefore can
+be time consuming and overwhelming. The plot argument is meant for initial
+exploratory steps to determine the appropriate preprocessing parameters.
+}
+
