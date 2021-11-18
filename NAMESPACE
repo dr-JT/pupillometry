@@ -2,7 +2,9 @@
 
 export(aoi_downsample)
 export(plot_comparison)
+export(pupil_artifact)
 export(pupil_baselinecorrect)
+export(pupil_bin)
 export(pupil_cor)
 export(pupil_deblink)
 export(pupil_downsample)

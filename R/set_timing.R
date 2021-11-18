@@ -1,13 +1,32 @@
-#' Set timing relative to some event onset
+#' Set timing
 #'
-#' This sets the timing variable relative to the onset of an event
-#' @param x dataframe
-#' @param onset_message Message string that marks the start of the event
+#' Sets the timing variable relative to the onset of an event.
+#'
+#' See https://dr-jt.github.io/pupillometry/index.html for more information.
+#'
+#' @section Output:
+#'
+#' Changes the values in the Time column.
+#'
+#' @section Relative Timing:
+#'
+#' Raw eye tracker data will provide timing values in absolute values from the
+#' start of recording. More useful, are timing values that are relative to
+#' the onset of an event.
+#'
+#' This function allows you to set the timing variable relative to the onset of
+#' an event in the Stimulus or Message columns with the `onset_message`
+#' argument call. For instance, you can set the timing relative to the onset
+#' of a fixation or the onset of the first stimulus in the trial. You can use
+#' this function on the data as many times as you like.
+#'
+#' @param x dataframe.
+#' @param onset_message Message string that marks the start of the event.
 #' @param match Is message string an "exact" match or a "pattern" match?
 #' @param trial_onset.message deprecated. Use onset_message.
-#' @param pretrial.duration deprecated
-#' @param trialonset.message deprecated
-#' @param pre_trial.duration deprecated
+#' @param pretrial.duration deprecated.
+#' @param trialonset.message deprecated.
+#' @param pre_trial.duration deprecated.
 #' @export
 #'
 

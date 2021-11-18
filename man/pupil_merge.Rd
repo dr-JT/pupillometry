@@ -2,7 +2,7 @@
 % Please edit documentation in R/pupil_merge.R
 \name{pupil_merge}
 \alias{pupil_merge}
-\title{Merge multiple files together}
+\title{Merge preprocessed files}
 \usage{
 pupil_merge(path = "", pattern = "", output_file = "")
 }
@@ -14,5 +14,14 @@ pupil_merge(path = "", pattern = "", output_file = "")
 \item{output_file}{File name and path to be saved to.}
 }
 \description{
-This function merges multiple files together.
+Merge all the preprocessed data files into one large file.
 }
+\details{
+See https://dr-jt.github.io/pupillometry/index.html for more information.
+}
+\section{Output}{
+
+
+A merged data file saved on computer
+}
+

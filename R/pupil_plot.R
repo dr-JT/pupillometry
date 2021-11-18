@@ -1,9 +1,21 @@
-#' Plot and inspect how preprocessing steps are changing the pupil data.
-#' An exploratory function only.
+#' Plot and inspect pupil data
 #'
-#' This function will print ggplot figures of either trial level or aggregated pupil data
-#' @param x data before preprocessing step
-#' @param y data after preprocessing step
+#' Plot and inspect how preprocessing steps are changing the pupil data.
+#' An exploratory function to help determine preprocessing parameters.
+#'
+#' See https://dr-jt.github.io/pupillometry/index.html for more information.
+#'
+#' @section Output:
+#'
+#' Plots.
+#'
+#' @section Usage:
+#'
+#' This function is primarily used within other preprocessing functions.
+#' (e.g., `pupil_smooth(plot = TRUE)`).
+#'
+#' @param x data before preprocessing step.
+#' @param y data after preprocessing step.
 #' @export pupil_plot
 #'
 

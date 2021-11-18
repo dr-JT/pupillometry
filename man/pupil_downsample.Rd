@@ -2,7 +2,7 @@
 % Please edit documentation in R/pupil_downsample.R
 \name{pupil_downsample}
 \alias{pupil_downsample}
-\title{Downsample pupil data}
+\title{Down-sample pupil data}
 \usage{
 pupil_downsample(x, bin.length = NULL, id = "Subject")
 }

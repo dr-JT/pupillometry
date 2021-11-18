@@ -2,7 +2,7 @@
 % Please edit documentation in R/set_timing.R
 \name{set_timing}
 \alias{set_timing}
-\title{Set timing relative to some event onset}
+\title{Set timing}
 \usage{
 set_timing(
   x,
@@ -15,20 +15,43 @@ set_timing(
 )
 }
 \arguments{
-\item{x}{dataframe}
+\item{x}{dataframe.}
 
-\item{onset_message}{Message string that marks the start of the event}
+\item{onset_message}{Message string that marks the start of the event.}
 
 \item{match}{Is message string an "exact" match or a "pattern" match?}
 
 \item{trial_onset.message}{deprecated. Use onset_message.}
 
-\item{pretrial.duration}{deprecated}
+\item{pretrial.duration}{deprecated.}
 
-\item{trialonset.message}{deprecated}
+\item{trialonset.message}{deprecated.}
 
-\item{pre_trial.duration}{deprecated}
+\item{pre_trial.duration}{deprecated.}
 }
 \description{
-This sets the timing variable relative to the onset of an event
+Sets the timing variable relative to the onset of an event.
 }
+\details{
+See https://dr-jt.github.io/pupillometry/index.html for more information.
+}
+\section{Output}{
+
+
+Changes the values in the Time column.
+}
+
+\section{Relative Timing}{
+
+
+Raw eye tracker data will provide timing values in absolute values from the
+start of recording. More useful, are timing values that are relative to
+the onset of an event.
+
+This function allows you to set the timing variable relative to the onset of
+an event in the Stimulus or Message columns with the `onset_message`
+argument call. For instance, you can set the timing relative to the onset
+of a fixation or the onset of the first stimulus in the trial. You can use
+this function on the data as many times as you like.
+}
+

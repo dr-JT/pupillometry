@@ -2,14 +2,22 @@
 % Please edit documentation in R/pupil_cor.R
 \name{pupil_cor}
 \alias{pupil_cor}
-\title{Add column that is the correlation between left and rigth eyes}
+\title{Correlate pupil values}
 \usage{
 pupil_cor(x)
 }
 \arguments{
-\item{x}{dataframe}
+\item{x}{dataframe.}
 }
 \description{
-This function will simply calculate the correlation between
-left and right eyes
+Calculate the correlation between left and right pupil values.
 }
+\details{
+See https://dr-jt.github.io/pupillometry/index.html for more information.
+}
+\section{Output}{
+
+
+Adds a column `Pupil.r`
+}
+

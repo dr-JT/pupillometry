@@ -1,9 +1,8 @@
-#' Preprocess pupil data using this single function
+#' Preprocess pupil data using a single function
 #'
-#' This function will perform preprocessing on an entire folder of data files.
-#' It takes as input a specified folder path and outputs the
-#' preprocessed data to a specified folder path. For more details, see:
-#' https://dr-jt.github.io/pupillometry/articles/pupil_preprocess.html
+#' This function is largely outdated and will not undergo continued maintenance
+#' or updates.
+#'
 #' @param import_dir Folder path to raw data files
 #' @param pattern Pattern to look for in data files (e.g. ".txt")
 #' @param taskname Name of task - to be used in naming pre-processed files

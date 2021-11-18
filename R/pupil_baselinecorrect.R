@@ -1,18 +1,53 @@
-#' Apply baseline correction
+#' Baseline correction
 #'
-#' This function applies a baseline correction on the data
-#' @param x dataframe
-#' @param bc_onset.message Message string(s) that marks the offset of
-#'     baseline period(s)
-#' @param pre.duration Duration baseline period(s) to use for correction
+#' Apply a subtractive or divisive baseline correction to pupil data.
+#'
+#' See https://dr-jt.github.io/pupillometry/index.html for more information.
+#'
+#' @section Output:
+#'
+#' Adds a `Pupil_Diameter_bc` column to the data.
+#'
+#' @section Baseline correction:
+#'
+#' Baseline correction is calculated based on the median pupil size during
+#' a defined baseline period. That baseline period is defined with the
+#'
+#' 1) `bc_onset.message` argument that specifies a message string that is sent
+#' to the eye tracker at onset of the segment to be baseline corrected. The
+#' values in the Stimulus column can be used here. Multiple values can be
+#' specified if multiple segments need to be baseline corrected.
+#'
+#' AND
+#'
+#' 2) `baseline_duration` argument that specifies the duration of the baseline
+#' period, before `bc_onset.message`, to use in calculating the median baseline
+#' pupil size.
+#'
+#' Either "subtractive" or "divisive" baseline correction can be applied.
+#'
+#' @param x dataframe.
+#' @param bc_onset.message Message string(s) that marks the onset of the
+#'     segment to be baseline corrected. The values in the Stimulus column can
+#'     be used here. Multiple values can be specified if multiple segments
+#'     need to be baseline corrected.
+#' @param baseline_duration Duration of baseline period(s). Multiple values
+#'     can be specified if multiple segments need to be baseline corrected with
+#'     different baseline durations. default: 200
 #' @param type Do you want to use "subtractive" or "divisive"
-#'     baseline correction? (default: "subtractive")
+#'     baseline correction? default: "subtractive"
 #' @param match Is the message string an "exact" match or a "pattern" match?
+#' @param pre.duration deprecated. see baseline_duration.
 #' @export
 #'
 
-pupil_baselinecorrect <- function(x, bc_onset.message = "", pre.duration = 200,
-                                  type = "subtractive", match = "exact"){
+pupil_baselinecorrect <- function(x, bc_onset.message = "",
+                                  baseline_duration = 200, type = "subtractive",
+                                  match = "exact", pre.duration = NULL) {
+
+  if (!is.null(pre.duration)) {
+    baseline_duration <- pre.duration
+  }
 
   real_name <- ifelse("Pupil_Diameter.mm" %in% colnames(x),
                       "Pupil_Diameter.mm", "Pupil_Diameter.px")
@@ -27,12 +62,12 @@ pupil_baselinecorrect <- function(x, bc_onset.message = "", pre.duration = 200,
   x <- dplyr::group_by(x, Trial)
   x <- dplyr::mutate(x, PreTarget = 0, Target = 0)
 
-  for (m in bc_onset.message){
+  for (m in bc_onset.message) {
     n <- match(m, bc_onset.message)
-    if (match == "exact"){
+    if (match == "exact") {
       x <- dplyr::mutate(x,
                          bconset.time = ifelse(Stimulus == m, onset.time, NA))
-    } else if (match == "pattern"){
+    } else if (match == "pattern") {
       x <- dplyr::mutate(x,
                          bconset.time = ifelse(stringr::str_detect(Stimulus, m),
                                                onset.time, NA))
@@ -47,8 +82,9 @@ pupil_baselinecorrect <- function(x, bc_onset.message = "", pre.duration = 200,
                                                    fromLast = TRUE),
                        bconset.time = ifelse(is.infinite(min),
                                              Inf, bconset.time),
-                       PreTarget = ifelse(Time >= (bconset.time-pre.duration) &
-                                            Time < bconset.time, n, PreTarget),
+                       PreTarget =
+                         ifelse(Time >= (bconset.time - baseline_duration) &
+                                  Time < bconset.time, n, PreTarget),
                        Target = ifelse(Time >= bconset.time, n, Target))
   }
   x <- dplyr::group_by(x, Trial, PreTarget)
@@ -67,20 +103,19 @@ pupil_baselinecorrect <- function(x, bc_onset.message = "", pre.duration = 200,
   x <- dplyr::mutate(x,
                      PreTarget.median =
                        zoo::na.locf(PreTarget.median, na.rm = FALSE))
-  if (type=="subtractive"){
+  if (type == "subtractive") {
     x <- dplyr::mutate(x, pupil_val_bc = pupil_val - PreTarget.median)
-  } else if (type=="divisive"){
+  } else if (type == "divisive") {
     x <- dplyr::mutate(x,
                        pupil_val_bc = ((pupil_val - PreTarget.median) /
                                          PreTarget.median) * 100)
   }
 
   x <- dplyr::ungroup(x)
-  x <- dplyr::mutate(x,
-                     Trial_Phase = ifelse(PreTarget > 0, "PreTarget",
-                                          ifelse(Target > 0, "Target",
-                                                 NA)))
-  x <- dplyr::select(x, -PreTarget.median, -bconset.time, -min, -onset.time)
+  x <- dplyr::select(x, -Trial_Phase, -PreTarget, -Target, -PreTarget.median,
+                     -bconset.time, -min, -onset.time)
+  x <- dplyr::relocate(x, real_name_bc, .after = real_name)
+
   colnames(x)[which(colnames(x) == "pupil_val")] <- real_name
   colnames(x)[which(colnames(x) == "pupil_val_bc")] <- real_name_bc
 

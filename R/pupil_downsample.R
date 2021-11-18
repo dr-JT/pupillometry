@@ -1,4 +1,4 @@
-#' Downsample pupil data
+#' Down-sample pupil data
 #'
 #' This function will reduce the sampling fequency
 #' @param x dataframe

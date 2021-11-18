@@ -1,6 +1,13 @@
-#' Merge multiple files together
+#' Merge preprocessed files
 #'
-#' This function merges multiple files together.
+#' Merge all the preprocessed data files into one large file.
+#'
+#' See https://dr-jt.github.io/pupillometry/index.html for more information.
+#'
+#' @section Output:
+#'
+#' A merged data file saved on computer
+#'
 #' @param path Folder location of files to be merged
 #' @param pattern Pattern to identify files to be merged
 #' @param output_file File name and path to be saved to.

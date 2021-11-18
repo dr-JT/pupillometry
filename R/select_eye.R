@@ -1,11 +1,21 @@
-#' Select eye to keep for analysis
+#' Select eye
+#'
+#' Choose which eye to use for analysis.
+#'
+#' See https://dr-jt.github.io/pupillometry/index.html for more information.
+#'
+#' @section Output:
+#'
+#' This function removes columns related to the non-selected eye and renames
+#' columns of the selected eye by removing the L_ or R_ prefix. It also adds
+#' a column `Pupil.r`.
 #'
 #' If both eyes were recorded from, then this function will correlate the
-#' timeseries pupil data from both eyes and select only one eye data to keep
-#' for further preprocessing and output. This function will also remove
-#' trials with too much missing data, specified by `missing_allowed`.
-#' @param x xframe
-#' @param eye_use Which eye to use? Left or right
+#' pupil data from both eyes and select only one eye data to keep
+#' for further preprocessing and output.
+#'
+#' @param x dataframe.
+#' @param eye_use Which eye to use? left or right?
 #' @export
 #'
 

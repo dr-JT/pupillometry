@@ -1,91 +1,138 @@
-#' Convert "messy" raw data file to "tidy" raw data file
+#' Import eye tracking data
 #'
-#' This function converts a "messy" raw eye-tracker data file
-#' to a "tidy" raw data file.
+#' Imports eye tracking data from any eye tracker with special support for SMI,
+#' SR Research, and Tobii eye trackers. Standardizes columns and values
+#' to be used with other functions in this package.
 #'
-#' Different eye-trackers will save the raw data file using
-#' completely different organizations and naming conventions
-#' This function will create a "tidy" raw data file that has
-#' a standard organization and naming convention,
-#' regardless of which eye-tracker was used.
-#' Supported Eye-Tracker Systems: Sensomotoric Instruments ("smi")
-#' and SR-Research EyeLink ("eyelink")
-#' @param file A file path to the raw data export file
-#' @param eyetracker Which eye-tracker system was used to record data?
-#'     options: "smi", "eyelink", NULL
-#' @param start_tracking.message Message used in SMI experiment to
-#'     mark StartTracking inline
+#' See https://dr-jt.github.io/pupillometry/index.html for more information.
+#'
+#' @section Output:
+#'
+#' Standardized columns and values to be used with other functions in this
+#' package.
+#'
+#' @section Eye Tracker Support:
+#'
+#' Ease of import is provided for certain eye trackers:
+#'
+#' - SMI: Red250m and glasses
+#' - SR Research: EyeLink 1000 Plus
+#' - Tobii: Pro Fusion
+#'
+#' Other eye trackers from these companies may or may not be supported but you
+#' are welcome to try.
+#'
+#' All other eye trackers and data file types can be imported by specifying
+#' the column names. See the eye tracker agnostic arguments.
+#'
+#' @section Importing Options:
+#'
+#' There are several importing options to specify, some of them required, others
+#' are more optional. See the full argument list for all options.
+#'
+#' - start_tracking.message (recommended): helps to correctly
+#' identify trials segments
+#'
+#' - eye_use (optional): specify which eye you want to perform analyses on
+#'
+#' - px_to_mm.conversion (optional): convert pupil pixel values to millimeters
+#'
+#' - include_col (optional): other columns you may want to
+#' include (e.g., RT, accuracy, condition)
+#'
+#' - trial_exclude (optional): remove certain trials from the data
+#'
+#' - quality_check_dir (optional): a directory to save an import
+#' quality check file to
+#'
+#'
+#' - subj_prefix: required for SMI eye trackers, might be useful
+#' to remove strings in subject column
+#'
+#' - subj_suffix: required for SMI eye trackers, might be useful
+#' to remove strings in subject column
+#'
+#' @param file A file path to the raw data.
+#' @param eyetracker Which eye tracker system was used to record data?
+#'     options: "smi", "eyelink", NULL.
+#' @param start_tracking.message Message used in experiment software to
+#'     mark the onset of "Start Tracking". Most eye trackers include a marker
+#'     message corresponding to this event. Usually included at the start of
+#'     every trial. Not required for SMI, SR Research, and Tobii Pro Fusion.
 #' @param start_tracking.match Should the message string be an
-#'     "exact" match or a "pattern" match?
-#' @param eye_use Which eye to use? Left or right
+#'     "exact" match or a "pattern" match? default: "exact".
+#' @param eye_use Which eye to use? options: "left" or "right".
 #' @param subj_prefix The unique pattern prefix (letter(s)
-#'     and/or symbol(s)) that comes before the subject number in the data file
+#'     and/or symbol(s)) that comes before the subject number in the data file.
+#'     Required for SMI, but likely not needed for other eye trackers.
 #' @param subj_suffix The unique pattern suffix (letter(s) or
-#'     symbol(s)) that comes after the subject number in the data file
+#'     symbol(s)) that comes after the subject number in the data file.
+#'     Required for SMI, but likely not needed for other eye trackers.
 #' @param px_to_mm.conversion The conversion factor to go from
-#'     px pupil diameter to mm pupil diameter
-#' @param starttracking.message See start_tracking.message
-#' @param starttracking.match See start_tracking.match
+#'     px pupil diameter to mm pupil diameter.
 #' @param timing_file File location and name that contains timing
-#'     information for message markers
-#' @param trial_exclude Specify if ther are any trials to exclude. Trial number
-#' @param quality_check_dir Directory to save quality check file
-#' @param delim If eyetracker is not specified, then specify file delimiter type
-#' @param subject If eyetracker is not specified, then specify column name
-#'     that contains subject IDs
-#' @param trial If eyetracker is not specified, then specify column name
-#'     that contains the trial variable
-#' @param time If eyetracker is not specified, then specify column name
-#'     that contains the timing variable
-#' @param message_event If eyetracker is not specified, then specify column name
-#'     that contains the message markers
-#' @param stimulus If eyetracker is not specified, then specify column name
-#'     that contains the stimulus information
-#' @param left_pupil.mm If eyetracker is not specified, then specify column name
-#'     that contains the left pupil data in millimeters
-#' @param right_pupil.mm If eyetracker is not specified, then specify column name
-#'     that contains the right pupil data in millimeters
-#' @param left_pupil.px If eyetracker is not specified, then specify column name
-#'     that contains the left pupil data in pixels
-#' @param right_pupil.px If eyetracker is not specified, then specify column name
-#'     that contains the right pupil data in pixels
-#' @param gaze.x If eyetracker is not specified, then specify column name
-#'     that contains the gaze position on the x-axis
-#' @param gaze.y If eyetracker is not specified, then specify column name
-#'     that contains the gaze position on the y-axis
-#' @param left_gaze.x If eyetracker is not specified, then specify column name
-#'     that contains the left eye gaze position on the x-axis
-#' @param left_gaze.y If eyetracker is not specified, then specify column name
-#'     that contains the left eye gaze position on the y-axis
-#' @param right_gaze.x If eyetracker is not specified, then specify column name
-#'     that contains the right eye gaze position on the x-axis
-#' @param right_gaze.y If eyetracker is not specified, then specify column name
-#'     that contains the right eye gaze position on the y-axis
-#' @param eye_event If eyetracker is not specified, then specify column name
-#'     that contains the eye event (e.g., fixation, saccade, and blink) data
-#' @param blink_event If eyetracker is not specified, then specify column name
-#'     that contains the blink event data
-#' @param fixation_event If eyetracker is not specified, then specify column name
-#'     that contains the fixation event data
-#' @param saccade_event If eyetracker is not specified, then specify column name
-#'     that contains the saccade event data
-#' @param left_eye_event If eyetracker is not specified, then specify column name
-#'     that contains the left eye event (e.g., fixation, saccade, and blink) data
-#' @param left_blink_event If eyetracker is not specified, then specify column name
-#'     that contains the left blink event data
-#' @param left_fixation_event If eyetracker is not specified, then specify column name
-#'     that contains the left fixation event data
-#' @param left_saccade_event If eyetracker is not specified, then specify column name
-#'     that contains the left saccade event data
-#' @param right_eye_event If eyetracker is not specified, then specify column name
-#'     that contains the eye event (e.g., fixation, saccade, and blink) data
-#' @param right_blink_event If eyetracker is not specified, then specify column name
-#'     that contains the blink event data
-#' @param right_fixation_event If eyetracker is not specified, then specify column name
-#'     that contains the fixation event data
-#' @param right_saccade_event If eyetracker is not specified, then specify column name
-#'     that contains the saccade event data
-#' @param include_col Extra columns from the raw data file to include
+#'     information for message markers. Required if no message markers are
+#'     included in data.
+#' @param include_col Extra columns from the raw data file to include. c().
+#' @param trial_exclude Specify if there are any trials to exclude. c().
+#' @param quality_check_dir Directory to save quality check file to.
+#' @param delim Eye tracker agnostic argument File delimiter type.
+#' @param subject Eye tracker agnostic argument Column name that contains
+#'     subject IDs.
+#' @param trial Eye tracker agnostic argument Column name that contains the
+#'     trial variable.
+#' @param time Eye tracker agnostic argument. Column name that contains the
+#'     timing variable.
+#' @param message_event Eye tracker agnostic argument. Column name that
+#'     contains the message markers.
+#' @param stimulus Eye tracker agnostic argument. Column name that contains the
+#'     stimulus information.
+#' @param left_pupil.mm Eye tracker agnostic argument. Column name that
+#'     contains the left pupil data in millimeters.
+#' @param right_pupil.mm Eye tracker agnostic argument. Column name that
+#'     contains the right pupil data in millimeters.
+#' @param left_pupil.px Eye tracker agnostic argument. Column name that
+#'     contains the left pupil data in pixels.
+#' @param right_pupil.px Eye tracker agnostic argument. Column name that
+#' contains the right pupil data in pixels.
+#' @param gaze.x Eye tracker agnostic argument. Column name that contains the
+#'     gaze position on the x-axis.
+#' @param gaze.y Eye tracker agnostic argument. Column name that contains the
+#'     gaze position on the y-axis.
+#' @param left_gaze.x Eye tracker agnostic argument. Column name that contains
+#'     the left eye gaze position on the x-axis.
+#' @param left_gaze.y Eye tracker agnostic argument. Column name that contains
+#'     the left eye gaze position on the y-axis.
+#' @param right_gaze.x Eye tracker agnostic argument. Column name that contains
+#'     the right eye gaze position on the x-axis.
+#' @param right_gaze.y Eye tracker agnostic argument. Column name that contains
+#'     the right eye gaze position on the y-axis.
+#' @param eye_event Eye tracker agnostic argument. Column name that contains
+#'     the eye event (e.g., fixation, saccade, and blink) data.
+#' @param blink_event Eye tracker agnostic argument. Column name that contains
+#'     the blink event data.
+#' @param fixation_event Eye tracker agnostic argument. Column name that
+#'     contains the fixation event data.
+#' @param saccade_event Eye tracker agnostic argument. Column name that
+#'     contains the saccade event data.
+#' @param left_eye_event Eye tracker agnostic argument. Column name that
+#'     contains the left eye event (e.g., fixation, saccade, and blink) data.
+#' @param left_blink_event Eye tracker agnostic argument. Column name that
+#'     contains the left blink event data.
+#' @param left_fixation_event Eye tracker agnostic argument. Column name that
+#'     contains the left fixation event data.
+#' @param left_saccade_event Eye tracker agnostic argument. Column name that
+#'     contains the left saccade event data.
+#' @param right_eye_event Eye tracker agnostic argument. Column name that
+#'     contains the eye event (e.g., fixation, saccade, and blink) data.
+#' @param right_blink_event Eye tracker agnostic argument. Column name that
+#'     contains the blink event data.
+#' @param right_fixation_event Eye tracker agnostic argument. Column name that
+#'     contains the fixation event data.
+#' @param right_saccade_event Eye tracker agnostic argument. Column name that
+#'     contains the saccade event data.
+#' @param starttracking.message See start_tracking.message.
+#' @param starttracking.match See start_tracking.match.
 #' @export
 #'
 
@@ -94,7 +141,8 @@ pupil_read <- function(file, eyetracker = "",
                        start_tracking.match = "exact", eye_use = NULL,
                        subj_prefix = NULL, subj_suffix = NULL,
                        px_to_mm.conversion = NULL,
-                       timing_file = NULL, trial_exclude = NULL,
+                       timing_file = NULL,
+                       include_col = NULL, trial_exclude = NULL,
                        quality_check_dir = NULL,
                        delim = NULL, subject = NULL, trial = NULL, time = NULL,
                        message_event = NULL, stimulus = NULL,
@@ -110,7 +158,6 @@ pupil_read <- function(file, eyetracker = "",
                        left_fixation_event = NULL, right_fixation_event = NULL,
                        left_saccade_event = NULL, right_saccade_event = NULL,
                        ms_conversion = NULL,
-                       include_col = NULL,
                        starttracking.message = NULL,
                        starttracking.match = NULL){
   ## Setup and functions ####

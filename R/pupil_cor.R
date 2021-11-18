@@ -1,8 +1,14 @@
-#' Add column that is the correlation between left and rigth eyes
+#' Correlate pupil values
 #'
-#' This function will simply calculate the correlation between
-#' left and right eyes
-#' @param x dataframe
+#' Calculate the correlation between left and right pupil values.
+#'
+#' See https://dr-jt.github.io/pupillometry/index.html for more information.
+#'
+#' @section Output:
+#'
+#' Adds a column `Pupil.r`
+#'
+#' @param x dataframe.
 #' @export
 #'
 

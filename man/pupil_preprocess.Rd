@@ -2,7 +2,7 @@
 % Please edit documentation in R/pupil_preprocess.R
 \name{pupil_preprocess}
 \alias{pupil_preprocess}
-\title{Preprocess pupil data using this single function}
+\title{Preprocess pupil data using a single function}
 \usage{
 pupil_preprocess(
   import_dir = NULL,
@@ -178,8 +178,6 @@ TRUE or FALSE}
 \item{bconset.match}{See bc_onset.match}
 }
 \description{
-This function will perform preprocessing on an entire folder of data files.
-It takes as input a specified folder path and outputs the
-preprocessed data to a specified folder path. For more details, see:
-https://dr-jt.github.io/pupillometry/articles/pupil_preprocess.html
+This function is largely outdated and will not undergo continued maintenance
+or updates.
 }

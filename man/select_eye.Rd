@@ -2,18 +2,30 @@
 % Please edit documentation in R/select_eye.R
 \name{select_eye}
 \alias{select_eye}
-\title{Select eye to keep for analysis}
+\title{Select eye}
 \usage{
 select_eye(x, eye_use = "")
 }
 \arguments{
-\item{x}{xframe}
+\item{x}{dataframe.}
 
-\item{eye_use}{Which eye to use? Left or right}
+\item{eye_use}{Which eye to use? left or right?}
 }
 \description{
-If both eyes were recorded from, then this function will correlate the
-timeseries pupil data from both eyes and select only one eye data to keep
-for further preprocessing and output. This function will also remove
-trials with too much missing data, specified by `missing_allowed`.
+Choose which eye to use for analysis.
 }
+\details{
+See https://dr-jt.github.io/pupillometry/index.html for more information.
+}
+\section{Output}{
+
+
+This function removes columns related to the non-selected eye and renames
+columns of the selected eye by removing the L_ or R_ prefix. It also adds
+a column `Pupil.r`.
+
+If both eyes were recorded from, then this function will correlate the
+pupil data from both eyes and select only one eye data to keep
+for further preprocessing and output.
+}
+

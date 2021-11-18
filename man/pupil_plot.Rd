@@ -2,16 +2,32 @@
 % Please edit documentation in R/pupil_plot.R
 \name{pupil_plot}
 \alias{pupil_plot}
-\title{Plot and inspect how preprocessing steps are changing the pupil data.
-An exploratory function only.}
+\title{Plot and inspect pupil data}
 \usage{
 pupil_plot(x, y)
 }
 \arguments{
-\item{x}{data before preprocessing step}
+\item{x}{data before preprocessing step.}
 
-\item{y}{data after preprocessing step}
+\item{y}{data after preprocessing step.}
 }
 \description{
-This function will print ggplot figures of either trial level or aggregated pupil data
+Plot and inspect how preprocessing steps are changing the pupil data.
+An exploratory function to help determine preprocessing parameters.
 }
+\details{
+See https://dr-jt.github.io/pupillometry/index.html for more information.
+}
+\section{Output}{
+
+
+Plots.
+}
+
+\section{Usage}{
+
+
+This function is primarily used within other preprocessing functions.
+(e.g., `pupil_smooth(plot = TRUE)`).
+}
+

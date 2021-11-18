@@ -2,29 +2,65 @@
 % Please edit documentation in R/pupil_baselinecorrect.R
 \name{pupil_baselinecorrect}
 \alias{pupil_baselinecorrect}
-\title{Apply baseline correction}
+\title{Baseline correction}
 \usage{
 pupil_baselinecorrect(
   x,
   bc_onset.message = "",
-  pre.duration = 200,
+  baseline_duration = 200,
   type = "subtractive",
-  match = "exact"
+  match = "exact",
+  pre.duration = NULL
 )
 }
 \arguments{
-\item{x}{dataframe}
+\item{x}{dataframe.}
 
-\item{bc_onset.message}{Message string(s) that marks the offset of
-baseline period(s)}
+\item{bc_onset.message}{Message string(s) that marks the onset of the
+segment to be baseline corrected. The values in the Stimulus column can
+be used here. Multiple values can be specified if multiple segments
+need to be baseline corrected.}
 
-\item{pre.duration}{Duration baseline period(s) to use for correction}
+\item{baseline_duration}{Duration of baseline period(s). Multiple values
+can be specified if multiple segments need to be baseline corrected with
+different baseline durations. default: 200}
 
 \item{type}{Do you want to use "subtractive" or "divisive"
-baseline correction? (default: "subtractive")}
+baseline correction? default: "subtractive"}
 
 \item{match}{Is the message string an "exact" match or a "pattern" match?}
+
+\item{pre.duration}{deprecated. see baseline_duration.}
 }
 \description{
-This function applies a baseline correction on the data
+Apply a subtractive or divisive baseline correction to pupil data.
 }
+\details{
+See https://dr-jt.github.io/pupillometry/index.html for more information.
+}
+\section{Output}{
+
+
+Adds a `Pupil_Diameter_bc` column to the data.
+}
+
+\section{Baseline correction}{
+
+
+Baseline correction is calculated based on the median pupil size during
+a defined baseline period. That baseline period is defined with the
+
+1) `bc_onset.message` argument that specifies a message string that is sent
+to the eye tracker at onset of the segment to be baseline corrected. The
+values in the Stimulus column can be used here. Multiple values can be
+specified if multiple segments need to be baseline corrected.
+
+AND
+
+2) `baseline_duration` argument that specifies the duration of the baseline
+period, before `bc_onset.message`, to use in calculating the median baseline
+pupil size.
+
+Either "subtractive" or "divisive" baseline correction can be applied.
+}
+

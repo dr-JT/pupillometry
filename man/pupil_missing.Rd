@@ -2,15 +2,39 @@
 % Please edit documentation in R/pupil_missing.R
 \name{pupil_missing}
 \alias{pupil_missing}
-\title{Remove trials with too much missing data}
+\title{Trial removal}
 \usage{
-pupil_missing(x, missing_allowed = 1, velocity = "", margin = "")
+pupil_missing(x, missing_allowed = 1)
 }
 \arguments{
-\item{x}{dataframe}
+\item{x}{dataframe.}
 
 \item{missing_allowed}{What proportion of missing data is allowed, per trial?}
 }
 \description{
-This function will remove trials that have too much missing data
+This function will remove trials that have too much missing data.
 }
+\details{
+See https://dr-jt.github.io/pupillometry/index.html for more information.
+}
+\section{Output}{
+
+
+Removes rows for trials with too much missing data. Adds a `Pupil_Missing`
+or `Pupil_Missing_1` and `Pupil_Missing_2` columns.
+}
+
+\section{Usage}{
+
+
+This can be used:
+
+1) after artifact removal and before smoothing / interpolation
+
+2) after smoothing / interpolation
+
+or
+
+3) both
+}
+
