@@ -1,8 +1,7 @@
 #' Trial removal
 #'
-#' This function will remove trials that have too much missing data.
-#'
-#' See https://dr-jt.github.io/pupillometry/index.html for more information.
+#' This function will remove trials that have too much missing data. See
+#' https://dr-jt.github.io/pupillometry/index.html for more information.
 #'
 #' @section Output:
 #'

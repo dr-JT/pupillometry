@@ -1,9 +1,8 @@
 #' Plot and inspect pupil data
 #'
 #' Plot and inspect how preprocessing steps are changing the pupil data.
-#' An exploratory function to help determine preprocessing parameters.
-#'
-#' See https://dr-jt.github.io/pupillometry/index.html for more information.
+#' An exploratory function to help determine preprocessing parameters. See
+#' https://dr-jt.github.io/pupillometry/index.html for more information.
 #'
 #' @section Output:
 #'

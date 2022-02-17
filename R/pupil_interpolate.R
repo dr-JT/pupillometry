@@ -1,9 +1,8 @@
 #' Apply an interpolation function on pupil data
 #'
 #' The purpose of interpolation is to replace gaps of missing values using
-#' an estimation function.
-#'
-#' See https://dr-jt.github.io/pupillometry/index.html for more information.
+#' an estimation function. See
+#' https://dr-jt.github.io/pupillometry/index.html for more information.
 #'
 #' @section Output:
 #'

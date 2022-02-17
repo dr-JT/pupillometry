@@ -1,8 +1,7 @@
 #' Select eye
 #'
-#' Choose which eye to use for analysis.
-#'
-#' See https://dr-jt.github.io/pupillometry/index.html for more information.
+#' Choose which eye to use for analysis. See
+#' https://dr-jt.github.io/pupillometry/index.html for more information.
 #'
 #' @section Output:
 #'

@@ -1,9 +1,8 @@
 #' Bin pupil data
 #'
 #' Bin pupil data into smaller time-bins. This is useful to perform time-series
-#' analyses or to just reduce the size of the data.
-#'
-#' See https://dr-jt.github.io/pupillometry/index.html for more information.
+#' analyses or to just reduce the size of the data. See
+#' https://dr-jt.github.io/pupillometry/index.html for more information.
 #'
 #' @section Output:
 #'

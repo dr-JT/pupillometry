@@ -1,8 +1,7 @@
 #' Artifact rejection
 #'
-#' Sets pupil samples detected as artifacts to missing.
-#'
-#' See https://dr-jt.github.io/pupillometry/index.html for more information.
+#' Sets pupil samples detected as artifacts to missing. See
+#' https://dr-jt.github.io/pupillometry/index.html for more information.
 #'
 #' @section Output:
 #'
