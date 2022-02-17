@@ -12,10 +12,8 @@ select_eye(x, eye_use = "")
 \item{eye_use}{Which eye to use? left or right?}
 }
 \description{
-Choose which eye to use for analysis.
-}
-\details{
-See https://dr-jt.github.io/pupillometry/index.html for more information.
+Choose which eye to use for analysis. See
+https://dr-jt.github.io/pupillometry/index.html for more information.
 }
 \section{Output}{
 

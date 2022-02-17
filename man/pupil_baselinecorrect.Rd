@@ -33,10 +33,8 @@ baseline correction? default: "subtractive"}
 \item{pre.duration}{deprecated. see baseline_duration.}
 }
 \description{
-Apply a subtractive or divisive baseline correction to pupil data.
-}
-\details{
-See https://dr-jt.github.io/pupillometry/index.html for more information.
+Apply a subtractive or divisive baseline correction to pupil data. See
+https://dr-jt.github.io/pupillometry/index.html for more information.
 }
 \section{Output}{
 

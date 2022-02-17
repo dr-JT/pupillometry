@@ -14,10 +14,8 @@ pupil_merge(path = "", pattern = "", output_file = "")
 \item{output_file}{File name and path to be saved to.}
 }
 \description{
-Merge all the preprocessed data files into one large file.
-}
-\details{
-See https://dr-jt.github.io/pupillometry/index.html for more information.
+Merge all the preprocessed data files into one large file. See
+https://dr-jt.github.io/pupillometry/index.html for more information.
 }
 \section{Output}{
 

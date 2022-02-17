@@ -10,10 +10,8 @@ pupil_upsample(x)
 \item{x}{dataframe.}
 }
 \description{
-Increase the sampling frequency to 1000Hz.
-}
-\details{
-See https://dr-jt.github.io/pupillometry/index.html for more information.
+Increase the sampling frequency to 1000Hz. See
+https://dr-jt.github.io/pupillometry/index.html for more information.
 }
 \section{Output}{
 

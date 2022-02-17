@@ -10,10 +10,8 @@ pupil_cor(x)
 \item{x}{dataframe.}
 }
 \description{
-Calculate the correlation between left and right pupil values.
-}
-\details{
-See https://dr-jt.github.io/pupillometry/index.html for more information.
+Calculate the correlation between left and right pupil values. See
+https://dr-jt.github.io/pupillometry/index.html for more information.
 }
 \section{Output}{
 

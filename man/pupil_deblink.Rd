@@ -16,10 +16,8 @@ before and after blink detection.}
 }
 \description{
 Deblink pupil data with the option to extend blinks before and after
-blink detection.
-}
-\details{
-See https://dr-jt.github.io/pupillometry/index.html for more information.
+blink detection. See
+https://dr-jt.github.io/pupillometry/index.html for more information.
 }
 \section{Output}{
 

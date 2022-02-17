@@ -12,10 +12,8 @@ pupil_missing(x, missing_allowed = 1)
 \item{missing_allowed}{What proportion of missing data is allowed, per trial?}
 }
 \description{
-This function will remove trials that have too much missing data.
-}
-\details{
-See https://dr-jt.github.io/pupillometry/index.html for more information.
+This function will remove trials that have too much missing data. See
+https://dr-jt.github.io/pupillometry/index.html for more information.
 }
 \section{Output}{
 

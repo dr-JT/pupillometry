@@ -30,10 +30,8 @@ set_timing(
 \item{pre_trial.duration}{deprecated.}
 }
 \description{
-Sets the timing variable relative to the onset of an event.
-}
-\details{
-See https://dr-jt.github.io/pupillometry/index.html for more information.
+Sets the timing variable relative to the onset of an event. See
+https://dr-jt.github.io/pupillometry/index.html for more information.
 }
 \section{Output}{
 

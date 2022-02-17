@@ -12,10 +12,8 @@ pupil_artifact(x, n = 16, plot = FALSE)
 \item{n}{constant used to calculate threshold.}
 }
 \description{
-Sets pupil samples detected as artifacts to missing.
-}
-\details{
-See https://dr-jt.github.io/pupillometry/index.html for more information.
+Sets pupil samples detected as artifacts to missing. See
+https://dr-jt.github.io/pupillometry/index.html for more information.
 }
 \section{Output}{
 

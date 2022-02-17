@@ -29,10 +29,8 @@ The size of the smoothing window in milliseconds.}
 Needed if specified a window size in milliseconds.}
 }
 \description{
-Reduces noise in the data by applying a smoothing function.
-}
-\details{
-See https://dr-jt.github.io/pupillometry/index.html for more information.
+Reduces noise in the data by applying a smoothing function. See
+https://dr-jt.github.io/pupillometry/index.html for more information.
 }
 \section{Output}{
 
