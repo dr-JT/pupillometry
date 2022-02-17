@@ -1,7 +1,7 @@
 #' Correlate pupil values
 #'
 #' Calculate the correlation between left and right pupil values. See
-#' https://dr-jt.github.io/pupillometry/index.html for more information.
+#' https://dr-jt.github.io/pupillometry/ for more information.
 #'
 #' @section Output:
 #'

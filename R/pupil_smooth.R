@@ -1,7 +1,7 @@
 #' Smooth pupil data
 #'
 #' Reduces noise in the data by applying a smoothing function. See
-#' https://dr-jt.github.io/pupillometry/index.html for more information.
+#' https://dr-jt.github.io/pupillometry/ for more information.
 #'
 #' @section Output:
 #'

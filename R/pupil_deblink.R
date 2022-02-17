@@ -2,7 +2,7 @@
 #'
 #' Deblink pupil data with the option to extend blinks before and after
 #' blink detection. See
-#' https://dr-jt.github.io/pupillometry/index.html for more information.
+#' https://dr-jt.github.io/pupillometry/ for more information.
 #'
 #' @section Output:
 #'

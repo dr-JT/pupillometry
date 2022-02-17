@@ -11,7 +11,7 @@ pupil_upsample(x)
 }
 \description{
 Increase the sampling frequency to 1000Hz. See
-https://dr-jt.github.io/pupillometry/index.html for more information.
+https://dr-jt.github.io/pupillometry/ for more information.
 }
 \section{Output}{
 

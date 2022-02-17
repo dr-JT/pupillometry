@@ -13,7 +13,7 @@ select_eye(x, eye_use = "")
 }
 \description{
 Choose which eye to use for analysis. See
-https://dr-jt.github.io/pupillometry/index.html for more information.
+https://dr-jt.github.io/pupillometry/ for more information.
 }
 \section{Output}{
 

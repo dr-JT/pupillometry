@@ -1,7 +1,7 @@
 #' Baseline correction
 #'
 #' Apply a subtractive or divisive baseline correction to pupil data. See
-#' https://dr-jt.github.io/pupillometry/index.html for more information.
+#' https://dr-jt.github.io/pupillometry/ for more information.
 #'
 #' @section Output:
 #'

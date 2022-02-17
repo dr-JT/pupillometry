@@ -13,7 +13,7 @@ pupil_missing(x, missing_allowed = 1)
 }
 \description{
 This function will remove trials that have too much missing data. See
-https://dr-jt.github.io/pupillometry/index.html for more information.
+https://dr-jt.github.io/pupillometry/ for more information.
 }
 \section{Output}{
 

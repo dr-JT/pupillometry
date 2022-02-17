@@ -27,7 +27,7 @@ Any gaps over this value will not be interpolated.}
 \description{
 The purpose of interpolation is to replace gaps of missing values using
 an estimation function. See
-https://dr-jt.github.io/pupillometry/index.html for more information.
+https://dr-jt.github.io/pupillometry/ for more information.
 }
 \section{Output}{
 

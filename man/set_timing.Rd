@@ -31,7 +31,7 @@ set_timing(
 }
 \description{
 Sets the timing variable relative to the onset of an event. See
-https://dr-jt.github.io/pupillometry/index.html for more information.
+https://dr-jt.github.io/pupillometry/ for more information.
 }
 \section{Output}{
 

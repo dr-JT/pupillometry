@@ -3,7 +3,7 @@
 #' Imports eye tracking data from any eye tracker with special support for SMI,
 #' SR Research, and Tobii eye trackers. Standardizes columns and values
 #' to be used with other functions in this package. See
-#' https://dr-jt.github.io/pupillometry/index.html for more information.
+#' https://dr-jt.github.io/pupillometry/ for more information.
 #'
 #' @section Output:
 #'
