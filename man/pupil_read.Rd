@@ -18,6 +18,7 @@ pupil_read(
   trial_exclude = NULL,
   quality_check_dir = NULL,
   delim = NULL,
+  na = na,
   subject = NULL,
   trial = NULL,
   time = NULL,
@@ -88,6 +89,8 @@ included in data.}
 \item{quality_check_dir}{Directory to save quality check file to.}
 
 \item{delim}{Eye tracker agnostic argument File delimiter type.}
+
+\item{na}{Eye tracker agnostic argument na type.}
 
 \item{subject}{Eye tracker agnostic argument Column name that contains
 subject IDs.}

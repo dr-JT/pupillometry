@@ -77,6 +77,7 @@
 #' @param trial_exclude Specify if there are any trials to exclude. c().
 #' @param quality_check_dir Directory to save quality check file to.
 #' @param delim Eye tracker agnostic argument File delimiter type.
+#' @param na Eye tracker agnostic argument na type.
 #' @param subject Eye tracker agnostic argument Column name that contains
 #'     subject IDs.
 #' @param trial Eye tracker agnostic argument Column name that contains the
@@ -144,7 +145,8 @@ pupil_read <- function(file, eyetracker = "",
                        timing_file = NULL,
                        include_col = NULL, trial_exclude = NULL,
                        quality_check_dir = NULL,
-                       delim = NULL, subject = NULL, trial = NULL, time = NULL,
+                       delim = NULL, na = na,
+                       subject = NULL, trial = NULL, time = NULL,
                        message_event = NULL, stimulus = NULL,
                        left_pupil.mm = NULL, right_pupil.mm = NULL,
                        left_pupil.px = NULL, right_pupil.px = NULL,
@@ -399,9 +401,10 @@ pupil_read <- function(file, eyetracker = "",
     ## Eye tracker is not specified ####
     if (delim == "\t") {
       data <- readr::read_delim(file, delim = "\t", escape_double = FALSE,
-                                trim_ws = TRUE, guess_max = 100000)
+                                trim_ws = TRUE, guess_max = 100000,
+                                na = na)
     } else if (delim == "," | delim == "csv") {
-      data <- readr::read_csv(file, guess_max = 100000)
+      data <- readr::read_csv(file, guess_max = 100000, na = na)
     }
 
     data <- dplyr::select(data,
