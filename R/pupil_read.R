@@ -444,7 +444,7 @@ pupil_read <- function(file, eyetracker = "", px_to_mm.conversion = NULL,
         data <- dplyr::mutate(data,
                               L_Eye_Event =
                                 ifelse(!is.na(L_Fixation_Event),
-                                       ifelse(L_Fixation_Event == 1,
+                                       ifelse(L_Fixation_Event => 1,
                                               "Fixation", L_Eye_Event),
                                        L_Eye_Event))
       }
