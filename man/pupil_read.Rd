@@ -183,7 +183,8 @@ SR Research, and Tobii eye trackers. Standardizes columns and values
 to be used with other functions in this package.
 }
 \details{
-See https://dr-jt.github.io/pupillometry/index.html for more information.
+See [https://dr-jt.github.io/pupillometry/index.html](https://dr-jt.github.io/pupillometry/index.html)
+for more information.
 }
 \section{Output}{
 
