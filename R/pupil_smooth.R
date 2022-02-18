@@ -88,13 +88,10 @@ pupil_smooth <- function(x, type = "hann", n = NULL,
   real_name <- ifelse("Pupil_Diameter.mm" %in% colnames(x),
                       "Pupil_Diameter.mm", "Pupil_Diameter.px")
 
-  if ("UpSampled" %in% colnames(x)) {
-    colnames(x)[which(colnames(x) == real_name)] <- "pupil_val"
-    x <- dplyr::mutate(x, pupil_before = pupil_val)
-    colnames(x)[which(colnames(x) == "pupil_val")] <- real_name
-    x <- pupil_interpolate(x, type = "linear")
-    hz <- 1000
-  }
+  colnames(x)[which(colnames(x) == real_name)] <- "pupil_val"
+  x <- dplyr::mutate(x, pupil_before = pupil_val)
+  colnames(x)[which(colnames(x) == "pupil_val")] <- real_name
+  x <- pupil_interpolate(x, type = "linear")
 
   colnames(x)[which(colnames(x) == real_name)] <- "pupil_val"
 
@@ -126,11 +123,9 @@ pupil_smooth <- function(x, type = "hann", n = NULL,
   x <- dplyr::arrange(x, Trial, Time)
   x <- dplyr::ungroup(x)
 
-  if ("UpSampled" %in% colnames(x)) {
-    x <- dplyr::mutate(x,
-                       pupil_val = ifelse(is.na(pupil_before), NA, pupil_val))
-    x <- dplyr::select(x, -pupil_before)
-  }
+  x <- dplyr::mutate(x,
+                     pupil_val = ifelse(is.na(pupil_before), NA, pupil_val))
+  x <- dplyr::select(x, -pupil_before)
 
   colnames(x)[which(colnames(x) == "pupil_val")] <- real_name
 
