@@ -12,7 +12,7 @@
 #' Baseline correction is calculated based on the median pupil size during
 #' a defined baseline period. That baseline period is defined with the
 #'
-#' 1) `bc_onset.message` argument that specifies a message string that is sent
+#' 1) `bc_onset_message` argument that specifies a message string that is sent
 #' to the eye tracker at onset of the segment to be baseline corrected. The
 #' values in the Stimulus column can be used here. Multiple values can be
 #' specified if multiple segments need to be baseline corrected.
@@ -20,13 +20,13 @@
 #' AND
 #'
 #' 2) `baseline_duration` argument that specifies the duration of the baseline
-#' period, before `bc_onset.message`, to use in calculating the median baseline
+#' period, before `bc_onset_message`, to use in calculating the median baseline
 #' pupil size.
 #'
 #' Either "subtractive" or "divisive" baseline correction can be applied.
 #'
 #' @param x dataframe.
-#' @param bc_onset.message Message string(s) that marks the onset of the
+#' @param bc_onset_message Message string(s) that marks the onset of the
 #'     segment to be baseline corrected. The values in the Stimulus column can
 #'     be used here. Multiple values can be specified if multiple segments
 #'     need to be baseline corrected.
@@ -36,14 +36,19 @@
 #' @param type Do you want to use "subtractive" or "divisive"
 #'     baseline correction? default: "subtractive"
 #' @param match Is the message string an "exact" match or a "pattern" match?
+#' @param bc_onset.message deprecated. see bc_onset_message
 #' @param pre.duration deprecated. see baseline_duration.
 #' @export
 #'
 
-pupil_baselinecorrect <- function(x, bc_onset.message = "",
+pupil_baselinecorrect <- function(x, bc_onset_message = "",
                                   baseline_duration = 200, type = "subtractive",
-                                  match = "exact", pre.duration = NULL) {
-
+                                  match = "exact",
+                                  bc_onset.message = NULL,
+                                  pre.duration = NULL) {
+  if (!is.null(bc_onset.message)) {
+    bc_onset_message <- bc_onset.message
+  }
   if (!is.null(pre.duration)) {
     baseline_duration <- pre.duration
   }
@@ -55,14 +60,14 @@ pupil_baselinecorrect <- function(x, bc_onset.message = "",
 
   colnames(x)[which(colnames(x) == real_name)] <- "pupil_val"
 
-  baselines.n <- length(bc_onset.message)
+  baselines.n <- length(bc_onset_message)
   x <- dplyr::group_by(x, Trial, Stimulus)
   x <- dplyr::mutate(x, onset.time = min(Time, na.rm = TRUE))
   x <- dplyr::group_by(x, Trial)
   x <- dplyr::mutate(x, PreTarget = 0, Target = 0)
 
-  for (m in bc_onset.message) {
-    n <- match(m, bc_onset.message)
+  for (m in bc_onset_message) {
+    n <- match(m, bc_onset_message)
     if (match == "exact") {
       x <- dplyr::mutate(x,
                          bconset.time = ifelse(Stimulus == m, onset.time, NA))

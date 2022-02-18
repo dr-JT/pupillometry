@@ -6,17 +6,18 @@
 \usage{
 pupil_baselinecorrect(
   x,
-  bc_onset.message = "",
+  bc_onset_message = "",
   baseline_duration = 200,
   type = "subtractive",
   match = "exact",
+  bc_onset.message = NULL,
   pre.duration = NULL
 )
 }
 \arguments{
 \item{x}{dataframe.}
 
-\item{bc_onset.message}{Message string(s) that marks the onset of the
+\item{bc_onset_message}{Message string(s) that marks the onset of the
 segment to be baseline corrected. The values in the Stimulus column can
 be used here. Multiple values can be specified if multiple segments
 need to be baseline corrected.}
@@ -29,6 +30,8 @@ different baseline durations. default: 200}
 baseline correction? default: "subtractive"}
 
 \item{match}{Is the message string an "exact" match or a "pattern" match?}
+
+\item{bc_onset.message}{deprecated. see bc_onset_message}
 
 \item{pre.duration}{deprecated. see baseline_duration.}
 }
@@ -48,7 +51,7 @@ Adds a `Pupil_Diameter_bc` column to the data.
 Baseline correction is calculated based on the median pupil size during
 a defined baseline period. That baseline period is defined with the
 
-1) `bc_onset.message` argument that specifies a message string that is sent
+1) `bc_onset_message` argument that specifies a message string that is sent
 to the eye tracker at onset of the segment to be baseline corrected. The
 values in the Stimulus column can be used here. Multiple values can be
 specified if multiple segments need to be baseline corrected.
@@ -56,7 +59,7 @@ specified if multiple segments need to be baseline corrected.
 AND
 
 2) `baseline_duration` argument that specifies the duration of the baseline
-period, before `bc_onset.message`, to use in calculating the median baseline
+period, before `bc_onset_message`, to use in calculating the median baseline
 pupil size.
 
 Either "subtractive" or "divisive" baseline correction can be applied.

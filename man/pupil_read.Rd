@@ -7,46 +7,52 @@
 pupil_read(
   file,
   eyetracker = "",
-  start_tracking.message = "default",
-  start_tracking.match = "exact",
+  start_tracking_message = "default",
+  start_tracking_match = "exact",
   eye_use = NULL,
   subj_prefix = NULL,
   subj_suffix = NULL,
-  px_to_mm.conversion = NULL,
+  px_to_mm_conversion = NULL,
+  ms_conversion = NULL,
   timing_file = NULL,
   include_col = NULL,
   trial_exclude = NULL,
   quality_check_dir = NULL,
   delim = NULL,
-  na = na,
+  na = "NA",
   subject = NULL,
   trial = NULL,
   time = NULL,
   message_event = NULL,
-  stimulus = NULL,
+  pupil.mm = NULL,
+  pupil.px = NULL,
+  gaze.x = NULL,
+  gaze.y = NULL,
+  blink_event = NULL,
+  fixation_event = NULL,
+  saccade_event = NULL,
+  eye_event = NULL,
+  eye_event_blink = "Blink",
+  eye_event_fixation = "Fixation",
+  eye_event_saccade = "Saccade",
   left_pupil.mm = NULL,
   right_pupil.mm = NULL,
   left_pupil.px = NULL,
   right_pupil.px = NULL,
-  gaze.x = NULL,
-  gaze.y = NULL,
   left_gaze.x = NULL,
   left_gaze.y = NULL,
   right_gaze.x = NULL,
   right_gaze.y = NULL,
-  eye_event = NULL,
-  blink_event = NULL,
-  fixation_event = NULL,
-  saccade_event = NULL,
-  left_eye_event = NULL,
-  right_eye_event = NULL,
   left_blink_event = NULL,
   right_blink_event = NULL,
   left_fixation_event = NULL,
   right_fixation_event = NULL,
   left_saccade_event = NULL,
   right_saccade_event = NULL,
-  ms_conversion = NULL,
+  left_eye_event = NULL,
+  right_eye_event = NULL,
+  start_tracking.message = NULL,
+  start_tracking.match = NULL,
   starttracking.message = NULL,
   starttracking.match = NULL
 )
@@ -57,12 +63,12 @@ pupil_read(
 \item{eyetracker}{Which eye tracker system was used to record data?
 options: "smi", "eyelink", NULL.}
 
-\item{start_tracking.message}{Message used in experiment software to
+\item{start_tracking_message}{Message used in experiment software to
 mark the onset of "Start Tracking". Most eye trackers include a marker
 message corresponding to this event. Usually included at the start of
 every trial. Not required for SMI, SR Research, and Tobii Pro Fusion.}
 
-\item{start_tracking.match}{Should the message string be an
+\item{start_tracking_match}{Should the message string be an
 "exact" match or a "pattern" match? default: "exact".}
 
 \item{eye_use}{Which eye to use? options: "left" or "right".}
@@ -75,8 +81,11 @@ Required for SMI, but likely not needed for other eye trackers.}
 symbol(s)) that comes after the subject number in the data file.
 Required for SMI, but likely not needed for other eye trackers.}
 
-\item{px_to_mm.conversion}{The conversion factor to go from
+\item{px_to_mm_conversion}{The conversion factor to go from
 px pupil diameter to mm pupil diameter.}
+
+\item{ms_conversion}{The conversion factor to get the timing column in
+milliseconds.}
 
 \item{timing_file}{File location and name that contains timing
 information for message markers. Required if no message markers are
@@ -88,94 +97,146 @@ included in data.}
 
 \item{quality_check_dir}{Directory to save quality check file to.}
 
-\item{delim}{Eye tracker agnostic argument File delimiter type.}
+\item{delim}{File delimiter type. (needed if eyetracker is not specified)
+(needed if eyetracker is not specified)}
 
-\item{na}{Eye tracker agnostic argument na type.}
+\item{na}{How are missing values defined in the data files}
 
-\item{subject}{Eye tracker agnostic argument Column name that contains
-subject IDs.}
+\item{subject}{Column name that contains subject IDs.
+(needed if eyetracker is not specified)}
 
-\item{trial}{Eye tracker agnostic argument Column name that contains the
-trial variable.}
+\item{trial}{Column name that contains the trial number.
+(needed if eyetracker is not specified)}
 
-\item{time}{Eye tracker agnostic argument. Column name that contains the
-timing variable.}
+\item{time}{Column name that contains the timing variable.
+(needed if eyetracker is not specified)}
 
-\item{message_event}{Eye tracker agnostic argument. Column name that
-contains the message markers.}
+\item{message_event}{Column name that contains the message markers.
+(needed if eyetracker is not specified)}
 
-\item{stimulus}{Eye tracker agnostic argument. Column name that contains the
-stimulus information.}
+\item{pupil.mm}{Column name that contains the pupil data in millimeters.
+If the eye tracker data file has pupil data from only one eye use this
+argument.}
 
-\item{left_pupil.mm}{Eye tracker agnostic argument. Column name that
-contains the left pupil data in millimeters.}
+\item{pupil.px}{Column name that contains the pupil data in pixels.
+If the eye tracker data file has pupil data from only one eye use this
+argument.}
 
-\item{right_pupil.mm}{Eye tracker agnostic argument. Column name that
-contains the right pupil data in millimeters.}
+\item{gaze.x}{Column name that contains the gaze position on the x-axis.
+If the eye tracker data file has data from only one eye use this argument.}
 
-\item{left_pupil.px}{Eye tracker agnostic argument. Column name that
-contains the left pupil data in pixels.}
+\item{gaze.y}{Column name that contains the gaze position on the y-axis.
+If the eye tracker data file has data from only one eye use this argument.}
 
-\item{right_pupil.px}{Eye tracker agnostic argument. Column name that
-contains the right pupil data in pixels.}
+\item{blink_event}{Column name that contains whether the eye event sample is
+in a blink or not in a blink. If the eye tracker data file
+has data from only one eye use this argument.}
 
-\item{gaze.x}{Eye tracker agnostic argument. Column name that contains the
-gaze position on the x-axis.}
+\item{fixation_event}{Column name that contains whether the eye event sample
+is in a fixation or not in a fixation. If the eye tracker data file
+has data from only one eye use this argument.}
 
-\item{gaze.y}{Eye tracker agnostic argument. Column name that contains the
-gaze position on the y-axis.}
+\item{saccade_event}{Column name that contains whether the eye event sample
+is in a saccade or not in a saccade. If the eye tracker data file
+has data from only one eye use this argument.}
 
-\item{left_gaze.x}{Eye tracker agnostic argument. Column name that contains
-the left eye gaze position on the x-axis.}
+\item{eye_event}{Column name that contains the eye event data
+(e.g., fixation, saccade, and blink). If the eye tracker data file
+has data from only one eye use this argument. Some eye trackers will
+store the event data in one column with values corresponding to
+fixation, blink, or saccades. You also need to specify what these
+values are with the eye_event_blink,  eye_event_fixation, and
+eye_event_saccade arguments.}
 
-\item{left_gaze.y}{Eye tracker agnostic argument. Column name that contains
-the left eye gaze position on the y-axis.}
+\item{eye_event_blink}{Values in the eye_event column that correspond to
+blinks.}
 
-\item{right_gaze.x}{Eye tracker agnostic argument. Column name that contains
-the right eye gaze position on the x-axis.}
+\item{eye_event_fixation}{Values in the eye_event column that correspond to
+fixations.}
 
-\item{right_gaze.y}{Eye tracker agnostic argument. Column name that contains
-the right eye gaze position on the y-axis.}
+\item{eye_event_saccade}{Values in the eye_event column that correspond to
+saccades.}
 
-\item{eye_event}{Eye tracker agnostic argument. Column name that contains
-the eye event (e.g., fixation, saccade, and blink) data.}
+\item{left_pupil.mm}{Column name that contains the left pupil data in
+millimeters. If the eye tracker data file has pupil data from both eyes
+use this argument for the left pupil.}
 
-\item{blink_event}{Eye tracker agnostic argument. Column name that contains
-the blink event data.}
+\item{right_pupil.mm}{Column name that contains the right pupil data in
+millimeters. If the eye tracker data file has pupil data from both eyes
+use this argument for the right pupil.}
 
-\item{fixation_event}{Eye tracker agnostic argument. Column name that
-contains the fixation event data.}
+\item{left_pupil.px}{Column name that contains the left pupil data in pixels.
+If the eye tracker data file has pupil data from both eyes
+use this argument for the left pupil.}
 
-\item{saccade_event}{Eye tracker agnostic argument. Column name that
-contains the saccade event data.}
+\item{right_pupil.px}{Column name that contains the right pupil data in pixels.
+If the eye tracker data file has pupil data from both eyes
+use this argument for the right pupil.}
 
-\item{left_eye_event}{Eye tracker agnostic argument. Column name that
-contains the left eye event (e.g., fixation, saccade, and blink) data.}
+\item{left_gaze.x}{Column name that contains the left eye gaze position
+on the x-axis. If the eye tracker data file has data from both eyes
+use this argument for the left eye.}
 
-\item{right_eye_event}{Eye tracker agnostic argument. Column name that
-contains the eye event (e.g., fixation, saccade, and blink) data.}
+\item{left_gaze.y}{Column name that contains the left eye gaze position
+on the y-axis. If the eye tracker data file has data from both eyes
+use this argument for the left eye.}
 
-\item{left_blink_event}{Eye tracker agnostic argument. Column name that
-contains the left blink event data.}
+\item{right_gaze.x}{Column name that contains the right eye gaze position
+on the x-axis. If the eye tracker data file has data from both eyes
+use this argument for the right eye.}
 
-\item{right_blink_event}{Eye tracker agnostic argument. Column name that
-contains the blink event data.}
+\item{right_gaze.y}{Column name that contains the right eye gaze position
+on the y-axis. If the eye tracker data file has data from both eyes
+use this argument for the right eye.}
 
-\item{left_fixation_event}{Eye tracker agnostic argument. Column name that
-contains the left fixation event data.}
+\item{left_blink_event}{Column name that contains whether the eye event
+sample is in a blink or not in a blink. If the eye tracker data file
+has data from both eyes use this argument for the left eye.}
 
-\item{right_fixation_event}{Eye tracker agnostic argument. Column name that
-contains the fixation event data.}
+\item{right_blink_event}{Column name that contains whether the eye event
+sample is in a blink or not in a blink. If the eye tracker data file
+has data from both eyes use this argument for the right eye.}
 
-\item{left_saccade_event}{Eye tracker agnostic argument. Column name that
-contains the left saccade event data.}
+\item{left_fixation_event}{Column name that contains whether the eye event
+sample is in a fixation or not in a fixation. If the eye tracker data file
+has data from both eyes use this argument for the left eye.}
 
-\item{right_saccade_event}{Eye tracker agnostic argument. Column name that
-contains the saccade event data.}
+\item{right_fixation_event}{Column name that contains whether the eye event
+sample is in a fixation or not in a fixation. If the eye tracker data file
+has data from both eyes use this argument for the right eye.}
 
-\item{starttracking.message}{See start_tracking.message.}
+\item{left_saccade_event}{Column name that contains whether the eye event
+sample is in a saccade or not in a saccade. If the eye tracker data file
+has data from both eyes use this argument for the left eye.}
 
-\item{starttracking.match}{See start_tracking.match.}
+\item{right_saccade_event}{Column name that contains whether the eye event
+sample is in a saccade or not in a saccade. If the eye tracker data file
+has data from only one eye use this argument. If the eye tracker data file
+has data from both eyes use this argument for the right eye.}
+
+\item{left_eye_event}{Column name that contains the left eye event data
+(e.g., fixation, saccade, and blink). If the eye tracker data file
+has data from both eyes use this argument for the left eye.
+Some eye trackers will store the event data in one column with values
+corresponding to fixation, blink, or saccades. You also need to specify
+what these values are with the eye_event_blink, eye_event_fixation,
+and eye_event_saccade arguments.}
+
+\item{right_eye_event}{Column name that contains the right eye event data
+(e.g., fixation, saccade, and blink). If the eye tracker data file
+has data from both eyes use this argument for the right eye.
+Some eye trackers will store the event data in one column with values
+corresponding to fixation, blink, or saccades. You also need to specify
+what these values are with the eye_event_blink, eye_event_fixation,
+and eye_event_saccade arguments.}
+
+\item{start_tracking.message}{See start_tracking_message.}
+
+\item{start_tracking.match}{See start_tracking_match.}
+
+\item{starttracking.message}{See start_tracking_message.}
+
+\item{starttracking.match}{See start_tracking_match.}
 }
 \description{
 Imports eye tracking data from any eye tracker with special support for SMI,
@@ -212,12 +273,12 @@ the column names. See the eye tracker agnostic arguments.
 There are several importing options to specify, some of them required, others
 are more optional. See the full argument list for all options.
 
-- start_tracking.message (recommended): helps to correctly
+- start_tracking_message (recommended): helps to correctly
 identify trials segments
 
 - eye_use (optional): specify which eye you want to perform analyses on
 
-- px_to_mm.conversion (optional): convert pupil pixel values to millimeters
+- px_to_mm_conversion (optional): convert pupil pixel values to millimeters
 
 - include_col (optional): other columns you may want to
 include (e.g., RT, accuracy, condition)
