@@ -77,7 +77,8 @@ pupil_plot <- function(x, y, trial = "all", sub_title = "") {
                        subtitle = sub_title) +
       ggplot2::labs(y = "Pupil Size", x = "Time (ms)") +
       ggplot2::theme_linedraw() + theme_spacious() +
-      ggplot2::theme(plot.title = ggplot2::element_text(hjust = 0.5))
+      ggplot2::theme(plot.title = ggplot2::element_text(hjust = 0.5),
+                     plot.subtitle = ggplot2::element_text(hjust = 0.5))
     # Print plot
     grid::grid.draw(plot)
   }
