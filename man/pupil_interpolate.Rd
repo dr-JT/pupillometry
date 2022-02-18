@@ -21,7 +21,7 @@ pupil_interpolate(
 \item{maxgap}{Maximum number of NAs to interpolate over.
 Any gaps over this value will not be interpolated.}
 
-\item{hz}{The recording frequency (used to calculate window size).}
+\item{hz}{The recording frequency (used to calculate maxgap).}
 
 \item{plot}{Logical. Inspect a plot of how pupil values changed?}
 

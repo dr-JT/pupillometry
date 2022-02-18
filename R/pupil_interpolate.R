@@ -77,7 +77,7 @@
 #' @param type What type of interpolation to use? "linear" or "cubic-spline".
 #' @param maxgap Maximum number of NAs to interpolate over.
 #'     Any gaps over this value will not be interpolated.
-#' @param hz The recording frequency (used to calculate window size).
+#' @param hz The recording frequency (used to calculate maxgap).
 #' @param plot Logical. Inspect a plot of how pupil values changed?
 #' @param trial what trial(s) to plot default = "all"
 #' @export
