@@ -878,10 +878,10 @@ pupil_read <- function(file, eyetracker = "",
   data <- dplyr::filter(data, !is.na(Trial))
   data <- dplyr::mutate(data, Time = round(Time))
   data <- dplyr::relocate(data, Trial, .before = "Time")
-  if (!is.null(px_to_mm.conversion)) {
+  if (!is.null(px_to_mm_conversion)) {
     data <- dplyr::mutate(data,
                           Pupil_Diameter.mm =
-                            Pupil_Diameter.px * px_to_mm.conversion)
+                            Pupil_Diameter.px * px_to_mm_conversion)
   }
   #################################################
 
