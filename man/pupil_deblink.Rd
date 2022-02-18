@@ -4,7 +4,7 @@
 \alias{pupil_deblink}
 \title{Deblink}
 \usage{
-pupil_deblink(x, extend = 0, plot = FALSE, trial = "all")
+pupil_deblink(x, extend = 0, plot = FALSE, plot_trial = "all")
 }
 \arguments{
 \item{x}{dataframe.}
@@ -14,7 +14,7 @@ before and after blink detection.}
 
 \item{plot}{Logical. Inspect a plot of how pupil values changed?}
 
-\item{trial}{what trial(s) to plot default = "all"}
+\item{plot_trial}{what trial(s) to plot default = "all"}
 }
 \description{
 Deblink pupil data with the option to extend blinks before and after

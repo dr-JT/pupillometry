@@ -21,11 +21,11 @@
 #' @param extend How many milliseconds to extend blinks
 #'     before and after blink detection.
 #' @param plot Logical. Inspect a plot of how pupil values changed?
-#' @param trial what trial(s) to plot default = "all"
+#' @param plot_trial what trial(s) to plot default = "all"
 #' @export
 #'
 
-pupil_deblink <- function(x, extend = 0, plot = FALSE, trial = "all"){
+pupil_deblink <- function(x, extend = 0, plot = FALSE, plot_trial = "all"){
 
   x_before <- x
 
@@ -64,7 +64,7 @@ pupil_deblink <- function(x, extend = 0, plot = FALSE, trial = "all"){
 
   colnames(x)[which(colnames(x) == "pupil_val")] <- real_name
 
-  if (plot == TRUE) pupil_plot(x_before, x, trial = trial)
+  if (plot == TRUE) pupil_plot(x_before, x, trial = plot_trial)
 
   return(x)
 }

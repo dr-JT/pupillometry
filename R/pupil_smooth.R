@@ -72,7 +72,7 @@
 #' @param type The type of smoothing function to apply. "hann" or "mwa".
 #' @param n The size of the smoothing window in samples.
 #' @param plot Logical. Inspect a plot of how pupil values changed?
-#' @param trial what trial(s) to plot default = "all"
+#' @param plot_trial what trial(s) to plot default = "all"
 #' @param window Deprecated. Use n.
 #'     The size of the smoothing window in milliseconds.
 #' @param hz Deprecated. Use n. The recording frequency.
@@ -81,7 +81,7 @@
 #'
 
 pupil_smooth <- function(x, type = "hann", n = NULL,
-                         plot = FALSE, trial = "all",
+                         plot = FALSE, plot_trial = "all",
                          window = NULL, hz = NULL){
   x_before <- x
 
@@ -129,7 +129,7 @@ pupil_smooth <- function(x, type = "hann", n = NULL,
 
   colnames(x)[which(colnames(x) == "pupil_val")] <- real_name
 
-  if (plot == TRUE) pupil_plot(x_before, x, trial = trial)
+  if (plot == TRUE) pupil_plot(x_before, x, trial = plot_trial)
 
   return(x)
 }
