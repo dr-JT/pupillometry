@@ -79,7 +79,7 @@
 #'     Any gaps over this value will not be interpolated.
 #' @param hz The recording frequency (used to calculate maxgap).
 #' @param plot Logical. Inspect a plot of how pupil values changed?
-#' @param plot_trial what trial(s) to plot default = "all"
+#' @param plot_trial what trial(s) to plot. default = "all"
 #' @export
 #'
 
@@ -124,7 +124,8 @@ pupil_interpolate <- function(x, type = "cubic-spline",
   x <- dplyr::ungroup(x)
   colnames(x)[which(colnames(x) == "pupil_val")] <- real_name
 
-  if (plot == TRUE) pupil_plot(x_before, x, trial = plot_trial)
+  if (plot == TRUE) pupil_plot(x_before, x, trial = plot_trial,
+                               sub_title = "pupil_interpolate()")
 
   return(x)
 }

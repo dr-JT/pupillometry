@@ -62,7 +62,8 @@ pupil_artifact <- function(x, n = 16, plot = FALSE, plot_trial = "all"){
 
   colnames(x)[which(colnames(x) == "pupil_val")] <- real_name
 
-  if (plot == TRUE) pupil_plot(x_before, x, trial = plot_trial)
+  if (plot == TRUE) pupil_plot(x_before, x, trial = plot_trial,
+                               sub_title = "pupil_artifact()")
 
   return(x)
 }

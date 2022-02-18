@@ -15,11 +15,12 @@
 #'
 #' @param x data before preprocessing step.
 #' @param y data after preprocessing step.
-#' @param trial what trial(s) to plot default = "all"
+#' @param trial what trial(s) to plot. default = "all"
+#' @param sub_title subtitle for plot. default = ""
 #' @export pupil_plot
 #'
 
-pupil_plot <- function(x, y, trial = "all") {
+pupil_plot <- function(x, y, trial = "all", sub_title = "") {
   theme_spacious <- function(font.size = 14, bold = TRUE){
     key.size <- trunc(font.size*.8)
     if (bold == TRUE) {
@@ -72,7 +73,8 @@ pupil_plot <- function(x, y, trial = "all") {
       ggplot2::geom_point(ggplot2::aes(y = pupil_val_after),
                           stroke = .5, size = .7,
                           color = "firebrick", alpha = 1) +
-      ggplot2::ggtitle(paste("Trial: ", data_trial$Trial[1], sep = "")) +
+      ggplot2::ggtitle(paste("Trial: ", data_trial$Trial[1], sep = ""),
+                       subtitle = sub_title) +
       ggplot2::labs(y = "Pupil Size", x = "Time (ms)") +
       ggplot2::theme_linedraw() + theme_spacious() +
       ggplot2::theme(plot.title = ggplot2::element_text(hjust = 0.5))
