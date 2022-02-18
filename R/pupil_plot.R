@@ -67,10 +67,10 @@ pupil_plot <- function(x, y, trial = "all") {
     data_trial <- dplyr::filter(data_plot, Trial == trial)
     plot <- ggplot2::ggplot(data_trial, ggplot2::aes(Time)) +
       ggplot2::geom_point(ggplot2::aes(y = pupil_val_before),
-                          stroke = 1, size = 1.5,
+                          stroke = 1.2, size = 1.7,
                           color = "grey65", alpha = 1) +
       ggplot2::geom_point(ggplot2::aes(y = pupil_val_after),
-                          stroke = .5, size = .75,
+                          stroke = .5, size = .7,
                           color = "firebrick", alpha = 1) +
       ggplot2::ggtitle(paste("Trial: ", data_trial$Trial[1], sep = "")) +
       ggplot2::labs(y = "Pupil Size", x = "Time (ms)") +
