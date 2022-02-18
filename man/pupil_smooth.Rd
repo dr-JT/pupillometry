@@ -9,6 +9,7 @@ pupil_smooth(
   type = "hann",
   n = NULL,
   plot = FALSE,
+  trial = "all",
   window = NULL,
   hz = NULL
 )
@@ -21,6 +22,8 @@ pupil_smooth(
 \item{n}{The size of the smoothing window in samples.}
 
 \item{plot}{Logical. Inspect a plot of how pupil values changed?}
+
+\item{trial}{what trial(s) to plot default = "all"}
 
 \item{window}{Deprecated. Use n.
 The size of the smoothing window in milliseconds.}

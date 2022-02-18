@@ -9,7 +9,8 @@ pupil_interpolate(
   type = "cubic-spline",
   maxgap = Inf,
   hz = "",
-  plot = FALSE
+  plot = FALSE,
+  trial = "all"
 )
 }
 \arguments{
@@ -23,6 +24,8 @@ Any gaps over this value will not be interpolated.}
 \item{hz}{The recording frequency (used to calculate window size).}
 
 \item{plot}{Logical. Inspect a plot of how pupil values changed?}
+
+\item{trial}{what trial(s) to plot default = "all"}
 }
 \description{
 The purpose of interpolation is to replace gaps of missing values using

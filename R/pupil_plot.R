@@ -15,10 +15,11 @@
 #'
 #' @param x data before preprocessing step.
 #' @param y data after preprocessing step.
+#' @param trial what trial(s) to plot default = "all"
 #' @export pupil_plot
 #'
 
-pupil_plot <- function(x, y) {
+pupil_plot <- function(x, y, trial = "all") {
   theme_spacious <- function(font.size = 14, bold = TRUE){
     key.size <- trunc(font.size*.8)
     if (bold == TRUE) {
@@ -51,16 +52,26 @@ pupil_plot <- function(x, y) {
   colnames(y)[which(colnames(y) == real_name)] <- "pupil_val_after"
 
   x <- dplyr::select(x, Trial, Time, pupil_val_before)
+  if (trial != "all") {
+    x <- dplyr::filter(x, Trial %in% trial)
+  }
+
   y <- dplyr::select(y, Trial, Time, pupil_val_after)
+  if (trial != "all") {
+    y <- dplyr::filter(y, Trial %in% trial)
+  }
+
   data_plot <- merge(x, y, by = c("Trial", "Time"), all = TRUE)
 
   for (trial in unique(x$Trial)) {
     data_trial <- dplyr::filter(data_plot, Trial == trial)
     plot <- ggplot2::ggplot(data_trial, ggplot2::aes(Time)) +
-      ggplot2::geom_point(ggplot2::aes(y = pupil_val_after),
-                          stroke = .5, size = .75) +
       ggplot2::geom_point(ggplot2::aes(y = pupil_val_before),
-                          stroke = .5, size = .75, color = "grey65", alpha = .75) +
+                          stroke = 1, size = 1.5,
+                          color = "grey65", alpha = 1) +
+      ggplot2::geom_point(ggplot2::aes(y = pupil_val_after),
+                          stroke = .5, size = .75,
+                          color = "firebrick", alpha = 1) +
       ggplot2::ggtitle(paste("Trial: ", data_trial$Trial[1], sep = "")) +
       ggplot2::labs(y = "Pupil Size", x = "Time (ms)") +
       ggplot2::theme_linedraw() + theme_spacious() +

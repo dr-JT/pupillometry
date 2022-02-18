@@ -4,12 +4,14 @@
 \alias{pupil_plot}
 \title{Plot and inspect pupil data}
 \usage{
-pupil_plot(x, y)
+pupil_plot(x, y, trial = "all")
 }
 \arguments{
 \item{x}{data before preprocessing step.}
 
 \item{y}{data after preprocessing step.}
+
+\item{trial}{what trial(s) to plot default = "all"}
 }
 \description{
 Plot and inspect how preprocessing steps are changing the pupil data.

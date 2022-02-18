@@ -4,12 +4,16 @@
 \alias{pupil_artifact}
 \title{Artifact rejection}
 \usage{
-pupil_artifact(x, n = 16, plot = FALSE)
+pupil_artifact(x, n = 16, plot = FALSE, trial = "all")
 }
 \arguments{
 \item{x}{dataframe.}
 
 \item{n}{constant used to calculate threshold.}
+
+\item{plot}{Logical. Inspect a plot of how pupil values changed?}
+
+\item{trial}{what trial(s) to plot default = "all"}
 }
 \description{
 Sets pupil samples detected as artifacts to missing. See
