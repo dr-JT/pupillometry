@@ -14,7 +14,7 @@ before and after blink detection.}
 
 \item{plot}{Logical. Inspect a plot of how pupil values changed?}
 
-\item{plot_trial}{what trial(s) to plot default = "all"}
+\item{plot_trial}{what trial(s) to plot. default = "all"}
 }
 \description{
 Deblink pupil data with the option to extend blinks before and after

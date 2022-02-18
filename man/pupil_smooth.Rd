@@ -23,7 +23,7 @@ pupil_smooth(
 
 \item{plot}{Logical. Inspect a plot of how pupil values changed?}
 
-\item{plot_trial}{what trial(s) to plot default = "all"}
+\item{plot_trial}{what trial(s) to plot. default = "all"}
 
 \item{window}{Deprecated. Use n.
 The size of the smoothing window in milliseconds.}
