@@ -118,7 +118,7 @@ pupil_baselinecorrect <- function(x, bc_onset_message = "",
   x <- dplyr::ungroup(x)
   x <- dplyr::select(x, -PreTarget, -Target, -PreTarget.median,
                      -bconset.time, -min, -onset.time)
-  x <- dplyr::relocate(x, real_name_bc, .after = real_name)
+  x <- dplyr::relocate(x, pupil_val_bc, .after = pupil_val)
 
   colnames(x)[which(colnames(x) == "pupil_val")] <- real_name
   colnames(x)[which(colnames(x) == "pupil_val_bc")] <- real_name_bc
