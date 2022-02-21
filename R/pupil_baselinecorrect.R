@@ -116,7 +116,7 @@ pupil_baselinecorrect <- function(x, bc_onset_message = "",
   }
 
   x <- dplyr::ungroup(x)
-  x <- dplyr::select(x, -Trial_Phase, -PreTarget, -Target, -PreTarget.median,
+  x <- dplyr::select(x, -PreTarget, -Target, -PreTarget.median,
                      -bconset.time, -min, -onset.time)
   x <- dplyr::relocate(x, real_name_bc, .after = real_name)
 
