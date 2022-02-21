@@ -14,15 +14,15 @@
 #'
 #' Ease of import is provided for certain eye trackers:
 #'
-#' - SMI: Red250m and glasses
-#' - SR Research: EyeLink 1000 Plus
-#' - Tobii: Pro Fusion
+#' - SMI: Red250m and glasses: `pupil_read(eyetracker = "smi")`
+#' - SR Research: EyeLink 1000 Plus `pupil_read(eyetracker = "eyelink")`
+#' - Tobii: Pro Fusion `pupil_read(eyetracker = "tobii")`
 #'
 #' Other eye trackers from these companies may or may not be supported but you
 #' are welcome to try.
 #'
 #' All other eye trackers and data file types can be imported by specifying
-#' the column names. See the eye tracker agnostic arguments.
+#' the column names.
 #'
 #' @section Importing Options:
 #'
@@ -44,7 +44,6 @@
 #' - quality_check_dir (optional): a directory to save an import
 #' quality check file to
 #'
-#'
 #' - subj_prefix: required for SMI eye trackers, might be useful
 #' to remove strings in subject column
 #'
@@ -54,12 +53,6 @@
 #' @param file A file path to the raw data.
 #' @param eyetracker Which eye tracker system was used to record data?
 #'     options: "smi", "eyelink", NULL.
-#' @param start_tracking_message Message used in experiment software to
-#'     mark the onset of "Start Tracking". Most eye trackers include a marker
-#'     message corresponding to this event. Usually included at the start of
-#'     every trial. Not required for SMI, SR Research, and Tobii Pro Fusion.
-#' @param start_tracking_match Should the message string be an
-#'     "exact" match or a "pattern" match? default: "exact".
 #' @param eye_use Which eye to use? options: "left" or "right".
 #' @param subj_prefix The unique pattern prefix (letter(s)
 #'     and/or symbol(s)) that comes before the subject number in the data file.
@@ -67,18 +60,23 @@
 #' @param subj_suffix The unique pattern suffix (letter(s) or
 #'     symbol(s)) that comes after the subject number in the data file.
 #'     Required for SMI, but likely not needed for other eye trackers.
-#' @param px_to_mm_conversion The conversion factor to go from
-#'     px pupil diameter to mm pupil diameter.
+#' @param include_col Extra columns from the raw data file to include. c().
+#' @param start_tracking_message Message used in experiment software to
+#'     mark the onset of "Start Tracking". Most eye trackers include a marker
+#'     message corresponding to this event. Usually included at the start of
+#'     every trial. Not required for SMI, SR Research, and Tobii Pro Fusion.
+#' @param start_tracking_match Should the message string be an
+#'     "exact" match or a "pattern" match? default: "exact".
 #' @param ms_conversion The conversion factor to get the timing column in
 #'     milliseconds.
+#' @param px_to_mm_conversion The conversion factor to go from
+#'     px pupil diameter to mm pupil diameter.
+#' @param trial_exclude Specify if there are any trials to exclude. c().
+#' @param quality_check_dir Directory to save quality check file to.
 #' @param timing_file File location and name that contains timing
 #'     information for message markers. Required if no message markers are
 #'     included in data.
-#' @param include_col Extra columns from the raw data file to include. c().
-#' @param trial_exclude Specify if there are any trials to exclude. c().
-#' @param quality_check_dir Directory to save quality check file to.
 #' @param delim File delimiter type. (needed if eyetracker is not specified)
-#'     (needed if eyetracker is not specified)
 #' @param na How are missing values defined in the data files
 #' @param subject Column name that contains subject IDs.
 #'     (needed if eyetracker is not specified)
@@ -184,14 +182,14 @@
 #' @export
 #'
 
-pupil_read <- function(file, eyetracker = "",
-                       start_tracking_message = "default",
-                       start_tracking_match = "exact", eye_use = NULL,
+pupil_read <- function(file, eyetracker = "", eye_use = NULL,
                        subj_prefix = NULL, subj_suffix = NULL,
-                       px_to_mm_conversion = NULL, ms_conversion = NULL,
+                       include_col = NULL,
+                       start_tracking_message = "default",
+                       start_tracking_match = "exact",
+                       ms_conversion = NULL, px_to_mm_conversion = NULL,
+                       trial_exclude = NULL, quality_check_dir = NULL,
                        timing_file = NULL,
-                       include_col = NULL, trial_exclude = NULL,
-                       quality_check_dir = NULL,
                        delim = NULL, na = "NA",
                        subject = NULL, trial = NULL, time = NULL,
                        message_event = NULL,
