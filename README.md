@@ -61,8 +61,7 @@ data_pupil <- pupil_read("folder/file.csv", eyetracker = "eyelink") %>%
   pupil_deblink(extend = 75, plot = TRUE, plot_trial = c(1,2,3,4,5)) %>%
   pupil_artifact(n = 16, plot = TRUE, plot_trial = c(1,2,3,4,5)) %>%
   pupil_smooth(type = "mwa", n = 100, plot = TRUE, plot_trial = c(1,2,3,4,5)) %>%
-  pupil_interpolate(type = "linear", plot = TRUE, plot_trial = c(1,2,3,4,5)) %>%
-  pupil_baselinecorrect()
+  pupil_interpolate(type = "linear", plot = TRUE, plot_trial = c(1,2,3,4,5))
 ```
 
 This can extremely helpful when deciding things like "how large of a window size should I use when smoothing the data?". You can try different window sizes and plot the before and after each time until you find a window size that is not too large as to get rid of any meaningful signals but not too small such that there is still too much high-frequency noise in the data. 
