@@ -2,7 +2,7 @@
 % Please edit documentation in R/pupil_smooth.R
 \name{pupil_smooth}
 \alias{pupil_smooth}
-\title{Smooth pupil data}
+\title{Apply a smoothing function to pupil data}
 \usage{
 pupil_smooth(
   x,
