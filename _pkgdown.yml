@@ -11,44 +11,39 @@ template:
       index_name: INDEX_NAME
 
 reference:
-- title: Import and Clean data
+- title: Import and Setup Data
   contents:
   - pupil_read
   - set_timing
-  - pupil_cor
-  - select_eye
+- title: Remove Unlikely Values
+  contents:
+  - pupil_deblink
+  - pupil_artifact
+  - pupil_missing
 - title: Preprocessing Methods
   contents:
-  - pupil_preprocess
-  - pupil_gui
-  - pupil_deblink
+  - pupil_upsample
   - pupil_smooth
   - pupil_interpolate
   - pupil_baselinecorrect
-  - pupil_missing
-- title: Analysis
+- title: Other Functions
   contents:
-  - pupil_downsample
-  - aoi_downsample
+  - pupil_bin
+  - pupil_merge
 
 articles:
-- title: How To
-  navbar: How To
-  contents:
-  - pupil_preprocess
-  - gui
-  - pupillometry_functions
-  - message_markers
 
-- title: Example Data Sets
-  navbar: Example Data Sets
+- title:
+  navbar:
   contents:
-  - example_data
-  - example_data_w_out_messages
+  - preprocess_overview
 
-- title: More Details
-  navbar: More Details
+- title: Detailed Articles
+  navbar: Detailed Articles
   contents:
+  - setup_pupil
+  - import_pupil
+  - remove_unlikely
+  - preprocess_pupil
   - preprocessing_options
-  - smooth_interpolate_first
 

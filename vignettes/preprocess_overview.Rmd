@@ -1,0 +1,103 @@
+---
+title: "Preprocessing Code (Template)"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, eval = FALSE)
+```
+
+This is a short overview on how to perform preprocessing on pupil data by building a sequence of functions using the pipe `%>%` operator. 
+
+For more detailed instructions on each of the steps, see the detailed articles.
+
+The recommended preprocessing steps and their order of operation varies among researchers. In general, the following preprocessing workflow and steps are recommended based on Geller et al. (2020), Kret and Sjak-Shie (2019), and Mathôt et al. (2018).
+
+1. Import and setup for preprocessing
+
+    - **Read** in raw data file. `pupil_read()`
+    
+    - **Set Time** variable relative to stimulus onset. `set_timing()`
+    
+2. Remove unlikely pupil values
+
+    - **Deblink** pupil data. `pupil_deblink()`
+    
+    - **Artifiact** rejection. `pupil_artifact()`
+    
+    - **Remove** trials with large amounts of missing data. `pupil_missing()`
+    
+3. Preprocess pupil data
+
+    - **Upasmple** pupil data to 1000Hz. `pupil_upsample()`
+
+    - **Smooth** pupil data. `pupil_smooth()`
+    
+    - **Interpolate** pupil data. `pupil_interpolate()`
+    
+    - **Baseline Correct** pupil data. `pupil_baselinecorrect()`
+    
+4. Remove unlikely pupil values
+    
+    - **Artifact** rejection. `pupil_artifact()`
+    
+    - **Remove** trials with still too much missing data. `pupil_missing()`
+
+5. Reduce Data
+
+    - **Bin** pupil data (down-sample) into time bins. `pupil_bin()`
+
+These function will perform preprocessing on one data file at a time. You will need to perform preprocessing on an entire list of data files contained in a folder somewhere. The easiest way to implement this is to wrap these functions in a **for loop** around each of the files in the folder with the raw data files.
+
+You can copy and paste this code and edit it as needed for your data
+
+```{r}
+library(pupillometry)
+library(here)
+library(dplyr)
+library(readr)
+
+import_dir <- "folder/subfolder"
+output_dir <- "folder/another_subfolder"
+
+files_list <- list.files(here(import_dir), 
+                         pattern = ".txt", full.names = TRUE)
+
+for (file in files_list) {
+    data_pupil <- pupil_read(file, eyetracker = "smi", eye_use = "left",
+                             subj_prefix = "flanker", subj_suffix = "a",
+                             include_col = c("RT", "accuracy", "condition"),
+                             start_tracking_message = "Fixation",
+                             quality_check_dir = here(output_dir)) %>%
+        set_timing(onset_message = "Stimulus_Onset") %>%
+        pupil_deblink(extend = 100) %>%
+        pupil_artifact(n = 16) %>%
+        pupil_missing(missing_allowed = .75) %>%
+        pupil_upsample() %>%
+        pupil_smooth(type = "mwa", n = 100) %>%
+        pupil_interpolate(type = "linear", maxgap = 750, hz = 1000) %>%
+        pupil_baselinecorrect(bc_onset_message = "Stimulus_Onset",
+                              baseline_duration = 200) %>%
+        pupil_artifact(n = 16) %>%
+        pupil_missing(missing_allowed = .25) %>%
+        pupil_bin(bin_length = 20)
+    
+    subj <- data_pupil$Subject[1]
+    output_file <- paste("Flanker_PupilData_", subj, 
+                         "_deblink.artifact.smooth.interpolate.bc.csv",
+                         sep = "")
+    
+    write_csv(data_pupil, here(output_dir, output_file))
+}
+
+pupil_merge(path = here(output_dir), pattern = "bc.csv",
+            ouptut_file = "PupilData_deblink.artifact.smooth.interpolate.bc.csv")
+```
+
+## References
+
+Geller, J., Winn, M. B., Mahr, T., & Mirman, D. (2020). GazeR: A Package for Processing Gaze Position and Pupil Size Data. Behavior Research Methods, 52(5), 2232–2255. https://doi.org/10.3758/s13428-020-01374-8
+
+Kret, M. E., & Sjak-Shie, E. E. (2019). Preprocessing pupil size data: Guidelines and code. Behavior Research Methods, 51(3), 1336–1342. https://doi.org/10.3758/s13428-018-1075-y
+
+Mathôt, S., Fabius, J., Van Heusden, E., & Van der Stigchel, S. (2018). Safe and sensible preprocessing and baseline correction of pupil-size data. Behavior Research Methods, 50(1), 94–106. https://doi.org/10.3758/s13428-017-1007-2
+

@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Set timing — set_timing • pupillometry</title>
+<title>Artifact rejection — pupil_artifact • pupillometry</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -52,8 +52,8 @@
 
 
 
-<meta property="og:title" content="Set timing — set_timing" />
-<meta property="og:description" content="Sets the timing variable relative to the onset of an event. See
+<meta property="og:title" content="Artifact rejection — pupil_artifact" />
+<meta property="og:description" content="Sets pupil samples detected as artifacts to missing. See
 https://dr-jt.github.io/pupillometry/ for more information." />
 <meta property="og:image" content="https://dr-jt.github.io/pupillometry/logo.png" />
 
@@ -161,25 +161,17 @@ https://dr-jt.github.io/pupillometry/ for more information." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Set timing</h1>
-    <small class="dont-index">Source: <a href='https://github.com/dr-JT/pupillometry/blob/master/R/set_timing.R'><code>R/set_timing.R</code></a></small>
-    <div class="hidden name"><code>set_timing.Rd</code></div>
+    <h1>Artifact rejection</h1>
+    <small class="dont-index">Source: <a href='https://github.com/dr-JT/pupillometry/blob/master/R/pupil_artifact.R'><code>R/pupil_artifact.R</code></a></small>
+    <div class="hidden name"><code>pupil_artifact.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Sets the timing variable relative to the onset of an event. See
+    <p>Sets pupil samples detected as artifacts to missing. See
 https://dr-jt.github.io/pupillometry/ for more information.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>set_timing</span><span class='op'>(</span>
-  <span class='va'>x</span>,
-  onset_message <span class='op'>=</span> <span class='cn'>NULL</span>,
-  match <span class='op'>=</span> <span class='st'>"exact"</span>,
-  trial_onset.message <span class='op'>=</span> <span class='cn'>NULL</span>,
-  pretrial.duration <span class='op'>=</span> <span class='fl'>0</span>,
-  trialonset.message <span class='op'>=</span> <span class='cn'>NULL</span>,
-  pre_trial.duration <span class='op'>=</span> <span class='cn'>NULL</span>
-<span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>pupil_artifact</span><span class='op'>(</span><span class='va'>x</span>, n <span class='op'>=</span> <span class='fl'>16</span>, plot <span class='op'>=</span> <span class='cn'>FALSE</span>, plot_trial <span class='op'>=</span> <span class='st'>"all"</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -189,28 +181,16 @@ https://dr-jt.github.io/pupillometry/ for more information.</p>
       <td><p>dataframe.</p></td>
     </tr>
     <tr>
-      <th>onset_message</th>
-      <td><p>Message string that marks the start of the event.</p></td>
+      <th>n</th>
+      <td><p>constant used to calculate threshold.</p></td>
     </tr>
     <tr>
-      <th>match</th>
-      <td><p>Is message string an "exact" match or a "pattern" match?</p></td>
+      <th>plot</th>
+      <td><p>Logical. Inspect a plot of how pupil values changed?</p></td>
     </tr>
     <tr>
-      <th>trial_onset.message</th>
-      <td><p>deprecated. Use onset_message.</p></td>
-    </tr>
-    <tr>
-      <th>pretrial.duration</th>
-      <td><p>deprecated.</p></td>
-    </tr>
-    <tr>
-      <th>trialonset.message</th>
-      <td><p>deprecated.</p></td>
-    </tr>
-    <tr>
-      <th>pre_trial.duration</th>
-      <td><p>deprecated.</p></td>
+      <th>plot_trial</th>
+      <td><p>what trial(s) to plot. default = "all"</p></td>
     </tr>
     </table>
 
@@ -219,20 +199,30 @@ https://dr-jt.github.io/pupillometry/ for more information.</p>
     
 
 
-<p>Changes the values in the Time column.</p>
-    <h2 class="hasAnchor" id="relative-timing"><a class="anchor" href="#relative-timing"></a>Relative Timing</h2>
+<p>Changes values in the column that contains pupil data.</p>
+    <h2 class="hasAnchor" id="median-absolute-deviation-mad-"><a class="anchor" href="#median-absolute-deviation-mad-"></a>Median absolute deviation (MAD)</h2>
 
     
 
 
-<p>Raw eye tracker data will provide timing values in absolute values from the
-start of recording. More useful, are timing values that are relative to
-the onset of an event.</p>
-<p>This function allows you to set the timing variable relative to the onset of
-an event in the Stimulus or Message columns with the `onset_message`
-argument call. For instance, you can set the timing relative to the onset
-of a fixation or the onset of the first stimulus in the trial. You can use
-this function on the data as many times as you like.</p>
+<p>The median absolute deviation (MAD) statistic can be used to detect changes
+in pupil size that are abnormally fast such that they are likely to be an
+artifact, such as fast changes in pupil size due to the occlusion of the
+pupil during a blink.</p>
+<p>A threshold value for the speed of pupil size change is calculated based on a
+constant, `n`. If the speed for a given pupil size sample exceeds this
+threshold, then the pupil value will be set to missing in the data.</p>
+<p>The default value of the constant is set at `n = 16`.</p>
+    <h2 class="hasAnchor" id="plot-inspection"><a class="anchor" href="#plot-inspection"></a>Plot inspection</h2>
+
+    
+
+
+<p>To inspect how the preprocesing step changed pupil size values,
+use `plot = TRUE`.</p>
+<p>Warning: this will create a separate plot for every trial and therefore can
+be time consuming and overwhelming. The plot argument is meant for initial
+exploratory steps to determine the appropriate preprocessing parameters.</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

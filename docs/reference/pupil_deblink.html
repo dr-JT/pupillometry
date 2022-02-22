@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Evaluate the amount of missing data — pupil_deblink • pupillometry</title>
+<title>Deblink — pupil_deblink • pupillometry</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -52,9 +52,10 @@
 
 
 
-<meta property="og:title" content="Evaluate the amount of missing data — pupil_deblink" />
-<meta property="og:description" content="This function will deblink pupil data with the option to extend
-    blinks before and after blink detection" />
+<meta property="og:title" content="Deblink — pupil_deblink" />
+<meta property="og:description" content="Deblink pupil data with the option to extend blinks before and after
+blink detection. See
+https://dr-jt.github.io/pupillometry/ for more information." />
 <meta property="og:image" content="https://dr-jt.github.io/pupillometry/logo.png" />
 
 
@@ -87,7 +88,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">pupillometry</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.6.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.7.0</span>
       </span>
     </div>
 
@@ -109,35 +110,25 @@
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
-    <li class="divider"></li>
-    <li class="dropdown-header">How To</li>
     <li>
-      <a href="../articles/pupil_preprocess.html">Use pupil_preprocess()</a>
-    </li>
-    <li>
-      <a href="../articles/gui.html">Use the GUI</a>
-    </li>
-    <li>
-      <a href="../articles/pupillometry_functions.html">Build Your Own Sequence of Pupillometry Functions</a>
-    </li>
-    <li>
-      <a href="../articles/message_markers.html">Use Message Markers</a>
+      <a href="../articles/preprocess_overview.html">Preprocessing Code (Template)</a>
     </li>
     <li class="divider"></li>
-    <li class="dropdown-header">Example Data Sets</li>
+    <li class="dropdown-header">Detailed Articles</li>
     <li>
-      <a href="../articles/example_data.html">Example Data Set</a>
+      <a href="../articles/setup_pupil.html">Import and Setup</a>
     </li>
     <li>
-      <a href="../articles/example_data_w_out_messages.html">What if My Data Doesn't Have Message Markers?</a>
+      <a href="../articles/import_pupil.html">Import Options</a>
     </li>
-    <li class="divider"></li>
-    <li class="dropdown-header">More Details</li>
+    <li>
+      <a href="../articles/remove_unlikely.html">Remove Unlikely Values</a>
+    </li>
+    <li>
+      <a href="../articles/preprocess_pupil.html">Preprocessing</a>
+    </li>
     <li>
       <a href="../articles/preprocessing_options.html">Preprocessing Options</a>
-    </li>
-    <li>
-      <a href="../articles/smooth_interpolate_first.html">Smooth or Interpolation First?</a>
     </li>
   </ul>
 </li>
@@ -171,32 +162,57 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Evaluate the amount of missing data</h1>
+    <h1>Deblink</h1>
     <small class="dont-index">Source: <a href='https://github.com/dr-JT/pupillometry/blob/master/R/pupil_deblink.R'><code>R/pupil_deblink.R</code></a></small>
     <div class="hidden name"><code>pupil_deblink.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>This function will deblink pupil data with the option to extend
-    blinks before and after blink detection</p>
+    <p>Deblink pupil data with the option to extend blinks before and after
+blink detection. See
+https://dr-jt.github.io/pupillometry/ for more information.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>pupil_deblink</span><span class='op'>(</span><span class='va'>x</span>, extend <span class='op'>=</span> <span class='fl'>0</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>pupil_deblink</span><span class='op'>(</span><span class='va'>x</span>, extend <span class='op'>=</span> <span class='fl'>0</span>, plot <span class='op'>=</span> <span class='cn'>FALSE</span>, plot_trial <span class='op'>=</span> <span class='st'>"all"</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>x</th>
-      <td><p>dataframe</p></td>
+      <td><p>dataframe.</p></td>
     </tr>
     <tr>
       <th>extend</th>
       <td><p>How many milliseconds to extend blinks
-before and after blink detection</p></td>
+before and after blink detection.</p></td>
+    </tr>
+    <tr>
+      <th>plot</th>
+      <td><p>Logical. Inspect a plot of how pupil values changed?</p></td>
+    </tr>
+    <tr>
+      <th>plot_trial</th>
+      <td><p>what trial(s) to plot. default = "all"</p></td>
     </tr>
     </table>
 
+    <h2 class="hasAnchor" id="output"><a class="anchor" href="#output"></a>Output</h2>
+
+    
+
+
+<p>Changes values in column containing pupil data.</p>
+    <h2 class="hasAnchor" id="plot-inspection"><a class="anchor" href="#plot-inspection"></a>Plot inspection</h2>
+
+    
+
+
+<p>To inspect how the preprocesing step changed pupil size values,
+use `plot = TRUE`.</p>
+<p>Warning: this will create a separate plot for every trial and therefore can
+be time consuming and overwhelming. The plot argument is meant for initial
+exploratory steps to determine the appropriate preprocessing parameters.</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

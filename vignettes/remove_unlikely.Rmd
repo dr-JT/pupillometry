@@ -1,0 +1,76 @@
+---
+title: "Remove Unlikely Values"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, eval = FALSE)
+```
+
+Removing unlikely pupil values involves up to three steps:
+
+1. **Deblink** pupil data. `pupil_deblink()`
+    
+2. **Artifiact** rejection. `pupil_artifact()`
+    
+3. **Remove** trials with large amounts of missing data. `pupil_missing()`
+
+## 1. Deblink pupil data
+
+To remove unlikely pupil values that can be caused due to blinking, the standard technique is to **deblink** the pupil data, which just means to remove pupil values during a blink (Geller et al., 2020). You can do this using `pupil_deblink()`.
+
+Eye trackers have their own algorithm for detecting various eye events (fixations, saccades, and blinks). It is important to have columns in your raw data file that contain these eye event information. 
+
+Some eye tracker algorithms do not actually capture the entire duration of a blink, such that it can cause extreme dips in pupil values around the edges of a blink. This can result in unlikely pupil values.
+
+The most simple method of dealing with this is to **extend** the **deblink** by some amount (Geller et al., 2020). This is easily implemented:
+
+```{r}
+pupil_deblink(extend = 100)
+```
+
+This will extend the **deblink** by 100ms to get something like:
+
+You can use the `plot` and `plot_trial` arguments to determine how much you need to extend the deblink by and produce a plot like the one above.
+
+```{r}
+pupil_deblink(extend = 100, plot = TRUE, plot_trial = c(1,2,3,4,5))
+```
+
+To plot all trials use `plot_trial = "all"`
+
+## 2. Artifact rejection
+
+Unlikely pupil values can be caused by a host of other reasons. One characteristic that unlikely pupil values will display is a large **change** in pupil values over a short amount of time. 
+
+A recommended way of dealing with these types of pupil values is using the Median Absolute Deviation (MAD), pupil speed, and a constant (n) to determine a threshold on pupil speed (Geller et al., 2020; Kret & Sjak-Shie, 2019). Any values that exceed the threshold get removed from the data (set to missing, `NA`).
+
+This method is implemented in `pupil_artifact()`:
+
+```{r}
+pupil_artifact(n = 16)
+```
+
+You can use the `plot` and `plot_trial` arguments to determine what value to set the constant (n) to
+
+```{r}
+pupil_artifact(n = 16, plot = TRUE, plot_trial = c(1,2,3,4,5))
+```
+
+To plot all trials use `plot_trial = "all"`
+
+## 3. Remove trials with large amounts of missing data
+
+At this stage, it can be a good idea to remove trials with **large** amounts of missing data. One reason is that you will likely want to discard these trials anyways (it is not worth interpolating the missing values because there is too much missing). Another reason is more practical, in that trials with an excessive amounts of missing data (particularly early in the trial) can cause errors downstream when using the other functions.
+
+The amount of missing data that you are comfortable allowing can be set with the `missing_allowed = ` argument in `pupil_missing()`
+
+```{r}
+pupil_missing(missing_allowed = .75)
+```
+
+## References
+
+Geller, J., Winn, M. B., Mahr, T., & Mirman, D. (2020). GazeR: A Package for Processing Gaze Position and Pupil Size Data. Behavior Research Methods, 52(5), 2232–2255. https://doi.org/10.3758/s13428-020-01374-8
+
+Kret, M. E., & Sjak-Shie, E. E. (2019). Preprocessing pupil size data: Guidelines and code. Behavior Research Methods, 51(3), 1336–1342. https://doi.org/10.3758/s13428-018-1075-y
+

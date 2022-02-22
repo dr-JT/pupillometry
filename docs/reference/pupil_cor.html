@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Add column that is the correlation between left and rigth eyes — pupil_cor • pupillometry</title>
+<title>Correlate pupil values — pupil_cor • pupillometry</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -52,9 +52,9 @@
 
 
 
-<meta property="og:title" content="Add column that is the correlation between left and rigth eyes — pupil_cor" />
-<meta property="og:description" content="This function will simply calculate the correlation between
-left and right eyes" />
+<meta property="og:title" content="Correlate pupil values — pupil_cor" />
+<meta property="og:description" content="Calculate the correlation between left and right pupil values. See
+https://dr-jt.github.io/pupillometry/ for more information." />
 <meta property="og:image" content="https://dr-jt.github.io/pupillometry/logo.png" />
 
 
@@ -87,7 +87,7 @@ left and right eyes" />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">pupillometry</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.6.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.7.0</span>
       </span>
     </div>
 
@@ -109,35 +109,25 @@ left and right eyes" />
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
-    <li class="divider"></li>
-    <li class="dropdown-header">How To</li>
     <li>
-      <a href="../articles/pupil_preprocess.html">Use pupil_preprocess()</a>
-    </li>
-    <li>
-      <a href="../articles/gui.html">Use the GUI</a>
-    </li>
-    <li>
-      <a href="../articles/pupillometry_functions.html">Build Your Own Sequence of Pupillometry Functions</a>
-    </li>
-    <li>
-      <a href="../articles/message_markers.html">Use Message Markers</a>
+      <a href="../articles/preprocess_overview.html">Preprocessing Code (Template)</a>
     </li>
     <li class="divider"></li>
-    <li class="dropdown-header">Example Data Sets</li>
+    <li class="dropdown-header">Detailed Articles</li>
     <li>
-      <a href="../articles/example_data.html">Example Data Set</a>
+      <a href="../articles/setup_pupil.html">Import and Setup</a>
     </li>
     <li>
-      <a href="../articles/example_data_w_out_messages.html">What if My Data Doesn't Have Message Markers?</a>
+      <a href="../articles/import_pupil.html">Import Options</a>
     </li>
-    <li class="divider"></li>
-    <li class="dropdown-header">More Details</li>
+    <li>
+      <a href="../articles/remove_unlikely.html">Remove Unlikely Values</a>
+    </li>
+    <li>
+      <a href="../articles/preprocess_pupil.html">Preprocessing</a>
+    </li>
     <li>
       <a href="../articles/preprocessing_options.html">Preprocessing Options</a>
-    </li>
-    <li>
-      <a href="../articles/smooth_interpolate_first.html">Smooth or Interpolation First?</a>
     </li>
   </ul>
 </li>
@@ -171,14 +161,14 @@ left and right eyes" />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Add column that is the correlation between left and rigth eyes</h1>
+    <h1>Correlate pupil values</h1>
     <small class="dont-index">Source: <a href='https://github.com/dr-JT/pupillometry/blob/master/R/pupil_cor.R'><code>R/pupil_cor.R</code></a></small>
     <div class="hidden name"><code>pupil_cor.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>This function will simply calculate the correlation between
-left and right eyes</p>
+    <p>Calculate the correlation between left and right pupil values. See
+https://dr-jt.github.io/pupillometry/ for more information.</p>
     </div>
 
     <pre class="usage"><span class='fu'>pupil_cor</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span></pre>
@@ -188,10 +178,16 @@ left and right eyes</p>
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>x</th>
-      <td><p>dataframe</p></td>
+      <td><p>dataframe.</p></td>
     </tr>
     </table>
 
+    <h2 class="hasAnchor" id="output"><a class="anchor" href="#output"></a>Output</h2>
+
+    
+
+
+<p>Adds a column `Pupil.r`</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

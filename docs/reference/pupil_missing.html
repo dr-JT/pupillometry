@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Remove trials with too much missing data — pupil_missing • pupillometry</title>
+<title>Trial removal — pupil_missing • pupillometry</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -52,8 +52,9 @@
 
 
 
-<meta property="og:title" content="Remove trials with too much missing data — pupil_missing" />
-<meta property="og:description" content="This function will remove trials that have too much missing data" />
+<meta property="og:title" content="Trial removal — pupil_missing" />
+<meta property="og:description" content="This function will remove trials that have too much missing data. See
+https://dr-jt.github.io/pupillometry/ for more information." />
 <meta property="og:image" content="https://dr-jt.github.io/pupillometry/logo.png" />
 
 
@@ -86,7 +87,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">pupillometry</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.6.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.7.0</span>
       </span>
     </div>
 
@@ -108,35 +109,25 @@
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
-    <li class="divider"></li>
-    <li class="dropdown-header">How To</li>
     <li>
-      <a href="../articles/pupil_preprocess.html">Use pupil_preprocess()</a>
-    </li>
-    <li>
-      <a href="../articles/gui.html">Use the GUI</a>
-    </li>
-    <li>
-      <a href="../articles/pupillometry_functions.html">Build Your Own Sequence of Pupillometry Functions</a>
-    </li>
-    <li>
-      <a href="../articles/message_markers.html">Use Message Markers</a>
+      <a href="../articles/preprocess_overview.html">Preprocessing Code (Template)</a>
     </li>
     <li class="divider"></li>
-    <li class="dropdown-header">Example Data Sets</li>
+    <li class="dropdown-header">Detailed Articles</li>
     <li>
-      <a href="../articles/example_data.html">Example Data Set</a>
+      <a href="../articles/setup_pupil.html">Import and Setup</a>
     </li>
     <li>
-      <a href="../articles/example_data_w_out_messages.html">What if My Data Doesn't Have Message Markers?</a>
+      <a href="../articles/import_pupil.html">Import Options</a>
     </li>
-    <li class="divider"></li>
-    <li class="dropdown-header">More Details</li>
+    <li>
+      <a href="../articles/remove_unlikely.html">Remove Unlikely Values</a>
+    </li>
+    <li>
+      <a href="../articles/preprocess_pupil.html">Preprocessing</a>
+    </li>
     <li>
       <a href="../articles/preprocessing_options.html">Preprocessing Options</a>
-    </li>
-    <li>
-      <a href="../articles/smooth_interpolate_first.html">Smooth or Interpolation First?</a>
     </li>
   </ul>
 </li>
@@ -170,23 +161,24 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Remove trials with too much missing data</h1>
+    <h1>Trial removal</h1>
     <small class="dont-index">Source: <a href='https://github.com/dr-JT/pupillometry/blob/master/R/pupil_missing.R'><code>R/pupil_missing.R</code></a></small>
     <div class="hidden name"><code>pupil_missing.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>This function will remove trials that have too much missing data</p>
+    <p>This function will remove trials that have too much missing data. See
+https://dr-jt.github.io/pupillometry/ for more information.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>pupil_missing</span><span class='op'>(</span><span class='va'>x</span>, missing_allowed <span class='op'>=</span> <span class='fl'>1</span>, velocity <span class='op'>=</span> <span class='st'>""</span>, margin <span class='op'>=</span> <span class='st'>""</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>pupil_missing</span><span class='op'>(</span><span class='va'>x</span>, missing_allowed <span class='op'>=</span> <span class='fl'>1</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>x</th>
-      <td><p>dataframe</p></td>
+      <td><p>dataframe.</p></td>
     </tr>
     <tr>
       <th>missing_allowed</th>
@@ -194,6 +186,23 @@
     </tr>
     </table>
 
+    <h2 class="hasAnchor" id="output"><a class="anchor" href="#output"></a>Output</h2>
+
+    
+
+
+<p>Removes rows for trials with too much missing data. Adds a `Pupil_Missing`
+or `Pupil_Missing_1` and `Pupil_Missing_2` columns.</p>
+    <h2 class="hasAnchor" id="usage"><a class="anchor" href="#usage"></a>Usage</h2>
+
+    
+
+
+<p>This can be used:</p>
+<p>1) after artifact removal and before smoothing / interpolation</p>
+<p>2) after smoothing / interpolation</p>
+<p>or</p>
+<p>3) both</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

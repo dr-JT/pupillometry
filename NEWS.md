@@ -1,3 +1,38 @@
+# pupillometry 0.7.0
+
+Updated: 02/22/2022
+
+* Major release update
+
+* Added a function, `pupil_artifact()`, to remove unlikely pupil values (artifact removal) based on the median absolute deviation suggested by Geller et al. (2020) and Kret and Sjak-Shie (2019)
+
+* Added a function, `pupil_upsample()`, to up-sample the data to 1000Hz based on Kret and Sjak-Shie (2019)
+
+* Added plot argument options to plot the data before and after:
+
+    * `pupil_deblink(plot = TRUE, plot_trial = c(1,2,3))`
+    
+    * `pupil_artifact(plot = TRUE, plot_trial = c(1,2,3))`
+    
+    * `pupil_smooth(plot = TRUE, plot_trial = c(1,2,3))`
+    
+    * `pupil_interpolate(plot = TRUE, plot_trial = c(1,2,3))`
+
+* Streamlined `pupil_read()`
+
+* Removed the GUI option, `pupil_gui()` (it might come back in a future update)
+
+* `pupil_preprocess()` is still there but is not recommended to use
+
+* Renamed some arguments and functions to be more consistent and simple
+
+References:
+
+Geller, J., Winn, M. B., Mahr, T., & Mirman, D. (2020). GazeR: A Package for Processing Gaze Position and Pupil Size Data. Behavior Research Methods, 52(5), 2232–2255. https://doi.org/10.3758/s13428-020-01374-8
+
+Kret, M. E., & Sjak-Shie, E. E. (2019). Preprocessing pupil size data: Guidelines and code. Behavior Research Methods, 51(3), 1336–1342. https://doi.org/10.3758/s13428-018-1075-y
+
+
 # pupillometry 0.6.0
 
 Updated: 10/22/2021

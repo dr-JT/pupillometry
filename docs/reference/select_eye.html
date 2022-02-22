@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Select eye to keep for analysis — select_eye • pupillometry</title>
+<title>Select eye — select_eye • pupillometry</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -52,11 +52,9 @@
 
 
 
-<meta property="og:title" content="Select eye to keep for analysis — select_eye" />
-<meta property="og:description" content="If both eyes were recorded from, then this function will correlate the
-timeseries pupil data from both eyes and select only one eye data to keep
-for further preprocessing and output. This function will also remove
-trials with too much missing data, specified by `missing_allowed`." />
+<meta property="og:title" content="Select eye — select_eye" />
+<meta property="og:description" content="Choose which eye to use for analysis. See
+https://dr-jt.github.io/pupillometry/ for more information." />
 <meta property="og:image" content="https://dr-jt.github.io/pupillometry/logo.png" />
 
 
@@ -89,7 +87,7 @@ trials with too much missing data, specified by `missing_allowed`." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">pupillometry</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.6.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.7.0</span>
       </span>
     </div>
 
@@ -111,35 +109,25 @@ trials with too much missing data, specified by `missing_allowed`." />
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
-    <li class="divider"></li>
-    <li class="dropdown-header">How To</li>
     <li>
-      <a href="../articles/pupil_preprocess.html">Use pupil_preprocess()</a>
-    </li>
-    <li>
-      <a href="../articles/gui.html">Use the GUI</a>
-    </li>
-    <li>
-      <a href="../articles/pupillometry_functions.html">Build Your Own Sequence of Pupillometry Functions</a>
-    </li>
-    <li>
-      <a href="../articles/message_markers.html">Use Message Markers</a>
+      <a href="../articles/preprocess_overview.html">Preprocessing Code (Template)</a>
     </li>
     <li class="divider"></li>
-    <li class="dropdown-header">Example Data Sets</li>
+    <li class="dropdown-header">Detailed Articles</li>
     <li>
-      <a href="../articles/example_data.html">Example Data Set</a>
+      <a href="../articles/setup_pupil.html">Import and Setup</a>
     </li>
     <li>
-      <a href="../articles/example_data_w_out_messages.html">What if My Data Doesn't Have Message Markers?</a>
+      <a href="../articles/import_pupil.html">Import Options</a>
     </li>
-    <li class="divider"></li>
-    <li class="dropdown-header">More Details</li>
+    <li>
+      <a href="../articles/remove_unlikely.html">Remove Unlikely Values</a>
+    </li>
+    <li>
+      <a href="../articles/preprocess_pupil.html">Preprocessing</a>
+    </li>
     <li>
       <a href="../articles/preprocessing_options.html">Preprocessing Options</a>
-    </li>
-    <li>
-      <a href="../articles/smooth_interpolate_first.html">Smooth or Interpolation First?</a>
     </li>
   </ul>
 </li>
@@ -173,16 +161,14 @@ trials with too much missing data, specified by `missing_allowed`." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Select eye to keep for analysis</h1>
+    <h1>Select eye</h1>
     <small class="dont-index">Source: <a href='https://github.com/dr-JT/pupillometry/blob/master/R/select_eye.R'><code>R/select_eye.R</code></a></small>
     <div class="hidden name"><code>select_eye.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>If both eyes were recorded from, then this function will correlate the
-timeseries pupil data from both eyes and select only one eye data to keep
-for further preprocessing and output. This function will also remove
-trials with too much missing data, specified by `missing_allowed`.</p>
+    <p>Choose which eye to use for analysis. See
+https://dr-jt.github.io/pupillometry/ for more information.</p>
     </div>
 
     <pre class="usage"><span class='fu'>select_eye</span><span class='op'>(</span><span class='va'>x</span>, eye_use <span class='op'>=</span> <span class='st'>""</span><span class='op'>)</span></pre>
@@ -192,14 +178,25 @@ trials with too much missing data, specified by `missing_allowed`.</p>
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>x</th>
-      <td><p>xframe</p></td>
+      <td><p>dataframe.</p></td>
     </tr>
     <tr>
       <th>eye_use</th>
-      <td><p>Which eye to use? Left or right</p></td>
+      <td><p>Which eye to use? left or right?</p></td>
     </tr>
     </table>
 
+    <h2 class="hasAnchor" id="output"><a class="anchor" href="#output"></a>Output</h2>
+
+    
+
+
+<p>This function removes columns related to the non-selected eye and renames
+columns of the selected eye by removing the L_ or R_ prefix. It also adds
+a column `Pupil.r`.</p>
+<p>If both eyes were recorded from, then this function will correlate the
+pupil data from both eyes and select only one eye data to keep
+for further preprocessing and output.</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

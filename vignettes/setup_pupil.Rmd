@@ -1,0 +1,93 @@
+---
+title: "Import and Setup"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, eval = FALSE)
+```
+
+Importing and setting up data for preprocessing involves two steps:
+
+1. **Read** in raw data file. `pupil_read()`
+    
+2. **Set Time** variable relative to stimulus onset. `set_timing()`
+
+## 1. Read in raw data file
+
+The first step is to get the data into R and format it in a way that makes working with the data easier.
+
+The format and organization of your raw eye tracker data file will depend on the type of eye tracker used. Because of this, there are a lot of potential arguments that need to be specified in order to get the data properly imported with `pupil_read()`.
+
+Even though importing a data file sounds easy, this can actually become one of the more challenging steps if you do not understand how your eye tracker data files was created. You should take some time to consider:
+
+- What eye tracker was used to collect the data
+
+- Which eye(s) data were collected from
+
+- What event messages from the experimental software are in the eye tracker data
+
+    - Your eye tracker data file most likely has message strings corresponding to the onset of critical events in the experiment, such as trial onset or stimulus onset. You need to know what those message strings are, in order to set the timing variable relative to the onset of one of those events and also for doing baseline correction later on. 
+    
+    - onset_message: This argument in `set_timin()` 
+
+Currently, `pupil_read()` supports these eye trackers for easy importing:
+
+-   SensoMotoric Instruments (SMI) eyetrackers: `eyetracker = "smi"`
+
+    -   RED250m
+
+    -   Eye glasses
+
+-   SR Research EyeLink100 eyetrackers: `eyetracker = "eyelink"`
+
+```{r}
+data_pupil <- pupil_read("folder/file.csv", eyetracker = "smi")
+data_pupil <- pupil_read("folder/file.csv", eyetracker = "eyelink")
+```
+
+See `pupil_read()` for details on importing data files from other eye trackers.
+
+#### eye_use
+
+If your data file contains eye tracker data for both eyes, then you need to specify which eye to use for preprocessing and analysis. This will first correlate the values between the two eyes to give you a value to report in your publication, and then remove the data for the eye that you do not want to use.
+
+```{r}
+data_pupil <- pupil_read("folder/file.csv", eyetracker = "eyelink",
+                         eye_use = "left")
+```
+
+If your data file contain eye tracker data for only one eye, you can skip this argument.
+
+#### start_tracking_message
+
+This argument in `pupil_read()` should correspond to the message string that marks the onset of a trial. In most eye tracker APIs, you need to include a **start tracking** object at the beginning of every trial in the experimental software. This object by default will send a message string to the eye tracker data file. If you are using one of the supported eye trackers **and** did not change the default message string of the **start tracking** object, then you can skip this argument.
+
+Alternatively, if you have a pre-trial fixation at the start of every trial you can use that message string for this argument (e.g., `start_tracking_message = "Fixation"`). You want to make sure you use a message that occurs before the onset of the critical stimulus (otherwise you will end up removing pre-stimulus / pre-trial baseline data). 
+
+Sometimes, experimenters will include a variable (e.g., trial number) in their message strings (e.g., "Fixation TrialID 1"). It is generally advised not to do this, but if your data was created in such a way you will need to specify that the string match be a **pattern** match instead of an **exact** match. For example:
+
+```{r}
+data_pupil <- pupil_read("folder/file.csv", eyetracker = "eyelink",
+                         start_tracking_message = "Fixation",
+                         start_tracking_match = "pattern")
+```
+
+This will search for any message strings that contain the sequence of letters "Fixation".
+
+Those are the main arguments you will need to specify when importing the data. However, there are additional arguments you may need or can make importing the data more convenient. 
+See [Import Options]() for more details on other arguments you may need to specify to properly import the data file.
+
+## 2. Set the time variable relative to stimulus onset
+
+The values in the **Time** column are not usually meaningful in the context of your experiment. Instead, what you are really interested in is the time **relative** to the onset of some critical stimulus in your experiment. You can easily set the **Time** column to be relative to the onset of a stimulus with the `set_timing()` function. 
+
+You may also need to specify that the message string in onset_message is a "pattern" match instead of an "exact" match.
+
+For example, if you have a message string in your data that corresponds to the onset of a critical stimulus labelled as "Stimulus_Onset" you can use:
+
+```{r}
+set_timing(onset_message = "Stimulus_Onset", match = "exact")
+```
+
+What this will do is set Time = 0 at "Stimulus_Onset", negative time values (e.g., Time = -10) for values between the `start_tracking_message` (e.g., "Fixation") and "Stimulus_Onset", and positive values (e.g., Time = 100) after "Stimulus_Onset". It will do this for each Trial in the data file. 
+

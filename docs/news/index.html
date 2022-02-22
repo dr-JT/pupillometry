@@ -85,7 +85,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">pupillometry</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.6.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.7.0</span>
       </span>
     </div>
 
@@ -107,35 +107,25 @@
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
-    <li class="divider"></li>
-    <li class="dropdown-header">How To</li>
     <li>
-      <a href="../articles/pupil_preprocess.html">Use pupil_preprocess()</a>
-    </li>
-    <li>
-      <a href="../articles/gui.html">Use the GUI</a>
-    </li>
-    <li>
-      <a href="../articles/pupillometry_functions.html">Build Your Own Sequence of Pupillometry Functions</a>
-    </li>
-    <li>
-      <a href="../articles/message_markers.html">Use Message Markers</a>
+      <a href="../articles/preprocess_overview.html">Preprocessing Code (Template)</a>
     </li>
     <li class="divider"></li>
-    <li class="dropdown-header">Example Data Sets</li>
+    <li class="dropdown-header">Detailed Articles</li>
     <li>
-      <a href="../articles/example_data.html">Example Data Set</a>
+      <a href="../articles/setup_pupil.html">Import and Setup</a>
     </li>
     <li>
-      <a href="../articles/example_data_w_out_messages.html">What if My Data Doesn't Have Message Markers?</a>
+      <a href="../articles/import_pupil.html">Import Options</a>
     </li>
-    <li class="divider"></li>
-    <li class="dropdown-header">More Details</li>
+    <li>
+      <a href="../articles/remove_unlikely.html">Remove Unlikely Values</a>
+    </li>
+    <li>
+      <a href="../articles/preprocess_pupil.html">Preprocessing</a>
+    </li>
     <li>
       <a href="../articles/preprocessing_options.html">Preprocessing Options</a>
-    </li>
-    <li>
-      <a href="../articles/smooth_interpolate_first.html">Smooth or Interpolation First?</a>
     </li>
   </ul>
 </li>
@@ -173,6 +163,32 @@
       <small>Source: <a href='https://github.com/dr-JT/pupillometry/blob/master/NEWS.md'><code>NEWS.md</code></a></small>
     </div>
 
+    <div id="pupillometry-070" class="section level1">
+<h1 class="page-header" data-toc-text="0.7.0">
+<a href="#pupillometry-070" class="anchor"></a>pupillometry 0.7.0</h1>
+<p>Updated: 02/22/2022</p>
+<ul>
+<li><p>Major release update</p></li>
+<li><p>Added a function, <code><a href="../reference/pupil_artifact.html">pupil_artifact()</a></code>, to remove unlikely pupil values (artifact removal) based on the median absolute deviation suggested by Geller et al. (2020) and Kret and Sjak-Shie (2019)</p></li>
+<li><p>Added a function, <code><a href="../reference/pupil_upsample.html">pupil_upsample()</a></code>, to up-sample the data to 1000Hz based on Kret and Sjak-Shie (2019)</p></li>
+<li>
+<p>Added a plot argument options to plot the data before and after:</p>
+<ul>
+<li><p><code><a href="../reference/pupil_deblink.html">pupil_deblink(plot = TRUE, plot_trial = c(1,2,3))</a></code></p></li>
+<li><p><code><a href="../reference/pupil_artifact.html">pupil_artifact(plot = TRUE, plot_trial = c(1,2,3))</a></code></p></li>
+<li><p><code><a href="../reference/pupil_smooth.html">pupil_smooth(plot = TRUE, plot_trial = c(1,2,3))</a></code></p></li>
+<li><p><code><a href="../reference/pupil_interpolate.html">pupil_interpolate(plot = TRUE, plot_trial = c(1,2,3))</a></code></p></li>
+</ul>
+</li>
+<li><p>Streamlined <code><a href="../reference/pupil_read.html">pupil_read()</a></code></p></li>
+<li><p>Removed the GUI option, <code>pupil_gui()</code> (it might come back in a future update)</p></li>
+<li><p><code><a href="../reference/pupil_preprocess.html">pupil_preprocess()</a></code> is still there but is not recommended to use</p></li>
+<li><p>Renamed some arguments and functions to be more consistent and simple</p></li>
+</ul>
+<p>References:</p>
+<p>Geller, J., Winn, M. B., Mahr, T., &amp; Mirman, D. (2020). GazeR: A Package for Processing Gaze Position and Pupil Size Data. Behavior Research Methods, 52(5), 2232–2255. <a href="https://doi.org/10.3758/s13428-020-01374-8" class="uri">https://doi.org/10.3758/s13428-020-01374-8</a></p>
+<p>Kret, M. E., &amp; Sjak-Shie, E. E. (2019). Preprocessing pupil size data: Guidelines and code. Behavior Research Methods, 51(3), 1336–1342. <a href="https://doi.org/10.3758/s13428-018-1075-y" class="uri">https://doi.org/10.3758/s13428-018-1075-y</a></p>
+</div>
     <div id="pupillometry-060" class="section level1">
 <h1 class="page-header" data-toc-text="0.6.0">
 <a href="#pupillometry-060" class="anchor"></a>pupillometry 0.6.0</h1>
@@ -247,7 +263,7 @@
 <p>Changed function names to use "_" rather than “.”</p>
 <p>“.” functions can still be used but have been deprecated.</p>
 </li>
-<li><p>Added <code><a href="../reference/aoi_downsample.html">aoi_downsample()</a></code> function</p></li>
+<li><p>Added <code>aoi_downsample()</code> function</p></li>
 </ul>
 </div>
     <div id="pupillometry-020" class="section level1">

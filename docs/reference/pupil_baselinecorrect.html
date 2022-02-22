@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Apply baseline correction — pupil_baselinecorrect • pupillometry</title>
+<title>Baseline correction — pupil_baselinecorrect • pupillometry</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -52,8 +52,9 @@
 
 
 
-<meta property="og:title" content="Apply baseline correction — pupil_baselinecorrect" />
-<meta property="og:description" content="This function applies a baseline correction on the data" />
+<meta property="og:title" content="Baseline correction — pupil_baselinecorrect" />
+<meta property="og:description" content="Apply a subtractive or divisive baseline correction to pupil data. See
+https://dr-jt.github.io/pupillometry/ for more information." />
 <meta property="og:image" content="https://dr-jt.github.io/pupillometry/logo.png" />
 
 
@@ -86,7 +87,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">pupillometry</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.6.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.7.0</span>
       </span>
     </div>
 
@@ -108,35 +109,25 @@
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
-    <li class="divider"></li>
-    <li class="dropdown-header">How To</li>
     <li>
-      <a href="../articles/pupil_preprocess.html">Use pupil_preprocess()</a>
-    </li>
-    <li>
-      <a href="../articles/gui.html">Use the GUI</a>
-    </li>
-    <li>
-      <a href="../articles/pupillometry_functions.html">Build Your Own Sequence of Pupillometry Functions</a>
-    </li>
-    <li>
-      <a href="../articles/message_markers.html">Use Message Markers</a>
+      <a href="../articles/preprocess_overview.html">Preprocessing Code (Template)</a>
     </li>
     <li class="divider"></li>
-    <li class="dropdown-header">Example Data Sets</li>
+    <li class="dropdown-header">Detailed Articles</li>
     <li>
-      <a href="../articles/example_data.html">Example Data Set</a>
+      <a href="../articles/setup_pupil.html">Import and Setup</a>
     </li>
     <li>
-      <a href="../articles/example_data_w_out_messages.html">What if My Data Doesn't Have Message Markers?</a>
+      <a href="../articles/import_pupil.html">Import Options</a>
     </li>
-    <li class="divider"></li>
-    <li class="dropdown-header">More Details</li>
+    <li>
+      <a href="../articles/remove_unlikely.html">Remove Unlikely Values</a>
+    </li>
+    <li>
+      <a href="../articles/preprocess_pupil.html">Preprocessing</a>
+    </li>
     <li>
       <a href="../articles/preprocessing_options.html">Preprocessing Options</a>
-    </li>
-    <li>
-      <a href="../articles/smooth_interpolate_first.html">Smooth or Interpolation First?</a>
     </li>
   </ul>
 </li>
@@ -170,21 +161,24 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Apply baseline correction</h1>
+    <h1>Baseline correction</h1>
     <small class="dont-index">Source: <a href='https://github.com/dr-JT/pupillometry/blob/master/R/pupil_baselinecorrect.R'><code>R/pupil_baselinecorrect.R</code></a></small>
     <div class="hidden name"><code>pupil_baselinecorrect.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>This function applies a baseline correction on the data</p>
+    <p>Apply a subtractive or divisive baseline correction to pupil data. See
+https://dr-jt.github.io/pupillometry/ for more information.</p>
     </div>
 
     <pre class="usage"><span class='fu'>pupil_baselinecorrect</span><span class='op'>(</span>
   <span class='va'>x</span>,
-  bc_onset.message <span class='op'>=</span> <span class='st'>""</span>,
-  pre.duration <span class='op'>=</span> <span class='fl'>200</span>,
+  bc_onset_message <span class='op'>=</span> <span class='st'>""</span>,
+  baseline_duration <span class='op'>=</span> <span class='fl'>200</span>,
   type <span class='op'>=</span> <span class='st'>"subtractive"</span>,
-  match <span class='op'>=</span> <span class='st'>"exact"</span>
+  match <span class='op'>=</span> <span class='st'>"exact"</span>,
+  bc_onset.message <span class='op'>=</span> <span class='cn'>NULL</span>,
+  pre.duration <span class='op'>=</span> <span class='cn'>NULL</span>
 <span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -192,28 +186,62 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>x</th>
-      <td><p>dataframe</p></td>
+      <td><p>dataframe.</p></td>
     </tr>
     <tr>
-      <th>bc_onset.message</th>
-      <td><p>Message string(s) that marks the offset of
-baseline period(s)</p></td>
+      <th>bc_onset_message</th>
+      <td><p>Message string(s) that marks the onset of the
+segment to be baseline corrected. The values in the Stimulus column can
+be used here. Multiple values can be specified if multiple segments
+need to be baseline corrected.</p></td>
     </tr>
     <tr>
-      <th>pre.duration</th>
-      <td><p>Duration baseline period(s) to use for correction</p></td>
+      <th>baseline_duration</th>
+      <td><p>Duration of baseline period(s). Multiple values
+can be specified if multiple segments need to be baseline corrected with
+different baseline durations. default: 200</p></td>
     </tr>
     <tr>
       <th>type</th>
       <td><p>Do you want to use "subtractive" or "divisive"
-baseline correction? (default: "subtractive")</p></td>
+baseline correction? default: "subtractive"</p></td>
     </tr>
     <tr>
       <th>match</th>
       <td><p>Is the message string an "exact" match or a "pattern" match?</p></td>
     </tr>
+    <tr>
+      <th>bc_onset.message</th>
+      <td><p>deprecated. see bc_onset_message</p></td>
+    </tr>
+    <tr>
+      <th>pre.duration</th>
+      <td><p>deprecated. see baseline_duration.</p></td>
+    </tr>
     </table>
 
+    <h2 class="hasAnchor" id="output"><a class="anchor" href="#output"></a>Output</h2>
+
+    
+
+
+<p>Adds a `Pupil_Diameter_bc` column to the data.</p>
+    <h2 class="hasAnchor" id="baseline-correction"><a class="anchor" href="#baseline-correction"></a>Baseline correction</h2>
+
+    
+
+
+<p>Baseline correction is calculated based on the median pupil size during
+a defined baseline period. That baseline period is defined with the</p>
+<p>1) `bc_onset_message` argument that specifies a message string that is sent
+to the eye tracker at onset of the segment to be baseline corrected. The
+values in the Stimulus column can be used here. Multiple values can be
+specified if multiple segments need to be baseline corrected.</p>
+<p>AND</p>
+<p>2) `baseline_duration` argument that specifies the duration of the baseline
+period, before `bc_onset_message`, to use in calculating the median baseline
+pupil size.</p>
+<p>Either "subtractive" or "divisive" baseline correction can be applied.</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

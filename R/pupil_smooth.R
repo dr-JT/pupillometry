@@ -1,4 +1,4 @@
-#' Smooth pupil data
+#' Apply a smoothing function to pupil data
 #'
 #' Reduces noise in the data by applying a smoothing function. See
 #' https://dr-jt.github.io/pupillometry/ for more information.

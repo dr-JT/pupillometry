@@ -1,0 +1,140 @@
+---
+title: "Preprocessing"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, eval = FALSE)
+```
+
+Preprocessing of the pupil data can involve up to 4 steps:
+
+1. **Up-Sample** pupil data to 1000Hz. `pupil_upsample()`
+
+2. **Smooth** pupil data. `pupil_smooth()`
+    
+3. **Interpolate** pupil data. `pupil_interpolate()`
+    
+4. **Baseline Correct** pupil data. `pupil_baselinecorrect()`
+
+## 1. Up-Sample pupil data to 1000Hz
+
+This is a fairly non-standard preprocessing step advised by Kret and Sjak-Shie (2019). 
+
+Up-sampling the data to 1000Hz has some advantages, namely that it makes working with timeseries data a bit easier because you are guaranteed one sample every 1 millisecond. When eye trackers record at a certain frequency, it is not uncommon for data recording to actually fluctuate around that value. For instance, if an eye tracker is sampling at 250Hz there should be exactly one sample every 4 milliseconds. However, it may occasionally skip a cycle and sample at every 5, 6, 7, 8... milliseconds. This can create inconsistent time values between trials in the data (e.g., Trial 1 may have pupil values at 0, 4, 9, and 13 milliseconds relative to stimulus onset but Trial 2 may have pupil values at 0, 5, 10, and 4 milliseconds).
+
+Up-sampling can also increase the temporal resolution and smoothness of the data.
+
+The data can be up-sampled to 1000Hz using `pupil_upsample()`. Note that this function will simply create the additional rows in the data frame (e.g., original rows: 0, 4, 8... up-sampled rows: 0, 1, 2, 3, 4, 5, 6, 7, 8), and set pupil values for the added rows to missing. 
+
+The data can later be filled in when interpolation is performed. 
+
+```{r}
+pupil_upsample()
+```
+
+No arguments need to be specified.
+
+## 2. Smooth the pupil data
+
+Many eye trackers will produce high-frequency signals in the data that are caused by noise in the eye tracker rather than any meaningful signal. It is advisable to reduce this noise as much as possible without reducing the meaningful signal in the data. This process is referred to as **smoothing** or **low-pass filtering**. 
+
+There are a ton of options for smoothing noisy data. The function `pupil_smooth()` supports to common ways that have been applied to pupil data.
+
+- Moving window average (mwa)
+
+- hanning filter (hann)
+
+Both of these methods reduce high-frequency fluctuations in the data and create smoother pupil wave-forms. These can be specified with the `type = ` argument.
+
+The degree to which high-frequency fluctuations are reduced in the data depends on the **window** size of the functions. The window size can be specified with the `n = ` argument. 
+
+```{r}
+pupil_smooth(type = "mwa", n = 100)
+```
+
+You do not want to specify too small of a window size (otherwise you really are not doing any smoothing at all) but certainly not too large of a window size (otherwise you will reduce meaningful signal in the data). 
+
+It can be extremely difficult to know what is the ideal window size for your data. You can use the `plot` and `plot_trial` arguments to determine what value to set the window size (n) to.
+
+```{r}
+pupil_smooth(type = "mwa", n = 100, plot = TRUE, plot_trial = c(1,2,3,4,5))
+```
+
+To plot all trials use `plot_trial = "all"`
+
+## 3. Interpolate the pupil data
+
+It is recommended to smooth the data before interpolation.
+
+You will likely have periods of missing pupil data due to blinks, looking away from the screen, etc. If you want to recover the pupil wave-form it is important to interpolate over those missing values. 
+
+Two common interpolation methods that have been used on pupil data are:
+
+- linear
+
+- cubic-spline
+
+These can be performed with `pupil_interpolate()`
+
+Linear interpolation is the safest to go with as it basically draws a straight line from one of the missing data to the other end. However, such a straight line is probably not representing the true pupil wave-form. If all you want to do is aggregate pupil size over a period of data (such as in calculating pupil dilation), then linear interpolation is adequate.
+
+However, if you want to perform growth curve analysis to model the actual timeseries pupil data you would like to recover the actual pupil wave-form underlying those missing values. Cubic-spline will attempt to recover a more realistic pupil wave-form. However, it can produce some weird and unlikely pupil wave-forms.
+
+The type of interpolation to use can be specified in the `type = ` argument.
+
+You may not want to interpolate over large **gaps** of missing data. You can set the maximum gap in which to interpolate over with the `maxgap = ` argument. If you do this you also need to supply the frequency (Hz) of the pupil data.
+
+*note if the pupil data were up-sampled with `pupil_upsample()`, then Hz = 1000*.
+
+```{r}
+pupil_interpolate(type = "linear", maxgap = 750, hz = 1000)
+```
+
+```{r}
+pupil_interpolate(type = "cubic-spline", maxgap = 750, hz = 1000)
+```
+
+You can use the `plot` and `plot_trial` arguments to determine what type of interpolation to use.
+
+```{r}
+pupil_interpolate(type = "cubic", maxgap = 750, hz = 1000, 
+                  plot = TRUE, plot_trial = c(1,2,3,4,5))
+```
+
+To plot all trials use `plot_trial = "all"`
+
+## 4. Baseline correct
+
+If you are looking at changes in pupil size (e.g., pupil dilation) then you need to apply a baseline correction on the pupil data. This allows a more standard comparison across conditions and subjects (Mathôt et al., 2018)
+
+You can perform baseline correction with `pupil_baselinecorrect()`.
+
+The procedure to baseline correct involves calculating a median pupil size value during some baseline period, typically a pre-trial or inter-stimulus interval period immediately before the onset of the critical period in which you want to calculate pupil dilation. 
+
+The main two arguments you need to specify are:
+
+- **bc_onset_message**: this is the **message** string in the data that indicates the **onset** of the critical period that you want to apply baseline correction (**bc**) on. It is likely going to be the same as the `onset_message = ` argument in `set_timing()`, though not always.
+
+- **baseline_duration**: this is the duration, in milliseconds, immediately preceding bc_onset_message to use when calculating the median pupil size value for the baseline period.
+
+You can also specify what type of baseline correction to perform:
+
+- **type**: "subtractive" or "divisive". The default selection is "subtractive".
+
+You may also need to specify that the message string in bc_onset_message is a "pattern" match instead of an "exact" match.
+
+```{r}
+pupil_baselinecorrect(bc_onset_message = "Stimulus_Onset", match = "exact",
+                      baselin_duration = 200,
+                      type = "subtractive")
+```
+
+You can then, perform some additional data cleaning by performing artifact rejection with `pupil_artifact()` and remove trials with too much missing data `pupil_missing()`.
+
+## References
+
+Kret, M. E., & Sjak-Shie, E. E. (2019). Preprocessing pupil size data: Guidelines and code. Behavior Research Methods, 51(3), 1336–1342. https://doi.org/10.3758/s13428-018-1075-y
+
+Mathôt, S., Fabius, J., Van Heusden, E., & Van der Stigchel, S. (2018). Safe and sensible preprocessing and baseline correction of pupil-size data. Behavior Research Methods, 50(1), 94–106. https://doi.org/10.3758/s13428-017-1007-2
+
+

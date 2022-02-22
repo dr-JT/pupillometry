@@ -1,0 +1,88 @@
+---
+title: "Import Options"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, eval = FALSE)
+```
+
+There are some additional arguments you may need to specify when using `pupil_read()` 
+
+## `subj_prefix` and `subj_suffix`
+
+These two are actually required for SMI eye trackers. For other eye trackers they are only optional, however, you may find them useful. 
+
+The problem is that many eye trackers have a subject ID column that contains other information as well. For instance, in eyelink data files, whatever the name of the .edf file you entered in when running the experiment (e.g., "flanker001a" - corresponding to data for a flanker task version for subject 001 on run "a") will be used as the subject ID. However, the actual subjectID may only be a subset of the file name (e.g., 001). 
+
+To deal with this issue, you can specify a string prefix and suffix that comes before and after the subject ID in the file name (e.g., subj_prefix = "flanker", subj_suffix = "a") in order to extract the actual subject ID. 
+    
+```{r}
+data_pupil <- pupil_read("folder/file.csv", eyetracker = "eyelink",
+                         subj_prefix = "flanker", subj_suffix = "a")
+```
+
+    
+## `include_col`
+
+This argument can be used to include additional columns that may have been added to the eye tracker data file from the experimental software, such as RT, accuracy, condition columns.
+    
+```{r}
+data_pupil <- pupil_read("folder/file.csv", eyetracker = "eyelink",
+                         include_col = c("RT", "accuracy", "condition"))
+```
+
+## `ms_conversion`
+
+Some eye trackers may not store the timing variable in milliseconds. This argument will convert the timing variable into milliseconds based on the conversion factor specified. If you are using one of the supported eye trackers, there is no need to use this argument (it will do it by default). 
+    
+```{r}
+data_pupil <- pupil_read("folder/file.csv", eyetracker = "",
+                         ms_conversion = 1000)
+```
+
+## `px_to_mm_conversion`
+
+It is highly advised in publications to report your findings in millimeters to allow for a more standard comparison in the literature. 
+
+Some eye trackers will not convert the raw pixel pupil values into millimeters. EyeLink eye trackers are this way. There are procedures you can do to figure out a descent conversion factor to convert your pupil values from pixels to millimeters (with some caution). 
+
+This argument allows you to specify that conversion factor and create a column of data for pupil size in millimeters.
+    
+```{r}
+data_pupil <- pupil_read("folder/file.csv", eyetracker = "eyelink",
+                         px_to_mm_conversion = .0256)
+```
+    
+## `trial_exclude`
+
+If you want to exclude any trials (e.g., practice trials, rest blocks) for some reason you can do so with this argument. 
+    
+```{r}
+data_pupil <- pupil_read("folder/file.csv", eyetracker = "eyelink",
+                         trial_exclude = c(1,5,15))
+```
+
+## `quality_check_dir`
+
+This argument can give you peace of mind that the data file was properly imported. A data file called **quality_check.csv** will be outputted to the specified directory. 
+
+For now, it will just tell you the number of trials in the data file (often times if there was a problem importing then you can tell because the number of trials will be off). Hopefully more information will be eventually be added.
+    
+```{r}
+data_pupil <- pupil_read("folder/file.csv", eyetracker = "eyelink",
+                         quality_check_dir = "folder/subfolder")
+```
+    
+## `timing_file`
+
+If you find yourself in the unfortunate circumstance of not having any message event strings in your data file, you can insert message strings into your data file using this argument. You will need to know the timing of the critical stimuli in your experiment that you can hopefully retrieve from the behavioral data file. 
+    
+```{r}
+data_pupil <- pupil_read("folder/file.csv", eyetracker = "eyelink",
+                         timing_file = "folder/timing_file.csv")
+```
+    
+
+
+
+

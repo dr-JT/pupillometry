@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Set timing — set_timing • pupillometry</title>
+<title>Plot and inspect pupil data — pupil_plot • pupillometry</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -52,8 +52,9 @@
 
 
 
-<meta property="og:title" content="Set timing — set_timing" />
-<meta property="og:description" content="Sets the timing variable relative to the onset of an event. See
+<meta property="og:title" content="Plot and inspect pupil data — pupil_plot" />
+<meta property="og:description" content="Plot and inspect how preprocessing steps are changing the pupil data.
+An exploratory function to help determine preprocessing parameters. See
 https://dr-jt.github.io/pupillometry/ for more information." />
 <meta property="og:image" content="https://dr-jt.github.io/pupillometry/logo.png" />
 
@@ -161,56 +162,37 @@ https://dr-jt.github.io/pupillometry/ for more information." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Set timing</h1>
-    <small class="dont-index">Source: <a href='https://github.com/dr-JT/pupillometry/blob/master/R/set_timing.R'><code>R/set_timing.R</code></a></small>
-    <div class="hidden name"><code>set_timing.Rd</code></div>
+    <h1>Plot and inspect pupil data</h1>
+    <small class="dont-index">Source: <a href='https://github.com/dr-JT/pupillometry/blob/master/R/pupil_plot.R'><code>R/pupil_plot.R</code></a></small>
+    <div class="hidden name"><code>pupil_plot.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Sets the timing variable relative to the onset of an event. See
+    <p>Plot and inspect how preprocessing steps are changing the pupil data.
+An exploratory function to help determine preprocessing parameters. See
 https://dr-jt.github.io/pupillometry/ for more information.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>set_timing</span><span class='op'>(</span>
-  <span class='va'>x</span>,
-  onset_message <span class='op'>=</span> <span class='cn'>NULL</span>,
-  match <span class='op'>=</span> <span class='st'>"exact"</span>,
-  trial_onset.message <span class='op'>=</span> <span class='cn'>NULL</span>,
-  pretrial.duration <span class='op'>=</span> <span class='fl'>0</span>,
-  trialonset.message <span class='op'>=</span> <span class='cn'>NULL</span>,
-  pre_trial.duration <span class='op'>=</span> <span class='cn'>NULL</span>
-<span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>pupil_plot</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>y</span>, trial <span class='op'>=</span> <span class='st'>"all"</span>, sub_title <span class='op'>=</span> <span class='st'>""</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>x</th>
-      <td><p>dataframe.</p></td>
+      <td><p>data before preprocessing step.</p></td>
     </tr>
     <tr>
-      <th>onset_message</th>
-      <td><p>Message string that marks the start of the event.</p></td>
+      <th>y</th>
+      <td><p>data after preprocessing step.</p></td>
     </tr>
     <tr>
-      <th>match</th>
-      <td><p>Is message string an "exact" match or a "pattern" match?</p></td>
+      <th>trial</th>
+      <td><p>what trial(s) to plot. default = "all"</p></td>
     </tr>
     <tr>
-      <th>trial_onset.message</th>
-      <td><p>deprecated. Use onset_message.</p></td>
-    </tr>
-    <tr>
-      <th>pretrial.duration</th>
-      <td><p>deprecated.</p></td>
-    </tr>
-    <tr>
-      <th>trialonset.message</th>
-      <td><p>deprecated.</p></td>
-    </tr>
-    <tr>
-      <th>pre_trial.duration</th>
-      <td><p>deprecated.</p></td>
+      <th>sub_title</th>
+      <td><p>subtitle for plot. default = ""</p></td>
     </tr>
     </table>
 
@@ -219,20 +201,14 @@ https://dr-jt.github.io/pupillometry/ for more information.</p>
     
 
 
-<p>Changes the values in the Time column.</p>
-    <h2 class="hasAnchor" id="relative-timing"><a class="anchor" href="#relative-timing"></a>Relative Timing</h2>
+<p>Plots.</p>
+    <h2 class="hasAnchor" id="usage"><a class="anchor" href="#usage"></a>Usage</h2>
 
     
 
 
-<p>Raw eye tracker data will provide timing values in absolute values from the
-start of recording. More useful, are timing values that are relative to
-the onset of an event.</p>
-<p>This function allows you to set the timing variable relative to the onset of
-an event in the Stimulus or Message columns with the `onset_message`
-argument call. For instance, you can set the timing relative to the onset
-of a fixation or the onset of the first stimulus in the trial. You can use
-this function on the data as many times as you like.</p>
+<p>This function is primarily used within other preprocessing functions.
+(e.g., `pupil_smooth(plot = TRUE)`).</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

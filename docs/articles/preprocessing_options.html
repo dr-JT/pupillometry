@@ -40,7 +40,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">pupillometry</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.6.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.7.0</span>
       </span>
     </div>
 
@@ -62,35 +62,25 @@
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
-<li class="divider">
-    <li class="dropdown-header">How To</li>
-    <li>
-      <a href="../articles/pupil_preprocess.html">Use pupil_preprocess()</a>
-    </li>
-    <li>
-      <a href="../articles/gui.html">Use the GUI</a>
-    </li>
-    <li>
-      <a href="../articles/pupillometry_functions.html">Build Your Own Sequence of Pupillometry Functions</a>
-    </li>
-    <li>
-      <a href="../articles/message_markers.html">Use Message Markers</a>
+<li>
+      <a href="../articles/preprocess_overview.html">Preprocessing Code (Template)</a>
     </li>
     <li class="divider">
-    <li class="dropdown-header">Example Data Sets</li>
+    <li class="dropdown-header">Detailed Articles</li>
     <li>
-      <a href="../articles/example_data.html">Example Data Set</a>
+      <a href="../articles/setup_pupil.html">Import and Setup</a>
     </li>
     <li>
-      <a href="../articles/example_data_w_out_messages.html">What if My Data Doesn't Have Message Markers?</a>
+      <a href="../articles/import_pupil.html">Import Options</a>
     </li>
-    <li class="divider">
-    <li class="dropdown-header">More Details</li>
+    <li>
+      <a href="../articles/remove_unlikely.html">Remove Unlikely Values</a>
+    </li>
+    <li>
+      <a href="../articles/preprocess_pupil.html">Preprocessing</a>
+    </li>
     <li>
       <a href="../articles/preprocessing_options.html">Preprocessing Options</a>
-    </li>
-    <li>
-      <a href="../articles/smooth_interpolate_first.html">Smooth or Interpolation First?</a>
     </li>
   </ul>
 </li>
@@ -163,33 +153,16 @@
 <div id="smoothing" class="section level2">
 <h2 class="hasAnchor">
 <a href="#smoothing" class="anchor"></a>Smoothing</h2>
-<p><code><a href="../reference/pupil_smooth.html">pupil_smooth(type = c("hann", "mwa"), window = "", hz = "")</a></code></p>
+<p><code><a href="../reference/pupil_smooth.html">pupil_smooth(type = c("hann", "mwa"), n = "")</a></code></p>
 <ul>
 <li>
 <p><strong>type</strong>: What type of smoothing to use? (default: “hann”)</p>
 <p>There are two smoothing types available, <code>"hann"</code> and <code>"mwa"</code>.</p>
-<p><code>"hann"</code> is a low-frequency hanning filter that retains the low frequency information. It is applied using <code>hanning()</code> from the <a href="https://www.rdocumentation.org/packages/dplR/versions/1.6.8/topics/hanning">dplR package</a></p>
-<p><code>"mwa"</code> is a simple moving window average. It is applied using <code>rollapply()</code> from the <a href="https://www.rdocumentation.org/packages/zoo/versions/1.7-13/topics/rollapply">zoo package</a></p>
+<p><code>"hann"</code> is a low-frequency hanning filter that retains the low frequency information. It is applied using <code>hanning(n = n)</code> from the <a href="https://www.rdocumentation.org/packages/dplR/versions/1.6.8/topics/hanning">dplR package</a></p>
+<p><code>"mwa"</code> is a simple moving window average. It is applied using <code>rollapply(width = n)</code> from the <a href="https://www.rdocumentation.org/packages/zoo/versions/1.7-13/topics/rollapply">zoo package</a></p>
 </li>
-<li><p><strong>window</strong>: The duration (milliseconds) of the smoothing window</p></li>
-<li>
-<p><strong>hz</strong>: The recording frequency of the eyetracker.</p>
-<p>This will be used to convert the window duration in milliseconds to number of samples (rows) in the dataframe.</p>
-</li>
+<li><p><strong>n</strong>: The size (in pupil samples) of the smoothing window</p></li>
 </ul>
-</div>
-<div id="deblink" class="section level2">
-<h2 class="hasAnchor">
-<a href="#deblink" class="anchor"></a>Deblink</h2>
-<p><code><a href="../reference/pupil_deblink.html">pupil_deblink(extend = 0)</a></code></p>
-<p>This function is what sets blinks as missing values and will extend the blink if specified.</p>
-<ul>
-<li>
-<strong>extend</strong>: How long (in milliseconds) to extend the blink both before and after the detected period?</li>
-</ul>
-<p>Different eye-tracker systems indicate the presence of a blink or missing data in different ways. Some will insert unrealistic values in the pupil size column, others will insert a missing value and have another column indicating whether the sample is likely to be in a blink or not. Also different eye-tracker systems have their different algorithims to detect whether a blink is occuring or not.</p>
-<p>Either way, we need to make sure that blinks are represented as missing values (<code>NA</code>) in the data file. Furthermore, some eye-tracking systems do not fully capture the beginning and end of a blink. This is critical because pupil size will very quickly start to decrease at the start of a blink and increase again towards the end of a blink (due to the pupil being occluded by the eyelid). If the eye-tracker system did not extend the blink detection long enough, then some of this fast decrease/increase may still be in the data.</p>
-<p>Since this is something that varies between eye-trackers you can set a custom value to extend the start and end of a blink period.</p>
 </div>
   </div>
 

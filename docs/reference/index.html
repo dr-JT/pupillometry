@@ -85,7 +85,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">pupillometry</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.6.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.7.0</span>
       </span>
     </div>
 
@@ -107,35 +107,25 @@
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
-    <li class="divider"></li>
-    <li class="dropdown-header">How To</li>
     <li>
-      <a href="../articles/pupil_preprocess.html">Use pupil_preprocess()</a>
-    </li>
-    <li>
-      <a href="../articles/gui.html">Use the GUI</a>
-    </li>
-    <li>
-      <a href="../articles/pupillometry_functions.html">Build Your Own Sequence of Pupillometry Functions</a>
-    </li>
-    <li>
-      <a href="../articles/message_markers.html">Use Message Markers</a>
+      <a href="../articles/preprocess_overview.html">Preprocessing Code (Template)</a>
     </li>
     <li class="divider"></li>
-    <li class="dropdown-header">Example Data Sets</li>
+    <li class="dropdown-header">Detailed Articles</li>
     <li>
-      <a href="../articles/example_data.html">Example Data Set</a>
+      <a href="../articles/setup_pupil.html">Import and Setup</a>
     </li>
     <li>
-      <a href="../articles/example_data_w_out_messages.html">What if My Data Doesn't Have Message Markers?</a>
+      <a href="../articles/import_pupil.html">Import Options</a>
     </li>
-    <li class="divider"></li>
-    <li class="dropdown-header">More Details</li>
+    <li>
+      <a href="../articles/remove_unlikely.html">Remove Unlikely Values</a>
+    </li>
+    <li>
+      <a href="../articles/preprocess_pupil.html">Preprocessing</a>
+    </li>
     <li>
       <a href="../articles/preprocessing_options.html">Preprocessing Options</a>
-    </li>
-    <li>
-      <a href="../articles/smooth_interpolate_first.html">Smooth or Interpolation First?</a>
     </li>
   </ul>
 </li>
@@ -183,7 +173,7 @@
     <tbody>
       <tr>
         <th colspan="2">
-          <h2 id="section-import-and-clean-data" class="hasAnchor"><a href="#section-import-and-clean-data" class="anchor"></a>Import and Clean data</h2>
+          <h2 id="section-import-and-setup-data" class="hasAnchor"><a href="#section-import-and-setup-data" class="anchor"></a>Import and Setup Data</h2>
           <p class="section-desc"></p>
         </th>
       </tr>
@@ -197,25 +187,44 @@
         <td>
           <p><code><a href="pupil_read.html">pupil_read()</a></code> </p>
         </td>
-        <td><p>Convert "messy" raw data file to "tidy" raw data file</p></td>
+        <td><p>Import eye tracking data</p></td>
       </tr><tr>
         
         <td>
           <p><code><a href="set_timing.html">set_timing()</a></code> </p>
         </td>
-        <td><p>Set timing relative to trial-onset</p></td>
+        <td><p>Set timing</p></td>
+      </tr>
+    </tbody><tbody>
+      <tr>
+        <th colspan="2">
+          <h2 id="section-remove-unlikely-values" class="hasAnchor"><a href="#section-remove-unlikely-values" class="anchor"></a>Remove Unlikely Values</h2>
+          <p class="section-desc"></p>
+        </th>
+      </tr>
+      
+      
+    </tbody><tbody>
+      
+      
+      <tr>
+        
+        <td>
+          <p><code><a href="pupil_deblink.html">pupil_deblink()</a></code> </p>
+        </td>
+        <td><p>Deblink</p></td>
       </tr><tr>
         
         <td>
-          <p><code><a href="pupil_cor.html">pupil_cor()</a></code> </p>
+          <p><code><a href="pupil_artifact.html">pupil_artifact()</a></code> </p>
         </td>
-        <td><p>Add column that is the correlation between left and rigth eyes</p></td>
+        <td><p>Artifact rejection</p></td>
       </tr><tr>
         
         <td>
-          <p><code><a href="select_eye.html">select_eye()</a></code> </p>
+          <p><code><a href="pupil_missing.html">pupil_missing()</a></code> </p>
         </td>
-        <td><p>Select eye to keep for analysis</p></td>
+        <td><p>Trial removal</p></td>
       </tr>
     </tbody><tbody>
       <tr>
@@ -232,50 +241,32 @@
       <tr>
         
         <td>
-          <p><code><a href="pupil_preprocess.html">pupil_preprocess()</a></code> </p>
+          <p><code><a href="pupil_upsample.html">pupil_upsample()</a></code> </p>
         </td>
-        <td><p>Preprocess pupil data using this single function</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="pupil_gui.html">pupil_gui()</a></code> </p>
-        </td>
-        <td><p>A call to open the GUI window</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="pupil_deblink.html">pupil_deblink()</a></code> </p>
-        </td>
-        <td><p>Evaluate the amount of missing data</p></td>
+        <td><p>Up-sample pupil data</p></td>
       </tr><tr>
         
         <td>
           <p><code><a href="pupil_smooth.html">pupil_smooth()</a></code> </p>
         </td>
-        <td><p>Apply smoothing/low frequency filter</p></td>
+        <td><p>Smooth pupil data</p></td>
       </tr><tr>
         
         <td>
           <p><code><a href="pupil_interpolate.html">pupil_interpolate()</a></code> </p>
         </td>
-        <td><p>Apply interpolation</p></td>
+        <td><p>Apply an interpolation function on pupil data</p></td>
       </tr><tr>
         
         <td>
           <p><code><a href="pupil_baselinecorrect.html">pupil_baselinecorrect()</a></code> </p>
         </td>
-        <td><p>Apply baseline correction</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="pupil_missing.html">pupil_missing()</a></code> </p>
-        </td>
-        <td><p>Remove trials with too much missing data</p></td>
+        <td><p>Baseline correction</p></td>
       </tr>
     </tbody><tbody>
       <tr>
         <th colspan="2">
-          <h2 id="section-analysis" class="hasAnchor"><a href="#section-analysis" class="anchor"></a>Analysis</h2>
+          <h2 id="section-other-functions" class="hasAnchor"><a href="#section-other-functions" class="anchor"></a>Other Functions</h2>
           <p class="section-desc"></p>
         </th>
       </tr>
@@ -287,15 +278,15 @@
       <tr>
         
         <td>
-          <p><code><a href="pupil_downsample.html">pupil_downsample()</a></code> </p>
+          <p><code><a href="pupil_bin.html">pupil_bin()</a></code> </p>
         </td>
-        <td><p>Downsample pupil data</p></td>
+        <td><p>Bin pupil data</p></td>
       </tr><tr>
         
         <td>
-          <p><code><a href="aoi_downsample.html">aoi_downsample()</a></code> </p>
+          <p><code><a href="pupil_merge.html">pupil_merge()</a></code> </p>
         </td>
-        <td><p>aoi_downsample</p></td>
+        <td><p>Merge preprocessed files</p></td>
       </tr>
     </tbody>
     </table>

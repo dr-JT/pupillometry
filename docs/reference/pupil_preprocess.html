@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Preprocess pupil data using this single function — pupil_preprocess • pupillometry</title>
+<title>Preprocess pupil data using a single function — pupil_preprocess • pupillometry</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -52,11 +52,9 @@
 
 
 
-<meta property="og:title" content="Preprocess pupil data using this single function — pupil_preprocess" />
-<meta property="og:description" content="This function will perform preprocessing on an entire folder of data files.
-It takes as input a specified folder path and outputs the
-preprocessed data to a specified folder path. For more details, see:
-https://dr-jt.github.io/pupillometry/articles/pupil_preprocess.html" />
+<meta property="og:title" content="Preprocess pupil data using a single function — pupil_preprocess" />
+<meta property="og:description" content="This function is largely outdated and will not undergo continued maintenance
+or updates." />
 <meta property="og:image" content="https://dr-jt.github.io/pupillometry/logo.png" />
 
 
@@ -89,7 +87,7 @@ https://dr-jt.github.io/pupillometry/articles/pupil_preprocess.html" />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">pupillometry</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.6.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.7.0</span>
       </span>
     </div>
 
@@ -111,35 +109,25 @@ https://dr-jt.github.io/pupillometry/articles/pupil_preprocess.html" />
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
-    <li class="divider"></li>
-    <li class="dropdown-header">How To</li>
     <li>
-      <a href="../articles/pupil_preprocess.html">Use pupil_preprocess()</a>
-    </li>
-    <li>
-      <a href="../articles/gui.html">Use the GUI</a>
-    </li>
-    <li>
-      <a href="../articles/pupillometry_functions.html">Build Your Own Sequence of Pupillometry Functions</a>
-    </li>
-    <li>
-      <a href="../articles/message_markers.html">Use Message Markers</a>
+      <a href="../articles/preprocess_overview.html">Preprocessing Code (Template)</a>
     </li>
     <li class="divider"></li>
-    <li class="dropdown-header">Example Data Sets</li>
+    <li class="dropdown-header">Detailed Articles</li>
     <li>
-      <a href="../articles/example_data.html">Example Data Set</a>
+      <a href="../articles/setup_pupil.html">Import and Setup</a>
     </li>
     <li>
-      <a href="../articles/example_data_w_out_messages.html">What if My Data Doesn't Have Message Markers?</a>
+      <a href="../articles/import_pupil.html">Import Options</a>
     </li>
-    <li class="divider"></li>
-    <li class="dropdown-header">More Details</li>
+    <li>
+      <a href="../articles/remove_unlikely.html">Remove Unlikely Values</a>
+    </li>
+    <li>
+      <a href="../articles/preprocess_pupil.html">Preprocessing</a>
+    </li>
     <li>
       <a href="../articles/preprocessing_options.html">Preprocessing Options</a>
-    </li>
-    <li>
-      <a href="../articles/smooth_interpolate_first.html">Smooth or Interpolation First?</a>
     </li>
   </ul>
 </li>
@@ -173,16 +161,14 @@ https://dr-jt.github.io/pupillometry/articles/pupil_preprocess.html" />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Preprocess pupil data using this single function</h1>
+    <h1>Preprocess pupil data using a single function</h1>
     <small class="dont-index">Source: <a href='https://github.com/dr-JT/pupillometry/blob/master/R/pupil_preprocess.R'><code>R/pupil_preprocess.R</code></a></small>
     <div class="hidden name"><code>pupil_preprocess.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>This function will perform preprocessing on an entire folder of data files.
-It takes as input a specified folder path and outputs the
-preprocessed data to a specified folder path. For more details, see:
-https://dr-jt.github.io/pupillometry/articles/pupil_preprocess.html</p>
+    <p>This function is largely outdated and will not undergo continued maintenance
+or updates.</p>
     </div>
 
     <pre class="usage"><span class='fu'>pupil_preprocess</span><span class='op'>(</span>

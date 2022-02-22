@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Convert "messy" raw data file to "tidy" raw data file — pupil_read • pupillometry</title>
+<title>Import eye tracking data — pupil_read • pupillometry</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -52,9 +52,11 @@
 
 
 
-<meta property="og:title" content="Convert "messy" raw data file to "tidy" raw data file — pupil_read" />
-<meta property="og:description" content="This function converts a &quot;messy&quot; raw eye-tracker data file
-to a &quot;tidy&quot; raw data file." />
+<meta property="og:title" content="Import eye tracking data — pupil_read" />
+<meta property="og:description" content="Imports eye tracking data from any eye tracker with special support for SMI,
+SR Research, and Tobii eye trackers. Standardizes columns and values
+to be used with other functions in this package. See
+https://dr-jt.github.io/pupillometry/ for more information." />
 <meta property="og:image" content="https://dr-jt.github.io/pupillometry/logo.png" />
 
 
@@ -87,7 +89,7 @@ to a &quot;tidy&quot; raw data file." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">pupillometry</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.6.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.7.0</span>
       </span>
     </div>
 
@@ -109,35 +111,25 @@ to a &quot;tidy&quot; raw data file." />
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
-    <li class="divider"></li>
-    <li class="dropdown-header">How To</li>
     <li>
-      <a href="../articles/pupil_preprocess.html">Use pupil_preprocess()</a>
-    </li>
-    <li>
-      <a href="../articles/gui.html">Use the GUI</a>
-    </li>
-    <li>
-      <a href="../articles/pupillometry_functions.html">Build Your Own Sequence of Pupillometry Functions</a>
-    </li>
-    <li>
-      <a href="../articles/message_markers.html">Use Message Markers</a>
+      <a href="../articles/preprocess_overview.html">Preprocessing Code (Template)</a>
     </li>
     <li class="divider"></li>
-    <li class="dropdown-header">Example Data Sets</li>
+    <li class="dropdown-header">Detailed Articles</li>
     <li>
-      <a href="../articles/example_data.html">Example Data Set</a>
+      <a href="../articles/setup_pupil.html">Import and Setup</a>
     </li>
     <li>
-      <a href="../articles/example_data_w_out_messages.html">What if My Data Doesn't Have Message Markers?</a>
+      <a href="../articles/import_pupil.html">Import Options</a>
     </li>
-    <li class="divider"></li>
-    <li class="dropdown-header">More Details</li>
+    <li>
+      <a href="../articles/remove_unlikely.html">Remove Unlikely Values</a>
+    </li>
+    <li>
+      <a href="../articles/preprocess_pupil.html">Preprocessing</a>
+    </li>
     <li>
       <a href="../articles/preprocessing_options.html">Preprocessing Options</a>
-    </li>
-    <li>
-      <a href="../articles/smooth_interpolate_first.html">Smooth or Interpolation First?</a>
     </li>
   </ul>
 </li>
@@ -171,57 +163,67 @@ to a &quot;tidy&quot; raw data file." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Convert "messy" raw data file to "tidy" raw data file</h1>
+    <h1>Import eye tracking data</h1>
     <small class="dont-index">Source: <a href='https://github.com/dr-JT/pupillometry/blob/master/R/pupil_read.R'><code>R/pupil_read.R</code></a></small>
     <div class="hidden name"><code>pupil_read.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>This function converts a "messy" raw eye-tracker data file
-to a "tidy" raw data file.</p>
+    <p>Imports eye tracking data from any eye tracker with special support for SMI,
+SR Research, and Tobii eye trackers. Standardizes columns and values
+to be used with other functions in this package. See
+https://dr-jt.github.io/pupillometry/ for more information.</p>
     </div>
 
     <pre class="usage"><span class='fu'>pupil_read</span><span class='op'>(</span>
   <span class='va'>file</span>,
   eyetracker <span class='op'>=</span> <span class='st'>""</span>,
-  px_to_mm.conversion <span class='op'>=</span> <span class='cn'>NULL</span>,
-  start_tracking.message <span class='op'>=</span> <span class='st'>"default"</span>,
-  start_tracking.match <span class='op'>=</span> <span class='st'>"exact"</span>,
+  eye_use <span class='op'>=</span> <span class='cn'>NULL</span>,
   subj_prefix <span class='op'>=</span> <span class='cn'>NULL</span>,
   subj_suffix <span class='op'>=</span> <span class='cn'>NULL</span>,
-  timing_file <span class='op'>=</span> <span class='cn'>NULL</span>,
+  include_col <span class='op'>=</span> <span class='cn'>NULL</span>,
+  start_tracking_message <span class='op'>=</span> <span class='st'>"default"</span>,
+  start_tracking_match <span class='op'>=</span> <span class='st'>"exact"</span>,
+  ms_conversion <span class='op'>=</span> <span class='cn'>NULL</span>,
+  px_to_mm_conversion <span class='op'>=</span> <span class='cn'>NULL</span>,
   trial_exclude <span class='op'>=</span> <span class='cn'>NULL</span>,
   quality_check_dir <span class='op'>=</span> <span class='cn'>NULL</span>,
+  timing_file <span class='op'>=</span> <span class='cn'>NULL</span>,
   delim <span class='op'>=</span> <span class='cn'>NULL</span>,
+  na <span class='op'>=</span> <span class='st'>"NA"</span>,
   subject <span class='op'>=</span> <span class='cn'>NULL</span>,
   trial <span class='op'>=</span> <span class='cn'>NULL</span>,
   time <span class='op'>=</span> <span class='cn'>NULL</span>,
   message_event <span class='op'>=</span> <span class='cn'>NULL</span>,
-  stimulus <span class='op'>=</span> <span class='cn'>NULL</span>,
+  pupil.mm <span class='op'>=</span> <span class='cn'>NULL</span>,
+  pupil.px <span class='op'>=</span> <span class='cn'>NULL</span>,
+  gaze.x <span class='op'>=</span> <span class='cn'>NULL</span>,
+  gaze.y <span class='op'>=</span> <span class='cn'>NULL</span>,
+  blink_event <span class='op'>=</span> <span class='cn'>NULL</span>,
+  fixation_event <span class='op'>=</span> <span class='cn'>NULL</span>,
+  saccade_event <span class='op'>=</span> <span class='cn'>NULL</span>,
+  eye_event <span class='op'>=</span> <span class='cn'>NULL</span>,
+  eye_event_blink <span class='op'>=</span> <span class='st'>"Blink"</span>,
+  eye_event_fixation <span class='op'>=</span> <span class='st'>"Fixation"</span>,
+  eye_event_saccade <span class='op'>=</span> <span class='st'>"Saccade"</span>,
   left_pupil.mm <span class='op'>=</span> <span class='cn'>NULL</span>,
   right_pupil.mm <span class='op'>=</span> <span class='cn'>NULL</span>,
   left_pupil.px <span class='op'>=</span> <span class='cn'>NULL</span>,
   right_pupil.px <span class='op'>=</span> <span class='cn'>NULL</span>,
-  gaze.x <span class='op'>=</span> <span class='cn'>NULL</span>,
-  gaze.y <span class='op'>=</span> <span class='cn'>NULL</span>,
   left_gaze.x <span class='op'>=</span> <span class='cn'>NULL</span>,
   left_gaze.y <span class='op'>=</span> <span class='cn'>NULL</span>,
   right_gaze.x <span class='op'>=</span> <span class='cn'>NULL</span>,
   right_gaze.y <span class='op'>=</span> <span class='cn'>NULL</span>,
-  eye_event <span class='op'>=</span> <span class='cn'>NULL</span>,
-  blink_event <span class='op'>=</span> <span class='cn'>NULL</span>,
-  fixation_event <span class='op'>=</span> <span class='cn'>NULL</span>,
-  saccade_event <span class='op'>=</span> <span class='cn'>NULL</span>,
-  left_eye_event <span class='op'>=</span> <span class='cn'>NULL</span>,
-  right_eye_event <span class='op'>=</span> <span class='cn'>NULL</span>,
   left_blink_event <span class='op'>=</span> <span class='cn'>NULL</span>,
   right_blink_event <span class='op'>=</span> <span class='cn'>NULL</span>,
   left_fixation_event <span class='op'>=</span> <span class='cn'>NULL</span>,
   right_fixation_event <span class='op'>=</span> <span class='cn'>NULL</span>,
   left_saccade_event <span class='op'>=</span> <span class='cn'>NULL</span>,
   right_saccade_event <span class='op'>=</span> <span class='cn'>NULL</span>,
-  ms_conversion <span class='op'>=</span> <span class='cn'>NULL</span>,
-  include_col <span class='op'>=</span> <span class='cn'>NULL</span>,
+  left_eye_event <span class='op'>=</span> <span class='cn'>NULL</span>,
+  right_eye_event <span class='op'>=</span> <span class='cn'>NULL</span>,
+  start_tracking.message <span class='op'>=</span> <span class='cn'>NULL</span>,
+  start_tracking.match <span class='op'>=</span> <span class='cn'>NULL</span>,
   starttracking.message <span class='op'>=</span> <span class='cn'>NULL</span>,
   starttracking.match <span class='op'>=</span> <span class='cn'>NULL</span>
 <span class='op'>)</span></pre>
@@ -231,213 +233,325 @@ to a "tidy" raw data file.</p>
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>file</th>
-      <td><p>A file path to the raw data export file</p></td>
+      <td><p>A file path to the raw data.</p></td>
     </tr>
     <tr>
       <th>eyetracker</th>
-      <td><p>Which eye-tracker system was used to record data?
-options: "smi", "eyelink", NULL</p></td>
+      <td><p>Which eye tracker system was used to record data?
+options: "smi", "eyelink", NULL.</p></td>
     </tr>
     <tr>
-      <th>px_to_mm.conversion</th>
-      <td><p>The conversion factor to go from
-px pupil diameter to mm pupil diameter</p></td>
-    </tr>
-    <tr>
-      <th>start_tracking.message</th>
-      <td><p>Message used in SMI experiment to
-mark StartTracking inline</p></td>
-    </tr>
-    <tr>
-      <th>start_tracking.match</th>
-      <td><p>Should the message string be an
-"exact" match or a "pattern" match?</p></td>
+      <th>eye_use</th>
+      <td><p>Which eye to use? options: "left" or "right".</p></td>
     </tr>
     <tr>
       <th>subj_prefix</th>
       <td><p>The unique pattern prefix (letter(s)
-and/or symbol(s)) that comes before the subject number in the data file</p></td>
+and/or symbol(s)) that comes before the subject number in the data file.
+Required for SMI, but likely not needed for other eye trackers.</p></td>
     </tr>
     <tr>
       <th>subj_suffix</th>
       <td><p>The unique pattern suffix (letter(s) or
-symbol(s)) that comes after the subject number in the data file</p></td>
+symbol(s)) that comes after the subject number in the data file.
+Required for SMI, but likely not needed for other eye trackers.</p></td>
+    </tr>
+    <tr>
+      <th>include_col</th>
+      <td><p>Extra columns from the raw data file to include. c().</p></td>
+    </tr>
+    <tr>
+      <th>start_tracking_message</th>
+      <td><p>Message used in experiment software to
+mark the onset of "Start Tracking". Most eye trackers include a marker
+message corresponding to this event. Usually included at the start of
+every trial. Not required for SMI, SR Research, and Tobii Pro Fusion.</p></td>
+    </tr>
+    <tr>
+      <th>start_tracking_match</th>
+      <td><p>Should the message string be an
+"exact" match or a "pattern" match? default: "exact".</p></td>
+    </tr>
+    <tr>
+      <th>ms_conversion</th>
+      <td><p>The conversion factor to get the timing column in
+milliseconds.</p></td>
+    </tr>
+    <tr>
+      <th>px_to_mm_conversion</th>
+      <td><p>The conversion factor to go from
+px pupil diameter to mm pupil diameter.</p></td>
+    </tr>
+    <tr>
+      <th>trial_exclude</th>
+      <td><p>Specify if there are any trials to exclude. c().</p></td>
+    </tr>
+    <tr>
+      <th>quality_check_dir</th>
+      <td><p>Directory to save quality check file to.</p></td>
     </tr>
     <tr>
       <th>timing_file</th>
       <td><p>File location and name that contains timing
-information for message markers</p></td>
-    </tr>
-    <tr>
-      <th>trial_exclude</th>
-      <td><p>Specify if ther are any trials to exclude. Trial number</p></td>
-    </tr>
-    <tr>
-      <th>quality_check_dir</th>
-      <td><p>Directory to save quality check file</p></td>
+information for message markers. Required if no message markers are
+included in data.</p></td>
     </tr>
     <tr>
       <th>delim</th>
-      <td><p>If eyetracker is not specified, then specify file delimiter type</p></td>
+      <td><p>File delimiter type. (needed if eyetracker is not specified)</p></td>
+    </tr>
+    <tr>
+      <th>na</th>
+      <td><p>How are missing values defined in the data files</p></td>
     </tr>
     <tr>
       <th>subject</th>
-      <td><p>If eyetracker is not specified, then specify column name
-that contains subject IDs</p></td>
+      <td><p>Column name that contains subject IDs.
+(needed if eyetracker is not specified)</p></td>
     </tr>
     <tr>
       <th>trial</th>
-      <td><p>If eyetracker is not specified, then specify column name
-that contains the trial variable</p></td>
+      <td><p>Column name that contains the trial number.
+(needed if eyetracker is not specified)</p></td>
     </tr>
     <tr>
       <th>time</th>
-      <td><p>If eyetracker is not specified, then specify column name
-that contains the timing variable</p></td>
+      <td><p>Column name that contains the timing variable.
+(needed if eyetracker is not specified)</p></td>
     </tr>
     <tr>
       <th>message_event</th>
-      <td><p>If eyetracker is not specified, then specify column name
-that contains the message markers</p></td>
+      <td><p>Column name that contains the message markers.
+(needed if eyetracker is not specified)</p></td>
     </tr>
     <tr>
-      <th>stimulus</th>
-      <td><p>If eyetracker is not specified, then specify column name
-that contains the stimulus information</p></td>
+      <th>pupil.mm</th>
+      <td><p>Column name that contains the pupil data in millimeters.
+If the eye tracker data file has pupil data from only one eye use this
+argument.</p></td>
     </tr>
     <tr>
-      <th>left_pupil.mm</th>
-      <td><p>If eyetracker is not specified, then specify column name
-that contains the left pupil data in millimeters</p></td>
-    </tr>
-    <tr>
-      <th>right_pupil.mm</th>
-      <td><p>If eyetracker is not specified, then specify column name
-that contains the right pupil data in millimeters</p></td>
-    </tr>
-    <tr>
-      <th>left_pupil.px</th>
-      <td><p>If eyetracker is not specified, then specify column name
-that contains the left pupil data in pixels</p></td>
-    </tr>
-    <tr>
-      <th>right_pupil.px</th>
-      <td><p>If eyetracker is not specified, then specify column name
-that contains the right pupil data in pixels</p></td>
+      <th>pupil.px</th>
+      <td><p>Column name that contains the pupil data in pixels.
+If the eye tracker data file has pupil data from only one eye use this
+argument.</p></td>
     </tr>
     <tr>
       <th>gaze.x</th>
-      <td><p>If eyetracker is not specified, then specify column name
-that contains the gaze position on the x-axis</p></td>
+      <td><p>Column name that contains the gaze position on the x-axis.
+If the eye tracker data file has data from only one eye use this argument.</p></td>
     </tr>
     <tr>
       <th>gaze.y</th>
-      <td><p>If eyetracker is not specified, then specify column name
-that contains the gaze position on the y-axis</p></td>
-    </tr>
-    <tr>
-      <th>left_gaze.x</th>
-      <td><p>If eyetracker is not specified, then specify column name
-that contains the left eye gaze position on the x-axis</p></td>
-    </tr>
-    <tr>
-      <th>left_gaze.y</th>
-      <td><p>If eyetracker is not specified, then specify column name
-that contains the left eye gaze position on the y-axis</p></td>
-    </tr>
-    <tr>
-      <th>right_gaze.x</th>
-      <td><p>If eyetracker is not specified, then specify column name
-that contains the right eye gaze position on the x-axis</p></td>
-    </tr>
-    <tr>
-      <th>right_gaze.y</th>
-      <td><p>If eyetracker is not specified, then specify column name
-that contains the right eye gaze position on the y-axis</p></td>
-    </tr>
-    <tr>
-      <th>eye_event</th>
-      <td><p>If eyetracker is not specified, then specify column name
-that contains the eye event (e.g., fixation, saccade, and blink) data</p></td>
+      <td><p>Column name that contains the gaze position on the y-axis.
+If the eye tracker data file has data from only one eye use this argument.</p></td>
     </tr>
     <tr>
       <th>blink_event</th>
-      <td><p>If eyetracker is not specified, then specify column name
-that contains the blink event data</p></td>
+      <td><p>Column name that contains whether the eye event sample is
+in a blink or not in a blink. If the eye tracker data file
+has data from only one eye use this argument.</p></td>
     </tr>
     <tr>
       <th>fixation_event</th>
-      <td><p>If eyetracker is not specified, then specify column name
-that contains the fixation event data</p></td>
+      <td><p>Column name that contains whether the eye event sample
+is in a fixation or not in a fixation. If the eye tracker data file
+has data from only one eye use this argument.</p></td>
     </tr>
     <tr>
       <th>saccade_event</th>
-      <td><p>If eyetracker is not specified, then specify column name
-that contains the saccade event data</p></td>
+      <td><p>Column name that contains whether the eye event sample
+is in a saccade or not in a saccade. If the eye tracker data file
+has data from only one eye use this argument.</p></td>
     </tr>
     <tr>
-      <th>left_eye_event</th>
-      <td><p>If eyetracker is not specified, then specify column name
-that contains the left eye event (e.g., fixation, saccade, and blink) data</p></td>
+      <th>eye_event</th>
+      <td><p>Column name that contains the eye event data
+(e.g., fixation, saccade, and blink). If the eye tracker data file
+has data from only one eye use this argument. Some eye trackers will
+store the event data in one column with values corresponding to
+fixation, blink, or saccades. You also need to specify what these
+values are with the eye_event_blink,  eye_event_fixation, and
+eye_event_saccade arguments.</p></td>
     </tr>
     <tr>
-      <th>right_eye_event</th>
-      <td><p>If eyetracker is not specified, then specify column name
-that contains the eye event (e.g., fixation, saccade, and blink) data</p></td>
+      <th>eye_event_blink</th>
+      <td><p>Values in the eye_event column that correspond to
+blinks.</p></td>
+    </tr>
+    <tr>
+      <th>eye_event_fixation</th>
+      <td><p>Values in the eye_event column that correspond to
+fixations.</p></td>
+    </tr>
+    <tr>
+      <th>eye_event_saccade</th>
+      <td><p>Values in the eye_event column that correspond to
+saccades.</p></td>
+    </tr>
+    <tr>
+      <th>left_pupil.mm</th>
+      <td><p>Column name that contains the left pupil data in
+millimeters. If the eye tracker data file has pupil data from both eyes
+use this argument for the left pupil.</p></td>
+    </tr>
+    <tr>
+      <th>right_pupil.mm</th>
+      <td><p>Column name that contains the right pupil data in
+millimeters. If the eye tracker data file has pupil data from both eyes
+use this argument for the right pupil.</p></td>
+    </tr>
+    <tr>
+      <th>left_pupil.px</th>
+      <td><p>Column name that contains the left pupil data in pixels.
+If the eye tracker data file has pupil data from both eyes
+use this argument for the left pupil.</p></td>
+    </tr>
+    <tr>
+      <th>right_pupil.px</th>
+      <td><p>Column name that contains the right pupil data in pixels.
+If the eye tracker data file has pupil data from both eyes
+use this argument for the right pupil.</p></td>
+    </tr>
+    <tr>
+      <th>left_gaze.x</th>
+      <td><p>Column name that contains the left eye gaze position
+on the x-axis. If the eye tracker data file has data from both eyes
+use this argument for the left eye.</p></td>
+    </tr>
+    <tr>
+      <th>left_gaze.y</th>
+      <td><p>Column name that contains the left eye gaze position
+on the y-axis. If the eye tracker data file has data from both eyes
+use this argument for the left eye.</p></td>
+    </tr>
+    <tr>
+      <th>right_gaze.x</th>
+      <td><p>Column name that contains the right eye gaze position
+on the x-axis. If the eye tracker data file has data from both eyes
+use this argument for the right eye.</p></td>
+    </tr>
+    <tr>
+      <th>right_gaze.y</th>
+      <td><p>Column name that contains the right eye gaze position
+on the y-axis. If the eye tracker data file has data from both eyes
+use this argument for the right eye.</p></td>
     </tr>
     <tr>
       <th>left_blink_event</th>
-      <td><p>If eyetracker is not specified, then specify column name
-that contains the left blink event data</p></td>
+      <td><p>Column name that contains whether the eye event
+sample is in a blink or not in a blink. If the eye tracker data file
+has data from both eyes use this argument for the left eye.</p></td>
     </tr>
     <tr>
       <th>right_blink_event</th>
-      <td><p>If eyetracker is not specified, then specify column name
-that contains the blink event data</p></td>
+      <td><p>Column name that contains whether the eye event
+sample is in a blink or not in a blink. If the eye tracker data file
+has data from both eyes use this argument for the right eye.</p></td>
     </tr>
     <tr>
       <th>left_fixation_event</th>
-      <td><p>If eyetracker is not specified, then specify column name
-that contains the left fixation event data</p></td>
+      <td><p>Column name that contains whether the eye event
+sample is in a fixation or not in a fixation. If the eye tracker data file
+has data from both eyes use this argument for the left eye.</p></td>
     </tr>
     <tr>
       <th>right_fixation_event</th>
-      <td><p>If eyetracker is not specified, then specify column name
-that contains the fixation event data</p></td>
+      <td><p>Column name that contains whether the eye event
+sample is in a fixation or not in a fixation. If the eye tracker data file
+has data from both eyes use this argument for the right eye.</p></td>
     </tr>
     <tr>
       <th>left_saccade_event</th>
-      <td><p>If eyetracker is not specified, then specify column name
-that contains the left saccade event data</p></td>
+      <td><p>Column name that contains whether the eye event
+sample is in a saccade or not in a saccade. If the eye tracker data file
+has data from both eyes use this argument for the left eye.</p></td>
     </tr>
     <tr>
       <th>right_saccade_event</th>
-      <td><p>If eyetracker is not specified, then specify column name
-that contains the saccade event data</p></td>
+      <td><p>Column name that contains whether the eye event
+sample is in a saccade or not in a saccade. If the eye tracker data file
+has data from only one eye use this argument. If the eye tracker data file
+has data from both eyes use this argument for the right eye.</p></td>
     </tr>
     <tr>
-      <th>include_col</th>
-      <td><p>Extra columns from the raw data file to include</p></td>
+      <th>left_eye_event</th>
+      <td><p>Column name that contains the left eye event data
+(e.g., fixation, saccade, and blink). If the eye tracker data file
+has data from both eyes use this argument for the left eye.
+Some eye trackers will store the event data in one column with values
+corresponding to fixation, blink, or saccades. You also need to specify
+what these values are with the eye_event_blink, eye_event_fixation,
+and eye_event_saccade arguments.</p></td>
+    </tr>
+    <tr>
+      <th>right_eye_event</th>
+      <td><p>Column name that contains the right eye event data
+(e.g., fixation, saccade, and blink). If the eye tracker data file
+has data from both eyes use this argument for the right eye.
+Some eye trackers will store the event data in one column with values
+corresponding to fixation, blink, or saccades. You also need to specify
+what these values are with the eye_event_blink, eye_event_fixation,
+and eye_event_saccade arguments.</p></td>
+    </tr>
+    <tr>
+      <th>start_tracking.message</th>
+      <td><p>See start_tracking_message.</p></td>
+    </tr>
+    <tr>
+      <th>start_tracking.match</th>
+      <td><p>See start_tracking_match.</p></td>
     </tr>
     <tr>
       <th>starttracking.message</th>
-      <td><p>See start_tracking.message</p></td>
+      <td><p>See start_tracking_message.</p></td>
     </tr>
     <tr>
       <th>starttracking.match</th>
-      <td><p>See start_tracking.match</p></td>
+      <td><p>See start_tracking_match.</p></td>
     </tr>
     </table>
 
-    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+    <h2 class="hasAnchor" id="output"><a class="anchor" href="#output"></a>Output</h2>
 
-    <p>Different eye-trackers will save the raw data file using
-completely different organizations and naming conventions
-This function will create a "tidy" raw data file that has
-a standard organization and naming convention,
-regardless of which eye-tracker was used.
-Supported Eye-Tracker Systems: Sensomotoric Instruments ("smi")
-and SR-Research EyeLink ("eyelink")</p>
+    
+
+
+<p>Standardized columns and values to be used with other functions in this
+package.</p>
+    <h2 class="hasAnchor" id="eye-tracker-support"><a class="anchor" href="#eye-tracker-support"></a>Eye Tracker Support</h2>
+
+    
+
+
+<p>Ease of import is provided for certain eye trackers:</p>
+<p>- SMI: Red250m and glasses: `pupil_read(eyetracker = "smi")`
+- SR Research: EyeLink 1000 Plus `pupil_read(eyetracker = "eyelink")`
+- Tobii: Pro Fusion `pupil_read(eyetracker = "tobii")`</p>
+<p>Other eye trackers from these companies may or may not be supported but you
+are welcome to try.</p>
+<p>All other eye trackers and data file types can be imported by specifying
+the column names.</p>
+    <h2 class="hasAnchor" id="importing-options"><a class="anchor" href="#importing-options"></a>Importing Options</h2>
+
+    
+
+
+<p>There are several importing options to specify, some of them required, others
+are more optional. See the full argument list for all options.</p>
+<p>- start_tracking_message (recommended): helps to correctly
+identify trials segments</p>
+<p>- eye_use (optional): specify which eye you want to perform analyses on</p>
+<p>- px_to_mm_conversion (optional): convert pupil pixel values to millimeters</p>
+<p>- include_col (optional): other columns you may want to
+include (e.g., RT, accuracy, condition)</p>
+<p>- trial_exclude (optional): remove certain trials from the data</p>
+<p>- quality_check_dir (optional): a directory to save an import
+quality check file to</p>
+<p>- subj_prefix: required for SMI eye trackers, might be useful
+to remove strings in subject column</p>
+<p>- subj_suffix: required for SMI eye trackers, might be useful
+to remove strings in subject column</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
