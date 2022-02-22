@@ -75,7 +75,7 @@ data_pupil <- pupil_read("folder/file.csv", eyetracker = "eyelink",
 This will search for any message strings that contain the sequence of letters "Fixation".
 
 Those are the main arguments you will need to specify when importing the data. However, there are additional arguments you may need or can make importing the data more convenient. 
-See [Import Options]() for more details on other arguments you may need to specify to properly import the data file.
+See [Import Options](https://dr-jt.github.io/pupillometry/articles/import_pupil.html) for more details on other arguments you may need to specify to properly import the data file.
 
 ## 2. Set the time variable relative to stimulus onset
 

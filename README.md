@@ -24,7 +24,7 @@ data_pupil <- pupil_read("folder/file.csv", eyetracker = "eyelink") %>%
   pupil_interpolate(type = "linear") %>%
   pupil_baselinecorrect()
 ```
-More detailed instructions and a complete R code template on how to preprocess your pupil data are provided in: [Preprocessing Code (Template)]()
+More detailed instructions and a complete R code template on how to preprocess your pupil data are provided in: [Preprocessing Code (Template)](https://dr-jt.github.io/pupillometry/articles/preprocess_overview.html)
 
 ## Eyetracker Support
 
