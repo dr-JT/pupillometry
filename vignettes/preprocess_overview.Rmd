@@ -90,7 +90,7 @@ for (file in files_list) {
 }
 
 pupil_merge(path = here(output_dir), pattern = "bc.csv",
-            ouptut_file = "PupilData_deblink.artifact.smooth.interpolate.bc.csv")
+            ouptut_file = "Flanker_PupilData_deblink.artifact.smooth.interpolate.bc.csv")
 ```
 
 ## References
