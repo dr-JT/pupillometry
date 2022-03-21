@@ -38,12 +38,15 @@ articles:
   contents:
   - preprocess_overview
 
+- title: Preprocessing Stages
+  navbar: Preprocessing Stages
+  - setup_pupil
+  - remove_unlikely
+  - preprocess_pupil
+
 - title: Detailed Articles
   navbar: Detailed Articles
   contents:
-  - setup_pupil
   - import_pupil
-  - remove_unlikely
-  - preprocess_pupil
   - preprocessing_options
 
