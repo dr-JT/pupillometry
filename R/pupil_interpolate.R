@@ -85,12 +85,8 @@
 
 pupil_interpolate <- function(x, type = "cubic-spline",
                               maxgap = Inf, hz = "",
-                              plot = FALSE, plot_trial = "all"){
+                              plot = FALSE, plot_trial = "all") {
   x_before <- x
-
-  real_name <- ifelse("Pupil_Diameter.mm" %in% colnames(x),
-                      "Pupil_Diameter.mm", "Pupil_Diameter.px")
-  colnames(x)[which(colnames(x) == real_name)] <- "pupil_val"
 
   if ("UpSampled" %in% colnames(x)) {
     hz <- 1000
@@ -99,30 +95,44 @@ pupil_interpolate <- function(x, type = "cubic-spline",
     maxgap <- round(maxgap / (1000 / hz))
   }
 
-  x <- dplyr::group_by(x, Trial)
-  if (type == "cubic-spline"){
-    x <- dplyr::mutate(x,
-                       Missing.Total = ifelse(is.na(pupil_val), 1, 0),
-                       Missing.Total =
-                         sum(Missing.Total, na.rm = TRUE) / dplyr::n(),
-                       index =
-                         ifelse(is.na(pupil_val), NA, dplyr::row_number()),
-                       index = zoo::na.approx(index, na.rm = FALSE),
-                       pupil_val = ifelse(Missing.Total > .9, 999, pupil_val),
-                       pupil_val = zoo::na.spline(pupil_val,
-                                                  na.rm = FALSE,
-                                                  x = index,
-                                                  maxgap = maxgap),
-                       pupil_val = ifelse(Missing.Total > .9, NA, pupil_val))
-    x <- dplyr::select(x, -index, -Missing.Total)
-  } else if (type == "linear"){
-    x <- dplyr::mutate(x,
-                       pupil_val = zoo::na.approx(pupil_val, na.rm = FALSE,
-                                                  maxgap = maxgap))
+  #### Define interpolate function ####
+  interpolate <- function(x, type, maxgap) {
+    x <- dplyr::group_by(x, Trial)
+    if (type == "cubic-spline") {
+      x <- dplyr::mutate(x,
+                         Missing.Total = ifelse(is.na(pupil_val), 1, 0),
+                         Missing.Total =
+                           sum(Missing.Total, na.rm = TRUE) / dplyr::n(),
+                         index =
+                           ifelse(is.na(pupil_val), NA, dplyr::row_number()),
+                         index = zoo::na.approx(index, na.rm = FALSE),
+                         pupil_val = ifelse(Missing.Total > .9, 999, pupil_val),
+                         pupil_val = zoo::na.spline(pupil_val,
+                                                    na.rm = FALSE,
+                                                    x = index,
+                                                    maxgap = maxgap),
+                         pupil_val = ifelse(Missing.Total > .9, NA, pupil_val))
+      x <- dplyr::select(x, -index, -Missing.Total)
+    } else if (type == "linear") {
+      x <- dplyr::mutate(x,
+                         pupil_val = zoo::na.approx(pupil_val, na.rm = FALSE,
+                                                    maxgap = maxgap))
+    }
+    x <- dplyr::arrange(x, Trial, Time)
+    x <- dplyr::ungroup(x)
   }
-  x <- dplyr::arrange(x, Trial, Time)
-  x <- dplyr::ungroup(x)
-  colnames(x)[which(colnames(x) == "pupil_val")] <- real_name
+  #####################################
+
+  eyes <- eyes_detect(x)
+
+  for (eye in eyes) {
+    real_name <- eye
+    colnames(x)[which(colnames(x) == real_name)] <- "pupil_val"
+
+    x <- interpolate(x, type, maxgap)
+
+    colnames(x)[which(colnames(x) == "pupil_val")] <- real_name
+  }
 
   if (plot == TRUE) pupil_plot(x_before, x, trial = plot_trial,
                                sub_title = "pupil_interpolate()")

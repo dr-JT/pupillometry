@@ -21,6 +21,7 @@
 #'
 
 pupil_plot <- function(x, y, trial = "all", sub_title = "") {
+
   theme_spacious <- function(font.size = 14, bold = TRUE){
     key.size <- trunc(font.size*.8)
     if (bold == TRUE) {
@@ -45,41 +46,47 @@ pupil_plot <- function(x, y, trial = "all", sub_title = "") {
                    legend.text = ggplot2::element_text(size = key.size))
   }
 
-  real_name <- dplyr::case_when("Pupil_Diameter.mm" %in% colnames(x) ~
-                                  "Pupil_Diameter.mm",
-                                "Pupil_Diameter.px" %in% colnames(x) ~
-                                  "Pupil_Diameter.px")
-  colnames(x)[which(colnames(x) == real_name)] <- "pupil_val_before"
-  colnames(y)[which(colnames(y) == real_name)] <- "pupil_val_after"
+  eyes <- eyes_detect(x)
 
-  x <- dplyr::select(x, Trial, Time, pupil_val_before)
-  if (trial != "all") {
-    x <- dplyr::filter(x, Trial %in% trial)
-  }
+  for (eye in eyes) {
+    real_name <- eye
+    colnames(x)[which(colnames(x) == real_name)] <- "pupil_val_before"
+    colnames(y)[which(colnames(y) == real_name)] <- "pupil_val_after"
 
-  y <- dplyr::select(y, Trial, Time, pupil_val_after)
-  if (trial != "all") {
-    y <- dplyr::filter(y, Trial %in% trial)
-  }
+    x <- dplyr::select(x, Trial, Time, pupil_val_before)
+    if (trial != "all") {
+      x <- dplyr::filter(x, Trial %in% trial)
+    }
 
-  data_plot <- merge(x, y, by = c("Trial", "Time"), all = TRUE)
+    y <- dplyr::select(y, Trial, Time, pupil_val_after)
+    if (trial != "all") {
+      y <- dplyr::filter(y, Trial %in% trial)
+    }
 
-  for (trial in unique(x$Trial)) {
-    data_trial <- dplyr::filter(data_plot, Trial == trial)
-    plot <- ggplot2::ggplot(data_trial, ggplot2::aes(Time)) +
-      ggplot2::geom_point(ggplot2::aes(y = pupil_val_before),
-                          stroke = 1.2, size = 1.7,
-                          color = "grey65", alpha = 1) +
-      ggplot2::geom_point(ggplot2::aes(y = pupil_val_after),
-                          stroke = .5, size = .7,
-                          color = "firebrick", alpha = 1) +
-      ggplot2::ggtitle(paste("Trial: ", data_trial$Trial[1], sep = ""),
-                       subtitle = sub_title) +
-      ggplot2::labs(y = "Pupil Size", x = "Time (ms)") +
-      ggplot2::theme_linedraw() + theme_spacious() +
-      ggplot2::theme(plot.title = ggplot2::element_text(hjust = 0.5),
-                     plot.subtitle = ggplot2::element_text(hjust = 0.5))
-    # Print plot
-    grid::grid.draw(plot)
+    data_plot <- merge(x, y, by = c("Trial", "Time"), all = TRUE)
+    colors <- c("Before" = "grey65", "After" = "firebrick")
+
+    for (trial in unique(x$Trial)) {
+      data_trial <- dplyr::filter(data_plot, Trial == trial)
+      plot <- ggplot2::ggplot(data_trial, ggplot2::aes(Time)) +
+        ggplot2::geom_point(ggplot2::aes(y = pupil_val_before,
+                                         color = "Before"),
+                            stroke = 1.2, size = 1.7,
+                            alpha = 1) +
+        ggplot2::geom_point(ggplot2::aes(y = pupil_val_after,
+                                         color = "After"),
+                            stroke = .5, size = .7,
+                            alpha = 1) +
+        ggplot2::ggtitle(paste("Trial: ", data_trial$Trial[1], sep = ""),
+                         subtitle = sub_title) +
+        ggplot2::labs(y = "Pupil Size", x = "Time (ms)", color = "Legend") +
+        ggplot2::scale_color_manual(values = colors) +
+        ggplot2::theme_linedraw() + theme_spacious() +
+        ggplot2::theme(plot.title = ggplot2::element_text(hjust = 0.5),
+                       plot.subtitle = ggplot2::element_text(hjust = 0.5),
+                       legend.position = "top")
+      # Print plot
+      grid::grid.draw(plot)
+    }
   }
 }

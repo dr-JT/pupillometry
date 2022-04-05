@@ -85,17 +85,6 @@ pupil_smooth <- function(x, type = "hann", n = NULL,
                          window = NULL, hz = NULL){
   x_before <- x
 
-  real_name <- ifelse("Pupil_Diameter.mm" %in% colnames(x),
-                      "Pupil_Diameter.mm", "Pupil_Diameter.px")
-
-  colnames(x)[which(colnames(x) == real_name)] <- "pupil_val"
-  x <- dplyr::mutate(x, pupil_before = pupil_val)
-  colnames(x)[which(colnames(x) == "pupil_val")] <- real_name
-  x <- pupil_interpolate(x, type = "linear")
-
-  colnames(x)[which(colnames(x) == real_name)] <- "pupil_val"
-
-  x <- dplyr::group_by(x, Trial)
   if (!is.null(window)) {
     n <- round(window / (1000 / hz))
     if (!(n %% 2)) {
@@ -103,31 +92,47 @@ pupil_smooth <- function(x, type = "hann", n = NULL,
     }
   }
 
-  if (type == "hann") {
+  #### Define smooth function ####
+  smooth <- function(x, n) {
+    x <- dplyr::group_by(x, Trial)
     x <- dplyr::mutate(x,
-                       hold = dplR::hanning(pupil_val, n = n),
-                       hold = zoo::na.approx(hold, rule = 2),
-                       pupil_val = ifelse(is.na(pupil_val), NA, hold))
-  }
-  if (type == "mwa") {
+                       pupil_before = pupil_val,
+                       pupil_val = zoo::na.approx(pupil_val, na.rm = FALSE,
+                                                  maxgap = Inf))
+    if (type == "hann") {
+      x <- dplyr::mutate(x,
+                         hold = dplR::hanning(pupil_val, n = n),
+                         hold = zoo::na.approx(hold, rule = 2),
+                         pupil_val = ifelse(is.na(pupil_val), NA, hold))
+    }
+    if (type == "mwa") {
+      x <- dplyr::mutate(x,
+                         hold = zoo::rollapply(pupil_val,
+                                               width = n,
+                                               FUN = mean,
+                                               na.rm = TRUE,
+                                               partial = TRUE),
+                         hold = zoo::na.approx(hold, rule = 2),
+                         pupil_val = ifelse(is.na(pupil_val), NA, hold))
+    }
+    x <- dplyr::arrange(x, Trial, Time)
+    x <- dplyr::ungroup(x)
     x <- dplyr::mutate(x,
-                       hold = zoo::rollapply(pupil_val,
-                                             width = n,
-                                             FUN = mean,
-                                             na.rm = TRUE,
-                                             partial = TRUE),
-                       hold = zoo::na.approx(hold, rule = 2),
-                       pupil_val = ifelse(is.na(pupil_val), NA, hold))
+                       pupil_val = ifelse(is.na(pupil_before), NA, pupil_val))
+    x <- dplyr::select(x, -pupil_before, -hold)
   }
-  x <- dplyr::select(x, -hold)
-  x <- dplyr::arrange(x, Trial, Time)
-  x <- dplyr::ungroup(x)
+  ################################
 
-  x <- dplyr::mutate(x,
-                     pupil_val = ifelse(is.na(pupil_before), NA, pupil_val))
-  x <- dplyr::select(x, -pupil_before)
+  eyes <- eyes_detect(x)
 
-  colnames(x)[which(colnames(x) == "pupil_val")] <- real_name
+  for (eye in eyes) {
+    real_name <- eye
+    colnames(x)[which(colnames(x) == real_name)] <- "pupil_val"
+
+    x <- smooth(x, n)
+
+    colnames(x)[which(colnames(x) == "pupil_val")] <- real_name
+  }
 
   if (plot == TRUE) pupil_plot(x_before, x, trial = plot_trial,
                                sub_title = "pupil_smooth()")

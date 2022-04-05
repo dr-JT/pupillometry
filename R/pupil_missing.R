@@ -25,28 +25,39 @@
 #' @export
 #'
 
-pupil_missing <- function(x, missing_allowed = 1){
+pupil_missing <- function(x, missing_allowed = 1) {
 
-  real_name <- ifelse("Pupil_Diameter.mm" %in% colnames(x),
-                      "Pupil_Diameter.mm", "Pupil_Diameter.px")
-  colnames(x)[which(colnames(x) == real_name)] <- "pupil_val"
+  eyes <- eyes_detect(x)
 
-  if ("Pupil_Missing" %in% colnames(x)) {
-    colnames(x)[which(colnames(x) == "Pupil_Missing")] <- "Pupil_Missing_1"
+  for (eye in eyes) {
+    real_name <- eye
+    eye_prefix <- stringr::str_split(real_name, "_")[[1]][1]
+    missing_name <- ifelse(eye_prefix == "Pupil",
+                           paste(eye_prefix, "_Missing", sep = ""),
+                           paste(eye_prefix, "_Pupil_Missing", sep = ""))
+
+    if (missing_name %in% colnames(x)) {
+      colnames(x)[which(colnames(x) == missing_name)] <-
+        paste(missing_name, "_FirstPass", sep = "")
+    }
+
+    colnames(x)[which(colnames(x) == real_name)] <- "pupil_val"
+
+    x <- dplyr::group_by(x, Trial)
+    x <- dplyr::mutate(x,
+                       Missing = ifelse(is.na(pupil_val), 1, 0),
+                       Missing =
+                         sum(Missing, na.rm = TRUE) / dplyr::n())
+    x <- dplyr::ungroup(x)
+    x <- dplyr::filter(x, Missing <= missing_allowed)
+
+    colnames(x)[which(colnames(x) == "Missing")] <- missing_name
+    if (paste(missing_name, "_FirstPass", sep = "") %in% colnames(x)) {
+      colnames(x)[which(colnames(x) == missing_name)] <-
+        paste(missing_name, "_SecondPass", sep = "")
+    }
+    colnames(x)[which(colnames(x) == "pupil_val")] <- real_name
   }
-
-  x <- dplyr::group_by(x, Trial)
-  x <- dplyr::mutate(x,
-                     Pupil_Missing = ifelse(is.na(pupil_val), 1, 0),
-                     Pupil_Missing =
-                       sum(Pupil_Missing, na.rm = TRUE) / dplyr::n())
-  x <- dplyr::ungroup(x)
-  x <- dplyr::filter(x, Pupil_Missing <= missing_allowed)
-
-  if ("Pupil_Missing_1" %in% colnames(x)) {
-    colnames(x)[which(colnames(x) == "Pupil_Missing")] <- "Pupil_Missing_2"
-  }
-  colnames(x)[which(colnames(x) == "pupil_val")] <- real_name
 
   return(x)
 }

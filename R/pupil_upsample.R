@@ -57,8 +57,18 @@ pupil_upsample <- function(x){
   x <- dplyr::arrange(x, Time)
   x <- dplyr::ungroup(x)
   x <- tidyr::fill(x,
-                   -tidyselect::any_of(c("Pupil_Diameter.mm", "Pupil_Diameter.px",
-                                         "Gaze_Position.x", "Gaze_Position.y")),
+                   -tidyselect::any_of(c("Pupil_Diameter.mm",
+                                         "L_Pupil_Diameter.mm",
+                                         "R_Pupil_Diameter.mm",
+                                         "Pupil_Diameter.px",
+                                         "L_Pupil_Diameter.px",
+                                         "R_Pupil_Diameter.px",
+                                         "Gaze_Position.x",
+                                         "L_Gaze_Position.x",
+                                         "R_Gaze_Position.x",
+                                         "Gaze_Position.y",
+                                         "L_Gaze_Position.y",
+                                         "R_Gaze_Position.y")),
                    .direction = "down")
   x <- dplyr::mutate(x, UpSampled = TRUE)
   return(x)

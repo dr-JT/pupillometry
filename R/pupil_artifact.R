@@ -36,13 +36,9 @@
 #' @export
 #'
 
-pupil_artifact <- function(x, n = 16, plot = FALSE, plot_trial = "all"){
+pupil_artifact <- function(x, n = 16, plot = FALSE, plot_trial = "all") {
 
   x_before <- x
-
-  real_name <- ifelse("Pupil_Diameter.mm" %in% colnames(x),
-                      "Pupil_Diameter.mm", "Pupil_Diameter.px")
-  colnames(x)[which(colnames(x) == real_name)] <- "pupil_val"
 
   speed <- function(x, y) {
     diff <- diff(x) / diff(y)
@@ -51,16 +47,27 @@ pupil_artifact <- function(x, n = 16, plot = FALSE, plot_trial = "all"){
     pupil <- ifelse(pupil == -Inf, NA, pupil)
   }
 
-  x <- dplyr::mutate(x, pupil_speed = speed(pupil_val, Time))
-  x <- dplyr::mutate(x,
-                     median_speed = median(pupil_speed, na.rm = TRUE),
-                     MAD = median(abs(pupil_speed - median_speed), na.rm = TRUE),
-                     MAD_Threshold = median_speed + (n * MAD),
-                     pupil_val =
-                       ifelse(pupil_speed >= MAD_Threshold, NA, pupil_val))
-  x <- dplyr::select(x, -pupil_speed, -median_speed, -MAD, -MAD_Threshold)
+  mad_removal <- function(x, n) {
+    x <- dplyr::mutate(x, pupil_speed = speed(pupil_val, Time))
+    x <- dplyr::mutate(x,
+                       median_speed = median(pupil_speed, na.rm = TRUE),
+                       MAD = median(abs(pupil_speed - median_speed), na.rm = TRUE),
+                       MAD_Threshold = median_speed + (n * MAD),
+                       pupil_val =
+                         ifelse(pupil_speed >= MAD_Threshold, NA, pupil_val))
+    x <- dplyr::select(x, -pupil_speed, -median_speed, -MAD, -MAD_Threshold)
+  }
 
-  colnames(x)[which(colnames(x) == "pupil_val")] <- real_name
+  eyes <- eyes_detect(x)
+
+  for (eye in eyes) {
+    real_name <- eye
+    colnames(x)[which(colnames(x) == real_name)] <- "pupil_val"
+
+    x <- mad_removal(x, n)
+
+    colnames(x)[which(colnames(x) == "pupil_val")] <- real_name
+  }
 
   if (plot == TRUE) pupil_plot(x_before, x, trial = plot_trial,
                                sub_title = "pupil_artifact()")

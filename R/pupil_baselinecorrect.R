@@ -53,13 +53,7 @@ pupil_baselinecorrect <- function(x, bc_onset_message = "",
     baseline_duration <- pre.duration
   }
 
-  real_name <- ifelse("Pupil_Diameter.mm" %in% colnames(x),
-                      "Pupil_Diameter.mm", "Pupil_Diameter.px")
-  real_name_bc <- ifelse("Pupil_Diameter.mm" %in% colnames(x),
-                         "Pupil_Diameter_bc.mm", "Pupil_Diameter_bc.px")
-
-  colnames(x)[which(colnames(x) == real_name)] <- "pupil_val"
-
+  #### Setup baseline timing variables ####
   baselines.n <- length(bc_onset_message)
   x <- dplyr::group_by(x, Trial, Stimulus)
   x <- dplyr::mutate(x, onset.time = min(Time, na.rm = TRUE))
@@ -91,38 +85,55 @@ pupil_baselinecorrect <- function(x, bc_onset_message = "",
                                   Time < bconset.time, n, PreTarget),
                        Target = ifelse(Time >= bconset.time, n, Target))
   }
-  x <- dplyr::group_by(x, Trial, PreTarget)
-  x <- dplyr::mutate(x,
-                     PreTarget.median = median(pupil_val, na.rm = TRUE),
-                     PreTarget.median = ifelse(is.na(PreTarget) |
-                                                 PreTarget == 0,
-                                               NA, PreTarget.median))
-  x <- dplyr::group_by(x, Trial)
-  x <- dplyr::mutate(x,
-                     PreTarget.median =
-                       zoo::na.locf(PreTarget.median, na.rm = FALSE))
-  x <- dplyr::mutate(x,
-                     PreTarget.median =
-                       ifelse(PreTarget > Target, NA, PreTarget.median))
-  x <- dplyr::mutate(x,
-                     PreTarget.median =
-                       zoo::na.locf(PreTarget.median, na.rm = FALSE))
-  if (type == "subtractive") {
-    x <- dplyr::mutate(x, pupil_val_bc = pupil_val - PreTarget.median)
-  } else if (type == "divisive") {
+  x <- dplyr::select(x, -bconset.time, -min, -onset.time)
+  ########################################
+
+  #### Define baseline correction function ####
+  baseline_correct <- function(x, baseline_duration, type, pre.duration) {
+    x <- dplyr::group_by(x, Trial, PreTarget)
     x <- dplyr::mutate(x,
-                       pupil_val_bc = ((pupil_val - PreTarget.median) /
-                                         PreTarget.median) * 100)
+                       PreTarget.median = median(pupil_val, na.rm = TRUE),
+                       PreTarget.median = ifelse(is.na(PreTarget) |
+                                                   PreTarget == 0,
+                                                 NA, PreTarget.median))
+    x <- dplyr::group_by(x, Trial)
+    x <- dplyr::mutate(x,
+                       PreTarget.median =
+                         zoo::na.locf(PreTarget.median, na.rm = FALSE))
+    x <- dplyr::mutate(x,
+                       PreTarget.median =
+                         ifelse(PreTarget > Target, NA, PreTarget.median))
+    x <- dplyr::mutate(x,
+                       PreTarget.median =
+                         zoo::na.locf(PreTarget.median, na.rm = FALSE))
+    if (type == "subtractive") {
+      x <- dplyr::mutate(x, pupil_val_bc = pupil_val - PreTarget.median)
+    } else if (type == "divisive") {
+      x <- dplyr::mutate(x,
+                         pupil_val_bc = ((pupil_val - PreTarget.median) /
+                                           PreTarget.median) * 100)
+    }
+
+    x <- dplyr::ungroup(x)
+    x <- dplyr::select(x, -PreTarget.median)
+    x <- dplyr::relocate(x, pupil_val_bc, .after = pupil_val)
+  }
+  ############################################
+
+  eyes <- eyes_detect(x)
+
+  for (eye in eyes) {
+    real_name <- eye
+    colnames(x)[which(colnames(x) == real_name)] <- "pupil_val"
+
+    x <- baseline_correct(x, baseline_duration, type, pre.duration)
+
+    colnames(x)[which(colnames(x) == "pupil_val")] <- real_name
+    colnames(x)[which(colnames(x) == "pupil_val_bc")] <-
+      stringr::str_replace(real_name, "Diameter.", "Diameter_bc.")
   }
 
-  x <- dplyr::ungroup(x)
-  x <- dplyr::select(x, -PreTarget, -Target, -PreTarget.median,
-                     -bconset.time, -min, -onset.time)
-  x <- dplyr::relocate(x, pupil_val_bc, .after = pupil_val)
-
-  colnames(x)[which(colnames(x) == "pupil_val")] <- real_name
-  colnames(x)[which(colnames(x) == "pupil_val_bc")] <- real_name_bc
-
+  x <- dplyr::select(x, -PreTarget, -Target)
   return(x)
 }
 

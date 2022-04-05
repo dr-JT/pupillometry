@@ -25,14 +25,11 @@
 #' @export
 #'
 
-pupil_deblink <- function(x, extend = 0, plot = FALSE, plot_trial = "all"){
+pupil_deblink <- function(x, extend = 0, plot = FALSE, plot_trial = "all") {
 
   x_before <- x
 
-  real_name <- ifelse("Pupil_Diameter.mm" %in% colnames(x),
-                       "Pupil_Diameter.mm", "Pupil_Diameter.px")
-  colnames(x)[which(colnames(x) == real_name)] <- "pupil_val"
-
+  #### Define blink + extension samples ####
   x <- dplyr::mutate(x,
                      blink =
                        ifelse(!is.na(Eye_Event) & Eye_Event == "Blink", 1,
@@ -54,18 +51,29 @@ pupil_deblink <- function(x, extend = 0, plot = FALSE, plot_trial = "all"){
                                 Time <= blink.start, 1, blink),
                      blink = ifelse(!is.na(blink.end) &
                                       Time <= blink.end + extend &
-                                      Time >= blink.end, 1, blink),
-                     pupil_val = ifelse(pupil_val == 0 |
-                                          blink == 1,
-                                        NA, pupil_val))
+                                      Time >= blink.end, 1, blink))
 
-  x <- dplyr::select(x, -blink, -blink.lag, -blink.lead,
+  x <- dplyr::select(x, -blink.lag, -blink.lead,
                      -blink.start, -blink.end)
+  ##########################################
 
-  colnames(x)[which(colnames(x) == "pupil_val")] <- real_name
+  eyes <- eyes_detect(x)
+
+  for (eye in eyes) {
+    real_name <- eye
+    colnames(x)[which(colnames(x) == real_name)] <- "pupil_val"
+
+    x <- dplyr::mutate(x,
+                       pupil_val = ifelse(pupil_val == 0 |
+                                            blink == 1,
+                                          NA, pupil_val))
+
+    colnames(x)[which(colnames(x) == "pupil_val")] <- real_name
+  }
 
   if (plot == TRUE) pupil_plot(x_before, x, trial = plot_trial,
                                sub_title = "pupil_deblink()")
 
+  x <- dplyr::select(x, -blink)
   return(x)
 }

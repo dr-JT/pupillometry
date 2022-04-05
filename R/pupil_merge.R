@@ -16,7 +16,7 @@
 pupil_merge <- function(path = "", pattern = "", output_file = ""){
   filelist <- list.files(path = path, pattern = pattern, full.names = TRUE)
   import <- list()
-  for (i in seq_along(filelist)){
+  for (i in seq_along(filelist)) {
     import[[i]] <- readr::read_csv(filelist[[i]])
   }
   bound <- dplyr::bind_rows(import)

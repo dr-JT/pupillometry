@@ -229,8 +229,8 @@ pupil_read <- function(file, eyetracker = "", eye_use = NULL,
   subj.extract <- function(x, prefix, suffix){
     x <- stringr::str_split(x, "/")[[1]]
     x <- x[length(x)]
-    if (!is.null(prefix)){
-      if (!is.null(suffix)){
+    if (!is.null(prefix)) {
+      if (!is.null(suffix)) {
         pattern.prefix <- paste(prefix, "(?=\\d)", sep = "")
         pattern.suffix <- paste("(?<=\\d)", suffix, sep = "")
 
@@ -259,7 +259,7 @@ pupil_read <- function(file, eyetracker = "", eye_use = NULL,
   if (eyetracker == "smi") {
     ## Eye tracker is SMI ####
     if (!is.null(start_tracking_message)) {
-      if (start_tracking_message == "default"){
+      if (start_tracking_message == "default") {
         start_tracking_message <- "StartTracking.bmp"
       }
     }
@@ -270,7 +270,7 @@ pupil_read <- function(file, eyetracker = "", eye_use = NULL,
       head.distance <- as.numeric(strsplit(header$X1[24], "\t")[[1]][2])/10
       found <- NA
       checkrow <- 0
-      while (is.na(found)){
+      while (is.na(found)) {
         checkrow <- checkrow + 1
         found <- match("Time", strsplit(header[checkrow,][[1]], "\t")[[1]][1])
         datastart <- checkrow - 1
@@ -414,7 +414,7 @@ pupil_read <- function(file, eyetracker = "", eye_use = NULL,
   } else if (eyetracker == "eyelink") {
     ## Eye tracker is EyeLink ####
     if (!is.null(start_tracking_message)) {
-      if (start_tracking_message == "default"){
+      if (start_tracking_message == "default") {
         start_tracking_message <- "TRIALID"
       }
     }
@@ -704,13 +704,13 @@ pupil_read <- function(file, eyetracker = "", eye_use = NULL,
   ########################################
 
   ## Select eye ####
+  if (("L_Pupil_Diameter.mm" %in% colnames(data) &
+       "R_Pupil_Diameter.mm" %in% colnames(data)) |
+      ("L_Pupil_Diameter.px" %in% colnames(data) &
+       "R_Pupil_Diameter.px" %in% colnames(data))) {
+    data <- pupil_cor(data)
+  }
   if (!is.null(eye_use)) {
-    if (("L_Pupil_Diameter.mm" %in% colnames(data) &
-         "R_Pupil_Diameter.mm" %in% colnames(data)) |
-        ("L_Pupil_Diameter.px" %in% colnames(data) &
-         "R_Pupil_Diameter.px" %in% colnames(data))) {
-      data <- pupil_cor(data)
-    }
     data <- select_eye(data, eye_use = eye_use)
   }
   ##################
@@ -877,9 +877,18 @@ pupil_read <- function(file, eyetracker = "", eye_use = NULL,
   data <- dplyr::mutate(data, Time = round(Time))
   data <- dplyr::relocate(data, Trial, .before = "Time")
   if (!is.null(px_to_mm_conversion)) {
-    data <- dplyr::mutate(data,
-                          Pupil_Diameter.mm =
-                            Pupil_Diameter.px * px_to_mm_conversion)
+    if ("Pupil_Diameter.px" %in% colnames(data)) {
+      data <- dplyr::mutate(data,
+                            Pupil_Diameter.mm =
+                              Pupil_Diameter.px * px_to_mm_conversion)
+    }
+    if ("L_Pupil_Diameter.px" %in% colnames(data)) {
+      data <- dplyr::mutate(data,
+                            L_Pupil_Diameter.mm =
+                              L_Pupil_Diameter.px * px_to_mm_conversion,
+                            R_Pupil_Diameter.mm =
+                              R_Pupil_Diameter.px * px_to_mm_conversion)
+    }
   }
   #################################################
 
