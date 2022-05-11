@@ -41,8 +41,8 @@ pupil_deblink <- function(x, extend = 0, plot = FALSE, plot_trial = "all") {
     #### Define blink + extension samples ####
     x <- dplyr::mutate(x,
                        blink =
-                         ifelse(!is.na(get(eye_event)) & get(eye_event) == "Blink", 1,
-                                ifelse(is.na(get(pupil_val)), 1, 0)),
+                         ifelse(!is.na(eye_event) & eye_event == "Blink", 1,
+                                ifelse(is.na(pupil_val), 1, 0)),
                        blink.lag = dplyr::lag(blink),
                        blink.lead = dplyr::lead(blink),
                        blink.start = ifelse(blink == 1 &
