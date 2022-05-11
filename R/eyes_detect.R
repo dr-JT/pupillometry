@@ -18,7 +18,7 @@ eyes_detect <- function(x) {
   mm_conversion <- !identical(mm_conversion, character(0))
   eyes <- colnames(x)[which(stringr::str_detect(colnames(x), "_Diameter"))]
   if (mm_conversion == TRUE) {
-    eyes <- eyes[which(stringr::str_detect(eyes), ".mm")]
+    eyes <- eyes[which(stringr::str_detect(eyes, ".mm"))]
   }
 
   return(eyes)
