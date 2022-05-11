@@ -29,39 +29,39 @@ pupil_deblink <- function(x, extend = 0, plot = FALSE, plot_trial = "all") {
 
   x_before <- x
 
-  #### Define blink + extension samples ####
-  x <- dplyr::mutate(x,
-                     blink =
-                       ifelse(!is.na(Eye_Event) & Eye_Event == "Blink", 1,
-                              ifelse(is.na(pupil_val), 1, 0)),
-                     blink.lag = dplyr::lag(blink),
-                     blink.lead = dplyr::lead(blink),
-                     blink.start = ifelse(blink == 1 &
-                                            !is.na(blink.lag) &
-                                            blink.lag == 0, Time, NA),
-                     blink.start = zoo::na.locf(blink.start, na.rm = FALSE,
-                                                fromLast = TRUE),
-                     blink.end = ifelse(blink == 1 &
-                                          !is.na(blink.lead) &
-                                          blink.lead == 0, Time, NA),
-                     blink.end = zoo::na.locf(blink.end, na.rm = FALSE),
-                     blink =
-                       ifelse(!is.na(blink.start) &
-                                Time >= blink.start - extend &
-                                Time <= blink.start, 1, blink),
-                     blink = ifelse(!is.na(blink.end) &
-                                      Time <= blink.end + extend &
-                                      Time >= blink.end, 1, blink))
-
-  x <- dplyr::select(x, -blink.lag, -blink.lead,
-                     -blink.start, -blink.end)
-  ##########################################
-
   eyes <- eyes_detect(x)
 
   for (eye in eyes) {
     real_name <- eye
     colnames(x)[which(colnames(x) == real_name)] <- "pupil_val"
+
+    #### Define blink + extension samples ####
+    x <- dplyr::mutate(x,
+                       blink =
+                         ifelse(!is.na(Eye_Event) & Eye_Event == "Blink", 1,
+                                ifelse(is.na(pupil_val), 1, 0)),
+                       blink.lag = dplyr::lag(blink),
+                       blink.lead = dplyr::lead(blink),
+                       blink.start = ifelse(blink == 1 &
+                                              !is.na(blink.lag) &
+                                              blink.lag == 0, Time, NA),
+                       blink.start = zoo::na.locf(blink.start, na.rm = FALSE,
+                                                  fromLast = TRUE),
+                       blink.end = ifelse(blink == 1 &
+                                            !is.na(blink.lead) &
+                                            blink.lead == 0, Time, NA),
+                       blink.end = zoo::na.locf(blink.end, na.rm = FALSE),
+                       blink =
+                         ifelse(!is.na(blink.start) &
+                                  Time >= blink.start - extend &
+                                  Time <= blink.start, 1, blink),
+                       blink = ifelse(!is.na(blink.end) &
+                                        Time <= blink.end + extend &
+                                        Time >= blink.end, 1, blink))
+
+    x <- dplyr::select(x, -blink.lag, -blink.lead,
+                       -blink.start, -blink.end)
+    ##########################################
 
     x <- dplyr::mutate(x,
                        pupil_val = ifelse(pupil_val == 0 |
