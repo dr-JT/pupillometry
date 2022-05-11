@@ -766,13 +766,25 @@ pupil_read <- function(file, eyetracker = "", eye_use = NULL,
     check <- data
     check <- pupil_missing(check)
     check <- dplyr::select(check, Subject, Time, Trial,
-                           Pupil_Missing, starttracking.time)
+                           contains("Pupil_Missing"), starttracking.time)
     check <- dplyr::filter(check, Time == starttracking.time)
     check <- dplyr::group_by(check, Subject)
-    check <- dplyr::summarise(check,
-                              Trials = dplyr::n(),
-                              Pupil_Missing.mean =
-                                mean(Pupil_Missing, na.rm = TRUE))
+    if (("L_Pupil_Diameter.mm" %in% colnames(data) &
+         "R_Pupil_Diameter.mm" %in% colnames(data)) |
+        ("L_Pupil_Diameter.px" %in% colnames(data) &
+         "R_Pupil_Diameter.px" %in% colnames(data))) {
+      check <- dplyr::summarise(check,
+                                Trials = dplyr::n(),
+                                L_Pupil_Missing.mean =
+                                  mean(L_Pupil_Missing, na.rm = TRUE),
+                                R_Pupil_Missing.mean =
+                                  mean(R_Pupil_Missing, na.rm = TRUE))
+    } else {
+      check <- dplyr::summarise(check,
+                                Trials = dplyr::n(),
+                                Pupil_Missing.mean =
+                                  mean(Pupil_Missing, na.rm = TRUE))
+    }
     check <- dplyr::ungroup(check)
   } else {
     check <- data.frame()
