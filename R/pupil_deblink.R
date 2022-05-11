@@ -32,11 +32,12 @@ pupil_deblink <- function(x, extend = 0, plot = FALSE, plot_trial = "all") {
   eyes <- eyes_detect(x)
 
   for (eye in eyes) {
-    real_name <- eye
-    colnames(x)[which(colnames(x) == real_name)] <- "pupil_val"
-    eye_event <- dplyr::case_when(stringr::str_detect(real_name, "L_") ~ "L_Eye_Event",
+    real_eye_name <- eye
+    colnames(x)[which(colnames(x) == real_eye_name)] <- "pupil_val"
+    real_event_name <- dplyr::case_when(stringr::str_detect(real_name, "L_") ~ "L_Eye_Event",
                                   stringr::str_detect(real_name, "R_") ~ "R_Eye_Event",
                                   TRUE ~ "Eye_Event")
+    colnames(x)[which(colnames(x) == real_event_name)] <- "eye_event"
 
     #### Define blink + extension samples ####
     x <- dplyr::mutate(x,
@@ -71,7 +72,8 @@ pupil_deblink <- function(x, extend = 0, plot = FALSE, plot_trial = "all") {
                                             blink == 1,
                                           NA, pupil_val))
 
-    colnames(x)[which(colnames(x) == "pupil_val")] <- real_name
+    colnames(x)[which(colnames(x) == "pupil_val")] <- real_eye_name
+    colnames(x)[which(colnames(x) == "eye_event")] <- real_event_name
   }
 
   if (plot == TRUE) pupil_plot(x_before, x, trial = plot_trial,
