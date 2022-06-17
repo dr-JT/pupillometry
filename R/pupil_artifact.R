@@ -39,6 +39,7 @@
 pupil_artifact <- function(x, n = 16, plot = FALSE, plot_trial = "all") {
 
   x_before <- x
+  x <- dtplyr::lazy_dt(x)
 
   speed <- function(x, y) {
     diff <- diff(x) / diff(y)
@@ -71,6 +72,8 @@ pupil_artifact <- function(x, n = 16, plot = FALSE, plot_trial = "all") {
 
   if (plot == TRUE) pupil_plot(x_before, x, trial = plot_trial,
                                sub_title = "pupil_artifact()")
+
+  x <- dplyr::as_tibble(x)
 
   return(x)
 }

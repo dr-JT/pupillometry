@@ -53,7 +53,8 @@
 #' @param file A file path to the raw data.
 #' @param eyetracker Which eye tracker system was used to record data?
 #'     options: "smi", "eyelink", NULL.
-#' @param eye_use Which eye to use? options: "left" or "right".
+#' @param eye_use Which eye to use?
+#'     options: "left", "right" or NULL (default to keep both).
 #' @param subj_prefix The unique pattern prefix (letter(s)
 #'     and/or symbol(s)) that comes before the subject number in the data file.
 #'     Required for SMI, but likely not needed for other eye trackers.
