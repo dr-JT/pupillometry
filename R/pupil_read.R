@@ -748,12 +748,12 @@ pupil_read <- function(file, eyetracker = "", eye_use = NULL,
 
   ## Set Trial at start_tracking_message ####
   if (!is.null(start_tracking_message)) {
-    if (start_tracking_match == "exact"){
+    if (start_tracking_match == "exact") {
       data <- dplyr::mutate(data,
                             starttracking.time =
                               ifelse(Message == start_tracking_message,
                                      Time, NA))
-    } else if (start_tracking_match == "pattern"){
+    } else if (start_tracking_match == "pattern") {
       data <- dplyr::mutate(data,
                             starttracking.time =
                               ifelse(stringr::str_detect(
@@ -862,7 +862,7 @@ pupil_read <- function(file, eyetracker = "", eye_use = NULL,
   }
   ##########################################################
 
-  if(is.null(start_tracking_message)) {
+  if (is.null(start_tracking_message)) {
     if (!("Trial" %in% colnames(data))) {
       data <- dplyr::mutate(data, Trial = 1)
     }
@@ -883,7 +883,7 @@ pupil_read <- function(file, eyetracker = "", eye_use = NULL,
   data <- dplyr::select(data, everything(), tidyselect::any_of(include_col))
   data <- dplyr::select(data, -starttracking.time, -Message_Inserted)
 
-  if (!is.null(trial_exclude)){
+  if (!is.null(trial_exclude)) {
     data <- dplyr::filter(data, !(Trial %in% trial_exclude))
   }
   data <- dplyr::filter(data, !is.na(Trial))
