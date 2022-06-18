@@ -425,7 +425,7 @@ pupil_read <- function(file, eyetracker = "", eye_use = NULL,
     data <- readr::read_delim(file, "\t", escape_double = FALSE,
                               trim_ws = TRUE, na = ".", guess_max = 100000)
 
-    data <- dtplyr::lazy_dt(data)
+    #data <- dtplyr::lazy_dt(data)
 
     data <- dplyr::rename(data, Time = TIMESTAMP, Message = SAMPLE_MESSAGE)
     if ("HTARGET_DISTANCE" %in% colnames(data)) {
