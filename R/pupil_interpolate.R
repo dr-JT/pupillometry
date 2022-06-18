@@ -111,9 +111,7 @@ pupil_interpolate <- function(x, type = "cubic-spline",
                          pupil_val = zoo::na.spline(pupil_val,
                                                     na.rm = FALSE,
                                                     x = index,
-                                                    maxgap = maxgap),
-                         pupil_val = ifelse(Missing.Total > .9,
-                                            as.numeric(NA), pupil_val))
+                                                    maxgap = maxgap))
       x <- dplyr::select(x, -index, -Missing.Total)
     } else if (type == "linear") {
       x <- dplyr::mutate(x,
