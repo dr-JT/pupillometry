@@ -32,6 +32,9 @@
 set_timing <- function(x, onset_message = NULL, match = "exact",
                        trial_onset.message = NULL, pretrial.duration = 0,
                        trialonset.message = NULL, pre_trial.duration = NULL){
+
+  x <- dtplyr::lazy_dt(x)
+
   if (!is.null(trialonset.message)) {
     trial_onset.message <- trialonset.message
   }
@@ -53,11 +56,11 @@ set_timing <- function(x, onset_message = NULL, match = "exact",
     x <- dplyr::mutate(x, Time = Time - onset.time)
   } else if ("Message" %in% colnames(x)) {
     x <- dplyr::group_by(x, Trial)
-    if (match == "exact"){
+    if (match == "exact") {
       x <- dplyr::mutate(x,
                          onset.time = ifelse(Message == onset_message,
                                                   Time, NA))
-    } else if (match == "pattern"){
+    } else if (match == "pattern") {
       x <- dplyr::mutate(x,
                          onset.time =
                            ifelse(stringr::str_detect(Message, onset_message),
@@ -82,5 +85,6 @@ set_timing <- function(x, onset_message = NULL, match = "exact",
   x <- dplyr::distinct(x, Trial, Time, .keep_all = TRUE)
   x <- dplyr::filter(x, !is.na(Subject))
 
+  x <- dplyr::as_tibble(x)
   return(x)
 }

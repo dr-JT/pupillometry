@@ -74,6 +74,5 @@ pupil_artifact <- function(x, n = 16, plot = FALSE, plot_trial = "all") {
                                sub_title = "pupil_artifact()")
 
   x <- dplyr::as_tibble(x)
-
   return(x)
 }

@@ -285,6 +285,8 @@ pupil_read <- function(file, eyetracker = "", eye_use = NULL,
     names(data) <- gsub(" ", "_", gsub("\\[mm\\]", "mm",
                                        gsub("\\[px\\]", "px", names(data))))
 
+    data <- dtplyr::lazy_dt(data)
+
     if ("Time" %in% colnames(data)) {
       model <- "Red250m"
     } else {
@@ -422,6 +424,9 @@ pupil_read <- function(file, eyetracker = "", eye_use = NULL,
 
     data <- readr::read_delim(file, "\t", escape_double = FALSE,
                               trim_ws = TRUE, na = ".", guess_max = 100000)
+
+    data <- dtplyr::lazy_dt(data)
+
     data <- dplyr::rename(data, Time = TIMESTAMP, Message = SAMPLE_MESSAGE)
     if ("HTARGET_DISTANCE" %in% colnames(data)) {
       data <- dplyr::rename(data, Head_Distance.cm = HTARGET_DISTANCE)
@@ -530,6 +535,8 @@ pupil_read <- function(file, eyetracker = "", eye_use = NULL,
     } else if (delim == "," | delim == "csv") {
       data <- readr::read_csv(file, guess_max = 100000, na = na)
     }
+
+    data <- dtplyr::lazy_dt(data)
 
     data <- dplyr::select(data,
                           Subject = subject, Trial = trial, Time = time,
@@ -904,6 +911,6 @@ pupil_read <- function(file, eyetracker = "", eye_use = NULL,
     }
   }
   #################################################
-
+  data <- dplyr::as_tibble(data)
   return(data)
 }

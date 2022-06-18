@@ -46,6 +46,7 @@
 #'
 
 pupil_upsample <- function(x){
+  x <- dtplyr::lazy_dt(x)
   for (trial in unique(x$Trial)) {
     x_trial <- dplyr::filter(x, Trial == trial)
     time_up <- data.frame(Trial = trial,
@@ -71,5 +72,6 @@ pupil_upsample <- function(x){
                                          "R_Gaze_Position.y")),
                    .direction = "down")
   x <- dplyr::mutate(x, UpSampled = TRUE)
+  x <- dplyr::as_tibble(x)
   return(x)
 }

@@ -16,6 +16,8 @@
 
 pupil_bin <- function(x, bin_length = NULL){
 
+  x <- dtplyr::lazy_dt(x)
+
   bin <- function(x, bin_length) {
     x <- dplyr::group_by(x, Subject, Trial, add = TRUE)
     x <- dplyr::mutate(x,
@@ -40,5 +42,6 @@ pupil_bin <- function(x, bin_length = NULL){
     colnames(x)[which(colnames(x) == "pupil_val")] <- real_name
   }
 
+  x <- dplyr::as_tibble(x)
   return(x)
 }

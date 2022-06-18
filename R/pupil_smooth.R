@@ -84,6 +84,7 @@ pupil_smooth <- function(x, type = "hann", n = NULL,
                          plot = FALSE, plot_trial = "all",
                          window = NULL, hz = NULL){
   x_before <- x
+  x <- dtplyr::lazy_dt(x)
 
   if (!is.null(window)) {
     n <- round(window / (1000 / hz))
@@ -137,5 +138,6 @@ pupil_smooth <- function(x, type = "hann", n = NULL,
   if (plot == TRUE) pupil_plot(x_before, x, trial = plot_trial,
                                sub_title = "pupil_smooth()")
 
+  x <- dplyr::as_tibble(x)
   return(x)
 }
