@@ -140,8 +140,8 @@ pupil_smooth <- function(x, type = "hann", n = NULL,
 
   if (plot == TRUE) pupil_plot(x_before, x, trial = plot_trial,
                                sub_title =
-                                 paste("pupil_smooth(type = ", type,
-                                       ", n = ", n, ")",
+                                 paste("pupil_smooth(type = \"", type,
+                                       "\", n = ", n, ")",
                                        sep = ""))
 
   x <- dplyr::as_tibble(x)
