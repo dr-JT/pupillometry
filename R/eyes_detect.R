@@ -14,9 +14,11 @@
 
 eyes_detect <- function(x) {
 
-  mm_conversion <- colnames(x)[which(stringr::str_detect(colnames(x), ".mm"))]
+  x <- dtplyr::lazy_dt(x)
+
+  mm_conversion <- x[["vars"]][which(stringr::str_detect(x[["vars"]], ".mm"))]
   mm_conversion <- !identical(mm_conversion, character(0))
-  eyes <- colnames(x)[which(stringr::str_detect(colnames(x), "_Diameter"))]
+  eyes <- x[["vars"]][which(stringr::str_detect(x[["vars"]], "_Diameter"))]
   eyes <- eyes[which(!stringr::str_detect(eyes, "bc"))]
   if (mm_conversion == TRUE) {
     eyes <- eyes[which(stringr::str_detect(eyes, ".mm"))]

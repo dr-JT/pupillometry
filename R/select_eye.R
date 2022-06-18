@@ -21,19 +21,21 @@
 
 select_eye <- function(x, eye_use = ""){
 
-  l_pupil <- ifelse("L_Pupil_Diameter.mm" %in% colnames(x),
+  x <- dtplyr::lazy_dt(x)
+
+  l_pupil <- ifelse("L_Pupil_Diameter.mm" %in% x[["vars"]],
                     "L_Pupil_Diameter.mm", "L_Pupil_Diameter.px")
-  r_pupil <- ifelse("R_Pupil_Diameter.mm" %in% colnames(x),
+  r_pupil <- ifelse("R_Pupil_Diameter.mm" %in% x[["vars"]],
                     "R_Pupil_Diameter.mm", "R_Pupil_Diameter.px")
 
   if (eye_use == "left") {
-    colnames(x)[which(colnames(x) == l_pupil)] <- stringr::str_remove(l_pupil,
+    x[["vars"]][which(x[["vars"]] == l_pupil)] <- stringr::str_remove(l_pupil,
                                                                       "L_")
-    if ("L_Eye_Event" %in% colnames(x)) {
+    if ("L_Eye_Event" %in% x[["vars"]]) {
       x <- dplyr::rename(x,
                          Eye_Event = L_Eye_Event)
     }
-    if ("L_Gaze_Position.x" %in% colnames(x)) {
+    if ("L_Gaze_Position.x" %in% x[["vars"]]) {
       x <- dplyr::rename(x,
                          Gaze_Position.x = L_Gaze_Position.x,
                          Gaze_Position.y = L_Gaze_Position.y)
@@ -43,13 +45,13 @@ select_eye <- function(x, eye_use = ""){
                                              "R_Gaze_Position.y")),
                        -tidyselect::any_of("R_Eye_Event"))
   } else if (eye_use == "right") {
-    colnames(x)[which(colnames(x) == r_pupil)] <- stringr::str_remove(r_pupil,
+    x[["vars"]][which(x[["vars"]] == r_pupil)] <- stringr::str_remove(r_pupil,
                                                                       "R_")
-    if ("R_Eye_Event" %in% colnames(x)) {
+    if ("R_Eye_Event" %in% x[["vars"]]) {
       x <- dplyr::rename(x,
                          Eye_Event = R_Eye_Event)
     }
-    if ("R_Gaze_Position.x" %in% colnames(x)) {
+    if ("R_Gaze_Position.x" %in% x[["vars"]]) {
       x <- dplyr::rename(x,
                          Gaze_Position.x = R_Gaze_Position.x,
                          Gaze_Position.y = R_Gaze_Position.y)
@@ -59,5 +61,7 @@ select_eye <- function(x, eye_use = ""){
                                              "L_Gaze_Position.y")),
                        -tidyselect::any_of("L_Eye_Event"))
   }
+
+  x <- dplyr::as_tibble(x)
   return(x)
 }

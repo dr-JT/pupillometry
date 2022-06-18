@@ -723,6 +723,7 @@ pupil_read <- function(file, eyetracker = "", eye_use = NULL,
   if (!is.null(eye_use)) {
     data <- select_eye(data, eye_use = eye_use)
   }
+  data <- dtplyr::lazy_dt(data)
   ##################
 
   ## If timing file exists insert start message marker ####
@@ -760,12 +761,12 @@ pupil_read <- function(file, eyetracker = "", eye_use = NULL,
     if (start_tracking_match == "exact") {
       data <- dplyr::mutate(data,
                             starttracking.time =
-                              dplyr::if_else(Message == start_tracking_message,
+                              ifelse(Message == start_tracking_message,
                                      Time, NA))
     } else if (start_tracking_match == "pattern") {
       data <- dplyr::mutate(data,
                             starttracking.time =
-                              dplyr::if_else(stringr::str_detect(
+                              ifelse(stringr::str_detect(
                                 Message, start_tracking_message),
                                 Time, NA))
     }
@@ -775,6 +776,7 @@ pupil_read <- function(file, eyetracker = "", eye_use = NULL,
                           Trial = dplyr::dense_rank(starttracking.time))
     check <- data
     check <- pupil_missing(check)
+    check <- dtplyr::lazy_dt(check)
     check <- dplyr::select(check, Subject, Time, Trial,
                            contains("Pupil_Missing"), starttracking.time)
     check <- dplyr::filter(check, Time == starttracking.time)
@@ -796,6 +798,7 @@ pupil_read <- function(file, eyetracker = "", eye_use = NULL,
                                   mean(Pupil_Missing, na.rm = TRUE))
     }
     check <- dplyr::ungroup(check)
+    check <- dplyr::as_tibble(check)
   } else {
     check <- data.frame()
   }
