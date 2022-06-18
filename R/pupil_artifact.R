@@ -55,7 +55,8 @@ pupil_artifact <- function(x, n = 16, plot = FALSE, plot_trial = "all") {
                        MAD = median(abs(pupil_speed - median_speed), na.rm = TRUE),
                        MAD_Threshold = median_speed + (n * MAD),
                        pupil_val =
-                         ifelse(pupil_speed >= MAD_Threshold, NA, pupil_val))
+                         ifelse(pupil_speed >= MAD_Threshold,
+                                as.numeric(NA), pupil_val))
     x <- dplyr::select(x, -pupil_speed, -median_speed, -MAD, -MAD_Threshold)
   }
 
