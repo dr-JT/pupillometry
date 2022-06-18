@@ -228,6 +228,7 @@ pupil_read <- function(file, eyetracker = "", eye_use = NULL,
     start_tracking_match <- starttracking.match
   }
 
+  .datatable.aware <- TRUE
 
   subj.extract <- function(x, prefix, suffix){
     x <- stringr::str_split(x, "/")[[1]]
