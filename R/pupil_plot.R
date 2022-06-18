@@ -77,7 +77,8 @@ pupil_plot <- function(x, y, trial = "all", sub_title = "") {
                                          color = "After"),
                             stroke = .5, size = .7,
                             alpha = 1) +
-        ggplot2::ggtitle(paste("Trial: ", data_trial$Trial[1], sep = ""),
+        ggplot2::ggtitle(paste("Subject: ", data_trial$Subject[1],
+                               "Trial: ", data_trial$Trial[1], sep = ""),
                          subtitle = sub_title) +
         ggplot2::labs(y = "Pupil Size", x = "Time (ms)", color = "Legend") +
         ggplot2::scale_color_manual(values = colors) +
