@@ -40,7 +40,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">pupillometry</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.7.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.8.0</span>
       </span>
     </div>
 
@@ -56,7 +56,7 @@
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Articles
      
     <span class="caret"></span>
@@ -113,7 +113,7 @@
 
       
 
-      </header><script src="setup_pupil_files/header-attrs-2.8/header-attrs.js"></script><div class="row">
+      </header><script src="setup_pupil_files/header-attrs-2.14/header-attrs.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Import and Setup</h1>
@@ -126,75 +126,144 @@
 
     
     
-<p>Importing and setting up data for preprocessing involves two steps:</p>
+<p>Importing and setting up data for preprocessing involves two
+steps:</p>
 <ol style="list-style-type: decimal">
-<li><p><strong>Read</strong> in raw data file. <code><a href="../reference/pupil_read.html">pupil_read()</a></code></p></li>
-<li><p><strong>Set Time</strong> variable relative to stimulus onset. <code><a href="../reference/set_timing.html">set_timing()</a></code></p></li>
+<li><p><strong>Read</strong> in raw data file.
+<code><a href="../reference/pupil_read.html">pupil_read()</a></code></p></li>
+<li><p><strong>Set Time</strong> variable relative to stimulus onset.
+<code><a href="../reference/set_timing.html">set_timing()</a></code></p></li>
 </ol>
 <div id="read-in-raw-data-file" class="section level2">
 <h2 class="hasAnchor">
 <a href="#read-in-raw-data-file" class="anchor"></a>1. Read in raw data file</h2>
-<p>The first step is to get the data into R and format it in a way that makes working with the data easier.</p>
-<p>The format and organization of your raw eye tracker data file will depend on the type of eye tracker used. Because of this, there are a lot of potential arguments that need to be specified in order to get the data properly imported with <code><a href="../reference/pupil_read.html">pupil_read()</a></code>.</p>
-<p>Even though importing a data file sounds easy, this can actually become one of the more challenging steps if you do not understand how your eye tracker data files was created. You should take some time to consider:</p>
+<p>The first step is to get the data into R and format it in a way that
+makes working with the data easier.</p>
+<p>The format and organization of your raw eye tracker data file will
+depend on the type of eye tracker used. Because of this, there are a lot
+of potential arguments that need to be specified in order to get the
+data properly imported with <code><a href="../reference/pupil_read.html">pupil_read()</a></code>.</p>
+<p>Even though importing a data file sounds easy, this can actually
+become one of the more challenging steps if you do not understand how
+your eye tracker data files was created. You should take some time to
+consider:</p>
 <ul>
 <li><p>What eye tracker was used to collect the data</p></li>
 <li><p>Which eye(s) data were collected from</p></li>
 <li>
-<p>What event messages from the experimental software are in the eye tracker data</p>
+<p>What event messages from the experimental software are in the eye
+tracker data</p>
 <ul>
-<li><p>Your eye tracker data file most likely has message strings corresponding to the onset of critical events in the experiment, such as trial onset or stimulus onset. You need to know what those message strings are, in order to set the timing variable relative to the onset of one of those events and also for doing baseline correction later on.</p></li>
-<li><p>onset_message: This argument in <code>set_timin()</code></p></li>
+<li><p>Your eye tracker data file most likely has message strings
+corresponding to the onset of critical events in the experiment, such as
+trial onset or stimulus onset. You need to know what those message
+strings are, in order to set the timing variable relative to the onset
+of one of those events and also for doing baseline correction later
+on.</p></li>
+<li><p>onset_message: This argument in
+<code><a href="../reference/set_timing.html">set_timing()</a></code></p></li>
 </ul>
 </li>
 </ul>
-<p>Currently, <code><a href="../reference/pupil_read.html">pupil_read()</a></code> supports these eye trackers for easy importing:</p>
+<p>Currently, <code><a href="../reference/pupil_read.html">pupil_read()</a></code> supports these eye trackers for
+easy importing:</p>
 <ul>
 <li>
-<p>SensoMotoric Instruments (SMI) eyetrackers: <code>eyetracker = "smi"</code></p>
+<p>SensoMotoric Instruments (SMI) eyetrackers:
+<code>eyetracker = "smi"</code></p>
 <ul>
 <li><p>RED250m</p></li>
 <li><p>Eye glasses</p></li>
 </ul>
 </li>
-<li><p>SR Research EyeLink100 eyetrackers: <code>eyetracker = "eyelink"</code></p></li>
+<li><p>SR Research EyeLink100 eyetrackers:
+<code>eyetracker = "eyelink"</code></p></li>
+<li>
+<p>Any eye tracker data file: <code>eyetracker = ""</code></p>
+<ul>
+<li>Need to specify column names. See <code><a href="../reference/pupil_read.html">pupil_read()</a></code>
+</li>
+</ul>
+</li>
 </ul>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">data_pupil</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/pupil_read.html">pupil_read</a></span><span class="op">(</span><span class="st">"folder/file.csv"</span>, eyetracker <span class="op">=</span> <span class="st">"smi"</span><span class="op">)</span>
 <span class="va">data_pupil</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/pupil_read.html">pupil_read</a></span><span class="op">(</span><span class="st">"folder/file.csv"</span>, eyetracker <span class="op">=</span> <span class="st">"eyelink"</span><span class="op">)</span></code></pre></div>
-<p>See <code><a href="../reference/pupil_read.html">pupil_read()</a></code> for details on importing data files from other eye trackers.</p>
 <div id="eye_use" class="section level4">
 <h4 class="hasAnchor">
 <a href="#eye_use" class="anchor"></a>eye_use</h4>
-<p>If your data file contains eye tracker data for both eyes, then you need to specify which eye to use for preprocessing and analysis. This will first correlate the values between the two eyes to give you a value to report in your publication, and then remove the data for the eye that you do not want to use.</p>
+<p>By default, this parameter is set to <code>eye_use = NULL</code>. If
+you recorded from only one eye or want to keep and preprocess data from
+both eyes then you do not need to bother with this parameter.</p>
+<p>However, if you recorded pupil data from both eyes BUT only want to
+keep and preprocess data from one eye then you need to specify
+<code>eye_use = "left"</code> or <code>eye_use = "right"</code>.</p>
+<p>If you recorded pupil data from both eyes, no matter how you specify
+this argument a column will be created that contains the correlation
+value between left and right eyes that you can use to report in
+publications.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">data_pupil</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/pupil_read.html">pupil_read</a></span><span class="op">(</span><span class="st">"folder/file.csv"</span>, eyetracker <span class="op">=</span> <span class="st">"eyelink"</span>,
                          eye_use <span class="op">=</span> <span class="st">"left"</span><span class="op">)</span></code></pre></div>
-<p>If your data file contain eye tracker data for only one eye, you can skip this argument.</p>
 </div>
 <div id="start_tracking_message" class="section level4">
 <h4 class="hasAnchor">
 <a href="#start_tracking_message" class="anchor"></a>start_tracking_message</h4>
-<p>This argument in <code><a href="../reference/pupil_read.html">pupil_read()</a></code> should correspond to the message string that marks the onset of a trial. In most eye tracker APIs, you need to include a <strong>start tracking</strong> object at the beginning of every trial in the experimental software. This object by default will send a message string to the eye tracker data file. If you are using one of the supported eye trackers <strong>and</strong> did not change the default message string of the <strong>start tracking</strong> object, then you can skip this argument.</p>
-<p>Alternatively, if you have a pre-trial fixation at the start of every trial you can use that message string for this argument (e.g., <code>start_tracking_message = "Fixation"</code>). You want to make sure you use a message that occurs before the onset of the critical stimulus (otherwise you will end up removing pre-stimulus / pre-trial baseline data).</p>
-<p>Sometimes, experimenters will include a variable (e.g., trial number) in their message strings (e.g., “Fixation TrialID 1”). It is generally advised not to do this, but if your data was created in such a way you will need to specify that the string match be a <strong>pattern</strong> match instead of an <strong>exact</strong> match. For example:</p>
+<p>This argument in <code><a href="../reference/pupil_read.html">pupil_read()</a></code> should correspond to the
+message string that marks the onset of a trial. In most eye tracker
+APIs, you need to include a <strong>start tracking</strong> object at
+the beginning of every trial in the experimental software. This object
+by default will send a message string to the eye tracker data file. If
+you are using one of the supported eye trackers <strong>and</strong> did
+not change the default message string of the <strong>start
+tracking</strong> object, then you can skip this argument.</p>
+<p>Alternatively, if you have a pre-trial fixation at the start of every
+trial you can use that message string for this argument (e.g.,
+<code>start_tracking_message = "Fixation"</code>). You want to make sure
+you use a message that occurs before the onset of the critical stimulus
+(otherwise you will end up removing pre-stimulus / pre-trial baseline
+data).</p>
+<p>Sometimes, experimenters will include a variable (e.g., trial number)
+in their message strings (e.g., “Fixation TrialID 1”). It is generally
+advised not to do this, but if your data was created in such a way you
+will need to specify that the string match be a <strong>pattern</strong>
+match instead of an <strong>exact</strong> match. For example:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">data_pupil</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/pupil_read.html">pupil_read</a></span><span class="op">(</span><span class="st">"folder/file.csv"</span>, eyetracker <span class="op">=</span> <span class="st">"eyelink"</span>,
                          start_tracking_message <span class="op">=</span> <span class="st">"Fixation"</span>,
                          start_tracking_match <span class="op">=</span> <span class="st">"pattern"</span><span class="op">)</span></code></pre></div>
-<p>This will search for any message strings that contain the sequence of letters “Fixation”.</p>
-<p>Those are the main arguments you will need to specify when importing the data. However, there are additional arguments you may need or can make importing the data more convenient. See <a href="https://dr-jt.github.io/pupillometry/articles/import_pupil.html">Import Options</a> for more details on other arguments you may need to specify to properly import the data file.</p>
+<p>This will search for any message strings that contain the sequence of
+letters “Fixation”.</p>
+<p>Those are the main arguments you will need to specify when importing
+the data. However, there are additional arguments you may need or can
+make importing the data more convenient. See <a href="https://dr-jt.github.io/pupillometry/articles/import_pupil.html">Import
+Options</a> for more details on other arguments you may need to specify
+to properly import the data file.</p>
 </div>
 </div>
 <div id="set-the-time-variable-relative-to-stimulus-onset" class="section level2">
 <h2 class="hasAnchor">
 <a href="#set-the-time-variable-relative-to-stimulus-onset" class="anchor"></a>2. Set the time variable relative to stimulus onset</h2>
-<p>The values in the <strong>Time</strong> column are not usually meaningful in the context of your experiment. Instead, what you are really interested in is the time <strong>relative</strong> to the onset of some critical stimulus in your experiment. You can easily set the <strong>Time</strong> column to be relative to the onset of a stimulus with the <code><a href="../reference/set_timing.html">set_timing()</a></code> function.</p>
-<p>You may also need to specify that the message string in onset_message is a “pattern” match instead of an “exact” match.</p>
-<p>For example, if you have a message string in your data that corresponds to the onset of a critical stimulus labelled as “Stimulus_Onset” you can use:</p>
+<p>The values in the <strong>Time</strong> column are not usually
+meaningful in the context of your experiment. Instead, what you are
+really interested in is the time <strong>relative</strong> to the onset
+of some critical stimulus in your experiment. You can easily set the
+<strong>Time</strong> column to be relative to the onset of a stimulus
+with the <code><a href="../reference/set_timing.html">set_timing()</a></code> function.</p>
+<p>The <code>onset_message =</code> should be a message string that
+occurs on EVERY trial.</p>
+<p>You may also need to specify that the message string in onset_message
+is a “pattern” match instead of an “exact” match.</p>
+<p>For example, if you have a message string in your data that
+corresponds to the onset of a critical stimulus labelled as
+“Stimulus_Onset” you can use:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/set_timing.html">set_timing</a></span><span class="op">(</span>onset_message <span class="op">=</span> <span class="st">"Stimulus_Onset"</span>, match <span class="op">=</span> <span class="st">"exact"</span><span class="op">)</span></code></pre></div>
-<p>What this will do is set Time = 0 at “Stimulus_Onset”, negative time values (e.g., Time = -10) for values between the <code>start_tracking_message</code> (e.g., “Fixation”) and “Stimulus_Onset”, and positive values (e.g., Time = 100) after “Stimulus_Onset”. It will do this for each Trial in the data file.</p>
+<p>What this will do is set Time = 0 at “Stimulus_Onset”, negative time
+values (e.g., Time = -10) for values between the
+<code>start_tracking_message</code> (e.g., “Fixation”) and
+“Stimulus_Onset”, and positive values (e.g., Time = 100) after
+“Stimulus_Onset”. It will do this for each Trial in the data file.</p>
 </div>
   </div>
 

@@ -24,7 +24,7 @@ The recommended preprocessing steps and their order of operation varies among re
     
     - **Artifiact** rejection. `pupil_artifact()`
     
-    - **Remove** trials with large amounts of missing data. `pupil_missing()`
+    - **Evaluate** and/or **Remove** trials with large amounts of missing data. `pupil_missing()`
     
 3. Preprocess pupil data
 
@@ -36,15 +36,7 @@ The recommended preprocessing steps and their order of operation varies among re
     
     - **Baseline Correct** pupil data. `pupil_baselinecorrect()`
     
-4. Remove unlikely pupil values
-    
-    - **Artifact** rejection. `pupil_artifact()`
-    
-    - **Remove** trials with still too much missing data. `pupil_missing()`
-
-5. Reduce Data
-
-    - **Bin** pupil data (down-sample) into time bins. `pupil_bin()`
+    - **Evaluate** the amount of missing data per trial `pupil_missing()`
 
 These function will perform preprocessing on one data file at a time. You will need to perform preprocessing on an entire list of data files contained in a folder somewhere. The easiest way to implement this is to wrap these functions in a **for loop** around each of the files in the folder with the raw data files.
 
@@ -54,7 +46,6 @@ You can copy and paste this code and edit it as needed for your data
 library(pupillometry)
 library(here)
 library(dplyr)
-library(readr)
 
 import_dir <- "folder/subfolder"
 output_dir <- "folder/another_subfolder"
@@ -63,23 +54,21 @@ files_list <- list.files(here(import_dir),
                          pattern = ".txt", full.names = TRUE)
 
 for (file in files_list) {
-    data_pupil <- pupil_read(file, eyetracker = "smi", eye_use = "left",
+    data_pupil <- pupil_read(file, eyetracker = "eyelink", eye_use = "left",
                              subj_prefix = "flanker", subj_suffix = "a",
                              include_col = c("RT", "accuracy", "condition"),
-                             start_tracking_message = "Fixation",
                              quality_check_dir = here(output_dir)) %>%
         set_timing(onset_message = "Stimulus_Onset") %>%
-        pupil_deblink(extend = 100) %>%
+        pupil_deblink(extend = 75) %>%
         pupil_artifact(n = 16) %>%
-        pupil_missing(missing_allowed = .75) %>%
+        pupil_missing(missing_allowed = .90) %>%
         pupil_upsample() %>%
-        pupil_smooth(type = "mwa", n = 100) %>%
+        pupil_smooth(type = "mwa", n = 51) %>%
         pupil_interpolate(type = "linear", maxgap = 750, hz = 1000) %>%
         pupil_baselinecorrect(bc_onset_message = "Stimulus_Onset",
-                              baseline_duration = 200) %>%
-        pupil_artifact(n = 16) %>%
-        pupil_missing(missing_allowed = .25) %>%
-        pupil_bin(bin_length = 20)
+                              baseline_duration = 200,
+                              type = "subtractive") %>%
+        pupil_missing()
     
     subj <- data_pupil$Subject[1]
     output_file <- paste("Flanker_PupilData_", subj, 

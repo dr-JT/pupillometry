@@ -6,11 +6,25 @@ title: "Preprocessing Options"
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-Besides baseline correction, the two main preprocessing methods the pupillometry package offers are interpolation and smoothing (also referred to as filtering). 
+Besides baseline correction, the two main preprocessing methods the pupillometry package offers are smoothing (also referred to as filtering) and interpolation. 
+
+Smoothing is a method that attempts to reduce noise in a time-series signal by reducing high frequency changes (sudden increase or decrease in values). In pupillometry research, the two commonly used methods smoothing are **moving window average** and **hanning**. Both are very similar and essentially filters out high frequency patterns in the data - thus they are often referred to as low-pass or low frequency filters.
 
 Interpolation is a method to replace missing values in a time-series. There are various ways one can go about replacing missing values. In pupillometry research, two commonly used methods for interpolation are **linear interpolation** and **cubic-spline** interpolation.
 
-Smoothing is a method that attempts to reduce noise in a time-series signal by reducing high frequency changes (sudden increase or decrease in values). In pupillometry research, the two commonly used methods smoothing are **moving window average** and **hanning**. Both are very similar and essentially filters out high frequency patterns in the data - thus they are often referred to as low-pass or low frequency filters.
+## Smoothing
+
+`pupil_smooth(type = c("hann", "mwa"), n = "")`
+
+* __type__: What type of smoothing to use? (default: "hann")
+
+    There are two smoothing types available, `"hann"` and `"mwa"`. 
+    
+    `"hann"` is a low-frequency hanning filter that retains the low frequency information. It is applied using `hanning(n = n)` from the [dplR package](https://www.rdocumentation.org/packages/dplR/versions/1.6.8/topics/hanning)
+    
+    `"mwa"` is a simple moving window average. It is applied using `rollapply(width = n)` from the [zoo package](https://www.rdocumentation.org/packages/zoo/versions/1.7-13/topics/rollapply)
+    
+* __n__: The size (in pupil samples) of the smoothing window
 
 ## Interpolation
 
@@ -36,17 +50,4 @@ Smoothing is a method that attempts to reduce noise in a time-series signal by r
 
    If maxgap is specified, then you need to also specify the recording frequency of the eyetracker. This will be used to convert the maxgap in milliseconds to number of samples (rows) in the dataframe. 
 
-## Smoothing
-
-`pupil_smooth(type = c("hann", "mwa"), n = "")`
-
-* __type__: What type of smoothing to use? (default: "hann")
-
-    There are two smoothing types available, `"hann"` and `"mwa"`. 
-    
-    `"hann"` is a low-frequency hanning filter that retains the low frequency information. It is applied using `hanning(n = n)` from the [dplR package](https://www.rdocumentation.org/packages/dplR/versions/1.6.8/topics/hanning)
-    
-    `"mwa"` is a simple moving window average. It is applied using `rollapply(width = n)` from the [zoo package](https://www.rdocumentation.org/packages/zoo/versions/1.7-13/topics/rollapply)
-    
-* __n__: The size (in pupil samples) of the smoothing window
 

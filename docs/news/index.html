@@ -85,7 +85,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">pupillometry</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.7.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.8.0</span>
       </span>
     </div>
 
@@ -101,7 +101,7 @@
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Articles
      
     <span class="caret"></span>
@@ -165,16 +165,48 @@
       <small>Source: <a href='https://github.com/dr-JT/pupillometry/blob/master/NEWS.md'><code>NEWS.md</code></a></small>
     </div>
 
+    <div id="pupillometry-080" class="section level1">
+<h1 class="page-header" data-toc-text="0.8.0">
+<a href="#pupillometry-080" class="anchor"></a>pupillometry 0.8.0</h1>
+<p>Updated: 06/18/2022</p>
+<ul>
+<li><p>Major release update</p></li>
+<li><p><strong>Speed improvement!</strong>: Converted the functions to
+use <code>dtplyr</code> (a <code>dplyr</code> translation for using and
+taking advantage of <code>data.table</code> which can handle larger data
+at much faster speeds). This should result in major improvements in
+speed. There was also an issue before where if a trial had large amounts
+of missing data the functions (namely <code>pupil_artifact</code>) would
+get stuck and never finish processing and a reboot of R was required.
+This seems to take care of that issue too.</p></li>
+<li><p>Added the option to keep and preprocess data from both the left
+and right eyes. Averaging of the pupil data from each eye can be down
+after preprocessing. <code><a href="../reference/pupil_read.html">pupil_read(eye_use = NULL)</a></code> is now
+default and will preserve pupil data from both eyes. If you have only
+data from the left or right eye, using the default (<code>NULL</code>)
+will work so no need to specify the recorded from eye.</p></li>
+</ul>
+</div>
     <div id="pupillometry-070" class="section level1">
 <h1 class="page-header" data-toc-text="0.7.0">
 <a href="#pupillometry-070" class="anchor"></a>pupillometry 0.7.0</h1>
+<p><a href="https://doi.org/10.5281/zenodo.6216399"><img src="https://zenodo.org/badge/DOI/10.5281/zenodo.6216399.svg" alt="DOI"></a></p>
+<blockquote>
+<p>Tsukahara, J.S. (2022). pupillometry: An R package to preprocess
+pupil data (v0.7.0). <a href="http://doi.org/10.5281/zenodo.6216399" class="uri">http://doi.org/10.5281/zenodo.6216399</a></p>
+</blockquote>
 <p>Updated: 02/22/2022</p>
 <ul>
 <li><p>Major release update</p></li>
-<li><p>Added a function, <code><a href="../reference/pupil_artifact.html">pupil_artifact()</a></code>, to remove unlikely pupil values (artifact removal) based on the median absolute deviation suggested by Geller et al. (2020) and Kret and Sjak-Shie (2019)</p></li>
-<li><p>Added a function, <code><a href="../reference/pupil_upsample.html">pupil_upsample()</a></code>, to up-sample the data to 1000Hz based on Kret and Sjak-Shie (2019)</p></li>
+<li><p>Added a function, <code><a href="../reference/pupil_artifact.html">pupil_artifact()</a></code>, to remove
+unlikely pupil values (artifact removal) based on the median absolute
+deviation suggested by Geller et al. (2020) and Kret and Sjak-Shie
+(2019)</p></li>
+<li><p>Added a function, <code><a href="../reference/pupil_upsample.html">pupil_upsample()</a></code>, to up-sample the
+data to 1000Hz based on Kret and Sjak-Shie (2019)</p></li>
 <li>
-<p>Added plot argument options to plot the data before and after:</p>
+<p>Added plot argument options to plot the data before and
+after:</p>
 <ul>
 <li><p><code><a href="../reference/pupil_deblink.html">pupil_deblink(plot = TRUE, plot_trial = c(1,2,3))</a></code></p></li>
 <li><p><code><a href="../reference/pupil_artifact.html">pupil_artifact(plot = TRUE, plot_trial = c(1,2,3))</a></code></p></li>
@@ -183,13 +215,20 @@
 </ul>
 </li>
 <li><p>Streamlined <code><a href="../reference/pupil_read.html">pupil_read()</a></code></p></li>
-<li><p>Removed the GUI option, <code>pupil_gui()</code> (it might come back in a future update)</p></li>
-<li><p><code><a href="../reference/pupil_preprocess.html">pupil_preprocess()</a></code> is still there but is not recommended to use</p></li>
-<li><p>Renamed some arguments and functions to be more consistent and simple</p></li>
+<li><p>Removed the GUI option, <code>pupil_gui()</code> (it might come
+back in a future update)</p></li>
+<li><p><code><a href="../reference/pupil_preprocess.html">pupil_preprocess()</a></code> is still there but is not
+recommended to use</p></li>
+<li><p>Renamed some arguments and functions to be more consistent and
+simple</p></li>
 </ul>
 <p>References:</p>
-<p>Geller, J., Winn, M. B., Mahr, T., &amp; Mirman, D. (2020). GazeR: A Package for Processing Gaze Position and Pupil Size Data. Behavior Research Methods, 52(5), 2232–2255. <a href="https://doi.org/10.3758/s13428-020-01374-8" class="uri">https://doi.org/10.3758/s13428-020-01374-8</a></p>
-<p>Kret, M. E., &amp; Sjak-Shie, E. E. (2019). Preprocessing pupil size data: Guidelines and code. Behavior Research Methods, 51(3), 1336–1342. <a href="https://doi.org/10.3758/s13428-018-1075-y" class="uri">https://doi.org/10.3758/s13428-018-1075-y</a></p>
+<p>Geller, J., Winn, M. B., Mahr, T., &amp; Mirman, D. (2020). GazeR: A
+Package for Processing Gaze Position and Pupil Size Data. Behavior
+Research Methods, 52(5), 2232–2255. <a href="https://doi.org/10.3758/s13428-020-01374-8" class="uri">https://doi.org/10.3758/s13428-020-01374-8</a></p>
+<p>Kret, M. E., &amp; Sjak-Shie, E. E. (2019). Preprocessing pupil size
+data: Guidelines and code. Behavior Research Methods, 51(3), 1336–1342.
+<a href="https://doi.org/10.3758/s13428-018-1075-y" class="uri">https://doi.org/10.3758/s13428-018-1075-y</a></p>
 </div>
     <div id="pupillometry-060" class="section level1">
 <h1 class="page-header" data-toc-text="0.6.0">
@@ -198,23 +237,35 @@
 <ul>
 <li>
 <p>Added support for any eye tracker data file.</p>
-<p>Leave the <code>eyetracker</code> argument at the default value <code>""</code></p>
-<p>You need to specify which column names go to which variable (e.g., GazePoint systems <code>left_pupil.mm = "LPMM"</code>). See <code><a href="../reference/pupil_read.html">pupil_read()</a></code></p>
+<p>Leave the <code>eyetracker</code> argument at the default value
+<code>""</code></p>
+<p>You need to specify which column names go to which variable (e.g.,
+GazePoint systems <code>left_pupil.mm = "LPMM"</code>). See
+<code><a href="../reference/pupil_read.html">pupil_read()</a></code></p>
 </li>
 </ul>
 </div>
     <div id="pupillometry-050" class="section level1">
 <h1 class="page-header" data-toc-text="0.5.0">
 <a href="#pupillometry-050" class="anchor"></a>pupillometry 0.5.0</h1>
+<p><a href="https://doi.org/10.5281/zenodo.4464854"><img src="https://zenodo.org/badge/DOI/10.5281/zenodo.4464854.svg" alt="DOI"></a></p>
+<blockquote>
+<p>Tsukahara, J.S. (2022). pupillometry: An R package to preprocess
+pupil data (v0.5.0). <a href="http://doi.org/10.5281/zenodo.4464854" class="uri">http://doi.org/10.5281/zenodo.4464854</a></p>
+</blockquote>
 <p>Updated: 05/24/2020</p>
 <ul>
 <li><p>Added a GUI for <code><a href="../reference/pupil_preprocess.html">pupil_preprocess()</a></code>!</p></li>
 <li><p>Updated support for SR-Research EyeLink 1000 eye tracker</p></li>
-<li><p>Renamed some of the parameters (old parameter names may not work)</p></li>
+<li><p>Renamed some of the parameters (old parameter names may not
+work)</p></li>
 <li>
-<p>Added a quality check in <code><a href="../reference/pupil_read.html">pupil_read()</a></code> to make sure trials were set correctly</p>
-<p>A file “quality_check.csv” will be saved to the <code>output_dir</code> with the number of trials in each data file.</p>
-<p>At the end of <code><a href="../reference/pupil_preprocess.html">pupil_preprocess()</a></code> the quality check will be printed to the console.</p>
+<p>Added a quality check in <code><a href="../reference/pupil_read.html">pupil_read()</a></code> to make sure
+trials were set correctly</p>
+<p>A file “quality_check.csv” will be saved to the
+<code>output_dir</code> with the number of trials in each data file.</p>
+<p>At the end of <code><a href="../reference/pupil_preprocess.html">pupil_preprocess()</a></code> the quality check will
+be printed to the console.</p>
 <p>Future updates will include other quality checks and logs.</p>
 </li>
 <li><p>Added <code>tidyselect</code> as a dependency</p></li>
@@ -225,9 +276,13 @@
 <a href="#pupillometry-041" class="anchor"></a>pupillometry 0.4.1</h1>
 <p>Updated: 10/21/2019</p>
 <ul>
-<li><p>Full support for SR-Research EyeLink 1000 eyetracker <code>eyetracker = "eyelink"</code></p></li>
-<li><p>Added parameter to include conversion factor of pupil data in pixels (px) to pupil data in millimeters (mm) <code>px_to_mm.conversion</code></p></li>
-<li><p>Renamed some of the parameters (old parameter names still work)</p></li>
+<li><p>Full support for SR-Research EyeLink 1000 eyetracker
+<code>eyetracker = "eyelink"</code></p></li>
+<li><p>Added parameter to include conversion factor of pupil data in
+pixels (px) to pupil data in millimeters (mm)
+<code>px_to_mm.conversion</code></p></li>
+<li><p>Renamed some of the parameters (old parameter names still
+work)</p></li>
 </ul>
 </div>
     <div id="pupillometry-040" class="section level1">
@@ -235,9 +290,12 @@
 <a href="#pupillometry-040" class="anchor"></a>pupillometry 0.4.0</h1>
 <p>Updated: 09/30/2019</p>
 <ul>
-<li><p>Added the functionality to supply a timing file in order to insert <strong>Message Markers</strong> in the data. See <a href="https://dr-jt.github.io/pupillometry/articles/Example%20Data%20Set%20without%20Message%20Markers.html">Example Data - Without Message Markers</a></p></li>
+<li><p>Added the functionality to supply a timing file in order to
+insert <strong>Message Markers</strong> in the data. See <a href="https://dr-jt.github.io/pupillometry/articles/Example%20Data%20Set%20without%20Message%20Markers.html">Example
+Data - Without Message Markers</a></p></li>
 <li><p>Added support for SMI Eyeglasses</p></li>
-<li><p>Changed argument <code>startrecording.message</code> to <code>starttracking.message</code></p></li>
+<li><p>Changed argument <code>startrecording.message</code> to
+<code>starttracking.message</code></p></li>
 <li><p>Created better documentation</p></li>
 </ul>
 </div>
@@ -247,13 +305,22 @@
 <p>Updated: 05/15/2019</p>
 <ul>
 <li><p>Added <code><a href="../reference/pupil_merge.html">pupil_merge()</a></code></p></li>
-<li><p>Added parameter to <code><a href="../reference/pupil_preprocess.html">pupil_preprocess(files.merge = TRUE)</a></code> to create a single merged output file.</p></li>
-<li><p>Added <code><a href="../reference/pupil_deblink.html">pupil_deblink()</a></code> with the parameter option <code>extend</code></p></li>
-<li><p>Added option to not save data file at each step of preprocessing with paramter argument <code><a href="../reference/pupil_preprocess.html">pupil_preprocess(output.steps = FALSE)</a></code>.</p></li>
-<li><p>Reduced the number of parameters in <code><a href="../reference/pupil_preprocess.html">pupil_preprocess()</a></code></p></li>
-<li><p>Changed <code>preprocess()</code> to <code><a href="../reference/pupil_preprocess.html">pupil_preprocess()</a></code></p></li>
-<li><p>Changed <code>tidy_eyetracker()</code> to <code><a href="../reference/pupil_read.html">pupil_read()</a></code></p></li>
-<li><p>Changed <code>pupil_eye()</code> to <code><a href="../reference/select_eye.html">select_eye()</a></code></p></li>
+<li><p>Added parameter to
+<code><a href="../reference/pupil_preprocess.html">pupil_preprocess(files.merge = TRUE)</a></code> to create a single
+merged output file.</p></li>
+<li><p>Added <code><a href="../reference/pupil_deblink.html">pupil_deblink()</a></code> with the parameter option
+<code>extend</code></p></li>
+<li><p>Added option to not save data file at each step of preprocessing
+with paramter argument
+<code><a href="../reference/pupil_preprocess.html">pupil_preprocess(output.steps = FALSE)</a></code>.</p></li>
+<li><p>Reduced the number of parameters in
+<code><a href="../reference/pupil_preprocess.html">pupil_preprocess()</a></code></p></li>
+<li><p>Changed <code>preprocess()</code> to
+<code><a href="../reference/pupil_preprocess.html">pupil_preprocess()</a></code></p></li>
+<li><p>Changed <code>tidy_eyetracker()</code> to
+<code><a href="../reference/pupil_read.html">pupil_read()</a></code></p></li>
+<li><p>Changed <code>pupil_eye()</code> to
+<code><a href="../reference/select_eye.html">select_eye()</a></code></p></li>
 </ul>
 </div>
     <div id="pupillometry-021" class="section level1">
@@ -262,7 +329,7 @@
 <p>Updated: 11/13/2018</p>
 <ul>
 <li>
-<p>Changed function names to use "_" rather than “.”</p>
+<p>Changed function names to use “_” rather than “.”</p>
 <p>“.” functions can still be used but have been deprecated.</p>
 </li>
 <li><p>Added <code>aoi_downsample()</code> function</p></li>
@@ -274,11 +341,18 @@
 <p>Updated: 10/13/2018</p>
 <ul>
 <li><p>Important update that fixes several bugs</p></li>
-<li><p>Smoothing function was also interpolating. This has been fixed.</p></li>
-<li><p>Added <code>plot.comparison()</code> to visually compare different preprocessing parameters in a convenient way</p></li>
-<li><p>Added <code>pupil.eye()</code> to simplify selecting which eye to use in the final output.</p></li>
-<li><p>Added parameter <code>missing.allowed</code> to <code>preprocess()</code> and <code>pupil.missing()</code> to filter out trials with too much missing data.</p></li>
-<li><p>Added <code>gazedata.include()</code> parameter to import and output gaze position x and y coordinates from original raw data file</p></li>
+<li><p>Smoothing function was also interpolating. This has been
+fixed.</p></li>
+<li><p>Added <code>plot.comparison()</code> to visually compare
+different preprocessing parameters in a convenient way</p></li>
+<li><p>Added <code>pupil.eye()</code> to simplify selecting which eye to
+use in the final output.</p></li>
+<li><p>Added parameter <code>missing.allowed</code> to
+<code>preprocess()</code> and <code>pupil.missing()</code> to filter out
+trials with too much missing data.</p></li>
+<li><p>Added <code>gazedata.include()</code> parameter to import and
+output gaze position x and y coordinates from original raw data
+file</p></li>
 <li><p>Other bug fixes and minor changes</p></li>
 </ul>
 </div>
@@ -289,17 +363,25 @@
 <ul>
 <li>
 <p>Added the option to do “divisive” baseline correction</p>
-<p>Paramaters added: <code>preprocess(bc.type = c("subtractive", "divisive"))</code> and <code>pupil.baselinecorrect(bc.type = c("subtractive", "divisive"))</code></p>
+<p>Paramaters added:
+<code>preprocess(bc.type = c("subtractive", "divisive"))</code> and
+<code>pupil.baselinecorrect(bc.type = c("subtractive", "divisive"))</code></p>
 <p>Default: “subtractive”</p>
 </li>
 <li>
-<p>More flexibility to choose the ordering of interpolation and smoothing in <code>preprocess()</code></p>
-<p>Paramaters added: <code>preprocess(method.first = c("smooth", "interpolate"))</code></p>
+<p>More flexibility to choose the ordering of interpolation and
+smoothing in <code>preprocess()</code></p>
+<p>Paramaters added:
+<code>preprocess(method.first = c("smooth", "interpolate"))</code></p>
 </li>
 <li>
-<p>More precise specifications to obtain Subject # from the file name.</p>
-<p>Paramaters added: <code>preprocess(subj.prefix = NULL, subj.suffix = NULL)</code> and <code>tidy_eyetracker(subj.prefix = NULL, subj.suffix = NULL)</code></p>
-<p>If parameters are set as <code>NULL</code> (default), then the entire file name will be used as the Subject #. This is not ideal.</p>
+<p>More precise specifications to obtain Subject # from the file
+name.</p>
+<p>Paramaters added:
+<code>preprocess(subj.prefix = NULL, subj.suffix = NULL)</code> and
+<code>tidy_eyetracker(subj.prefix = NULL, subj.suffix = NULL)</code></p>
+<p>If parameters are set as <code>NULL</code> (default), then the entire
+file name will be used as the Subject #. This is not ideal.</p>
 </li>
 </ul>
 </div>
@@ -311,10 +393,13 @@
 <h2 class="hasAnchor">
 <a href="#new-features" class="anchor"></a>New Features</h2>
 <ul>
-<li><p>Added <code>startrecording.match</code> parameter to preprocess() and tidy_eyetracker()</p></li>
+<li><p>Added <code>startrecording.match</code> parameter to preprocess()
+and tidy_eyetracker()</p></li>
 <li>
 <p>Added <code>match</code> paramter to set.trial()</p>
-<p>This allows the user to specify whether the <code>startrecording.message</code> is an “exact” or “pattern” match. Default is “exact” match.</p>
+<p>This allows the user to specify whether the
+<code>startrecording.message</code> is an “exact” or “pattern” match.
+Default is “exact” match.</p>
 </li>
 </ul>
 </div>

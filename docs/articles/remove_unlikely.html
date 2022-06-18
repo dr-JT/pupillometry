@@ -40,7 +40,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">pupillometry</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.7.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.8.0</span>
       </span>
     </div>
 
@@ -56,7 +56,7 @@
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Articles
      
     <span class="caret"></span>
@@ -113,7 +113,7 @@
 
       
 
-      </header><script src="remove_unlikely_files/header-attrs-2.8/header-attrs.js"></script><div class="row">
+      </header><script src="remove_unlikely_files/header-attrs-2.14/header-attrs.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Remove Unlikely Values</h1>
@@ -128,21 +128,39 @@
     
 <p>Removing unlikely pupil values involves up to three steps:</p>
 <ol style="list-style-type: decimal">
-<li><p><strong>Deblink</strong> pupil data. <code><a href="../reference/pupil_deblink.html">pupil_deblink()</a></code></p></li>
-<li><p><strong>Artifiact</strong> rejection. <code><a href="../reference/pupil_artifact.html">pupil_artifact()</a></code></p></li>
-<li><p><strong>Remove</strong> trials with large amounts of missing data. <code><a href="../reference/pupil_missing.html">pupil_missing()</a></code></p></li>
+<li><p><strong>Deblink</strong> pupil data.
+<code><a href="../reference/pupil_deblink.html">pupil_deblink()</a></code></p></li>
+<li><p><strong>Artifiact</strong> rejection.
+<code><a href="../reference/pupil_artifact.html">pupil_artifact()</a></code></p></li>
+<li><p><strong>Evaluate</strong> and/or <strong>Remove</strong> trials
+with large amounts of missing data.
+<code><a href="../reference/pupil_missing.html">pupil_missing()</a></code></p></li>
 </ol>
 <div id="deblink-pupil-data" class="section level2">
 <h2 class="hasAnchor">
 <a href="#deblink-pupil-data" class="anchor"></a>1. Deblink pupil data</h2>
-<p>To remove unlikely pupil values that can be caused due to blinking, the standard technique is to <strong>deblink</strong> the pupil data, which just means to remove pupil values during a blink (Geller et al., 2020). You can do this using <code><a href="../reference/pupil_deblink.html">pupil_deblink()</a></code>.</p>
-<p>Eye trackers have their own algorithm for detecting various eye events (fixations, saccades, and blinks). It is important to have columns in your raw data file that contain these eye event information.</p>
-<p>Some eye tracker algorithms do not actually capture the entire duration of a blink, such that it can cause extreme dips in pupil values around the edges of a blink. This can result in unlikely pupil values.</p>
-<p>The most simple method of dealing with this is to <strong>extend</strong> the <strong>deblink</strong> by some amount (Geller et al., 2020). This is easily implemented:</p>
+<p>To remove unlikely pupil values that can be caused due to blinking,
+the standard technique is to <strong>deblink</strong> the pupil data,
+which just means to remove pupil values during a blink (Geller et al.,
+2020). You can do this using <code><a href="../reference/pupil_deblink.html">pupil_deblink()</a></code>.</p>
+<p>Eye trackers have their own algorithm for detecting various eye
+events (fixations, saccades, and blinks). It is important to have
+columns in your raw data file that contain these eye event
+information.</p>
+<p>Some eye tracker algorithms do not actually capture the entire
+duration of a blink, such that it can cause extreme dips in pupil values
+around the edges of a blink. This can result in unlikely pupil
+values.</p>
+<p>The most simple method of dealing with this is to
+<strong>extend</strong> the <strong>deblink</strong> by some amount
+(Geller et al., 2020). This is easily implemented:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/pupil_deblink.html">pupil_deblink</a></span><span class="op">(</span>extend <span class="op">=</span> <span class="fl">100</span><span class="op">)</span></code></pre></div>
-<p>This will extend the <strong>deblink</strong> by 100ms to get something like:</p>
-<p>You can use the <code>plot</code> and <code>plot_trial</code> arguments to determine how much you need to extend the deblink by and produce a plot like the one above.</p>
+<p>This will extend the <strong>deblink</strong> by 100ms to get
+something like:</p>
+<p>You can use the <code>plot</code> and <code>plot_trial</code>
+arguments to determine how much you need to extend the deblink by and
+produce a plot like the one above.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/pupil_deblink.html">pupil_deblink</a></span><span class="op">(</span>extend <span class="op">=</span> <span class="fl">100</span>, plot <span class="op">=</span> <span class="cn">TRUE</span>, plot_trial <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">2</span>,<span class="fl">3</span>,<span class="fl">4</span>,<span class="fl">5</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <p>To plot all trials use <code>plot_trial = "all"</code></p>
@@ -150,29 +168,58 @@
 <div id="artifact-rejection" class="section level2">
 <h2 class="hasAnchor">
 <a href="#artifact-rejection" class="anchor"></a>2. Artifact rejection</h2>
-<p>Unlikely pupil values can be caused by a host of other reasons. One characteristic that unlikely pupil values will display is a large <strong>change</strong> in pupil values over a short amount of time.</p>
-<p>A recommended way of dealing with these types of pupil values is using the Median Absolute Deviation (MAD), pupil speed, and a constant (n) to determine a threshold on pupil speed (Geller et al., 2020; Kret &amp; Sjak-Shie, 2019). Any values that exceed the threshold get removed from the data (set to missing, <code>NA</code>).</p>
+<p>Unlikely pupil values can be caused by a host of other reasons. One
+characteristic that unlikely pupil values will display is a large
+<strong>change</strong> in pupil values over a short amount of time.</p>
+<p>A recommended way of dealing with these types of pupil values is
+using the Median Absolute Deviation (MAD), pupil speed, and a constant
+(n) to determine a threshold on pupil speed (Geller et al., 2020; Kret
+&amp; Sjak-Shie, 2019). Any values that exceed the threshold get removed
+from the data (set to missing, <code>NA</code>).</p>
 <p>This method is implemented in <code><a href="../reference/pupil_artifact.html">pupil_artifact()</a></code>:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/pupil_artifact.html">pupil_artifact</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">16</span><span class="op">)</span></code></pre></div>
-<p>You can use the <code>plot</code> and <code>plot_trial</code> arguments to determine what value to set the constant (n) to</p>
+<p>You can use the <code>plot</code> and <code>plot_trial</code>
+arguments to determine what value to set the constant (n) to</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/pupil_artifact.html">pupil_artifact</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">16</span>, plot <span class="op">=</span> <span class="cn">TRUE</span>, plot_trial <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">2</span>,<span class="fl">3</span>,<span class="fl">4</span>,<span class="fl">5</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <p>To plot all trials use <code>plot_trial = "all"</code></p>
 </div>
-<div id="remove-trials-with-large-amounts-of-missing-data" class="section level2">
+<div id="evaluate-andor-remove-trials-with-large-amounts-of-missing-data" class="section level2">
 <h2 class="hasAnchor">
-<a href="#remove-trials-with-large-amounts-of-missing-data" class="anchor"></a>3. Remove trials with large amounts of missing data</h2>
-<p>At this stage, it can be a good idea to remove trials with <strong>large</strong> amounts of missing data. One reason is that you will likely want to discard these trials anyways (it is not worth interpolating the missing values because there is too much missing). Another reason is more practical, in that trials with an excessive amounts of missing data (particularly early in the trial) can cause errors downstream when using the other functions.</p>
-<p>The amount of missing data that you are comfortable allowing can be set with the <code>missing_allowed =</code> argument in <code><a href="../reference/pupil_missing.html">pupil_missing()</a></code></p>
+<a href="#evaluate-andor-remove-trials-with-large-amounts-of-missing-data" class="anchor"></a>3. Evaluate and/or remove trials with large amounts of missing
+data</h2>
+<p>It can be a good idea to evaluate how much missing data each trial
+has after data cleaning and before other preprocessing steps such as
+interpolation. The <code><a href="../reference/pupil_missing.html">pupil_missing()</a></code> function will create a
+column in the data with the amount of missing data on that trial. This
+column can be used later on during analysis to remove trials with too
+much missing data.</p>
+<p>By specifying a missing allowed criterion
+<code><a href="../reference/pupil_missing.html">pupil_missing(missing_allowed = .90)</a></code> you can also remove
+trials with too much missing data. At this stage, it can be a good idea
+to remove trials with <strong>large</strong> amounts of missing data.
+One reason is that you will likely want to discard these trials anyways
+(it is not worth interpolating the missing values because there is too
+much missing). Another reason is more practical, in that trials with an
+excessive amounts of missing data (particularly early in the trial) can
+cause errors downstream when using the other preprocessing
+functions.</p>
+<p>The amount of missing data that you are comfortable allowing can be
+set with the <code>missing_allowed =</code> argument in
+<code><a href="../reference/pupil_missing.html">pupil_missing()</a></code></p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/pupil_missing.html">pupil_missing</a></span><span class="op">(</span>missing_allowed <span class="op">=</span> <span class="fl">.75</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span class="fu"><a href="../reference/pupil_missing.html">pupil_missing</a></span><span class="op">(</span>missing_allowed <span class="op">=</span> <span class="fl">.90</span><span class="op">)</span></code></pre></div>
 </div>
 <div id="references" class="section level2">
 <h2 class="hasAnchor">
 <a href="#references" class="anchor"></a>References</h2>
-<p>Geller, J., Winn, M. B., Mahr, T., &amp; Mirman, D. (2020). GazeR: A Package for Processing Gaze Position and Pupil Size Data. Behavior Research Methods, 52(5), 2232–2255. <a href="https://doi.org/10.3758/s13428-020-01374-8" class="uri">https://doi.org/10.3758/s13428-020-01374-8</a></p>
-<p>Kret, M. E., &amp; Sjak-Shie, E. E. (2019). Preprocessing pupil size data: Guidelines and code. Behavior Research Methods, 51(3), 1336–1342. <a href="https://doi.org/10.3758/s13428-018-1075-y" class="uri">https://doi.org/10.3758/s13428-018-1075-y</a></p>
+<p>Geller, J., Winn, M. B., Mahr, T., &amp; Mirman, D. (2020). GazeR: A
+Package for Processing Gaze Position and Pupil Size Data. Behavior
+Research Methods, 52(5), 2232–2255. <a href="https://doi.org/10.3758/s13428-020-01374-8" class="uri">https://doi.org/10.3758/s13428-020-01374-8</a></p>
+<p>Kret, M. E., &amp; Sjak-Shie, E. E. (2019). Preprocessing pupil size
+data: Guidelines and code. Behavior Research Methods, 51(3), 1336–1342.
+<a href="https://doi.org/10.3758/s13428-018-1075-y" class="uri">https://doi.org/10.3758/s13428-018-1075-y</a></p>
 </div>
   </div>
 

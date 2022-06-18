@@ -40,7 +40,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">pupillometry</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.7.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.8.0</span>
       </span>
     </div>
 
@@ -56,7 +56,7 @@
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Articles
      
     <span class="caret"></span>
@@ -113,7 +113,7 @@
 
       
 
-      </header><script src="import_pupil_files/header-attrs-2.8/header-attrs.js"></script><div class="row">
+      </header><script src="import_pupil_files/header-attrs-2.14/header-attrs.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Import Options</h1>
@@ -126,14 +126,25 @@
 
     
     
-<p>There are some additional arguments you may need to specify when using <code><a href="../reference/pupil_read.html">pupil_read()</a></code></p>
+<p>There are some additional arguments you may need to specify when
+using <code><a href="../reference/pupil_read.html">pupil_read()</a></code></p>
 <div id="subj_prefix-and-subj_suffix" class="section level2">
 <h2 class="hasAnchor">
 <a href="#subj_prefix-and-subj_suffix" class="anchor"></a><code>subj_prefix</code> and <code>subj_suffix</code>
 </h2>
-<p>These two are actually required for SMI eye trackers. For other eye trackers they are only optional, however, you may find them useful.</p>
-<p>The problem is that many eye trackers have a subject ID column that contains other information as well. For instance, in eyelink data files, whatever the name of the .edf file you entered in when running the experiment (e.g., “flanker001a” - corresponding to data for a flanker task version for subject 001 on run “a”) will be used as the subject ID. However, the actual subjectID may only be a subset of the file name (e.g., 001).</p>
-<p>To deal with this issue, you can specify a string prefix and suffix that comes before and after the subject ID in the file name (e.g., subj_prefix = “flanker”, subj_suffix = “a”) in order to extract the actual subject ID.</p>
+<p>These two are actually required for SMI eye trackers. For other eye
+trackers they are only optional, however, you may find them useful.</p>
+<p>The problem is that many eye trackers have a subject ID column that
+contains other information as well. For instance, in eyelink data files,
+whatever the name of the .edf file you entered in when running the
+experiment (e.g., “flanker001a” - corresponding to data for a flanker
+task version for subject 001 on run “a”) will be used as the subject ID.
+However, the actual subjectID may only be a subset of the file name
+(e.g., 001).</p>
+<p>To deal with this issue, you can specify a string prefix and suffix
+that comes before and after the subject ID in the file name (e.g.,
+subj_prefix = “flanker”, subj_suffix = “a”) in order to extract the
+actual subject ID.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">data_pupil</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/pupil_read.html">pupil_read</a></span><span class="op">(</span><span class="st">"folder/file.csv"</span>, eyetracker <span class="op">=</span> <span class="st">"eyelink"</span>,
                          subj_prefix <span class="op">=</span> <span class="st">"flanker"</span>, subj_suffix <span class="op">=</span> <span class="st">"a"</span><span class="op">)</span></code></pre></div>
@@ -142,7 +153,9 @@
 <h2 class="hasAnchor">
 <a href="#include_col" class="anchor"></a><code>include_col</code>
 </h2>
-<p>This argument can be used to include additional columns that may have been added to the eye tracker data file from the experimental software, such as RT, accuracy, condition columns.</p>
+<p>This argument can be used to include additional columns that may have
+been added to the eye tracker data file from the experimental software,
+such as RT, accuracy, condition columns.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">data_pupil</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/pupil_read.html">pupil_read</a></span><span class="op">(</span><span class="st">"folder/file.csv"</span>, eyetracker <span class="op">=</span> <span class="st">"eyelink"</span>,
                          include_col <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"RT"</span>, <span class="st">"accuracy"</span>, <span class="st">"condition"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
@@ -151,7 +164,11 @@
 <h2 class="hasAnchor">
 <a href="#ms_conversion" class="anchor"></a><code>ms_conversion</code>
 </h2>
-<p>Some eye trackers may not store the timing variable in milliseconds. This argument will convert the timing variable into milliseconds based on the conversion factor specified. If you are using one of the supported eye trackers, there is no need to use this argument (it will do it by default).</p>
+<p>Some eye trackers may not store the timing variable in milliseconds.
+This argument will convert the timing variable into milliseconds based
+on the conversion factor specified. If you are using one of the
+supported eye trackers, there is no need to use this argument (it will
+do it by default).</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">data_pupil</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/pupil_read.html">pupil_read</a></span><span class="op">(</span><span class="st">"folder/file.csv"</span>, eyetracker <span class="op">=</span> <span class="st">""</span>,
                          ms_conversion <span class="op">=</span> <span class="fl">1000</span><span class="op">)</span></code></pre></div>
@@ -160,9 +177,15 @@
 <h2 class="hasAnchor">
 <a href="#px_to_mm_conversion" class="anchor"></a><code>px_to_mm_conversion</code>
 </h2>
-<p>It is highly advised in publications to report your findings in millimeters to allow for a more standard comparison in the literature.</p>
-<p>Some eye trackers will not convert the raw pixel pupil values into millimeters. EyeLink eye trackers are this way. There are procedures you can do to figure out a descent conversion factor to convert your pupil values from pixels to millimeters (with some caution).</p>
-<p>This argument allows you to specify that conversion factor and create a column of data for pupil size in millimeters.</p>
+<p>It is highly advised in publications to report your findings in
+millimeters to allow for a more standard comparison in the
+literature.</p>
+<p>Some eye trackers will not convert the raw pixel pupil values into
+millimeters. EyeLink eye trackers are this way. There are procedures you
+can do to figure out a descent conversion factor to convert your pupil
+values from pixels to millimeters (with some caution).</p>
+<p>This argument allows you to specify that conversion factor and create
+a column of data for pupil size in millimeters.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">data_pupil</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/pupil_read.html">pupil_read</a></span><span class="op">(</span><span class="st">"folder/file.csv"</span>, eyetracker <span class="op">=</span> <span class="st">"eyelink"</span>,
                          px_to_mm_conversion <span class="op">=</span> <span class="fl">.0256</span><span class="op">)</span></code></pre></div>
@@ -171,7 +194,8 @@
 <h2 class="hasAnchor">
 <a href="#trial_exclude" class="anchor"></a><code>trial_exclude</code>
 </h2>
-<p>If you want to exclude any trials (e.g., practice trials, rest blocks) for some reason you can do so with this argument.</p>
+<p>If you want to exclude any trials (e.g., practice trials, rest
+blocks) for some reason you can do so with this argument.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">data_pupil</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/pupil_read.html">pupil_read</a></span><span class="op">(</span><span class="st">"folder/file.csv"</span>, eyetracker <span class="op">=</span> <span class="st">"eyelink"</span>,
                          trial_exclude <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">5</span>,<span class="fl">15</span><span class="op">)</span><span class="op">)</span></code></pre></div>
@@ -180,8 +204,13 @@
 <h2 class="hasAnchor">
 <a href="#quality_check_dir" class="anchor"></a><code>quality_check_dir</code>
 </h2>
-<p>This argument can give you peace of mind that the data file was properly imported. A data file called <strong>quality_check.csv</strong> will be outputted to the specified directory.</p>
-<p>For now, it will just tell you the number of trials in the data file (often times if there was a problem importing then you can tell because the number of trials will be off). Hopefully more information will be eventually be added.</p>
+<p>This argument can give you peace of mind that the data file was
+properly imported. A data file called <strong>quality_check.csv</strong>
+will be outputted to the specified directory.</p>
+<p>For now, it will just tell you the number of trials in the data file
+(often times if there was a problem importing then you can tell because
+the number of trials will be off). Hopefully more information will be
+eventually be added.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">data_pupil</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/pupil_read.html">pupil_read</a></span><span class="op">(</span><span class="st">"folder/file.csv"</span>, eyetracker <span class="op">=</span> <span class="st">"eyelink"</span>,
                          quality_check_dir <span class="op">=</span> <span class="st">"folder/subfolder"</span><span class="op">)</span></code></pre></div>
@@ -190,7 +219,11 @@
 <h2 class="hasAnchor">
 <a href="#timing_file" class="anchor"></a><code>timing_file</code>
 </h2>
-<p>If you find yourself in the unfortunate circumstance of not having any message event strings in your data file, you can insert message strings into your data file using this argument. You will need to know the timing of the critical stimuli in your experiment that you can hopefully retrieve from the behavioral data file.</p>
+<p>If you find yourself in the unfortunate circumstance of not having
+any message event strings in your data file, you can insert message
+strings into your data file using this argument. You will need to know
+the timing of the critical stimuli in your experiment that you can
+hopefully retrieve from the behavioral data file.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">data_pupil</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/pupil_read.html">pupil_read</a></span><span class="op">(</span><span class="st">"folder/file.csv"</span>, eyetracker <span class="op">=</span> <span class="st">"eyelink"</span>,
                          timing_file <span class="op">=</span> <span class="st">"folder/timing_file.csv"</span><span class="op">)</span></code></pre></div>

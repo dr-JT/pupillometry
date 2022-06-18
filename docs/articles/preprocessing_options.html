@@ -40,7 +40,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">pupillometry</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.7.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.8.0</span>
       </span>
     </div>
 
@@ -56,7 +56,7 @@
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Articles
      
     <span class="caret"></span>
@@ -113,7 +113,7 @@
 
       
 
-      </header><script src="preprocessing_options_files/header-attrs-2.8/header-attrs.js"></script><div class="row">
+      </header><script src="preprocessing_options_files/header-attrs-2.14/header-attrs.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Preprocessing Options</h1>
@@ -126,44 +126,86 @@
 
     
     
-<p>Besides baseline correction, the two main preprocessing methods the pupillometry package offers are interpolation and smoothing (also referred to as filtering).</p>
-<p>Interpolation is a method to replace missing values in a time-series. There are various ways one can go about replacing missing values. In pupillometry research, two commonly used methods for interpolation are <strong>linear interpolation</strong> and <strong>cubic-spline</strong> interpolation.</p>
-<p>Smoothing is a method that attempts to reduce noise in a time-series signal by reducing high frequency changes (sudden increase or decrease in values). In pupillometry research, the two commonly used methods smoothing are <strong>moving window average</strong> and <strong>hanning</strong>. Both are very similar and essentially filters out high frequency patterns in the data - thus they are often referred to as low-pass or low frequency filters.</p>
-<div id="interpolation" class="section level2">
-<h2 class="hasAnchor">
-<a href="#interpolation" class="anchor"></a>Interpolation</h2>
-<p><code><a href="../reference/pupil_interpolate.html">pupil_interpolate(tpye = c("linear", "cubic-spline"), maxgap = Inf, hz = "")</a></code></p>
-<ul>
-<li>
-<p><strong>type</strong>: What type of interpolation to use? (default: cubic-spline)</p>
-<p>There are two interpolation types available, <code>"linear"</code> and <code>"cubic-spline"</code>.</p>
-<p><code>"linear"</code> interpolation is aplied using <code>na.approx()</code> from the <a href="https://www.rdocumentation.org/packages/zoo/versions/1.7-13/topics/rollapply">zoo package</a></p>
-<p>Linear interpolation uses a linear trend to replace missing values. Linear produces a straight line through missing values, which is most likely not the true underlying trend.</p>
-<p><code>"cubic-spline"</code> interpolation is applied using <code>na.spline()</code> from the <a href="https://www.rdocumentation.org/packages/zoo/versions/1.7-13/topics/rollapply">zoo package</a> and <code><a href="https://rdrr.io/r/stats/splinefun.html">spline()</a></code>.</p>
-<p>Spline interpolation uses low-degree polynomials in each of the intervals, and chooses the polynomial pieces such that they fit smoothly together. The resulting function is called a spline. <a href="https://en.wikipedia.org/wiki/Interpolation">Wikipedia</a>. Cubic-spline produces smoother interpolats than a linear function, and may provide a better representation of the true underlying trend. However, more caution needs to be used when applying a cubic-spline. For instance, the article <a href="">Comparison of Preprocessing Methods</a> demonstrates that smoothing needs to be performed before applying a cubic-spline interpolation.</p>
-</li>
-<li>
-<p><strong>maxgap</strong>: Maximum duration (milliseconds) of NAs to interpolate over. Any gaps over this value will not be interpolated. (default: Inf)</p>
-<p>This can be a good idea to avoid interpolating over large chunks of missing data. The default (Inf) does not have a maxgap limit.</p>
-</li>
-<li>
-<p><strong>hz</strong>: The recording frequency of the eyetracker. (Only needed if using maxgap)</p>
-<p>If maxgap is specified, then you need to also specify the recording frequency of the eyetracker. This will be used to convert the maxgap in milliseconds to number of samples (rows) in the dataframe.</p>
-</li>
-</ul>
-</div>
+<p>Besides baseline correction, the two main preprocessing methods the
+pupillometry package offers are smoothing (also referred to as
+filtering) and interpolation.</p>
+<p>Smoothing is a method that attempts to reduce noise in a time-series
+signal by reducing high frequency changes (sudden increase or decrease
+in values). In pupillometry research, the two commonly used methods
+smoothing are <strong>moving window average</strong> and
+<strong>hanning</strong>. Both are very similar and essentially filters
+out high frequency patterns in the data - thus they are often referred
+to as low-pass or low frequency filters.</p>
+<p>Interpolation is a method to replace missing values in a time-series.
+There are various ways one can go about replacing missing values. In
+pupillometry research, two commonly used methods for interpolation are
+<strong>linear interpolation</strong> and <strong>cubic-spline</strong>
+interpolation.</p>
 <div id="smoothing" class="section level2">
 <h2 class="hasAnchor">
 <a href="#smoothing" class="anchor"></a>Smoothing</h2>
 <p><code><a href="../reference/pupil_smooth.html">pupil_smooth(type = c("hann", "mwa"), n = "")</a></code></p>
 <ul>
 <li>
-<p><strong>type</strong>: What type of smoothing to use? (default: “hann”)</p>
-<p>There are two smoothing types available, <code>"hann"</code> and <code>"mwa"</code>.</p>
-<p><code>"hann"</code> is a low-frequency hanning filter that retains the low frequency information. It is applied using <code>hanning(n = n)</code> from the <a href="https://www.rdocumentation.org/packages/dplR/versions/1.6.8/topics/hanning">dplR package</a></p>
-<p><code>"mwa"</code> is a simple moving window average. It is applied using <code>rollapply(width = n)</code> from the <a href="https://www.rdocumentation.org/packages/zoo/versions/1.7-13/topics/rollapply">zoo package</a></p>
+<p><strong>type</strong>: What type of smoothing to use? (default:
+“hann”)</p>
+<p>There are two smoothing types available, <code>"hann"</code> and
+<code>"mwa"</code>.</p>
+<p><code>"hann"</code> is a low-frequency hanning filter that retains
+the low frequency information. It is applied using
+<code>hanning(n = n)</code> from the <a href="https://www.rdocumentation.org/packages/dplR/versions/1.6.8/topics/hanning">dplR
+package</a></p>
+<p><code>"mwa"</code> is a simple moving window average. It is applied
+using <code>rollapply(width = n)</code> from the <a href="https://www.rdocumentation.org/packages/zoo/versions/1.7-13/topics/rollapply">zoo
+package</a></p>
 </li>
-<li><p><strong>n</strong>: The size (in pupil samples) of the smoothing window</p></li>
+<li><p><strong>n</strong>: The size (in pupil samples) of the smoothing
+window</p></li>
+</ul>
+</div>
+<div id="interpolation" class="section level2">
+<h2 class="hasAnchor">
+<a href="#interpolation" class="anchor"></a>Interpolation</h2>
+<p><code><a href="../reference/pupil_interpolate.html">pupil_interpolate(tpye = c("linear", "cubic-spline"), maxgap = Inf, hz = "")</a></code></p>
+<ul>
+<li>
+<p><strong>type</strong>: What type of interpolation to use?
+(default: cubic-spline)</p>
+<p>There are two interpolation types available, <code>"linear"</code>
+and <code>"cubic-spline"</code>.</p>
+<p><code>"linear"</code> interpolation is aplied using
+<code>na.approx()</code> from the <a href="https://www.rdocumentation.org/packages/zoo/versions/1.7-13/topics/rollapply">zoo
+package</a></p>
+<p>Linear interpolation uses a linear trend to replace missing values.
+Linear produces a straight line through missing values, which is most
+likely not the true underlying trend.</p>
+<p><code>"cubic-spline"</code> interpolation is applied using
+<code>na.spline()</code> from the <a href="https://www.rdocumentation.org/packages/zoo/versions/1.7-13/topics/rollapply">zoo
+package</a> and <code><a href="https://rdrr.io/r/stats/splinefun.html">spline()</a></code>.</p>
+<p>Spline interpolation uses low-degree polynomials in each of the
+intervals, and chooses the polynomial pieces such that they fit smoothly
+together. The resulting function is called a spline. <a href="https://en.wikipedia.org/wiki/Interpolation">Wikipedia</a>.
+Cubic-spline produces smoother interpolats than a linear function, and
+may provide a better representation of the true underlying trend.
+However, more caution needs to be used when applying a cubic-spline. For
+instance, the article <a href="">Comparison of Preprocessing Methods</a>
+demonstrates that smoothing needs to be performed before applying a
+cubic-spline interpolation.</p>
+</li>
+<li>
+<p><strong>maxgap</strong>: Maximum duration (milliseconds) of NAs
+to interpolate over. Any gaps over this value will not be interpolated.
+(default: Inf)</p>
+<p>This can be a good idea to avoid interpolating over large chunks of
+missing data. The default (Inf) does not have a maxgap limit.</p>
+</li>
+<li>
+<p><strong>hz</strong>: The recording frequency of the eyetracker.
+(Only needed if using maxgap)</p>
+<p>If maxgap is specified, then you need to also specify the recording
+frequency of the eyetracker. This will be used to convert the maxgap in
+milliseconds to number of samples (rows) in the dataframe.</p>
+</li>
 </ul>
 </div>
   </div>

@@ -6,7 +6,7 @@ title: "Preprocess"
 knitr::opts_chunk$set(echo = TRUE, eval = FALSE)
 ```
 
-Preprocessing of the pupil data can involve up to 4 steps:
+Preprocessing of the pupil data can involve up to 5 steps:
 
 1. **Up-Sample** pupil data to 1000Hz. `pupil_upsample()`
 
@@ -15,6 +15,8 @@ Preprocessing of the pupil data can involve up to 4 steps:
 3. **Interpolate** pupil data. `pupil_interpolate()`
     
 4. **Baseline Correct** pupil data. `pupil_baselinecorrect()`
+
+5. **Evaluate** the amount of missing data per trial. `pupil_missing()`
 
 ## 1. Up-Sample pupil data to 1000Hz
 
@@ -38,7 +40,7 @@ No arguments need to be specified.
 
 Many eye trackers will produce high-frequency signals in the data that are caused by noise in the eye tracker rather than any meaningful signal. It is advisable to reduce this noise as much as possible without reducing the meaningful signal in the data. This process is referred to as **smoothing** or **low-pass filtering**. 
 
-There are a ton of options for smoothing noisy data. The function `pupil_smooth()` supports to common ways that have been applied to pupil data.
+There are a ton of options for smoothing noisy data. The function `pupil_smooth()` supports two common ways that have been applied to pupil data.
 
 - Moving window average (mwa)
 
@@ -49,7 +51,7 @@ Both of these methods reduce high-frequency fluctuations in the data and create 
 The degree to which high-frequency fluctuations are reduced in the data depends on the **window** size of the functions. The window size can be specified with the `n = ` argument. 
 
 ```{r}
-pupil_smooth(type = "mwa", n = 100)
+pupil_smooth(type = "mwa", n = 51)
 ```
 
 You do not want to specify too small of a window size (otherwise you really are not doing any smoothing at all) but certainly not too large of a window size (otherwise you will reduce meaningful signal in the data). 
@@ -57,7 +59,7 @@ You do not want to specify too small of a window size (otherwise you really are 
 It can be extremely difficult to know what is the ideal window size for your data. You can use the `plot` and `plot_trial` arguments to determine what value to set the window size (n) to.
 
 ```{r}
-pupil_smooth(type = "mwa", n = 100, plot = TRUE, plot_trial = c(1,2,3,4,5))
+pupil_smooth(type = "mwa", n = 51, plot = TRUE, plot_trial = c(1,2,3,4,5))
 ```
 
 To plot all trials use `plot_trial = "all"`
@@ -129,7 +131,17 @@ pupil_baselinecorrect(bc_onset_message = "Stimulus_Onset", match = "exact",
                       type = "subtractive")
 ```
 
-You can then, perform some additional data cleaning by performing artifact rejection with `pupil_artifact()` and remove trials with too much missing data `pupil_missing()`.
+## 5. Evaluate missingness
+
+It is a good idea to evaluate the amount of missing data per trial after preprocessing has been done. 
+
+The `pupil_missing()` function will create a column in the data with the amount of missing data on that trial. This column can be used later on during analysis to remove trials with too much missing data.
+
+By specifying a missing allowed criterion `pupil_missing(missing_allowed = .90)` you can also remove trials with too much missing data, rather than doing it later.
+
+```{r}
+pupil_missing()
+```
 
 ## References
 

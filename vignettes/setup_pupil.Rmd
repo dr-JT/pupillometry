@@ -28,7 +28,7 @@ Even though importing a data file sounds easy, this can actually become one of t
 
     - Your eye tracker data file most likely has message strings corresponding to the onset of critical events in the experiment, such as trial onset or stimulus onset. You need to know what those message strings are, in order to set the timing variable relative to the onset of one of those events and also for doing baseline correction later on. 
     
-    - onset_message: This argument in `set_timin()` 
+    - onset_message: This argument in `set_timing()` 
 
 Currently, `pupil_read()` supports these eye trackers for easy importing:
 
@@ -40,23 +40,27 @@ Currently, `pupil_read()` supports these eye trackers for easy importing:
 
 -   SR Research EyeLink100 eyetrackers: `eyetracker = "eyelink"`
 
+-   Any eye tracker data file: `eyetracker = ""`
+
+    - Need to specify column names. See `pupil_read()`
+
 ```{r}
 data_pupil <- pupil_read("folder/file.csv", eyetracker = "smi")
 data_pupil <- pupil_read("folder/file.csv", eyetracker = "eyelink")
 ```
 
-See `pupil_read()` for details on importing data files from other eye trackers.
-
 #### eye_use
 
-If your data file contains eye tracker data for both eyes, then you need to specify which eye to use for preprocessing and analysis. This will first correlate the values between the two eyes to give you a value to report in your publication, and then remove the data for the eye that you do not want to use.
+By default, this parameter is set to `eye_use = NULL`. If you recorded from only one eye or want to keep and preprocess data from both eyes then you do not need to bother with this parameter.
+
+However, if you recorded pupil data from both eyes BUT only want to keep and preprocess data from one eye then you need to specify `eye_use = "left"` or `eye_use = "right"`.
+
+If you recorded pupil data from both eyes, no matter how you specify this argument a column will be created that contains the correlation value between left and right eyes that you can use to report in publications.
 
 ```{r}
 data_pupil <- pupil_read("folder/file.csv", eyetracker = "eyelink",
                          eye_use = "left")
 ```
-
-If your data file contain eye tracker data for only one eye, you can skip this argument.
 
 #### start_tracking_message
 
@@ -80,6 +84,8 @@ See [Import Options](https://dr-jt.github.io/pupillometry/articles/import_pupil.
 ## 2. Set the time variable relative to stimulus onset
 
 The values in the **Time** column are not usually meaningful in the context of your experiment. Instead, what you are really interested in is the time **relative** to the onset of some critical stimulus in your experiment. You can easily set the **Time** column to be relative to the onset of a stimulus with the `set_timing()` function. 
+
+The `onset_message = ` should be a message string that occurs on EVERY trial.
 
 You may also need to specify that the message string in onset_message is a "pattern" match instead of an "exact" match.
 

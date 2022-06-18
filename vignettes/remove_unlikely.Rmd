@@ -12,7 +12,7 @@ Removing unlikely pupil values involves up to three steps:
     
 2. **Artifiact** rejection. `pupil_artifact()`
     
-3. **Remove** trials with large amounts of missing data. `pupil_missing()`
+3. **Evaluate** and/or **Remove** trials with large amounts of missing data. `pupil_missing()`
 
 ## 1. Deblink pupil data
 
@@ -58,14 +58,16 @@ pupil_artifact(n = 16, plot = TRUE, plot_trial = c(1,2,3,4,5))
 
 To plot all trials use `plot_trial = "all"`
 
-## 3. Remove trials with large amounts of missing data
+## 3. Evaluate and/or remove trials with large amounts of missing data
 
-At this stage, it can be a good idea to remove trials with **large** amounts of missing data. One reason is that you will likely want to discard these trials anyways (it is not worth interpolating the missing values because there is too much missing). Another reason is more practical, in that trials with an excessive amounts of missing data (particularly early in the trial) can cause errors downstream when using the other functions.
+It can be a good idea to evaluate how much missing data each trial has after data cleaning and before other preprocessing steps such as interpolation. The `pupil_missing()` function will create a column in the data with the amount of missing data on that trial. This column can be used later on during analysis to remove trials with too much missing data.
+
+By specifying a missing allowed criterion `pupil_missing(missing_allowed = .90)` you can also remove trials with too much missing data. At this stage, it can be a good idea to remove trials with **large** amounts of missing data. One reason is that you will likely want to discard these trials anyways (it is not worth interpolating the missing values because there is too much missing). Another reason is more practical, in that trials with an excessive amounts of missing data (particularly early in the trial) can cause errors downstream when using the other preprocessing functions.
 
 The amount of missing data that you are comfortable allowing can be set with the `missing_allowed = ` argument in `pupil_missing()`
 
 ```{r}
-pupil_missing(missing_allowed = .75)
+pupil_missing(missing_allowed = .90)
 ```
 
 ## References
