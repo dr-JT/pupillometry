@@ -180,6 +180,7 @@
 #' @param start_tracking.match See start_tracking_match.
 #' @param starttracking.message See start_tracking_message.
 #' @param starttracking.match See start_tracking_match.
+#' @import data.table
 #' @export
 #'
 
