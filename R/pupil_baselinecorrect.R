@@ -80,16 +80,16 @@ pupil_baselinecorrect <- function(x, bc_onset_message = "",
                                                bconset.time != min_time,
                                              as.numeric(NA), bconset.time),
                        bconset.time = zoo::na.locf(bconset.time, na.rm = FALSE),
-                       bconset.time = zoo::na.locf(bconset.time, na.rm = FALSE,
+                       test = zoo::na.locf(bconset.time, na.rm = FALSE,
                                                    fromLast = TRUE),
-                       bconset.time =
+                       test =
                          dplyr::case_when(is.infinite(min_time) ~
                                             as.numeric(Inf),
-                                          TRUE ~ bconset.time),
+                                          TRUE ~ test),
                        PreTarget =
-                         ifelse(Time >= (bconset.time - baseline_duration) &
-                                  Time < bconset.time, n, PreTarget),
-                       Target = ifelse(Time >= bconset.time, n, Target))
+                         ifelse(Time >= (test - baseline_duration) &
+                                  Time < test, n, PreTarget),
+                       Target = ifelse(Time >= test, n, Target))
   }
   x <- dplyr::select(x, -bconset.time, -min_time, -onset.time)
   ########################################
