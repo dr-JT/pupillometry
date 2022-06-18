@@ -244,7 +244,7 @@ pupil_read <- function(file, eyetracker = "", eye_use = NULL,
         subj <- stringr::str_split(x, pattern.prefix)[[1]][2]
         subj <- as.numeric(subj)
       }
-    } else if (!is.null(suffix)){
+    } else if (!is.null(suffix)) {
       pattern.suffix <- paste("(?<=\\d)", suffix, sep = "")
 
       subj <- stringr::str_split(x, pattern.suffix)[[1]][1]
@@ -431,8 +431,11 @@ pupil_read <- function(file, eyetracker = "", eye_use = NULL,
     if ("HTARGET_DISTANCE" %in% colnames(data)) {
       data <- dplyr::rename(data, Head_Distance.cm = HTARGET_DISTANCE)
     }
-    subj <- subj.extract(data$RECORDING_SESSION_LABEL[1],
-                         prefix = subj_prefix, suffix = subj_suffix)
+    if (!is.null(subj_prefix) | !is.null(subj_suffix)) {
+      subj <- subj.extract(data$RECORDING_SESSION_LABEL[1],
+                           prefix = subj_prefix, suffix = subj_suffix)
+    }
+
     ms_conversion <- 1
     left_recorded <- "LEFT_PUPIL_SIZE" %in% colnames(data)
     right_recorded <- "RIGHT_PUPIL_SIZE" %in% colnames(data)
