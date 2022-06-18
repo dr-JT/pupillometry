@@ -287,7 +287,7 @@ pupil_read <- function(file, eyetracker = "", eye_use = NULL,
 
     data <- dtplyr::lazy_dt(data)
 
-    if ("Time" %in% colnames(data)) {
+    if ("Time" %in% data[["vars"]]) {
       model <- "Red250m"
     } else {
       model <- "glasses"
@@ -297,16 +297,16 @@ pupil_read <- function(file, eyetracker = "", eye_use = NULL,
       ## SMI eyetracker is Red250m ####
       subj <- subj.extract(file, prefix = subj_prefix, suffix = subj_suffix)
       ms_conversion <- 1000
-      message.column <- names(data[4])
+      message.column <- data[["vars"]][4]
 
       data <- dplyr::mutate(data,
                             Message = ifelse(get(message.column) >= 0,
                                              NA, get(message.column)))
 
-      left_recorded <- "L_Pupil_Diameter_mm" %in% colnames(data)
-      right_recorded <- "R_Pupil_Diameter_mm" %in% colnames(data)
-      left_gaze <- "L_POR_X_px" %in% colnames(data)
-      right_gaze <- "R_POR_X_px" %in% colnames(data)
+      left_recorded <- "L_Pupil_Diameter_mm" %in% data[["vars"]]
+      right_recorded <- "R_Pupil_Diameter_mm" %in% data[["vars"]]
+      left_gaze <- "L_POR_X_px" %in% data[["vars"]]
+      right_gaze <- "R_POR_X_px" %in% data[["vars"]]
       if (left_recorded == TRUE) {
         if (right_recorded == TRUE) {
           data <- dplyr::mutate(data,
@@ -362,12 +362,13 @@ pupil_read <- function(file, eyetracker = "", eye_use = NULL,
       ###################################
     } else if (model == "glasses") {
       ## SMI eyetracker is glasses ####
-      subj <- subj.extract(data$Participant[1], prefix = subj_prefix,
+      subj <- subj.extract(data$parent$parent$parent$Participant[1],
+                           prefix = subj_prefix,
                            suffix = subj_suffix)
       ms_conversion <- 1
       head.distance <- NA
 
-      eye.gaze <- "Point_of_Regard_Binocular_X_px" %in% colnames(data)
+      eye.gaze <- "Point_of_Regard_Binocular_X_px" %in% data[["vars"]]
 
       data <- dplyr::mutate(data,
                             Event =
@@ -425,36 +426,32 @@ pupil_read <- function(file, eyetracker = "", eye_use = NULL,
     data <- readr::read_delim(file, "\t", escape_double = FALSE,
                               trim_ws = TRUE, na = ".", guess_max = 100000)
 
-    #data <- dtplyr::lazy_dt(data)
+    data <- dtplyr::lazy_dt(data)
 
     data <- dplyr::rename(data, Time = TIMESTAMP, Message = SAMPLE_MESSAGE)
-    if ("HTARGET_DISTANCE" %in% colnames(data)) {
+    if ("HTARGET_DISTANCE" %in% data[["vars"]]) {
       data <- dplyr::rename(data, Head_Distance.cm = HTARGET_DISTANCE)
     }
-    if (!is.null(subj_prefix) | !is.null(subj_suffix)) {
-      subj <- subj.extract(data$RECORDING_SESSION_LABEL[1],
-                           prefix = subj_prefix, suffix = subj_suffix)
-    } else {
-      subj <- data$RECORDING_SESSION_LABEL[1]
-    }
+    subj <- subj.extract(data$parent$parent$parent$RECORDING_SESSION_LABEL[1],
+                         prefix = subj_prefix, suffix = subj_suffix)
 
     ms_conversion <- 1
-    left_recorded <- "LEFT_PUPIL_SIZE" %in% colnames(data)
-    right_recorded <- "RIGHT_PUPIL_SIZE" %in% colnames(data)
-    left_gaze <- "LEFT_GAZE_X" %in% colnames(data)
-    right_gaze <- "RIGHT_GAZE_X" %in% colnames(data)
+    left_recorded <- "LEFT_PUPIL_SIZE" %in% data[["vars"]]
+    right_recorded <- "RIGHT_PUPIL_SIZE" %in% data[["vars"]]
+    left_gaze <- "LEFT_GAZE_X" %in% data[["vars"]]
+    right_gaze <- "RIGHT_GAZE_X" %in% data[["vars"]]
     if (left_recorded == TRUE) {
       if (right_recorded == TRUE) {
         data <- dplyr::mutate(data,
                               L_Pupil_Diameter.px = LEFT_PUPIL_SIZE,
                               L_Eye_Event = ifelse(LEFT_IN_BLINK == 1,
                                                    "Blink", NA))
-        if ("LEFT_IN_SACCADE" %in% colnames(data)) {
+        if ("LEFT_IN_SACCADE" %in% data[["vars"]]) {
           data <- dplyr::mutate(data,
                                 L_Eye_Event = ifelse(LEFT_IN_SACCADE == 1,
                                                      "Saccade", L_Eye_Event))
         }
-        if ("LEFT_FIX_INDEX" %in% colnames(data)) {
+        if ("LEFT_FIX_INDEX" %in% data[["vars"]]) {
           data <- dplyr::mutate(data,
                                 L_Eye_Event = ifelse(!is.na(LEFT_FIX_INDEX),
                                                      "Fixation", L_Eye_Event))
@@ -469,12 +466,12 @@ pupil_read <- function(file, eyetracker = "", eye_use = NULL,
                               Pupil_Diameter.px = LEFT_PUPIL_SIZE,
                               Eye_Event = ifelse(LEFT_IN_BLINK == 1,
                                                  "Blink", NA))
-        if ("LEFT_IN_SACCADE" %in% colnames(data)) {
+        if ("LEFT_IN_SACCADE" %in% data[["vars"]]) {
           data <- dplyr::mutate(data,
                                 Eye_Event = ifelse(LEFT_IN_SACCADE == 1,
                                                    "Saccade", Eye_Event))
         }
-        if ("LEFT_FIX_INDEX" %in% colnames(data)) {
+        if ("LEFT_FIX_INDEX" %in% data[["vars"]]) {
           data <- dplyr::mutate(data,
                                 Eye_Event = ifelse(!is.na(LEFT_FIX_INDEX),
                                                    "Fixation", Eye_Event))
@@ -493,12 +490,12 @@ pupil_read <- function(file, eyetracker = "", eye_use = NULL,
                               R_Pupil_Diameter.px = RIGHT_PUPIL_SIZE,
                               R_Eye_Event = ifelse(RIGHT_IN_BLINK == 1,
                                                    "Blink", NA))
-        if ("RIGHT_IN_SACCADE" %in% colnames(data)) {
+        if ("RIGHT_IN_SACCADE" %in% data[["vars"]]) {
           data <- dplyr::mutate(data,
                                 R_Eye_Event = ifelse(RIGHT_IN_SACCADE == 1,
                                                      "Saccade", R_Eye_Event))
         }
-        if ("RIGHT_FIX_INDEX" %in% colnames(data)) {
+        if ("RIGHT_FIX_INDEX" %in% data[["vars"]]) {
           data <- dplyr::mutate(data,
                                 R_Eye_Event = ifelse(!is.na(RIGHT_FIX_INDEX),
                                                      "Fixation", R_Eye_Event))
@@ -513,12 +510,12 @@ pupil_read <- function(file, eyetracker = "", eye_use = NULL,
                               Pupil_Diameter.px = RIGHT_PUPIL_SIZE,
                               Eye_Event = ifelse(RIGHT_IN_BLINK == 1,
                                                  "Blink", NA))
-        if ("RIGHT_IN_SACCADE" %in% colnames(data)) {
+        if ("RIGHT_IN_SACCADE" %in% data[["vars"]]) {
           data <- dplyr::mutate(data,
                                 Eye_Event = ifelse(RIGHT_IN_SACCADE == 1,
                                                    "Saccade", Eye_Event))
         }
-        if ("RIGHT_FIX_INDEX" %in% colnames(data)) {
+        if ("RIGHT_FIX_INDEX" %in% data[["vars"]]) {
           data <- dplyr::mutate(data,
                                 Eye_Event = ifelse(!is.na(RIGHT_FIX_INDEX),
                                                    "Fixation", Eye_Event))
@@ -671,13 +668,13 @@ pupil_read <- function(file, eyetracker = "", eye_use = NULL,
                                        R_Eye_Event))
       }
 
-      if (length(which(!is.na(data$Eye_Event))) == 0) {
+      if (length(which(!is.na(data$parent$parent$parent$Eye_Event))) == 0) {
         data <- dplyr::select(data, -Eye_Event)
       }
-      if (length(which(!is.na(data$L_Eye_Event))) == 0) {
+      if (length(which(!is.na(data$parent$parent$parent$L_Eye_Event))) == 0) {
         data <- dplyr::select(data, -L_Eye_Event)
       }
-      if (length(which(!is.na(data$R_Eye_Event))) == 0) {
+      if (length(which(!is.na(data$parent$parent$parent$R_Eye_Event))) == 0) {
         data <- dplyr::select(data, -R_Eye_Event)
       }
     }
@@ -717,10 +714,10 @@ pupil_read <- function(file, eyetracker = "", eye_use = NULL,
   ########################################
 
   ## Select eye ####
-  if (("L_Pupil_Diameter.mm" %in% colnames(data) &
-       "R_Pupil_Diameter.mm" %in% colnames(data)) |
-      ("L_Pupil_Diameter.px" %in% colnames(data) &
-       "R_Pupil_Diameter.px" %in% colnames(data))) {
+  if (("L_Pupil_Diameter.mm" %in% data[["vars"]] &
+       "R_Pupil_Diameter.mm" %in% data[["vars"]]) |
+      ("L_Pupil_Diameter.px" %in% data[["vars"]] &
+       "R_Pupil_Diameter.px" %in% data[["vars"]])) {
     data <- pupil_cor(data)
   }
   if (!is.null(eye_use)) {
@@ -736,7 +733,7 @@ pupil_read <- function(file, eyetracker = "", eye_use = NULL,
       } else if (stringr::str_detect(timing_file, "xlsx")) {
         timing_data <- readxl::read_excel(timing_file)
       }
-      subj <- data$Subject[1]
+      subj <- data$parent$parent$parent$Subject[1]
       timing_data <- dplyr::filter(timing_data, Subject == subj)
       starttrack_timing <- dplyr::mutate(timing_data,
                                          Time = get(start_tracking_message),
@@ -782,10 +779,10 @@ pupil_read <- function(file, eyetracker = "", eye_use = NULL,
                            contains("Pupil_Missing"), starttracking.time)
     check <- dplyr::filter(check, Time == starttracking.time)
     check <- dplyr::group_by(check, Subject)
-    if (("L_Pupil_Diameter.mm" %in% colnames(data) &
-         "R_Pupil_Diameter.mm" %in% colnames(data)) |
-        ("L_Pupil_Diameter.px" %in% colnames(data) &
-         "R_Pupil_Diameter.px" %in% colnames(data))) {
+    if (("L_Pupil_Diameter.mm" %in% data[["vars"]] &
+         "R_Pupil_Diameter.mm" %in% data[["vars"]]) |
+        ("L_Pupil_Diameter.px" %in% data[["vars"]] &
+         "R_Pupil_Diameter.px" %in% data[["vars"]])) {
       check <- dplyr::summarise(check,
                                 Trials = dplyr::n(),
                                 L_Pupil_Missing.mean =
@@ -875,7 +872,7 @@ pupil_read <- function(file, eyetracker = "", eye_use = NULL,
   ##########################################################
 
   if (is.null(start_tracking_message)) {
-    if (!("Trial" %in% colnames(data))) {
+    if (!("Trial" %in% data[["vars"]])) {
       data <- dplyr::mutate(data, Trial = 1)
     }
     data <- dplyr::mutate(data, starttracking.time = NA,
@@ -883,7 +880,7 @@ pupil_read <- function(file, eyetracker = "", eye_use = NULL,
   }
 
   ## Convert Message column into Stimulus column ####
-  if ("Message" %in% colnames(data)) {
+  if ("Message" %in% data[["vars"]]) {
     data <- dplyr::group_by(data, Trial)
     data <- dplyr::mutate(data, Stimulus = zoo::na.locf(Message, na.rm = FALSE))
     data <- dplyr::ungroup(data)
@@ -902,12 +899,12 @@ pupil_read <- function(file, eyetracker = "", eye_use = NULL,
   data <- dplyr::mutate(data, Time = round(Time))
   data <- dplyr::relocate(data, Trial, .before = "Time")
   if (!is.null(px_to_mm_conversion)) {
-    if ("Pupil_Diameter.px" %in% colnames(data)) {
+    if ("Pupil_Diameter.px" %in% data[["vars"]]) {
       data <- dplyr::mutate(data,
                             Pupil_Diameter.mm =
                               Pupil_Diameter.px * px_to_mm_conversion)
     }
-    if ("L_Pupil_Diameter.px" %in% colnames(data)) {
+    if ("L_Pupil_Diameter.px" %in% data[["vars"]]) {
       data <- dplyr::mutate(data,
                             L_Pupil_Diameter.mm =
                               L_Pupil_Diameter.px * px_to_mm_conversion,
