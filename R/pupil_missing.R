@@ -47,6 +47,7 @@ pupil_missing <- function(x, missing_allowed = 1) {
     x[["vars"]][which(x[["vars"]] == real_name)] <- "pupil_val"
 
     x <- dplyr::group_by(x, Trial)
+    message(x["vars"])
     x <- dplyr::mutate(x,
                        Missing = ifelse(is.na(pupil_val), 1, 0),
                        Missing =
