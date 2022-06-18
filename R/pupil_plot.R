@@ -63,7 +63,7 @@ pupil_plot <- function(x, y, trial = "all", sub_title = "") {
       y <- dplyr::filter(y, Trial %in% trial)
     }
 
-    data_plot <- merge(x, y, by = c("Trial", "Time"), all = TRUE)
+    data_plot <- merge(x, y, by = c("Subject", "Trial", "Time"), all = TRUE)
     colors <- c("Before" = "grey65", "After" = "firebrick")
 
     for (trial in unique(x$Trial)) {
