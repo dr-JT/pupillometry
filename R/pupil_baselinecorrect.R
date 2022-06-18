@@ -54,7 +54,7 @@ pupil_baselinecorrect <- function(x, bc_onset_message = "",
     baseline_duration <- pre.duration
   }
 
-  x <- dtplyr::lazy_dt(x)
+  x <- dplyr::as_tiblle(x)
 
   #### Setup baseline timing variables ####
   x <- dplyr::group_by(x, Trial, Stimulus)
@@ -80,16 +80,14 @@ pupil_baselinecorrect <- function(x, bc_onset_message = "",
                                                bconset.time != min_time,
                                              as.numeric(NA), bconset.time),
                        bconset.time = zoo::na.locf(bconset.time, na.rm = FALSE),
-                       test = zoo::na.locf(bconset.time, na.rm = FALSE,
+                       bconset.time = zoo::na.locf(bconset.time, na.rm = FALSE,
                                                    fromLast = TRUE),
-                       test =
-                         dplyr::case_when(is.infinite(min_time) ~
-                                            as.numeric(Inf),
-                                          TRUE ~ test),
+                       bconset.time = ifelse(is.infinite(min_time),
+                                             as.numeric(Inf), bconset.time),
                        PreTarget =
-                         ifelse(Time >= (test - baseline_duration) &
-                                  Time < test, n, PreTarget),
-                       Target = ifelse(Time >= test, n, Target))
+                         ifelse(Time >= (bconset.time - baseline_duration) &
+                                  Time < bconset.time, n, PreTarget),
+                       Target = ifelse(Time >= bconset.time, n, Target))
   }
   x <- dplyr::select(x, -bconset.time, -min_time, -onset.time)
   ########################################
