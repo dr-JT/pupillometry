@@ -28,8 +28,6 @@
 
 pupil_missing <- function(x, missing_allowed = 1) {
 
-  x <- dtplyr::lazy_dt(x)
-
   eyes <- eyes_detect(x)
 
   for (eye in eyes) {
@@ -39,30 +37,31 @@ pupil_missing <- function(x, missing_allowed = 1) {
                            paste(eye_prefix, "_Missing", sep = ""),
                            paste(eye_prefix, "_Pupil_Missing", sep = ""))
 
-    if (missing_name %in% x[["vars"]]) {
-      x[["vars"]][which(x[["vars"]] == missing_name)] <-
+    if (missing_name %in% colnames(x)) {
+      colnames(x)[which(colnames(x) == missing_name)] <-
         paste(missing_name, "_FirstPass", sep = "")
     }
 
-    x <- dplyr::rename(x, pupil_val = !!real_name)
+    colnames(x)[which(colnames(x) == real_name)] <- "pupil_val"
 
+    x <- dtplyr::lazy_dt(x)
     x <- dplyr::group_by(x, Trial)
-    message(x["vars"])
     x <- dplyr::mutate(x,
                        Missing = ifelse(is.na(pupil_val), 1, 0),
                        Missing =
                          sum(Missing, na.rm = TRUE) / dplyr::n())
     x <- dplyr::ungroup(x)
     x <- dplyr::filter(x, Missing <= missing_allowed)
+    x <- dplyr::as_tibble(x)
 
-    x[["vars"]][which(x[["vars"]] == "Missing")] <- missing_name
-    if (paste(missing_name, "_FirstPass", sep = "") %in% x[["vars"]]) {
-      x[["vars"]][which(x[["vars"]] == missing_name)] <-
+    colnames(x)[which(colnames(x) == "Missing")] <- missing_name
+    if (paste(missing_name, "_FirstPass", sep = "") %in% colnames(x)) {
+      colnames(x)[which(colnames(x) == missing_name)] <-
         paste(missing_name, "_SecondPass", sep = "")
     }
-    x[["vars"]][which(x[["vars"]] == "pupil_val")] <- real_name
+    colnames(x)[which(colnames(x) == "pupil_val")] <- real_name
   }
 
-  x <- dplyr::as_tibble(x)
+
   return(x)
 }
