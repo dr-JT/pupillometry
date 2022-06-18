@@ -74,8 +74,6 @@ pupil_baselinecorrect <- function(x, bc_onset_message = "",
                            ifelse(stringr::str_detect(Stimulus, m),
                                   onset.time, as.numeric(NA)))
     }
-    x <- dplyr::as_tibble(x)
-    x <- dtplyr::lazy_dt(x)
     x <- dplyr::mutate(x,
                        min_time = min(bconset.time, na.rm = TRUE),
                        bconset.time = ifelse(is.na(bconset.time) |
@@ -84,8 +82,10 @@ pupil_baselinecorrect <- function(x, bc_onset_message = "",
                        bconset.time = zoo::na.locf(bconset.time, na.rm = FALSE),
                        bconset.time = zoo::na.locf(bconset.time, na.rm = FALSE,
                                                    fromLast = TRUE),
-                       bconset.time = ifelse(is.infinite(min_time),
-                                             as.numeric(Inf), bconset.time),
+                       bconset.time =
+                         dplyr::case_when(is.infinite(min_time) ~
+                                            as.numeric(Inf),
+                                          TRUE ~ bconset.time),
                        PreTarget =
                          ifelse(Time >= (bconset.time - baseline_duration) &
                                   Time < bconset.time, n, PreTarget),
