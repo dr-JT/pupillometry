@@ -258,8 +258,6 @@ pupil_read <- function(file, eyetracker = "", eye_use = NULL,
   }
   ###################################
 
-  .datatable.aware <- TRUE
-
   ## Import and Standardize ####
   if (eyetracker == "smi") {
     ## Eye tracker is SMI ####
@@ -305,7 +303,8 @@ pupil_read <- function(file, eyetracker = "", eye_use = NULL,
 
       data <- dplyr::mutate(data,
                             Message = ifelse(get(message.column) >= 0,
-                                             NA, get(message.column)))
+                                             as.character(NA),
+                                             get(message.column)))
 
       left_recorded <- "L_Pupil_Diameter_mm" %in% data[["vars"]]
       right_recorded <- "R_Pupil_Diameter_mm" %in% data[["vars"]]
@@ -469,7 +468,7 @@ pupil_read <- function(file, eyetracker = "", eye_use = NULL,
         data <- dplyr::mutate(data,
                               Pupil_Diameter.px = LEFT_PUPIL_SIZE,
                               Eye_Event = ifelse(LEFT_IN_BLINK == 1,
-                                                 "Blink", NA))
+                                                 "Blink", as.character(NA)))
         if ("LEFT_IN_SACCADE" %in% data[["vars"]]) {
           data <- dplyr::mutate(data,
                                 Eye_Event = ifelse(LEFT_IN_SACCADE == 1,
