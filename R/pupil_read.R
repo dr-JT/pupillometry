@@ -227,6 +227,7 @@ pupil_read <- function(file, eyetracker = "", eye_use = NULL,
     start_tracking_match <- starttracking.match
   }
 
+
   subj.extract <- function(x, prefix, suffix){
     x <- stringr::str_split(x, "/")[[1]]
     x <- x[length(x)]
@@ -255,6 +256,8 @@ pupil_read <- function(file, eyetracker = "", eye_use = NULL,
     return(subj)
   }
   ###################################
+
+  .datatable.aware <- TRUE
 
   ## Import and Standardize ####
   if (eyetracker == "smi") {
