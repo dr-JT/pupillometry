@@ -82,7 +82,9 @@ pupil_deblink <- function(x, extend = 0, plot = FALSE, plot_trial = "all") {
   }
 
   if (plot == TRUE) pupil_plot(x_before, x, trial = plot_trial,
-                               sub_title = "pupil_deblink()")
+                               sub_title =
+                                 paste("pupil_deblink(extend = ", extend, ")",
+                                       sep = ""))
 
   x <- dplyr::select(x, -blink)
 

@@ -74,7 +74,8 @@ pupil_artifact <- function(x, n = 16, plot = FALSE, plot_trial = "all") {
   }
 
   if (plot == TRUE) pupil_plot(x_before, x, trial = plot_trial,
-                               sub_title = "pupil_artifact()")
+                               sub_title = paste("pupil_artifact(n = ", n, ")",
+                                                 sep = ""))
 
   return(x)
 }

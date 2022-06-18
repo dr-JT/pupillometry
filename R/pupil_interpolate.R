@@ -138,7 +138,10 @@ pupil_interpolate <- function(x, type = "cubic-spline",
   }
 
   if (plot == TRUE) pupil_plot(x_before, x, trial = plot_trial,
-                               sub_title = "pupil_interpolate()")
+                               sub_title =
+                                 paste("pupil_interpolate(type = ", type,
+                                       ", maxgap = ", maxgap,  ")",
+                                       sep = ""))
 
   return(x)
 }
