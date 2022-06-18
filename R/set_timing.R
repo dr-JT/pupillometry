@@ -33,8 +33,6 @@ set_timing <- function(x, onset_message = NULL, match = "exact",
                        trial_onset.message = NULL, pretrial.duration = 0,
                        trialonset.message = NULL, pre_trial.duration = NULL){
 
-  x <- dtplyr::lazy_dt(x)
-
   if (!is.null(trialonset.message)) {
     trial_onset.message <- trialonset.message
   }
@@ -84,7 +82,5 @@ set_timing <- function(x, onset_message = NULL, match = "exact",
   x <- dplyr::select(x, -onset.time)
   x <- dplyr::distinct(x, Trial, Time, .keep_all = TRUE)
   x <- dplyr::filter(x, !is.na(Subject))
-
-  x <- dplyr::as_tibble(x)
   return(x)
 }

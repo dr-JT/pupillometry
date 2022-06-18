@@ -33,13 +33,13 @@
 #' @param n constant used to calculate threshold.
 #' @param plot Logical. Inspect a plot of how pupil values changed?
 #' @param plot_trial what trial(s) to plot. default = "all"
+#' @import data.table
 #' @export
 #'
 
 pupil_artifact <- function(x, n = 16, plot = FALSE, plot_trial = "all") {
 
   x_before <- x
-  x <- dtplyr::lazy_dt(x)
 
   speed <- function(x, y) {
     diff <- diff(x) / diff(y)
@@ -59,13 +59,15 @@ pupil_artifact <- function(x, n = 16, plot = FALSE, plot_trial = "all") {
     x <- dplyr::select(x, -pupil_speed, -median_speed, -MAD, -MAD_Threshold)
   }
 
+  x <- dplyr::as_tibble(x)
   eyes <- eyes_detect(x)
-
   for (eye in eyes) {
     real_name <- eye
     colnames(x)[which(colnames(x) == real_name)] <- "pupil_val"
 
+    x <- dtplyr::lazy_dt(x)
     x <- mad_removal(x, n)
+    x <- dplyr::as_tibble(x)
 
     colnames(x)[which(colnames(x) == "pupil_val")] <- real_name
   }
@@ -73,6 +75,5 @@ pupil_artifact <- function(x, n = 16, plot = FALSE, plot_trial = "all") {
   if (plot == TRUE) pupil_plot(x_before, x, trial = plot_trial,
                                sub_title = "pupil_artifact()")
 
-  x <- dplyr::as_tibble(x)
   return(x)
 }

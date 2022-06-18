@@ -77,6 +77,7 @@
 #'     The size of the smoothing window in milliseconds.
 #' @param hz Deprecated. Use n. The recording frequency.
 #'     Needed if specified a window size in milliseconds.
+#' @import data.table
 #' @export
 #'
 
@@ -84,13 +85,9 @@ pupil_smooth <- function(x, type = "hann", n = NULL,
                          plot = FALSE, plot_trial = "all",
                          window = NULL, hz = NULL){
   x_before <- x
-  x <- dtplyr::lazy_dt(x)
 
   if (!is.null(window)) {
     n <- round(window / (1000 / hz))
-    if (!(n %% 2)) {
-      n - 1
-    }
   }
 
   #### Define smooth function ####
@@ -104,7 +101,8 @@ pupil_smooth <- function(x, type = "hann", n = NULL,
       x <- dplyr::mutate(x,
                          hold = dplR::hanning(pupil_val, n = n),
                          hold = zoo::na.approx(hold, rule = 2),
-                         pupil_val = ifelse(is.na(pupil_val), NA, hold))
+                         pupil_val =
+                           ifelse(is.na(pupil_val), as.numeric(NA), hold))
     }
     if (type == "mwa") {
       x <- dplyr::mutate(x,
@@ -114,23 +112,28 @@ pupil_smooth <- function(x, type = "hann", n = NULL,
                                                na.rm = TRUE,
                                                partial = TRUE),
                          hold = zoo::na.approx(hold, rule = 2),
-                         pupil_val = ifelse(is.na(pupil_val), NA, hold))
+                         pupil_val =
+                           ifelse(is.na(pupil_val), as.numeric, hold))
     }
     x <- dplyr::arrange(x, Trial, Time)
     x <- dplyr::ungroup(x)
     x <- dplyr::mutate(x,
-                       pupil_val = ifelse(is.na(pupil_before), NA, pupil_val))
+                       pupil_val =
+                         ifelse(is.na(pupil_before), as.numeric(NA), pupil_val))
     x <- dplyr::select(x, -pupil_before, -hold)
   }
   ################################
 
+  x <- dplyr::as_tibble(x)
   eyes <- eyes_detect(x)
 
   for (eye in eyes) {
     real_name <- eye
     colnames(x)[which(colnames(x) == real_name)] <- "pupil_val"
 
+    x <- dtplyr::lazy_dt(x)
     x <- smooth(x, n)
+    x <- dplyr::as_tibble(x)
 
     colnames(x)[which(colnames(x) == "pupil_val")] <- real_name
   }

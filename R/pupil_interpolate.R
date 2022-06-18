@@ -80,6 +80,7 @@
 #' @param hz The recording frequency (used to calculate maxgap).
 #' @param plot Logical. Inspect a plot of how pupil values changed?
 #' @param plot_trial what trial(s) to plot. default = "all"
+#' @import data.table
 #' @export
 #'
 
@@ -87,7 +88,6 @@ pupil_interpolate <- function(x, type = "cubic-spline",
                               maxgap = Inf, hz = "",
                               plot = FALSE, plot_trial = "all") {
   x_before <- x
-  x <- dtplyr::lazy_dt(x)
 
   if ("UpSampled" %in% colnames(x)) {
     hz <- 1000
@@ -105,14 +105,16 @@ pupil_interpolate <- function(x, type = "cubic-spline",
                          Missing.Total =
                            sum(Missing.Total, na.rm = TRUE) / dplyr::n(),
                          index =
-                           ifelse(is.na(pupil_val), NA, dplyr::row_number()),
+                           ifelse(is.na(pupil_val),
+                                  as.numeric(NA), dplyr::row_number()),
                          index = zoo::na.approx(index, na.rm = FALSE),
                          pupil_val = ifelse(Missing.Total > .9, 999, pupil_val),
                          pupil_val = zoo::na.spline(pupil_val,
                                                     na.rm = FALSE,
                                                     x = index,
                                                     maxgap = maxgap),
-                         pupil_val = ifelse(Missing.Total > .9, NA, pupil_val))
+                         pupil_val = ifelse(Missing.Total > .9,
+                                            as.numeric(NA), pupil_val))
       x <- dplyr::select(x, -index, -Missing.Total)
     } else if (type == "linear") {
       x <- dplyr::mutate(x,
@@ -124,13 +126,16 @@ pupil_interpolate <- function(x, type = "cubic-spline",
   }
   #####################################
 
+  x <- dplyr::as_tibble(x)
   eyes <- eyes_detect(x)
 
   for (eye in eyes) {
     real_name <- eye
     colnames(x)[which(colnames(x) == real_name)] <- "pupil_val"
 
+    x <- dtplyr::lazy_dt(x)
     x <- interpolate(x, type, maxgap)
+    x <- dplyr::as_tibble(x)
 
     colnames(x)[which(colnames(x) == "pupil_val")] <- real_name
   }
@@ -138,6 +143,5 @@ pupil_interpolate <- function(x, type = "cubic-spline",
   if (plot == TRUE) pupil_plot(x_before, x, trial = plot_trial,
                                sub_title = "pupil_interpolate()")
 
-  x <- dplyr::as_tibble(x)
   return(x)
 }

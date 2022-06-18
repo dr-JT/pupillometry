@@ -732,6 +732,7 @@ pupil_read <- function(file, eyetracker = "", eye_use = NULL,
     data <- pupil_cor(data)
   }
   if (!is.null(eye_use)) {
+    data <- dplyr::as_tibble(data)
     data <- select_eye(data, eye_use = eye_use)
   }
   data <- dtplyr::lazy_dt(data)

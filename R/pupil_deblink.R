@@ -22,14 +22,15 @@
 #'     before and after blink detection.
 #' @param plot Logical. Inspect a plot of how pupil values changed?
 #' @param plot_trial what trial(s) to plot. default = "all"
+#' @import data.table
 #' @export
 #'
 
 pupil_deblink <- function(x, extend = 0, plot = FALSE, plot_trial = "all") {
 
   x_before <- x
-  x <- dtplyr::lazy_dt(x)
 
+  x <- dplyr::as_tibble(x)
   eyes <- eyes_detect(x)
 
   for (eye in eyes) {
@@ -42,20 +43,21 @@ pupil_deblink <- function(x, extend = 0, plot = FALSE, plot_trial = "all") {
     colnames(x)[which(colnames(x) == real_event_name)] <- "eye_event"
 
     #### Define blink + extension samples ####
+    x <- dtplyr::lazy_dt(x)
     x <- dplyr::mutate(x,
                        blink =
                          ifelse(!is.na(eye_event) & eye_event == "Blink", 1,
                                 ifelse(is.na(pupil_val), 1, 0)),
                        blink.lag = dplyr::lag(blink),
                        blink.lead = dplyr::lead(blink),
-                       blink.start = ifelse(blink == 1 &
-                                              !is.na(blink.lag) &
-                                              blink.lag == 0, Time, NA),
+                       blink.start =
+                         ifelse(blink == 1 & !is.na(blink.lag) & blink.lag == 0,
+                                Time, as.numeric(NA)),
                        blink.start = zoo::na.locf(blink.start, na.rm = FALSE,
                                                   fromLast = TRUE),
-                       blink.end = ifelse(blink == 1 &
-                                            !is.na(blink.lead) &
-                                            blink.lead == 0, Time, NA),
+                       blink.end =
+                         ifelse(blink == 1 & !is.na(blink.lead) & blink.lead == 0,
+                                Time, as.numeric(NA)),
                        blink.end = zoo::na.locf(blink.end, na.rm = FALSE),
                        blink =
                          ifelse(!is.na(blink.start) &
@@ -72,7 +74,8 @@ pupil_deblink <- function(x, extend = 0, plot = FALSE, plot_trial = "all") {
     x <- dplyr::mutate(x,
                        pupil_val = ifelse(pupil_val == 0 |
                                             blink == 1,
-                                          NA, pupil_val))
+                                          as.numeric(NA), pupil_val))
+    x <- dplyr::as_tibble(x)
 
     colnames(x)[which(colnames(x) == "pupil_val")] <- real_eye_name
     colnames(x)[which(colnames(x) == "eye_event")] <- real_event_name
@@ -83,6 +86,5 @@ pupil_deblink <- function(x, extend = 0, plot = FALSE, plot_trial = "all") {
 
   x <- dplyr::select(x, -blink)
 
-  x <- dplyr::as_tibble(x)
   return(x)
 }

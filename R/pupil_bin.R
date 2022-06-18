@@ -11,12 +11,11 @@
 #'
 #' @param x dataframe.
 #' @param bin_length Length of bins in milliseconds.
+#' @import data.table
 #' @export
 #'
 
 pupil_bin <- function(x, bin_length = NULL){
-
-  x <- dtplyr::lazy_dt(x)
 
   bin <- function(x, bin_length) {
     x <- dplyr::group_by(x, Subject, Trial, add = TRUE)
@@ -31,17 +30,19 @@ pupil_bin <- function(x, bin_length = NULL){
     x <- dplyr::distinct(x, Subject, Trial, Time, .keep_all = TRUE)
   }
 
+  x <- dplyr::as_tibble(x)
   eyes <- eyes_detect(x)
 
   for (eye in eyes) {
     real_name <- eye
     colnames(x)[which(colnames(x) == real_name)] <- "pupil_val"
 
+    x <- dtplyr::lazy_dt(x)
     x <- bin(x, bin_length)
+    x <- dplyr::as_tibble(x)
 
     colnames(x)[which(colnames(x) == "pupil_val")] <- real_name
   }
 
-  x <- dplyr::as_tibble(x)
   return(x)
 }
