@@ -63,7 +63,8 @@ pupil_read(
 \item{eyetracker}{Which eye tracker system was used to record data?
 options: "smi", "eyelink", NULL.}
 
-\item{eye_use}{Which eye to use? options: "left" or "right".}
+\item{eye_use}{Which eye to use?
+options: "left", "right" or NULL (default to keep both).}
 
 \item{subj_prefix}{The unique pattern prefix (letter(s)
 and/or symbol(s)) that comes before the subject number in the data file.
