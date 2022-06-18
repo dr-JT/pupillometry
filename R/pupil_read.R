@@ -316,7 +316,8 @@ pupil_read <- function(file, eyetracker = "", eye_use = NULL,
                                 L_Pupil_Diameter.mm = L_Pupil_Diameter_mm,
                                 L_Eye_Event = ifelse((L_Event_Info == "-" |
                                                         is.na(L_Event_Info)),
-                                                     NA, L_Event_Info))
+                                                     as.character(NA),
+                                                     L_Event_Info))
           if (left_gaze == TRUE) {
             data <- dplyr::rename(data,
                                   L_Gaze_Position.x = L_POR_X_px,
@@ -327,7 +328,8 @@ pupil_read <- function(file, eyetracker = "", eye_use = NULL,
                                 Pupil_Diameter.mm = L_Pupil_Diameter_mm,
                                 Eye_Event = ifelse((L_Event_Info == "-" |
                                                         is.na(L_Event_Info)),
-                                                     NA, L_Event_Info))
+                                                     as.character(NA),
+                                                   L_Event_Info))
           if (left_gaze == TRUE) {
             data <- dplyr::rename(data,
                                   Gaze_Position.x = L_POR_X_px,
@@ -343,7 +345,8 @@ pupil_read <- function(file, eyetracker = "", eye_use = NULL,
                                 R_Pupil_Diameter.mm = R_Pupil_Diameter_mm,
                                 R_Eye_Event = ifelse((R_Event_Info == "-" |
                                                         is.na(R_Event_Info)),
-                                                     NA, R_Event_Info))
+                                                     as.character(NA),
+                                                     R_Event_Info))
           if (right_gaze == TRUE) {
             data <- dplyr::rename(data,
                                   R_Gaze_Position.x = R_POR_X_px,
@@ -354,7 +357,8 @@ pupil_read <- function(file, eyetracker = "", eye_use = NULL,
                                 Pupil_Diameter.mm = R_Pupil_Diameter_mm,
                                 Eye_Event = ifelse((R_Event_Info == "-" |
                                                         is.na(R_Event_Info)),
-                                                     NA, R_Event_Info))
+                                                   as.character(NA),
+                                                   R_Event_Info))
           if (right_gaze == TRUE) {
             data <- dplyr::rename(data,
                                   Gaze_Position.x = R_POR_X_px,
@@ -386,17 +390,20 @@ pupil_read <- function(file, eyetracker = "", eye_use = NULL,
                                                TRUE ~ Category_Binocular),
                             L_Eye_Event = Event,
                             R_Eye_Event = Event,
-                            Message = ifelse(Annotation_Name == "-", NA,
+                            Message = ifelse(Annotation_Name == "-",
+                                             as.character(NA),
                                              Annotation_Name),
                             Time = `RecordingTime_[ms]`,
                             Message_Inserted = ifelse(is.na(Time), 1, 0),
                             Time = zoo::na.locf(Time, na.rm = FALSE,
                                                 fromLast = TRUE),
                             L_Pupil_Diameter.mm =
-                              ifelse(Pupil_Diameter_Left_mm == "-", NA,
+                              ifelse(Pupil_Diameter_Left_mm == "-",
+                                     as.character(NA),
                                      Pupil_Diameter_Left_mm),
                             R_Pupil_Diameter.mm =
-                              ifelse(Pupil_Diameter_Right_mm == "-", NA,
+                              ifelse(Pupil_Diameter_Right_mm == "-",
+                                     as.character(NA),
                                      Pupil_Diameter_Right_mm),
                             L_Pupil_Diameter.mm =
                               as.numeric(L_Pupil_Diameter.mm),
@@ -448,7 +455,7 @@ pupil_read <- function(file, eyetracker = "", eye_use = NULL,
         data <- dplyr::mutate(data,
                               L_Pupil_Diameter.px = LEFT_PUPIL_SIZE,
                               L_Eye_Event = ifelse(LEFT_IN_BLINK == 1,
-                                                   "Blink", NA))
+                                                   "Blink", as.character(NA)))
         if ("LEFT_IN_SACCADE" %in% data[["vars"]]) {
           data <- dplyr::mutate(data,
                                 L_Eye_Event = ifelse(LEFT_IN_SACCADE == 1,
@@ -492,7 +499,7 @@ pupil_read <- function(file, eyetracker = "", eye_use = NULL,
         data <- dplyr::mutate(data,
                               R_Pupil_Diameter.px = RIGHT_PUPIL_SIZE,
                               R_Eye_Event = ifelse(RIGHT_IN_BLINK == 1,
-                                                   "Blink", NA))
+                                                   "Blink", as.character(NA)))
         if ("RIGHT_IN_SACCADE" %in% data[["vars"]]) {
           data <- dplyr::mutate(data,
                                 R_Eye_Event = ifelse(RIGHT_IN_SACCADE == 1,
@@ -512,7 +519,7 @@ pupil_read <- function(file, eyetracker = "", eye_use = NULL,
         data <- dplyr::mutate(data,
                               Pupil_Diameter.px = RIGHT_PUPIL_SIZE,
                               Eye_Event = ifelse(RIGHT_IN_BLINK == 1,
-                                                 "Blink", NA))
+                                                 "Blink", as.character(NA)))
         if ("RIGHT_IN_SACCADE" %in% data[["vars"]]) {
           data <- dplyr::mutate(data,
                                 Eye_Event = ifelse(RIGHT_IN_SACCADE == 1,
@@ -765,13 +772,13 @@ pupil_read <- function(file, eyetracker = "", eye_use = NULL,
       data <- dplyr::mutate(data,
                             starttracking.time =
                               ifelse(Message == start_tracking_message,
-                                     Time, NA))
+                                     Time, as.numeric(NA)))
     } else if (start_tracking_match == "pattern") {
       data <- dplyr::mutate(data,
                             starttracking.time =
                               ifelse(stringr::str_detect(
                                 Message, start_tracking_message),
-                                Time, NA))
+                                Time, as.numeric(NA)))
     }
     data <- dplyr::mutate(data,
                           starttracking.time = zoo::na.locf(starttracking.time,
