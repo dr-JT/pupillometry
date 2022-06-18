@@ -22,6 +22,7 @@
 #'
 #' @param x dataframe.
 #' @param missing_allowed What proportion of missing data is allowed, per trial?
+#' @import data.table
 #' @export
 #'
 
@@ -47,7 +48,7 @@ pupil_missing <- function(x, missing_allowed = 1) {
 
     x <- dplyr::group_by(x, Trial)
     x <- dplyr::mutate(x,
-                       Missing = base::ifelse(is.na(pupil_val), 1, 0),
+                       Missing = ifelse(is.na(pupil_val), 1, 0),
                        Missing =
                          sum(Missing, na.rm = TRUE) / dplyr::n())
     x <- dplyr::ungroup(x)

@@ -15,6 +15,7 @@
 #'
 #' @param x dataframe.
 #' @param eye_use Which eye to use? left or right?
+#' @import data.table
 #' @export
 #'
 

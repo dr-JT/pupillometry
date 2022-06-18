@@ -8,6 +8,7 @@
 #' This function returns the number of eyes recorded in the data
 #'
 #' @param x dataframe
+#' @import data.table
 #' @export
 #'
 

@@ -8,6 +8,7 @@
 #' Adds a column `Pupil.r`
 #'
 #' @param x dataframe.
+#' @import data.table
 #' @export
 #'
 
