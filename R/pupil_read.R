@@ -434,6 +434,8 @@ pupil_read <- function(file, eyetracker = "", eye_use = NULL,
     if (!is.null(subj_prefix) | !is.null(subj_suffix)) {
       subj <- subj.extract(data$RECORDING_SESSION_LABEL[1],
                            prefix = subj_prefix, suffix = subj_suffix)
+    } else {
+      subj <- data$RECORDING_SESSION_LABEL[1]
     }
 
     ms_conversion <- 1
