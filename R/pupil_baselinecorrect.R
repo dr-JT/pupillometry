@@ -74,6 +74,8 @@ pupil_baselinecorrect <- function(x, bc_onset_message = "",
                            ifelse(stringr::str_detect(Stimulus, m),
                                   onset.time, as.numeric(NA)))
     }
+    x <- dplyr::as_tibble(x)
+    x <- dtplyr::lazy_dt(x)
     x <- dplyr::mutate(x,
                        min_time = min(bconset.time, na.rm = TRUE),
                        bconset.time = ifelse(is.na(bconset.time) |
