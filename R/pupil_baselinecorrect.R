@@ -54,7 +54,7 @@ pupil_baselinecorrect <- function(x, bc_onset_message = "",
     baseline_duration <- pre.duration
   }
 
-  x <- dplyr::as_tiblle(x)
+  x <- dplyr::as_tibble(x)
 
   #### Setup baseline timing variables ####
   x <- dplyr::group_by(x, Trial, Stimulus)
