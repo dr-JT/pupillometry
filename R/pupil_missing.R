@@ -28,6 +28,7 @@
 
 pupil_missing <- function(x, missing_allowed = 1) {
 
+  x <- dplyr::as_tibble(x)
   eyes <- eyes_detect(x)
 
   for (eye in eyes) {
@@ -61,7 +62,6 @@ pupil_missing <- function(x, missing_allowed = 1) {
     }
     colnames(x)[which(colnames(x) == "pupil_val")] <- real_name
   }
-
 
   return(x)
 }
