@@ -464,7 +464,7 @@ pupil_read <- function(file, eyetracker = "", eye_use = NULL,
       } else {
         data <- dplyr::mutate(data,
                               Pupil_Diameter.px = LEFT_PUPIL_SIZE,
-                              Eye_Event = base::ifelse(LEFT_IN_BLINK == 1,
+                              Eye_Event = dplyr::if_else(LEFT_IN_BLINK == 1,
                                                  "Blink", NA))
         if ("LEFT_IN_SACCADE" %in% data[["vars"]]) {
           data <- dplyr::mutate(data,
