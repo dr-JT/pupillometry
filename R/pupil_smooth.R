@@ -113,7 +113,7 @@ pupil_smooth <- function(x, type = "hann", n = NULL,
                                                partial = TRUE),
                          hold = zoo::na.approx(hold, rule = 2),
                          pupil_val =
-                           ifelse(is.na(pupil_val), as.numeric, hold))
+                           ifelse(is.na(pupil_val), as.numeric(NA), hold))
     }
     x <- dplyr::arrange(x, Trial, Time)
     x <- dplyr::ungroup(x)
