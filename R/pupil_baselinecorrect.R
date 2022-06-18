@@ -75,21 +75,21 @@ pupil_baselinecorrect <- function(x, bc_onset_message = "",
                                   onset.time, as.numeric(NA)))
     }
     x <- dplyr::mutate(x,
-                       min = min(bconset.time, na.rm = TRUE),
+                       min_time = min(bconset.time, na.rm = TRUE),
                        bconset.time = ifelse(is.na(bconset.time) |
-                                               bconset.time != min,
+                                               bconset.time != min_time,
                                              as.numeric(NA), bconset.time),
                        bconset.time = zoo::na.locf(bconset.time, na.rm = FALSE),
                        bconset.time = zoo::na.locf(bconset.time, na.rm = FALSE,
                                                    fromLast = TRUE),
-                       bconset.time = ifelse(is.infinite(min),
+                       bconset.time = ifelse(is.infinite(min_time),
                                              as.numeric(Inf), bconset.time),
                        PreTarget =
                          ifelse(Time >= (bconset.time - baseline_duration) &
                                   Time < bconset.time, n, PreTarget),
                        Target = ifelse(Time >= bconset.time, n, Target))
   }
-  x <- dplyr::select(x, -bconset.time, -min, -onset.time)
+  x <- dplyr::select(x, -bconset.time, -min_time, -onset.time)
   ########################################
 
   #### Define baseline correction function ####
