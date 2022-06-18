@@ -432,7 +432,7 @@ pupil_read <- function(file, eyetracker = "", eye_use = NULL,
     if ("HTARGET_DISTANCE" %in% data[["vars"]]) {
       data <- dplyr::rename(data, Head_Distance.cm = HTARGET_DISTANCE)
     }
-    subj <- subj.extract(data$parent$parent$parent$RECORDING_SESSION_LABEL[1],
+    subj <- subj.extract(dplyr::as_tibble(data)$RECORDING_SESSION_LABEL[1],
                          prefix = subj_prefix, suffix = subj_suffix)
 
     ms_conversion <- 1
@@ -668,13 +668,13 @@ pupil_read <- function(file, eyetracker = "", eye_use = NULL,
                                        R_Eye_Event))
       }
 
-      if (length(which(!is.na(data$parent$parent$parent$Eye_Event))) == 0) {
+      if (length(which(!is.na(dplyr::as_tibble(data)$Eye_Event))) == 0) {
         data <- dplyr::select(data, -Eye_Event)
       }
-      if (length(which(!is.na(data$parent$parent$parent$L_Eye_Event))) == 0) {
+      if (length(which(!is.na(dplyr::as_tibble(data)$L_Eye_Event))) == 0) {
         data <- dplyr::select(data, -L_Eye_Event)
       }
-      if (length(which(!is.na(data$parent$parent$parent$R_Eye_Event))) == 0) {
+      if (length(which(!is.na(dplyr::as_tibble(data)$R_Eye_Event))) == 0) {
         data <- dplyr::select(data, -R_Eye_Event)
       }
     }
