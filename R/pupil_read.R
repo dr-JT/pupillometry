@@ -592,12 +592,23 @@ pupil_read <- function(file, eyetracker = "", eye_use = NULL,
                                                GazePointValidityLeftEye == 1 ~
                                                "Saccade",
                                              GazePointValidityLeftEye == 0 ~
-                                               "Blink"))
+                                               "Blink"),
+                          L_Pupil_Diameter.mm =
+                            dplyr::case_when(L_Eye_Event == "Blink" ~ 0,
+                                             TRUE ~ L_Pupil_Diameter.mm))
           if (left_gaze == TRUE) {
             data <-
               dplyr::rename(data,
                             L_Gaze_Position.x = GazePointPositionDisplayXLeftEye,
                             L_Gaze_Position.y = GazePointPositionDisplayYLeftEye)
+            data <-
+              dplyr::mutate(data,
+                            L_Gaze_Position.x =
+                              dplyr::case_when(L_Eye_Event == "Blink" ~ 0,
+                                               TRUE ~ L_Gaze_Position.x),
+                            L_Gaze_Position.y =
+                              dplyr::case_when(L_Eye_Event == "Blink" ~ 0,
+                                               TRUE ~ L_Gaze_Position.y))
           }
         } else {
           data <-
@@ -611,12 +622,23 @@ pupil_read <- function(file, eyetracker = "", eye_use = NULL,
                                                GazePointValidityLeftEye == 1 ~
                                                "Saccade",
                                              GazePointValidityLeftEye == 0 ~
-                                               "Blink"))
+                                               "Blink"),
+                          Pupil_Diameter.mm =
+                            dplyr::case_when(Eye_Event == "Blink" ~ 0,
+                                             TRUE ~ Pupil_Diameter.mm))
           if (left_gaze == TRUE) {
             data <-
               dplyr::rename(data,
                             Gaze_Position.x = GazePointPositionDisplayXLeftEye,
                             Gaze_Position.y = GazePointPositionDisplayYLeftEye)
+            data <-
+              dplyr::mutate(data,
+                            Gaze_Position.x =
+                              dplyr::case_when(Eye_Event == "Blink" ~ 0,
+                                               TRUE ~ Gaze_Position.x),
+                            Gaze_Position.y =
+                              dplyr::case_when(Eye_Event == "Blink" ~ 0,
+                                               TRUE ~ Gaze_Position.y))
           }
         }
       }
@@ -634,12 +656,23 @@ pupil_read <- function(file, eyetracker = "", eye_use = NULL,
                                                GazePointValidityRightEye == 1 ~
                                                "Saccade",
                                              GazePointValidityRightEye == 0 ~
-                                               "Blink"))
+                                               "Blink"),
+                          R_Pupil_Diameter.mm =
+                            dplyr::case_when(R_Eye_Event == "Blink" ~ 0,
+                                             TRUE ~ R_Pupil_Diameter.mm))
           if (left_gaze == TRUE) {
             data <-
               dplyr::rename(data,
                             R_Gaze_Position.x = GazePointPositionDisplayXRightEye,
                             R_Gaze_Position.y = GazePointPositionDisplayYRightEye)
+            data <-
+              dplyr::mutate(data,
+                            R_Gaze_Position.x =
+                              dplyr::case_when(R_Eye_Event == "Blink" ~ 0,
+                                               TRUE ~ R_Gaze_Position.x),
+                            R_Gaze_Position.y =
+                              dplyr::case_when(R_Eye_Event == "Blink" ~ 0,
+                                               TRUE ~ R_Gaze_Position.y))
           }
         } else {
           data <-
@@ -653,12 +686,23 @@ pupil_read <- function(file, eyetracker = "", eye_use = NULL,
                                                GazePointValidityRightEye == 1 ~
                                                "Saccade",
                                              GazePointValidityRightEye == 0 ~
-                                               "Blink"))
+                                               "Blink"),
+                          Pupil_Diameter.mm =
+                            dplyr::case_when(Eye_Event == "Blink" ~ 0,
+                                             TRUE ~ Pupil_Diameter.mm))
           if (left_gaze == TRUE) {
             data <-
               dplyr::rename(data,
                             Gaze_Position.x = GazePointPositionDisplayXRightEye,
                             Gaze_Position.y = GazePointPositionDisplayYRightEye)
+            data <-
+              dplyr::mutate(data,
+                            Gaze_Position.x =
+                              dplyr::case_when(Eye_Event == "Blink" ~ 0,
+                                               TRUE ~ Gaze_Position.x),
+                            Gaze_Position.y =
+                              dplyr::case_when(Eye_Event == "Blink" ~ 0,
+                                               TRUE ~ Gaze_Position.y))
           }
         }
       }
