@@ -52,7 +52,10 @@
 #'
 #' @param file A file path to the raw data.
 #' @param eyetracker Which eye tracker system was used to record data?
-#'     options: "smi", "eyelink", NULL.
+#'     options: "smi", "eyelink", "tobii", NULL. Note that only tobii eye
+#'     tracking data using E-Prime GazeData option is supported. Tobii
+#'     ProLab and other experimental software (e.g., PsychoPy) have not
+#'     been tested.
 #' @param eye_use Which eye to use?
 #'     options: "left", "right" or NULL (default to keep both).
 #' @param subj_prefix The unique pattern prefix (letter(s)
@@ -549,6 +552,118 @@ pupil_read <- function(file, eyetracker = "", eye_use = NULL,
   }
   ################################
 
+  ## Eye tracker is Tobii ####
+  if (eyetracker == "tobii") {
+
+    data <- readr::read_delim(file, "\t", escape_double = FALSE,
+                              trim_ws = TRUE, na = ".", guess_max = 100000)
+
+    if ("CurrentObject" %in% colnames(data)) {
+      tobii <- "gazedata"
+    } else {
+      tobii <- "prolab"
+    }
+
+    data <- dtplyr::lazy_dt(data)
+
+    if (tobii == "gazedata") {
+      data <- dplyr::rename(data,
+                            Time = RTTime, Stimulus = CurrentObject,
+                            Trial = RunningSample)
+
+      ms_conversion <- 1
+      left_recorded <- "PupilDiameterLeftEye" %in% data[["vars"]]
+      right_recorded <- "PupilDiameterRightEye" %in% data[["vars"]]
+      left_gaze <- "GazePointPositionDisplayXLeftEye" %in% data[["vars"]]
+      right_gaze <- "GazePointPositionDisplayXRightEye" %in% data[["vars"]]
+
+      if (left_recorded == TRUE) {
+        if (right_recorded == TRUE) {
+          data <-
+            dplyr::mutate(data,
+                          L_Pupil_Diameter.mm = PupilDiameterLeftEye,
+                          L_Eye_Event =
+                            dplyr::case_when(CurrentFixationDuration > 0 &
+                                               GazePointValidityLeftEye == 1 ~
+                                               "Fixation",
+                                             CurrentFixationDuration == 0 &
+                                               GazePointValidityLeftEye == 1 ~
+                                               "Saccade",
+                                             GazePointValidityLeftEye == 0 ~
+                                               "Blink"))
+          if (left_gaze == TRUE) {
+            data <-
+              dplyr::rename(data,
+                            L_Gaze_Position.x = GazePointPositionDisplayXLeftEye,
+                            L_Gaze_Position.y = GazePointPositionDisplayYLeftEye)
+          }
+        } else {
+          data <-
+            dplyr::mutate(data,
+                          Pupil_Diameter.px = PupilDiameterLeftEye,
+                          Eye_Event =
+                            dplyr::case_when(CurrentFixationDuration > 0 &
+                                               GazePointValidityLeftEye == 1 ~
+                                               "Fixation",
+                                             CurrentFixationDuration == 0 &
+                                               GazePointValidityLeftEye == 1 ~
+                                               "Saccade",
+                                             GazePointValidityLeftEye == 0 ~
+                                               "Blink"))
+          if (left_gaze == TRUE) {
+            data <-
+              dplyr::rename(data,
+                            Gaze_Position.x = GazePointPositionDisplayXLeftEye,
+                            Gaze_Position.y = GazePointPositionDisplayYLeftEye)
+          }
+        }
+      }
+
+      if (right_recorded == TRUE) {
+        if (left_recorded == TRUE) {
+          data <-
+            dplyr::mutate(data,
+                          R_Pupil_Diameter.px = PupilDiameterRightEye,
+                          R_Eye_Event =
+                            dplyr::case_when(CurrentFixationDuration > 0 &
+                                               GazePointValidityRightEye == 1 ~
+                                               "Fixation",
+                                             CurrentFixationDuration == 0 &
+                                               GazePointValidityRightEye == 1 ~
+                                               "Saccade",
+                                             GazePointValidityRightEye == 0 ~
+                                               "Blink"))
+          if (left_gaze == TRUE) {
+            data <-
+              dplyr::rename(data,
+                            R_Gaze_Position.x = GazePointPositionDisplayXRightEye,
+                            R_Gaze_Position.y = GazePointPositionDisplayYRightEye)
+          }
+        } else {
+          data <-
+            dplyr::mutate(data,
+                          Pupil_Diameter.px = PupilDiameterRightEye,
+                          Eye_Event =
+                            dplyr::case_when(CurrentFixationDuration > 0 &
+                                               GazePointValidityRightEye == 1 ~
+                                               "Fixation",
+                                             CurrentFixationDuration == 0 &
+                                               GazePointValidityRightEye == 1 ~
+                                               "Saccade",
+                                             GazePointValidityRightEye == 0 ~
+                                               "Blink"))
+          if (left_gaze == TRUE) {
+            data <-
+              dplyr::rename(data,
+                            Gaze_Position.x = GazePointPositionDisplayXRightEye,
+                            Gaze_Position.y = GazePointPositionDisplayYRightEye)
+          }
+        }
+      }
+    }
+  }
+  ################################
+
   ## Eye tracker is not specified ####
   if (eyetracker == "") {
 
@@ -713,7 +828,9 @@ pupil_read <- function(file, eyetracker = "", eye_use = NULL,
                           Time = Time / ms_conversion,
                           Message = gsub("# Message: ", "", Message))
     data <- dplyr::select(data,
-                          Subject, Time, tidyselect::any_of("Trial"), Message,
+                          Subject, Time, tidyselect::any_of("Trial"),
+                          tidyselect::any_of("Message"),
+                          tidyselect::any_of("Stimulus"),
                           tidyselect::any_of("Pupil_Diameter.mm"),
                           tidyselect::any_of("Pupil_Diameter.px"),
                           tidyselect::any_of("Gaze_Position.x"),
@@ -797,12 +914,24 @@ pupil_read <- function(file, eyetracker = "", eye_use = NULL,
                           starttracking.time = zoo::na.locf(starttracking.time,
                                                             na.rm = FALSE),
                           Trial = dplyr::dense_rank(starttracking.time))
+  }
+  ###########################################
+
+  ## Save trial quality check ####
+  if (!is.null(quality_check_dir)) {
     check <- data
     check <- pupil_missing(check)
     check <- dtplyr::lazy_dt(check)
-    check <- dplyr::select(check, Subject, Time, Trial,
-                           contains("Pupil_Missing"), starttracking.time)
-    check <- dplyr::filter(check, Time == starttracking.time)
+    if (!is.null(start_tracking_message)) {
+      check <- dplyr::select(check, Subject, Time, Trial,
+                             contains("Pupil_Missing"), starttracking.time)
+      check <- dplyr::filter(check, Time == starttracking.time)
+    } else {
+      check <- dplyr::select(check, Subject, Trial,
+                             contains("Pupil_Missing"))
+      check <- dplyr::distinct(check)
+    }
+
     check <- dplyr::group_by(check, Subject)
     if (("L_Pupil_Diameter.mm" %in% data[["vars"]] &
          "R_Pupil_Diameter.mm" %in% data[["vars"]]) |
@@ -822,13 +951,7 @@ pupil_read <- function(file, eyetracker = "", eye_use = NULL,
     }
     check <- dplyr::ungroup(check)
     check <- dplyr::as_tibble(check)
-  } else {
-    check <- data.frame()
-  }
-  ###########################################
 
-  ## Save trial quality check ####
-  if (!is.null(quality_check_dir)) {
     if (!dir.exists(quality_check_dir)) dir.create(quality_check_dir)
     check_file <- paste(quality_check_dir, "quality_check.csv", sep = "/")
     if (!file.exists(check_file)) {

@@ -61,7 +61,10 @@ pupil_read(
 \item{file}{A file path to the raw data.}
 
 \item{eyetracker}{Which eye tracker system was used to record data?
-options: "smi", "eyelink", NULL.}
+options: "smi", "eyelink", "tobii", NULL. Note that only tobii eye
+tracking data using E-Prime GazeData option is supported. Tobii
+ProLab and other experimental software (e.g., PsychoPy) have not
+been tested.}
 
 \item{eye_use}{Which eye to use?
 options: "left", "right" or NULL (default to keep both).}
