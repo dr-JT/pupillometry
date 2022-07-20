@@ -923,9 +923,8 @@ pupil_read <- function(file, eyetracker = "", eye_use = NULL,
 
   ## Save trial quality check ####
   if (!is.null(quality_check_dir)) {
-    check <- data
+    check <- dplyr::as_tibble(data)
     check <- pupil_missing(check)
-    check <- dtplyr::lazy_dt(check)
     if (!is.null(start_tracking_message)) {
       check <- dplyr::select(check, Subject, Time, Trial,
                              dplyr::contains("Pupil_Missing"), starttracking.time)
@@ -954,7 +953,6 @@ pupil_read <- function(file, eyetracker = "", eye_use = NULL,
                                   mean(Pupil_Missing, na.rm = TRUE))
     }
     check <- dplyr::ungroup(check)
-    check <- dplyr::as_tibble(check)
 
     if (!dir.exists(quality_check_dir)) dir.create(quality_check_dir)
     check_file <- paste(quality_check_dir, "quality_check.csv", sep = "/")
