@@ -594,8 +594,10 @@ pupil_read <- function(file, eyetracker = "", eye_use = NULL,
                                              GazePointValidityLeftEye == 0 ~
                                                "Blink"),
                           L_Pupil_Diameter.mm =
-                            dplyr::case_when(L_Eye_Event == "Blink" ~ 0,
-                                             TRUE ~ L_Pupil_Diameter.mm))
+                            dplyr::case_when(PupilValidityLeftEye == 0 ~
+                                               as.numeric(NA),
+                                             TRUE ~
+                                               as.numeric(L_Pupil_Diameter.mm)))
           if (left_gaze == TRUE) {
             data <-
               dplyr::rename(data,
@@ -604,11 +606,15 @@ pupil_read <- function(file, eyetracker = "", eye_use = NULL,
             data <-
               dplyr::mutate(data,
                             L_Gaze_Position.x =
-                              dplyr::case_when(L_Eye_Event == "Blink" ~ 0,
-                                               TRUE ~ L_Gaze_Position.x),
+                              dplyr::case_when(L_Eye_Event == "Blink" ~
+                                                 as.numeric(NA),
+                                               TRUE ~
+                                                 as.numeric(L_Gaze_Position.x)),
                             L_Gaze_Position.y =
-                              dplyr::case_when(L_Eye_Event == "Blink" ~ 0,
-                                               TRUE ~ L_Gaze_Position.y))
+                              dplyr::case_when(L_Eye_Event == "Blink" ~
+                                                 as.numeric(NA),
+                                               TRUE ~
+                                                 as.numeric(L_Gaze_Position.y)))
           }
         } else {
           data <-
@@ -624,8 +630,10 @@ pupil_read <- function(file, eyetracker = "", eye_use = NULL,
                                              GazePointValidityLeftEye == 0 ~
                                                "Blink"),
                           Pupil_Diameter.mm =
-                            dplyr::case_when(Eye_Event == "Blink" ~ 0,
-                                             TRUE ~ Pupil_Diameter.mm))
+                            dplyr::case_when(PupilValidityLeftEye == 0 ~
+                                               as.numeric(NA),
+                                             TRUE ~
+                                               as.numeric(Pupil_Diameter.mm)))
           if (left_gaze == TRUE) {
             data <-
               dplyr::rename(data,
@@ -634,11 +642,15 @@ pupil_read <- function(file, eyetracker = "", eye_use = NULL,
             data <-
               dplyr::mutate(data,
                             Gaze_Position.x =
-                              dplyr::case_when(Eye_Event == "Blink" ~ 0,
-                                               TRUE ~ Gaze_Position.x),
+                              dplyr::case_when(Eye_Event == "Blink" ~
+                                                 as.numeric(NA),
+                                               TRUE ~
+                                                 as.numeric(Gaze_Position.x)),
                             Gaze_Position.y =
-                              dplyr::case_when(Eye_Event == "Blink" ~ 0,
-                                               TRUE ~ Gaze_Position.y))
+                              dplyr::case_when(Eye_Event == "Blink" ~
+                                                 as.numeric(NA),
+                                               TRUE ~
+                                                 as.numeric(Gaze_Position.y)))
           }
         }
       }
@@ -658,8 +670,10 @@ pupil_read <- function(file, eyetracker = "", eye_use = NULL,
                                              GazePointValidityRightEye == 0 ~
                                                "Blink"),
                           R_Pupil_Diameter.mm =
-                            dplyr::case_when(R_Eye_Event == "Blink" ~ 0,
-                                             TRUE ~ R_Pupil_Diameter.mm))
+                            dplyr::case_when(PupilValidityRightEye == 0 ~
+                                               as.numeric(NA),
+                                             TRUE ~
+                                               as.numeric(R_Pupil_Diameter.mm)))
           if (left_gaze == TRUE) {
             data <-
               dplyr::rename(data,
@@ -668,11 +682,15 @@ pupil_read <- function(file, eyetracker = "", eye_use = NULL,
             data <-
               dplyr::mutate(data,
                             R_Gaze_Position.x =
-                              dplyr::case_when(R_Eye_Event == "Blink" ~ 0,
-                                               TRUE ~ R_Gaze_Position.x),
+                              dplyr::case_when(R_Eye_Event == "Blink" ~
+                                                 as.numeric(NA),
+                                               TRUE ~
+                                                 as.numeric(R_Gaze_Position.x)),
                             R_Gaze_Position.y =
-                              dplyr::case_when(R_Eye_Event == "Blink" ~ 0,
-                                               TRUE ~ R_Gaze_Position.y))
+                              dplyr::case_when(R_Eye_Event == "Blink" ~
+                                                 as.numeric(NA),
+                                               TRUE ~
+                                                 as.numeric(R_Gaze_Position.y)))
           }
         } else {
           data <-
@@ -688,8 +706,10 @@ pupil_read <- function(file, eyetracker = "", eye_use = NULL,
                                              GazePointValidityRightEye == 0 ~
                                                "Blink"),
                           Pupil_Diameter.mm =
-                            dplyr::case_when(Eye_Event == "Blink" ~ 0,
-                                             TRUE ~ Pupil_Diameter.mm))
+                            dplyr::case_when(PupilValidityRightEye == 0 ~
+                                               as.numeric(NA),
+                                             TRUE ~
+                                               as.numeric(Pupil_Diameter.mm)))
           if (left_gaze == TRUE) {
             data <-
               dplyr::rename(data,
@@ -698,11 +718,15 @@ pupil_read <- function(file, eyetracker = "", eye_use = NULL,
             data <-
               dplyr::mutate(data,
                             Gaze_Position.x =
-                              dplyr::case_when(Eye_Event == "Blink" ~ 0,
-                                               TRUE ~ Gaze_Position.x),
+                              dplyr::case_when(Eye_Event == "Blink" ~
+                                                 as.numeric(NA),
+                                               TRUE ~
+                                                 as.numeric(Gaze_Position.x)),
                             Gaze_Position.y =
-                              dplyr::case_when(Eye_Event == "Blink" ~ 0,
-                                               TRUE ~ Gaze_Position.y))
+                              dplyr::case_when(Eye_Event == "Blink" ~
+                                                 as.numeric(NA),
+                                               TRUE ~
+                                                 as.numeric(Gaze_Position.y)))
           }
         }
       }
