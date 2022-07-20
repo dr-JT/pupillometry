@@ -555,6 +555,8 @@ pupil_read <- function(file, eyetracker = "", eye_use = NULL,
   ## Eye tracker is Tobii ####
   if (eyetracker == "tobii") {
 
+    start_tracking_message <- NULL
+
     data <- readr::read_delim(file, "\t", escape_double = FALSE,
                               trim_ws = TRUE, na = ".", guess_max = 100000)
 
