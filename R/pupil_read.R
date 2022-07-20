@@ -260,8 +260,9 @@ pupil_read <- function(file, eyetracker = "", eye_use = NULL,
   ###################################
 
   ## Import and Standardize ####
+
+  ## Eye tracker is SMI ####
   if (eyetracker == "smi") {
-    ## Eye tracker is SMI ####
     if (!is.null(start_tracking_message)) {
       if (start_tracking_message == "default") {
         start_tracking_message <- "StartTracking.bmp"
@@ -296,8 +297,9 @@ pupil_read <- function(file, eyetracker = "", eye_use = NULL,
       model <- "glasses"
     }
 
+    ## SMI eyetracker is Red250m ####
     if (model == "Red250m") {
-      ## SMI eyetracker is Red250m ####
+
       subj <- subj.extract(file, prefix = subj_prefix, suffix = subj_suffix)
       ms_conversion <- 1000
       message.column <- data[["vars"]][4]
@@ -367,9 +369,11 @@ pupil_read <- function(file, eyetracker = "", eye_use = NULL,
           }
         }
       }
-      ###################################
-    } else if (model == "glasses") {
-      ## SMI eyetracker is glasses ####
+    }
+    ###################################
+
+    ## SMI eyetracker is glasses ####
+    if (model == "glasses") {
       subj <- subj.extract(data$parent$parent$parent$Participant[1],
                            prefix = subj_prefix,
                            suffix = subj_suffix)
@@ -425,9 +429,12 @@ pupil_read <- function(file, eyetracker = "", eye_use = NULL,
       ######################################
     }
     data <- dplyr::mutate(data, Head_Distance.cm = head.distance)
-    ################################
-  } else if (eyetracker == "eyelink") {
-    ## Eye tracker is EyeLink ####
+  }
+  ################################
+
+  ## Eye tracker is EyeLink ####
+  if (eyetracker == "eyelink") {
+
     if (!is.null(start_tracking_message)) {
       if (start_tracking_message == "default") {
         start_tracking_message <- "TRIALID"
@@ -538,9 +545,13 @@ pupil_read <- function(file, eyetracker = "", eye_use = NULL,
         }
       }
     }
-    ################################
-  } else if (eyetracker == "") {
-    ## Eye tracker is not specified ####
+
+  }
+  ################################
+
+  ## Eye tracker is not specified ####
+  if (eyetracker == "") {
+
     if (delim == "\t") {
       data <- readr::read_delim(file, delim = "\t", escape_double = FALSE,
                                 trim_ws = TRUE, guess_max = 100000,
@@ -693,8 +704,8 @@ pupil_read <- function(file, eyetracker = "", eye_use = NULL,
       data <- dplyr::mutate(data, Time = Time / ms_conversion)
     }
     if (start_tracking_message == "default") start_tracking_message <- NULL
-      ####################################
   }
+  ####################################
 
   if (eyetracker != "") {
     data <- dplyr::mutate(data,
