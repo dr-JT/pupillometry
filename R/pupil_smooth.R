@@ -115,8 +115,8 @@ pupil_smooth <- function(x, type = "hann", n = NULL,
                          pupil_val =
                            ifelse(is.na(pupil_val), as.numeric(NA), hold))
     }
-    x <- dplyr::arrange(x, Trial, Time)
     x <- dplyr::ungroup(x)
+    x <- dplyr::arrange(x, Trial, Time)
     x <- dplyr::mutate(x,
                        pupil_val =
                          ifelse(is.na(pupil_before), as.numeric(NA), pupil_val))

@@ -53,7 +53,6 @@ pupil_upsample <- function(x){
     x <- merge(x, time_up, by = c("Trial", "Time"), all = TRUE)
   }
   x <- dplyr::relocate(x, Subject, .before = "Trial")
-  x <- dplyr::arrange(x, Subject, Trial, Time)
   x <- tidyr::fill(x,
                    -tidyselect::any_of(c("Pupil_Diameter.mm",
                                          "L_Pupil_Diameter.mm",

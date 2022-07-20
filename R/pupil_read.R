@@ -900,6 +900,8 @@ pupil_read <- function(file, eyetracker = "", eye_use = NULL,
     data <- dplyr::mutate(data, Stimulus = zoo::na.locf(Message, na.rm = FALSE))
     data <- dplyr::ungroup(data)
     data <- dplyr::filter(data, Message_Inserted == 0)
+    data <- dplyr::relocate(data, Stimulus, .after = Time)
+    data <- dplyr::select(data, -Message)
   }
   ###################################################
 
