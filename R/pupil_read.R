@@ -824,11 +824,11 @@ pupil_read <- function(file, eyetracker = "", eye_use = NULL,
 
   if (eyetracker != "") {
     if (eyetracker != "tobii") {
-      data <- dplyr::mutate(data, Subject = subj)
+      data <- dplyr::mutate(data, Subject = subj,
+                            Message = gsub("# Message: ", "", Message))
     }
     data <- dplyr::mutate(data,
-                          Time = Time / ms_conversion,
-                          Message = gsub("# Message: ", "", Message))
+                          Time = Time / ms_conversion)
     data <- dplyr::select(data,
                           Subject, Time, tidyselect::any_of("Trial"),
                           tidyselect::any_of("Message"),
