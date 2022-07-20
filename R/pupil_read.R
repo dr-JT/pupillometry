@@ -602,7 +602,7 @@ pupil_read <- function(file, eyetracker = "", eye_use = NULL,
         } else {
           data <-
             dplyr::mutate(data,
-                          Pupil_Diameter.px = PupilDiameterLeftEye,
+                          Pupil_Diameter.mm = PupilDiameterLeftEye,
                           Eye_Event =
                             dplyr::case_when(CurrentFixationDuration > 0 &
                                                GazePointValidityLeftEye == 1 ~
@@ -625,7 +625,7 @@ pupil_read <- function(file, eyetracker = "", eye_use = NULL,
         if (left_recorded == TRUE) {
           data <-
             dplyr::mutate(data,
-                          R_Pupil_Diameter.px = PupilDiameterRightEye,
+                          R_Pupil_Diameter.mm = PupilDiameterRightEye,
                           R_Eye_Event =
                             dplyr::case_when(CurrentFixationDuration > 0 &
                                                GazePointValidityRightEye == 1 ~
@@ -644,7 +644,7 @@ pupil_read <- function(file, eyetracker = "", eye_use = NULL,
         } else {
           data <-
             dplyr::mutate(data,
-                          Pupil_Diameter.px = PupilDiameterRightEye,
+                          Pupil_Diameter.mm = PupilDiameterRightEye,
                           Eye_Event =
                             dplyr::case_when(CurrentFixationDuration > 0 &
                                                GazePointValidityRightEye == 1 ~
