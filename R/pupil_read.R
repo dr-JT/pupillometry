@@ -928,11 +928,11 @@ pupil_read <- function(file, eyetracker = "", eye_use = NULL,
     check <- dtplyr::lazy_dt(check)
     if (!is.null(start_tracking_message)) {
       check <- dplyr::select(check, Subject, Time, Trial,
-                             contains("Pupil_Missing"), starttracking.time)
+                             dplyr::contains("Pupil_Missing"), starttracking.time)
       check <- dplyr::filter(check, Time == starttracking.time)
     } else {
       check <- dplyr::select(check, Subject, Trial,
-                             contains("Pupil_Missing"))
+                             dplyr::contains("Pupil_Missing"))
       check <- dplyr::distinct(check)
     }
 
