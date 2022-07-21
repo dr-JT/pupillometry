@@ -1028,6 +1028,8 @@ pupil_read <- function(file, eyetracker = "", eye_use = NULL,
       readr::write_csv(check, check_file)
     } else {
       data_check <- readr::read_csv(check_file)
+      data_check$Subject <- factor(data_check$Subject)
+      check$Subject <- factor(check$Subject)
       data_check <- dplyr::bind_rows(data_check, check)
       readr::write_csv(data_check, check_file)
     }
