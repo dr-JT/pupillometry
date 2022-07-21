@@ -13,13 +13,16 @@
 #' @export
 #'
 
-pupil_merge <- function(path = "", pattern = "", output_file = ""){
+pupil_merge <- function(path = "", pattern = "", output_file = "") {
+
   filelist <- list.files(path = path, pattern = pattern, full.names = TRUE)
   import <- list()
   for (i in seq_along(filelist)) {
     import[[i]] <- readr::read_csv(filelist[[i]])
+    import[[i]]$Subject <- factor(import[[i]]$Subject)
   }
   bound <- dplyr::bind_rows(import)
   readr::write_csv(bound, output_file)
+
   return(bound)
 }
