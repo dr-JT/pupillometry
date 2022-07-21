@@ -51,7 +51,11 @@ set_timing <- function(x, onset_message = NULL, match = "exact",
                                                 min(Time, na.rm = TRUE), NA))
     x <- dplyr::group_by(x, Trial)
     x <- tidyr::fill(x, onset.time, .direction = "updown")
-    x <- dplyr::mutate(x, Time = Time - onset.time)
+    x <- dplyr::mutate(x,
+                       stim_present = ifelse(is.na(onset.time), "no", "yes"),
+                       onset.time = ifelse(stim_present == "no",
+                                           min(Time, na.rm = TRUE), onset.time),
+                       Time = Time - onset.time)
   } else if ("Message" %in% colnames(x)) {
     x <- dplyr::group_by(x, Trial)
     if (match == "exact") {
@@ -74,12 +78,15 @@ set_timing <- function(x, onset_message = NULL, match = "exact",
                        onset.time = zoo::na.locf(onset.time,
                                                       na.rm = FALSE,
                                                       fromLast = TRUE),
+                       stim_present = ifelse(is.na(onset.time), "no", "yes"),
+                       onset.time = ifelse(stim_present == "no",
+                                           min(Time, na.rm = TRUE), onset.time),
                        Time = Time - onset.time)
     x <- dplyr::select(x, -min)
   }
 
   x <- dplyr::ungroup(x)
-  x <- dplyr::select(x, -onset.time)
+  x <- dplyr::select(x, -onset.time, -stim_present)
   x <- dplyr::distinct(x, Trial, Time, .keep_all = TRUE)
   x <- dplyr::filter(x, !is.na(Subject))
   return(x)
