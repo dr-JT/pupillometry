@@ -87,6 +87,6 @@ If you are having difficulty getting the package to work or would like to make a
 
 [![DOI](https://zenodo.org/badge/146345641.svg)](https://zenodo.org/badge/latestdoi/146345641)
 
-> Tsukahara, J.S. (2022). pupillometry: An R package to preprocess pupil data (v0.8.0). <http://doi.org/10.5281/zenodo.6661649>
+> Tsukahara, J.S. (2022). pupillometry: An R package to preprocess pupil data (v0.8.1). <http://doi.org/10.5281/zenodo.7024035>
 
 [See Changelog for citations of previous versions](https://dr-jt.github.io/pupillometry/news/index.html)

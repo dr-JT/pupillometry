@@ -85,7 +85,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">pupillometry</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.8.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.8.1</span>
       </span>
     </div>
 
@@ -165,20 +165,35 @@
       <small>Source: <a href='https://github.com/dr-JT/pupillometry/blob/master/NEWS.md'><code>NEWS.md</code></a></small>
     </div>
 
+    <div id="pupillometry-081" class="section level1">
+<h1 class="page-header" data-toc-text="0.8.1">
+<a href="#pupillometry-081" class="anchor"></a>pupillometry 0.8.1</h1>
+<p>Updated: 08/25/2022</p>
+<ul>
+<li>Added support for Tobii eye trackers!
+<code><a href="../reference/pupil_read.html">pupil_read(eyetracker = "tobii")</a></code>
+</li>
+</ul>
+</div>
     <div id="pupillometry-080" class="section level1">
 <h1 class="page-header" data-toc-text="0.8.0">
 <a href="#pupillometry-080" class="anchor"></a>pupillometry 0.8.0</h1>
+<p><a href="https://zenodo.org/badge/latestdoi/146345641"><img src="https://zenodo.org/badge/146345641.svg" alt="DOI"></a></p>
+<blockquote>
+<p>Tsukahara, J.S. (2022). pupillometry: An R package to preprocess
+pupil data (v0.8.0). <a href="http://doi.org/10.5281/zenodo.6661649" class="uri">http://doi.org/10.5281/zenodo.6661649</a></p>
+</blockquote>
 <p>Updated: 06/18/2022</p>
 <ul>
 <li><p>Major release update</p></li>
 <li><p><strong>Speed improvement!</strong>: Converted the functions to
 use <code>dtplyr</code> (a <code>dplyr</code> translation for using and
 taking advantage of <code>data.table</code> which can handle larger data
-at much faster speeds). This should result in major improvements in
-speed. There was also an issue before where if a trial had large amounts
-of missing data the functions (namely <code>pupil_artifact</code>) would
-get stuck and never finish processing and a reboot of R was required.
-This seems to take care of that issue too.</p></li>
+at faster speeds). This should result in improvements in speed. There
+was also an issue before where if a trial had large amounts of missing
+data the functions (namely <code>pupil_artifact</code>) would get stuck
+and never finish processing and a reboot of R was required. This seems
+to take care of that issue too.</p></li>
 <li><p>Added the option to keep and preprocess data from both the left
 and right eyes. Averaging of the pupil data from each eye can be down
 after preprocessing. <code><a href="../reference/pupil_read.html">pupil_read(eye_use = NULL)</a></code> is now
@@ -424,7 +439,7 @@ Default is “exact” match.</p>
 
       <footer>
       <div class="copyright">
-  <p>Developed by <a href='http://englelab.gatech.edu/jason'>Jason Tsukahara</a>.</p>
+  <p>Developed by <a href='https://englelab.gatech.edu/jason'>Jason Tsukahara</a>.</p>
 </div>
 
 <div class="pkgdown">
