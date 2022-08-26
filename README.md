@@ -33,15 +33,17 @@ The `pupil_read()` function imports the messy raw data file and its output is a 
 
 Currently, `pupil_read()` supports:
 
--   SensoMotoric Instruments (SMI) eye trackers: `eyetracker = "smi"`
+- SensoMotoric Instruments (SMI) eye trackers: `eyetracker = "smi"`
 
     -   RED250m
 
     -   Eye glasses
 
--   SR Research EyeLink100 eye trackers: `eyetracker = "eyelink"`
+- SR Research EyeLink100 eye trackers: `eyetracker = "eyelink"`
 
--   Any eye tracker data file: `eyetracker = ""`
+- Tobii eye trackers: `eyetracker = "tobii"`
+
+- Any eye tracker data file: `eyetracker = ""`
 
     - Need to specify column names for certain variables. See `pupil_read()`
 

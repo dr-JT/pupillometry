@@ -1,10 +1,20 @@
+# pupillometry 0.8.1
+
+Updated: 08/25/2022
+
+* Added support for Tobii eye trackers! `pupil_read(eyetracker = "tobii")`
+
 # pupillometry 0.8.0
+
+[![DOI](https://zenodo.org/badge/146345641.svg)](https://zenodo.org/badge/latestdoi/146345641)
+
+> Tsukahara, J.S. (2022). pupillometry: An R package to preprocess pupil data (v0.8.0). <http://doi.org/10.5281/zenodo.6661649>
 
 Updated: 06/18/2022
 
 * Major release update
 
-* **Speed improvement!**: Converted the functions to use `dtplyr` (a `dplyr` translation for using and taking advantage of `data.table` which can handle larger data at much faster speeds). This should result in major improvements in speed. There was also an issue before where if a trial had large amounts of missing data the functions (namely `pupil_artifact`) would get stuck and never finish processing and a reboot of R was required. This seems to take care of that issue too. 
+* **Speed improvement!**: Converted the functions to use `dtplyr` (a `dplyr` translation for using and taking advantage of `data.table` which can handle larger data at faster speeds). This should result in improvements in speed. There was also an issue before where if a trial had large amounts of missing data the functions (namely `pupil_artifact`) would get stuck and never finish processing and a reboot of R was required. This seems to take care of that issue too. 
 
 * Added the option to keep and preprocess data from both the left and right eyes. Averaging of the pupil data from each eye can be down after preprocessing. `pupil_read(eye_use = NULL)` is now default and will preserve pupil data from both eyes. If you have only data from the left or right eye, using the default (`NULL`) will work so no need to specify the recorded from eye.
 
