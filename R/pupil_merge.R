@@ -22,7 +22,10 @@ pupil_merge <- function(path = "", pattern = "", output_file = "") {
     import[[i]]$Subject <- factor(import[[i]]$Subject)
   }
   bound <- dplyr::bind_rows(import)
-  readr::write_csv(bound, output_file)
+
+  if (output_file != "") {
+    readr::write_csv(bound, output_file)
+  }
 
   return(bound)
 }
