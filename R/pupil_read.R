@@ -741,8 +741,14 @@ pupil_read <- function(file, eyetracker = "", eye_use = NULL,
       data <- readr::read_delim(file, delim = "\t", escape_double = FALSE,
                                 trim_ws = TRUE, guess_max = 100000,
                                 na = na)
-    } else if (delim == "," | delim == "csv") {
+    }
+    if (delim == "," | delim == "csv") {
       data <- readr::read_csv(file, guess_max = 100000, na = na)
+    }
+    if (delim == ";") {
+      data <- readr::read_delim(file, delim = ";", escape_double = FALSE,
+                                trim_ws = TRUE, guess_max = 100000,
+                                na = na)
     }
 
     data <- dtplyr::lazy_dt(data)
@@ -773,6 +779,8 @@ pupil_read <- function(file, eyetracker = "", eye_use = NULL,
                           R_Fixation_Event = right_fixation_event,
                           R_Saccade_Event = right_saccade_event,
                           include_col)
+
+    if (is.null(trial)) dplyr::mutate(data, Trial = 1)
 
     if (is.null(left_pupil.mm) & is.null(left_pupil.px)) {
       if (!is.null(right_pupil.mm)) {
