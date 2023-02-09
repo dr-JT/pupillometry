@@ -75,7 +75,9 @@
 #'     milliseconds.
 #' @param px_to_mm_conversion The conversion factor to go from
 #'     px pupil diameter to mm pupil diameter.
-#' @param trial_exclude Specify if there are any trials to exclude. c().
+#' @param trial_exclude Specify if there are any trials to exclude. Default:
+#'     c(NA) - to remove any rows that having missing values in Trial. To
+#'     preserve rows that have missing values in Trial, set to c().
 #' @param quality_check_dir Directory to save quality check file to.
 #' @param timing_file File location and name that contains timing
 #'     information for message markers. Required if no message markers are
@@ -193,7 +195,7 @@ pupil_read <- function(file, eyetracker = "", eye_use = NULL,
                        start_tracking_message = "default",
                        start_tracking_match = "exact",
                        ms_conversion = NULL, px_to_mm_conversion = NULL,
-                       trial_exclude = NULL, quality_check_dir = NULL,
+                       trial_exclude = c(NA), quality_check_dir = NULL,
                        timing_file = NULL,
                        delim = NULL, na = "NA",
                        subject = NULL, trial = NULL, time = NULL,
@@ -1123,10 +1125,7 @@ pupil_read <- function(file, eyetracker = "", eye_use = NULL,
   data <- dplyr::select(data, everything(), tidyselect::any_of(include_col))
   data <- dplyr::select(data, -starttracking.time, -Message_Inserted)
 
-  if (!is.null(trial_exclude)) {
-    data <- dplyr::filter(data, !(Trial %in% trial_exclude))
-  }
-  data <- dplyr::filter(data, !is.na(Trial))
+  data <- dplyr::filter(data, !(Trial %in% trial_exclude))
   data <- dplyr::mutate(data, Time = round(Time))
   data <- dplyr::relocate(data, Trial, .before = "Time")
   if (!is.null(px_to_mm_conversion)) {
