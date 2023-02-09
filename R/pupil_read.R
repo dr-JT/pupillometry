@@ -1126,7 +1126,7 @@ pupil_read <- function(file, eyetracker = "", eye_use = NULL,
   data <- dplyr::select(data, -starttracking.time, -Message_Inserted)
 
   data <- dplyr::filter(data, !(Trial %in% trial_exclude))
-  data <- dplyr::mutate(Trial = ifelse(is.na(Trial), 0, Trial))
+  data <- dplyr::mutate(data, Trial = ifelse(is.na(Trial), 0, Trial))
   data <- dplyr::mutate(data, Time = round(Time))
   data <- dplyr::relocate(data, Trial, .before = "Time")
   if (!is.null(px_to_mm_conversion)) {
