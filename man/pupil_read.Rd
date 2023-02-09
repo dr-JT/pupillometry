@@ -15,7 +15,7 @@ pupil_read(
   start_tracking_match = "exact",
   ms_conversion = NULL,
   px_to_mm_conversion = NULL,
-  trial_exclude = NULL,
+  trial_exclude = c(NA),
   quality_check_dir = NULL,
   timing_file = NULL,
   delim = NULL,
@@ -93,7 +93,9 @@ milliseconds.}
 \item{px_to_mm_conversion}{The conversion factor to go from
 px pupil diameter to mm pupil diameter.}
 
-\item{trial_exclude}{Specify if there are any trials to exclude. c().}
+\item{trial_exclude}{Specify if there are any trials to exclude. Default:
+c(NA) - to remove any rows that having missing values in Trial. To
+preserve rows that have missing values in Trial, set to c().}
 
 \item{quality_check_dir}{Directory to save quality check file to.}
 
