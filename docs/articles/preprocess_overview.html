@@ -239,7 +239,6 @@ data</p>
 <code class="sourceCode R"><span><span class="co"># ---- Setup -------------------------------------------------------------------</span></span>
 <span><span class="co"># packages</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/dr-JT/pupillometry" class="external-link">pupillometry</a></span><span class="op">)</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://purrr.tidyverse.org/" class="external-link">purrr</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://readr.tidyverse.org" class="external-link">readr</a></span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># directories</span></span>
@@ -282,17 +281,6 @@ data</p>
 <span><span class="op">}</span></span>
 <span></span>
 <span></span>
-<span><span class="co"># ------------------------------------------------------------------------------</span></span>
-<span></span>
-<span><span class="co"># ---- Bin ---------------------------------------------------------------------</span></span>
-<span><span class="va">data_bin</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html" class="external-link">map</a></span><span class="op">(</span><span class="va">data_pupil</span>, <span class="va">pupil_bin</span>, bin_length <span class="op">=</span> <span class="fl">20</span><span class="op">)</span></span>
-<span></span>
-<span><span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html" class="external-link">map</a></span><span class="op">(</span><span class="va">data_bin</span>, </span>
-<span>    <span class="kw">function</span><span class="op">(</span><span class="va">df</span><span class="op">)</span> <span class="op">{</span></span>
-<span>      <span class="va">file_name</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"eyetracker_"</span>, <span class="va">df</span><span class="op">$</span><span class="va">Subject</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>,</span>
-<span>                          <span class="st">"_binned.csv"</span><span class="op">)</span></span>
-<span>      <span class="fu"><a href="https://readr.tidyverse.org/reference/write_delim.html" class="external-link">write_csv</a></span><span class="op">(</span><span class="va">df</span>, <span class="fu">here</span><span class="op">(</span><span class="va">output_dir</span>, <span class="va">file_name</span><span class="op">)</span><span class="op">)</span></span>
-<span>    <span class="op">}</span><span class="op">)</span></span>
 <span><span class="co"># ------------------------------------------------------------------------------</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/rm.html" class="external-link">rm</a></span><span class="op">(</span>list <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/ls.html" class="external-link">ls</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>

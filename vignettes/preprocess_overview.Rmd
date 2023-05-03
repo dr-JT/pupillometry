@@ -103,7 +103,6 @@ You can copy and paste this code and edit it as needed for your data
 # ---- Setup -------------------------------------------------------------------
 # packages
 library(pupillometry)
-library(purrr)
 library(readr)
 
 # directories
@@ -146,17 +145,6 @@ for (file in files_list) {
 }
 
 
-# ------------------------------------------------------------------------------
-
-# ---- Bin ---------------------------------------------------------------------
-data_bin <- map(data_pupil, pupil_bin, bin_length = 20)
-
-map(data_bin, 
-    function(df) {
-      file_name <- paste0("eyetracker_", df$Subject[1],
-                          "_binned.csv")
-      write_csv(df, here(output_dir, file_name))
-    })
 # ------------------------------------------------------------------------------
 
 rm(list = ls())
