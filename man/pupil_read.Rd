@@ -12,7 +12,7 @@ pupil_read(
   subj_suffix = NULL,
   include_col = NULL,
   start_tracking_message = "default",
-  start_tracking_match = "exact",
+  start_tracking_match = NULL,
   ms_conversion = NULL,
   px_to_mm_conversion = NULL,
   trial_exclude = c(NA),

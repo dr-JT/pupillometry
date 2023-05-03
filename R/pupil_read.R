@@ -193,7 +193,7 @@ pupil_read <- function(file, eyetracker = "", eye_use = NULL,
                        subj_prefix = NULL, subj_suffix = NULL,
                        include_col = NULL,
                        start_tracking_message = "default",
-                       start_tracking_match = "exact",
+                       start_tracking_match = NULL,
                        ms_conversion = NULL, px_to_mm_conversion = NULL,
                        trial_exclude = c(NA), quality_check_dir = NULL,
                        timing_file = NULL,
@@ -272,6 +272,10 @@ pupil_read <- function(file, eyetracker = "", eye_use = NULL,
       if (start_tracking_message == "default") {
         start_tracking_message <- "StartTracking.bmp"
       }
+    }
+
+    if (is.null(start_tracking_match)) {
+      start_tracking_match <- "exact"
     }
 
     header <- readr::read_table(file, col_names = FALSE)
@@ -446,6 +450,10 @@ pupil_read <- function(file, eyetracker = "", eye_use = NULL,
       }
     }
 
+    if (is.null(start_tracking_match)) {
+      start_tracking_match <- "pattern"
+    }
+
     data <- readr::read_delim(file, "\t", escape_double = FALSE,
                               trim_ws = TRUE, na = ".", guess_max = 100000)
 
@@ -556,6 +564,10 @@ pupil_read <- function(file, eyetracker = "", eye_use = NULL,
 
   ## Eye tracker is Tobii ####
   if (eyetracker == "tobii") {
+
+    if (is.null(start_tracking_match)) {
+      start_tracking_match <- "exact"
+    }
 
     start_tracking_message <- NULL
 
@@ -738,6 +750,10 @@ pupil_read <- function(file, eyetracker = "", eye_use = NULL,
 
   ## Eye tracker is not specified ####
   if (eyetracker == "") {
+
+    if (is.null(start_tracking_match)) {
+      start_tracking_match <- "exact"
+    }
 
     if (delim == "\t") {
       data <- readr::read_delim(file, delim = "\t", escape_double = FALSE,
@@ -979,6 +995,7 @@ pupil_read <- function(file, eyetracker = "", eye_use = NULL,
   ########################################################
 
   ## Set Trial at start_tracking_message ####
+  data <- dplyr::as_tibble(data)
   if (!is.null(start_tracking_message)) {
     if (start_tracking_match == "exact") {
       data <- dplyr::mutate(data,
@@ -996,7 +1013,10 @@ pupil_read <- function(file, eyetracker = "", eye_use = NULL,
                           starttracking.time = zoo::na.locf(starttracking.time,
                                                             na.rm = FALSE),
                           Trial = dplyr::dense_rank(starttracking.time))
+    data <- dplyr::mutate(data,
+                          Trial = ifelse(is.na(starttracking.time), 0, Trial))
   }
+  data <- dtplyr::lazy_dt(data)
   ###########################################
 
   ## Save trial quality check ####
