@@ -26,10 +26,15 @@ reference:
   - pupil_smooth
   - pupil_interpolate
   - pupil_baselinecorrect
+  - pupil_bin
 - title: Other Functions
   contents:
-  - pupil_bin
   - pupil_merge
+  - pupil_cor
+  - pupil_plot
+  - pupil_preprocess
+  - select_eye
+  - eyes_detect
 
 articles:
 

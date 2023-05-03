@@ -28,6 +28,8 @@
 <![endif]-->
 </head>
 <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-article">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -40,18 +42,12 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">pupillometry</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.8.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.8.1</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
-<li>
-  <a href="../index.html">
-    <span class="fas fa-home fa-lg"></span>
-     
-  </a>
-</li>
 <li>
   <a href="../reference/index.html">Reference</a>
 </li>
@@ -66,7 +62,8 @@
       <a href="../articles/preprocess_overview.html">Preprocessing Code (Template)</a>
     </li>
     <li class="divider">
-    <li class="dropdown-header">Preprocessing Stages</li>
+    </li>
+<li class="dropdown-header">Preprocessing Stages</li>
     <li>
       <a href="../articles/setup_pupil.html">Import and Setup</a>
     </li>
@@ -77,7 +74,8 @@
       <a href="../articles/preprocess_pupil.html">Preprocess</a>
     </li>
     <li class="divider">
-    <li class="dropdown-header">Detailed Articles</li>
+    </li>
+<li class="dropdown-header">Detailed Articles</li>
     <li>
       <a href="../articles/import_pupil.html">Import Options</a>
     </li>
@@ -92,7 +90,7 @@
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
-  <a href="https://github.com/dr-JT/pupillometry/">
+  <a href="https://github.com/dr-JT/pupillometry/" class="external-link">
     <span class="fab fa-github fa-lg"></span>
      
   </a>
@@ -113,13 +111,13 @@
 
       
 
-      </header><script src="preprocess_pupil_files/header-attrs-2.14/header-attrs.js"></script><div class="row">
+      </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Preprocess</h1>
             
       
-      <small class="dont-index">Source: <a href="https://github.com/dr-JT/pupillometry/blob/master/vignettes/preprocess_pupil.Rmd"><code>vignettes/preprocess_pupil.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/dr-JT/pupillometry/blob/HEAD/vignettes/preprocess_pupil.Rmd" class="external-link"><code>vignettes/preprocess_pupil.Rmd</code></a></small>
       <div class="hidden name"><code>preprocess_pupil.Rmd</code></div>
 
     </div>
@@ -139,9 +137,9 @@
 <li><p><strong>Evaluate</strong> the amount of missing data per trial.
 <code><a href="../reference/pupil_missing.html">pupil_missing()</a></code></p></li>
 </ol>
-<div id="up-sample-pupil-data-to-1000hz" class="section level2">
-<h2 class="hasAnchor">
-<a href="#up-sample-pupil-data-to-1000hz" class="anchor"></a>1. Up-Sample pupil data to 1000Hz</h2>
+<div class="section level2">
+<h2 id="up-sample-pupil-data-to-1000hz">1. Up-Sample pupil data to 1000Hz<a class="anchor" aria-label="anchor" href="#up-sample-pupil-data-to-1000hz"></a>
+</h2>
 <p>This is a fairly non-standard preprocessing step advised by Kret and
 Sjak-Shie (2019).</p>
 <p>Up-sampling the data to 1000Hz has some advantages, namely that it
@@ -164,12 +162,12 @@ create the additional rows in the data frame (e.g., original rows: 0, 4,
 the added rows to missing.</p>
 <p>The data can later be filled in when interpolation is performed.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/pupil_upsample.html">pupil_upsample</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/pupil_upsample.html">pupil_upsample</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <p>No arguments need to be specified.</p>
 </div>
-<div id="smooth-the-pupil-data" class="section level2">
-<h2 class="hasAnchor">
-<a href="#smooth-the-pupil-data" class="anchor"></a>2. Smooth the pupil data</h2>
+<div class="section level2">
+<h2 id="smooth-the-pupil-data">2. Smooth the pupil data<a class="anchor" aria-label="anchor" href="#smooth-the-pupil-data"></a>
+</h2>
 <p>Many eye trackers will produce high-frequency signals in the data
 that are caused by noise in the eye tracker rather than any meaningful
 signal. It is advisable to reduce this noise as much as possible without
@@ -190,7 +188,7 @@ and create smoother pupil wave-forms. These can be specified with the
 data depends on the <strong>window</strong> size of the functions. The
 window size can be specified with the <code>n =</code> argument.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/pupil_smooth.html">pupil_smooth</a></span><span class="op">(</span>type <span class="op">=</span> <span class="st">"mwa"</span>, n <span class="op">=</span> <span class="fl">51</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/pupil_smooth.html">pupil_smooth</a></span><span class="op">(</span>type <span class="op">=</span> <span class="st">"mwa"</span>, n <span class="op">=</span> <span class="fl">51</span><span class="op">)</span></span></code></pre></div>
 <p>You do not want to specify too small of a window size (otherwise you
 really are not doing any smoothing at all) but certainly not too large
 of a window size (otherwise you will reduce meaningful signal in the
@@ -200,12 +198,12 @@ for your data. You can use the <code>plot</code> and
 <code>plot_trial</code> arguments to determine what value to set the
 window size (n) to.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/pupil_smooth.html">pupil_smooth</a></span><span class="op">(</span>type <span class="op">=</span> <span class="st">"mwa"</span>, n <span class="op">=</span> <span class="fl">51</span>, plot <span class="op">=</span> <span class="cn">TRUE</span>, plot_trial <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">2</span>,<span class="fl">3</span>,<span class="fl">4</span>,<span class="fl">5</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/pupil_smooth.html">pupil_smooth</a></span><span class="op">(</span>type <span class="op">=</span> <span class="st">"mwa"</span>, n <span class="op">=</span> <span class="fl">51</span>, plot <span class="op">=</span> <span class="cn">TRUE</span>, plot_trial <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">2</span>,<span class="fl">3</span>,<span class="fl">4</span>,<span class="fl">5</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p>To plot all trials use <code>plot_trial = "all"</code></p>
 </div>
-<div id="interpolate-the-pupil-data" class="section level2">
-<h2 class="hasAnchor">
-<a href="#interpolate-the-pupil-data" class="anchor"></a>3. Interpolate the pupil data</h2>
+<div class="section level2">
+<h2 id="interpolate-the-pupil-data">3. Interpolate the pupil data<a class="anchor" aria-label="anchor" href="#interpolate-the-pupil-data"></a>
+</h2>
 <p>It is recommended to smooth the data before interpolation.</p>
 <p>You will likely have periods of missing pupil data due to blinks,
 looking away from the screen, etc. If you want to recover the pupil
@@ -237,19 +235,19 @@ supply the frequency (Hz) of the pupil data.</p>
 <p><em>note if the pupil data were up-sampled with
 <code><a href="../reference/pupil_upsample.html">pupil_upsample()</a></code>, then Hz = 1000</em>.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/pupil_interpolate.html">pupil_interpolate</a></span><span class="op">(</span>type <span class="op">=</span> <span class="st">"linear"</span>, maxgap <span class="op">=</span> <span class="fl">750</span>, hz <span class="op">=</span> <span class="fl">1000</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/pupil_interpolate.html">pupil_interpolate</a></span><span class="op">(</span>type <span class="op">=</span> <span class="st">"linear"</span>, maxgap <span class="op">=</span> <span class="fl">750</span>, hz <span class="op">=</span> <span class="fl">1000</span><span class="op">)</span></span></code></pre></div>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/pupil_interpolate.html">pupil_interpolate</a></span><span class="op">(</span>type <span class="op">=</span> <span class="st">"cubic-spline"</span>, maxgap <span class="op">=</span> <span class="fl">750</span>, hz <span class="op">=</span> <span class="fl">1000</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/pupil_interpolate.html">pupil_interpolate</a></span><span class="op">(</span>type <span class="op">=</span> <span class="st">"cubic-spline"</span>, maxgap <span class="op">=</span> <span class="fl">750</span>, hz <span class="op">=</span> <span class="fl">1000</span><span class="op">)</span></span></code></pre></div>
 <p>You can use the <code>plot</code> and <code>plot_trial</code>
 arguments to determine what type of interpolation to use.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/pupil_interpolate.html">pupil_interpolate</a></span><span class="op">(</span>type <span class="op">=</span> <span class="st">"cubic"</span>, maxgap <span class="op">=</span> <span class="fl">750</span>, hz <span class="op">=</span> <span class="fl">1000</span>, 
-                  plot <span class="op">=</span> <span class="cn">TRUE</span>, plot_trial <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">2</span>,<span class="fl">3</span>,<span class="fl">4</span>,<span class="fl">5</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/pupil_interpolate.html">pupil_interpolate</a></span><span class="op">(</span>type <span class="op">=</span> <span class="st">"cubic"</span>, maxgap <span class="op">=</span> <span class="fl">750</span>, hz <span class="op">=</span> <span class="fl">1000</span>, </span>
+<span>                  plot <span class="op">=</span> <span class="cn">TRUE</span>, plot_trial <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">2</span>,<span class="fl">3</span>,<span class="fl">4</span>,<span class="fl">5</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p>To plot all trials use <code>plot_trial = "all"</code></p>
 </div>
-<div id="baseline-correct" class="section level2">
-<h2 class="hasAnchor">
-<a href="#baseline-correct" class="anchor"></a>4. Baseline correct</h2>
+<div class="section level2">
+<h2 id="baseline-correct">4. Baseline correct<a class="anchor" aria-label="anchor" href="#baseline-correct"></a>
+</h2>
 <p>If you are looking at changes in pupil size (e.g., pupil dilation)
 then you need to apply a baseline correction on the pupil data. This
 allows a more standard comparison across conditions and subjects (Mathôt
@@ -282,13 +280,13 @@ selection is “subtractive”.</li>
 <p>You may also need to specify that the message string in
 bc_onset_message is a “pattern” match instead of an “exact” match.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/pupil_baselinecorrect.html">pupil_baselinecorrect</a></span><span class="op">(</span>bc_onset_message <span class="op">=</span> <span class="st">"Stimulus_Onset"</span>, match <span class="op">=</span> <span class="st">"exact"</span>,
-                      baselin_duration <span class="op">=</span> <span class="fl">200</span>,
-                      type <span class="op">=</span> <span class="st">"subtractive"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/pupil_baselinecorrect.html">pupil_baselinecorrect</a></span><span class="op">(</span>bc_onset_message <span class="op">=</span> <span class="st">"Stimulus_Onset"</span>, match <span class="op">=</span> <span class="st">"exact"</span>,</span>
+<span>                      baselin_duration <span class="op">=</span> <span class="fl">200</span>,</span>
+<span>                      type <span class="op">=</span> <span class="st">"subtractive"</span><span class="op">)</span></span></code></pre></div>
 </div>
-<div id="evaluate-missingness" class="section level2">
-<h2 class="hasAnchor">
-<a href="#evaluate-missingness" class="anchor"></a>5. Evaluate missingness</h2>
+<div class="section level2">
+<h2 id="evaluate-missingness">5. Evaluate missingness<a class="anchor" aria-label="anchor" href="#evaluate-missingness"></a>
+</h2>
 <p>It is a good idea to evaluate the amount of missing data per trial
 after preprocessing has been done.</p>
 <p>The <code><a href="../reference/pupil_missing.html">pupil_missing()</a></code> function will create a column in the
@@ -296,20 +294,20 @@ data with the amount of missing data on that trial. This column can be
 used later on during analysis to remove trials with too much missing
 data.</p>
 <p>By specifying a missing allowed criterion
-<code><a href="../reference/pupil_missing.html">pupil_missing(missing_allowed = .90)</a></code> you can also remove
+<code>pupil_missing(missing_allowed = .90)</code> you can also remove
 trials with too much missing data, rather than doing it later.</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/pupil_missing.html">pupil_missing</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/pupil_missing.html">pupil_missing</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 </div>
-<div id="references" class="section level2">
-<h2 class="hasAnchor">
-<a href="#references" class="anchor"></a>References</h2>
+<div class="section level2">
+<h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>
+</h2>
 <p>Kret, M. E., &amp; Sjak-Shie, E. E. (2019). Preprocessing pupil size
 data: Guidelines and code. Behavior Research Methods, 51(3), 1336–1342.
-<a href="https://doi.org/10.3758/s13428-018-1075-y" class="uri">https://doi.org/10.3758/s13428-018-1075-y</a></p>
+<a href="https://doi.org/10.3758/s13428-018-1075-y" class="external-link uri">https://doi.org/10.3758/s13428-018-1075-y</a></p>
 <p>Mathôt, S., Fabius, J., Van Heusden, E., &amp; Van der Stigchel, S.
 (2018). Safe and sensible preprocessing and baseline correction of
-pupil-size data. Behavior Research Methods, 50(1), 94–106. <a href="https://doi.org/10.3758/s13428-017-1007-2" class="uri">https://doi.org/10.3758/s13428-017-1007-2</a></p>
+pupil-size data. Behavior Research Methods, 50(1), 94–106. <a href="https://doi.org/10.3758/s13428-017-1007-2" class="external-link uri">https://doi.org/10.3758/s13428-017-1007-2</a></p>
 </div>
   </div>
 
@@ -324,11 +322,13 @@ pupil-size data. Behavior Research Methods, 50(1), 94–106. <a href="https://do
 
 
       <footer><div class="copyright">
-  <p>Developed by <a href="https://englelab.gatech.edu/jason">Jason Tsukahara</a>.</p>
+  <p></p>
+<p>Developed by <a href="https://englelab.gatech.edu/jason" class="external-link">Jason Tsukahara</a>.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
+  <p></p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer>

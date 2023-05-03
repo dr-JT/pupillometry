@@ -6,7 +6,7 @@ title: "Preprocessing Code (Template)"
 knitr::opts_chunk$set(echo = TRUE, eval = FALSE)
 ```
 
-This is a short overview on how to perform preprocessing on pupil data by building a sequence of functions using the pipe `%>%` operator. 
+This is a short overview on how to perform preprocessing on pupil data by building a sequence of functions using the pipe operator `%>%` or `|>`.
 
 For more detailed instructions on each of the steps, see the detailed articles.
 
@@ -38,48 +38,128 @@ The recommended preprocessing steps and their order of operation varies among re
     
     - **Evaluate** the amount of missing data per trial `pupil_missing()`
 
-These function will perform preprocessing on one data file at a time. You will need to perform preprocessing on an entire list of data files contained in a folder somewhere. The easiest way to implement this is to wrap these functions in a **for loop** around each of the files in the folder with the raw data files.
+These function will perform preprocessing on one data file at a time. You will need to perform preprocessing on an entire list of data files contained in a folder somewhere. You can either do this with purrr::map() or with a for loop.
+
+## purrr::map()
+
+```{r}
+# ---- Setup -------------------------------------------------------------------
+# packages
+library(pupillometry)
+library(purrr)
+library(readr)
+
+# directories
+import_dir <- "data/raw"
+output_dir <- "data/preprocessed"
+
+# files
+files_list <- list.files(import_dir, pattern = ".txt", full.names = TRUE)
+# ------------------------------------------------------------------------------
+
+# ---- Preprocess --------------------------------------------------------------
+data_pupil <- files_list |>
+  map(pupil_read, eyetracker = "tobii", eye_use = "left",
+      subj_prefix = "flanker", subj_suffix = "a",
+      include_col = c("RT", "accuracy", "condition"),
+      quality_check_dir = output_dir) |>
+  map(set_timing, onset_message = "Fixation_Onset") |>
+  map(pupil_deblink, extend = 75) |>
+  map(pupil_artifact, n = 8) |>
+  map(pupil_missing, missing_allowed = .90) |>
+  map(pupil_upsample) |>
+  map(pupil_smooth, type = "hann", n = 250) |>
+  map(pupil_interpolate, type = "cubic-spline", maxgap = 750, hz = 1000) |>
+  map(pupil_baselinecorrect, bc_onset_message = "Stimulus_Onset",
+      baseline_duration = 200, type = "subtractive") |>
+  map(pupil_missing)
+
+map(data_pupil,
+    function(df) {
+      file_name <- paste0("eyetracker_", df$Subject[1],
+                          "_deblink.artifact.smooth.interpolate.bc.csv")
+      write_csv(df, here(output_dir, file_name))
+    })
+# ------------------------------------------------------------------------------
+
+# ---- Bin ---------------------------------------------------------------------
+data_bin <- map(data_pupil, pupil_bin, bin_length = 20)
+
+map(data_bin, 
+    function(df) {
+      file_name <- paste0("eyetracker_", df$Subject[1], "_binned.csv")
+      write_csv(df, here(output_dir, file_name))
+    })
+# ------------------------------------------------------------------------------
+
+rm(list = ls())
+```
+
+## For Loop
 
 You can copy and paste this code and edit it as needed for your data
 
 ```{r}
+# ---- Setup -------------------------------------------------------------------
+# packages
 library(pupillometry)
-library(here)
-library(dplyr)
+library(purrr)
+library(readr)
 
-import_dir <- "folder/subfolder"
-output_dir <- "folder/another_subfolder"
+# directories
+import_dir <- "data/raw"
+output_dir <- "data/preprocessed"
 
-files_list <- list.files(here(import_dir), 
-                         pattern = ".txt", full.names = TRUE)
+# files
+files_list <- list.files(import_dir, pattern = ".txt", full.names = TRUE)
+# ------------------------------------------------------------------------------
 
+# ---- Preprocess --------------------------------------------------------------
 for (file in files_list) {
-    data_pupil <- pupil_read(file, eyetracker = "eyelink", eye_use = "left",
-                             subj_prefix = "flanker", subj_suffix = "a",
-                             include_col = c("RT", "accuracy", "condition"),
-                             quality_check_dir = here(output_dir)) %>%
-        set_timing(onset_message = "Stimulus_Onset") %>%
-        pupil_deblink(extend = 75) %>%
-        pupil_artifact(n = 16) %>%
-        pupil_missing(missing_allowed = .90) %>%
-        pupil_upsample() %>%
-        pupil_smooth(type = "mwa", n = 51) %>%
-        pupil_interpolate(type = "linear", maxgap = 750, hz = 1000) %>%
-        pupil_baselinecorrect(bc_onset_message = "Stimulus_Onset",
-                              baseline_duration = 200,
-                              type = "subtractive") %>%
-        pupil_missing()
-    
-    subj <- data_pupil$Subject[1]
-    output_file <- paste("Flanker_PupilData_", subj, 
-                         "_deblink.artifact.smooth.interpolate.bc.csv",
-                         sep = "")
-    
-    write_csv(data_pupil, here(output_dir, output_file))
+  data_pupil <- file |>
+    pupil_read(file, eyetracker = "eyelink", eye_use = "left",
+               subj_prefix = "flanker", subj_suffix = "a",
+               include_col = c("RT", "accuracy", "condition"),
+               quality_check_dir = output_dir) |>
+    set_timing(onset_message = "Stimulus_Onset") |>
+    pupil_deblink(extend = 75) |>
+    pupil_artifact(n = 8) |>
+    pupil_missing(missing_allowed = .90) |>
+    pupil_upsample() |>
+    pupil_smooth(type = "hann", n = 250) |>
+    pupil_interpolate(type = "cubic-spline", maxgap = 750, hz = 1000) |>
+    pupil_baselinecorrect(bc_onset_message = "Stimulus_Onset",
+                          baseline_duration = 200,
+                          type = "subtractive") |>
+    pupil_missing()
+  
+  ## save preprocessed data
+  output_file <- paste0(output_dir, "/eyetracker_", data_pupil$Subject[1], 
+                       "_deblink.artifact.smooth.interpolate.bc.csv")
+  write_csv(data_pupil, output_file)
+  
+  ## save binned data
+  data_bin <- pupil_bin(data_pupil, bin_length = 20)
+  output_bin <- paste0(output_dir, "/eyetracker_", data_bin$Subject[1],
+                       "_binned.csv")
+  write_csv(data_bin, output_bin)
 }
 
-pupil_merge(path = here(output_dir), pattern = "bc.csv",
-            ouptut_file = "Flanker_PupilData_deblink.artifact.smooth.interpolate.bc.csv")
+
+# ------------------------------------------------------------------------------
+
+# ---- Bin ---------------------------------------------------------------------
+data_bin <- map(data_pupil, pupil_bin, bin_length = 20)
+
+map(data_bin, 
+    function(df) {
+      file_name <- paste0("eyetracker_", df$Subject[1],
+                          "_binned.csv")
+      write_csv(df, here(output_dir, file_name))
+    })
+# ------------------------------------------------------------------------------
+
+rm(list = ls())
 ```
 
 ## References

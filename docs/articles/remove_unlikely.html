@@ -28,6 +28,8 @@
 <![endif]-->
 </head>
 <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-article">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -40,18 +42,12 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">pupillometry</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.8.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.8.1</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
-<li>
-  <a href="../index.html">
-    <span class="fas fa-home fa-lg"></span>
-     
-  </a>
-</li>
 <li>
   <a href="../reference/index.html">Reference</a>
 </li>
@@ -66,7 +62,8 @@
       <a href="../articles/preprocess_overview.html">Preprocessing Code (Template)</a>
     </li>
     <li class="divider">
-    <li class="dropdown-header">Preprocessing Stages</li>
+    </li>
+<li class="dropdown-header">Preprocessing Stages</li>
     <li>
       <a href="../articles/setup_pupil.html">Import and Setup</a>
     </li>
@@ -77,7 +74,8 @@
       <a href="../articles/preprocess_pupil.html">Preprocess</a>
     </li>
     <li class="divider">
-    <li class="dropdown-header">Detailed Articles</li>
+    </li>
+<li class="dropdown-header">Detailed Articles</li>
     <li>
       <a href="../articles/import_pupil.html">Import Options</a>
     </li>
@@ -92,7 +90,7 @@
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
-  <a href="https://github.com/dr-JT/pupillometry/">
+  <a href="https://github.com/dr-JT/pupillometry/" class="external-link">
     <span class="fab fa-github fa-lg"></span>
      
   </a>
@@ -113,13 +111,13 @@
 
       
 
-      </header><script src="remove_unlikely_files/header-attrs-2.14/header-attrs.js"></script><div class="row">
+      </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Remove Unlikely Values</h1>
             
       
-      <small class="dont-index">Source: <a href="https://github.com/dr-JT/pupillometry/blob/master/vignettes/remove_unlikely.Rmd"><code>vignettes/remove_unlikely.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/dr-JT/pupillometry/blob/HEAD/vignettes/remove_unlikely.Rmd" class="external-link"><code>vignettes/remove_unlikely.Rmd</code></a></small>
       <div class="hidden name"><code>remove_unlikely.Rmd</code></div>
 
     </div>
@@ -136,9 +134,9 @@
 with large amounts of missing data.
 <code><a href="../reference/pupil_missing.html">pupil_missing()</a></code></p></li>
 </ol>
-<div id="deblink-pupil-data" class="section level2">
-<h2 class="hasAnchor">
-<a href="#deblink-pupil-data" class="anchor"></a>1. Deblink pupil data</h2>
+<div class="section level2">
+<h2 id="deblink-pupil-data">1. Deblink pupil data<a class="anchor" aria-label="anchor" href="#deblink-pupil-data"></a>
+</h2>
 <p>To remove unlikely pupil values that can be caused due to blinking,
 the standard technique is to <strong>deblink</strong> the pupil data,
 which just means to remove pupil values during a blink (Geller et al.,
@@ -155,19 +153,19 @@ values.</p>
 <strong>extend</strong> the <strong>deblink</strong> by some amount
 (Geller et al., 2020). This is easily implemented:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/pupil_deblink.html">pupil_deblink</a></span><span class="op">(</span>extend <span class="op">=</span> <span class="fl">100</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/pupil_deblink.html">pupil_deblink</a></span><span class="op">(</span>extend <span class="op">=</span> <span class="fl">100</span><span class="op">)</span></span></code></pre></div>
 <p>This will extend the <strong>deblink</strong> by 100ms to get
 something like:</p>
 <p>You can use the <code>plot</code> and <code>plot_trial</code>
 arguments to determine how much you need to extend the deblink by and
 produce a plot like the one above.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/pupil_deblink.html">pupil_deblink</a></span><span class="op">(</span>extend <span class="op">=</span> <span class="fl">100</span>, plot <span class="op">=</span> <span class="cn">TRUE</span>, plot_trial <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">2</span>,<span class="fl">3</span>,<span class="fl">4</span>,<span class="fl">5</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/pupil_deblink.html">pupil_deblink</a></span><span class="op">(</span>extend <span class="op">=</span> <span class="fl">100</span>, plot <span class="op">=</span> <span class="cn">TRUE</span>, plot_trial <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">2</span>,<span class="fl">3</span>,<span class="fl">4</span>,<span class="fl">5</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p>To plot all trials use <code>plot_trial = "all"</code></p>
 </div>
-<div id="artifact-rejection" class="section level2">
-<h2 class="hasAnchor">
-<a href="#artifact-rejection" class="anchor"></a>2. Artifact rejection</h2>
+<div class="section level2">
+<h2 id="artifact-rejection">2. Artifact rejection<a class="anchor" aria-label="anchor" href="#artifact-rejection"></a>
+</h2>
 <p>Unlikely pupil values can be caused by a host of other reasons. One
 characteristic that unlikely pupil values will display is a large
 <strong>change</strong> in pupil values over a short amount of time.</p>
@@ -178,17 +176,17 @@ using the Median Absolute Deviation (MAD), pupil speed, and a constant
 from the data (set to missing, <code>NA</code>).</p>
 <p>This method is implemented in <code><a href="../reference/pupil_artifact.html">pupil_artifact()</a></code>:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/pupil_artifact.html">pupil_artifact</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">16</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/pupil_artifact.html">pupil_artifact</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">16</span><span class="op">)</span></span></code></pre></div>
 <p>You can use the <code>plot</code> and <code>plot_trial</code>
 arguments to determine what value to set the constant (n) to</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/pupil_artifact.html">pupil_artifact</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">16</span>, plot <span class="op">=</span> <span class="cn">TRUE</span>, plot_trial <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">2</span>,<span class="fl">3</span>,<span class="fl">4</span>,<span class="fl">5</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/pupil_artifact.html">pupil_artifact</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">16</span>, plot <span class="op">=</span> <span class="cn">TRUE</span>, plot_trial <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">2</span>,<span class="fl">3</span>,<span class="fl">4</span>,<span class="fl">5</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p>To plot all trials use <code>plot_trial = "all"</code></p>
 </div>
-<div id="evaluate-andor-remove-trials-with-large-amounts-of-missing-data" class="section level2">
-<h2 class="hasAnchor">
-<a href="#evaluate-andor-remove-trials-with-large-amounts-of-missing-data" class="anchor"></a>3. Evaluate and/or remove trials with large amounts of missing
-data</h2>
+<div class="section level2">
+<h2 id="evaluate-andor-remove-trials-with-large-amounts-of-missing-data">3. Evaluate and/or remove trials with large amounts of missing
+data<a class="anchor" aria-label="anchor" href="#evaluate-andor-remove-trials-with-large-amounts-of-missing-data"></a>
+</h2>
 <p>It can be a good idea to evaluate how much missing data each trial
 has after data cleaning and before other preprocessing steps such as
 interpolation. The <code><a href="../reference/pupil_missing.html">pupil_missing()</a></code> function will create a
@@ -196,7 +194,7 @@ column in the data with the amount of missing data on that trial. This
 column can be used later on during analysis to remove trials with too
 much missing data.</p>
 <p>By specifying a missing allowed criterion
-<code><a href="../reference/pupil_missing.html">pupil_missing(missing_allowed = .90)</a></code> you can also remove
+<code>pupil_missing(missing_allowed = .90)</code> you can also remove
 trials with too much missing data. At this stage, it can be a good idea
 to remove trials with <strong>large</strong> amounts of missing data.
 One reason is that you will likely want to discard these trials anyways
@@ -209,17 +207,17 @@ functions.</p>
 set with the <code>missing_allowed =</code> argument in
 <code><a href="../reference/pupil_missing.html">pupil_missing()</a></code></p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/pupil_missing.html">pupil_missing</a></span><span class="op">(</span>missing_allowed <span class="op">=</span> <span class="fl">.90</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/pupil_missing.html">pupil_missing</a></span><span class="op">(</span>missing_allowed <span class="op">=</span> <span class="fl">.90</span><span class="op">)</span></span></code></pre></div>
 </div>
-<div id="references" class="section level2">
-<h2 class="hasAnchor">
-<a href="#references" class="anchor"></a>References</h2>
+<div class="section level2">
+<h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>
+</h2>
 <p>Geller, J., Winn, M. B., Mahr, T., &amp; Mirman, D. (2020). GazeR: A
 Package for Processing Gaze Position and Pupil Size Data. Behavior
-Research Methods, 52(5), 2232–2255. <a href="https://doi.org/10.3758/s13428-020-01374-8" class="uri">https://doi.org/10.3758/s13428-020-01374-8</a></p>
+Research Methods, 52(5), 2232–2255. <a href="https://doi.org/10.3758/s13428-020-01374-8" class="external-link uri">https://doi.org/10.3758/s13428-020-01374-8</a></p>
 <p>Kret, M. E., &amp; Sjak-Shie, E. E. (2019). Preprocessing pupil size
 data: Guidelines and code. Behavior Research Methods, 51(3), 1336–1342.
-<a href="https://doi.org/10.3758/s13428-018-1075-y" class="uri">https://doi.org/10.3758/s13428-018-1075-y</a></p>
+<a href="https://doi.org/10.3758/s13428-018-1075-y" class="external-link uri">https://doi.org/10.3758/s13428-018-1075-y</a></p>
 </div>
   </div>
 
@@ -234,11 +232,13 @@ data: Guidelines and code. Behavior Research Methods, 51(3), 1336–1342.
 
 
       <footer><div class="copyright">
-  <p>Developed by <a href="https://englelab.gatech.edu/jason">Jason Tsukahara</a>.</p>
+  <p></p>
+<p>Developed by <a href="https://englelab.gatech.edu/jason" class="external-link">Jason Tsukahara</a>.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
+  <p></p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer>

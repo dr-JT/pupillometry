@@ -28,6 +28,8 @@
 <![endif]-->
 </head>
 <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-article">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -40,18 +42,12 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">pupillometry</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.8.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.8.1</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
-<li>
-  <a href="../index.html">
-    <span class="fas fa-home fa-lg"></span>
-     
-  </a>
-</li>
 <li>
   <a href="../reference/index.html">Reference</a>
 </li>
@@ -66,7 +62,8 @@
       <a href="../articles/preprocess_overview.html">Preprocessing Code (Template)</a>
     </li>
     <li class="divider">
-    <li class="dropdown-header">Preprocessing Stages</li>
+    </li>
+<li class="dropdown-header">Preprocessing Stages</li>
     <li>
       <a href="../articles/setup_pupil.html">Import and Setup</a>
     </li>
@@ -77,7 +74,8 @@
       <a href="../articles/preprocess_pupil.html">Preprocess</a>
     </li>
     <li class="divider">
-    <li class="dropdown-header">Detailed Articles</li>
+    </li>
+<li class="dropdown-header">Detailed Articles</li>
     <li>
       <a href="../articles/import_pupil.html">Import Options</a>
     </li>
@@ -92,7 +90,7 @@
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
-  <a href="https://github.com/dr-JT/pupillometry/">
+  <a href="https://github.com/dr-JT/pupillometry/" class="external-link">
     <span class="fab fa-github fa-lg"></span>
      
   </a>
@@ -113,13 +111,13 @@
 
       
 
-      </header><script src="preprocessing_options_files/header-attrs-2.14/header-attrs.js"></script><div class="row">
+      </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Preprocessing Options</h1>
             
       
-      <small class="dont-index">Source: <a href="https://github.com/dr-JT/pupillometry/blob/master/vignettes/preprocessing_options.Rmd"><code>vignettes/preprocessing_options.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/dr-JT/pupillometry/blob/HEAD/vignettes/preprocessing_options.Rmd" class="external-link"><code>vignettes/preprocessing_options.Rmd</code></a></small>
       <div class="hidden name"><code>preprocessing_options.Rmd</code></div>
 
     </div>
@@ -141,10 +139,10 @@ There are various ways one can go about replacing missing values. In
 pupillometry research, two commonly used methods for interpolation are
 <strong>linear interpolation</strong> and <strong>cubic-spline</strong>
 interpolation.</p>
-<div id="smoothing" class="section level2">
-<h2 class="hasAnchor">
-<a href="#smoothing" class="anchor"></a>Smoothing</h2>
-<p><code><a href="../reference/pupil_smooth.html">pupil_smooth(type = c("hann", "mwa"), n = "")</a></code></p>
+<div class="section level2">
+<h2 id="smoothing">Smoothing<a class="anchor" aria-label="anchor" href="#smoothing"></a>
+</h2>
+<p><code>pupil_smooth(type = c("hann", "mwa"), n = "")</code></p>
 <ul>
 <li>
 <p><strong>type</strong>: What type of smoothing to use? (default:
@@ -153,20 +151,20 @@ interpolation.</p>
 <code>"mwa"</code>.</p>
 <p><code>"hann"</code> is a low-frequency hanning filter that retains
 the low frequency information. It is applied using
-<code>hanning(n = n)</code> from the <a href="https://www.rdocumentation.org/packages/dplR/versions/1.6.8/topics/hanning">dplR
+<code>hanning(n = n)</code> from the <a href="https://www.rdocumentation.org/packages/dplR/versions/1.6.8/topics/hanning" class="external-link">dplR
 package</a></p>
 <p><code>"mwa"</code> is a simple moving window average. It is applied
-using <code>rollapply(width = n)</code> from the <a href="https://www.rdocumentation.org/packages/zoo/versions/1.7-13/topics/rollapply">zoo
+using <code>rollapply(width = n)</code> from the <a href="https://www.rdocumentation.org/packages/zoo/versions/1.7-13/topics/rollapply" class="external-link">zoo
 package</a></p>
 </li>
 <li><p><strong>n</strong>: The size (in pupil samples) of the smoothing
 window</p></li>
 </ul>
 </div>
-<div id="interpolation" class="section level2">
-<h2 class="hasAnchor">
-<a href="#interpolation" class="anchor"></a>Interpolation</h2>
-<p><code><a href="../reference/pupil_interpolate.html">pupil_interpolate(tpye = c("linear", "cubic-spline"), maxgap = Inf, hz = "")</a></code></p>
+<div class="section level2">
+<h2 id="interpolation">Interpolation<a class="anchor" aria-label="anchor" href="#interpolation"></a>
+</h2>
+<p><code>pupil_interpolate(tpye = c("linear", "cubic-spline"), maxgap = Inf, hz = "")</code></p>
 <ul>
 <li>
 <p><strong>type</strong>: What type of interpolation to use?
@@ -174,17 +172,17 @@ window</p></li>
 <p>There are two interpolation types available, <code>"linear"</code>
 and <code>"cubic-spline"</code>.</p>
 <p><code>"linear"</code> interpolation is aplied using
-<code>na.approx()</code> from the <a href="https://www.rdocumentation.org/packages/zoo/versions/1.7-13/topics/rollapply">zoo
+<code>na.approx()</code> from the <a href="https://www.rdocumentation.org/packages/zoo/versions/1.7-13/topics/rollapply" class="external-link">zoo
 package</a></p>
 <p>Linear interpolation uses a linear trend to replace missing values.
 Linear produces a straight line through missing values, which is most
 likely not the true underlying trend.</p>
 <p><code>"cubic-spline"</code> interpolation is applied using
-<code>na.spline()</code> from the <a href="https://www.rdocumentation.org/packages/zoo/versions/1.7-13/topics/rollapply">zoo
-package</a> and <code><a href="https://rdrr.io/r/stats/splinefun.html">spline()</a></code>.</p>
+<code>na.spline()</code> from the <a href="https://www.rdocumentation.org/packages/zoo/versions/1.7-13/topics/rollapply" class="external-link">zoo
+package</a> and <code><a href="https://rdrr.io/r/stats/splinefun.html" class="external-link">spline()</a></code>.</p>
 <p>Spline interpolation uses low-degree polynomials in each of the
 intervals, and chooses the polynomial pieces such that they fit smoothly
-together. The resulting function is called a spline. <a href="https://en.wikipedia.org/wiki/Interpolation">Wikipedia</a>.
+together. The resulting function is called a spline. <a href="https://en.wikipedia.org/wiki/Interpolation" class="external-link">Wikipedia</a>.
 Cubic-spline produces smoother interpolats than a linear function, and
 may provide a better representation of the true underlying trend.
 However, more caution needs to be used when applying a cubic-spline. For
@@ -221,11 +219,13 @@ milliseconds to number of samples (rows) in the dataframe.</p>
 
 
       <footer><div class="copyright">
-  <p>Developed by <a href="https://englelab.gatech.edu/jason">Jason Tsukahara</a>.</p>
+  <p></p>
+<p>Developed by <a href="https://englelab.gatech.edu/jason" class="external-link">Jason Tsukahara</a>.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
+  <p></p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer>

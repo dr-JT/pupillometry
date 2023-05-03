@@ -28,6 +28,8 @@
 <![endif]-->
 </head>
 <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-article">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -40,18 +42,12 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">pupillometry</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.8.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.8.1</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
-<li>
-  <a href="../index.html">
-    <span class="fas fa-home fa-lg"></span>
-     
-  </a>
-</li>
 <li>
   <a href="../reference/index.html">Reference</a>
 </li>
@@ -66,7 +62,8 @@
       <a href="../articles/preprocess_overview.html">Preprocessing Code (Template)</a>
     </li>
     <li class="divider">
-    <li class="dropdown-header">Preprocessing Stages</li>
+    </li>
+<li class="dropdown-header">Preprocessing Stages</li>
     <li>
       <a href="../articles/setup_pupil.html">Import and Setup</a>
     </li>
@@ -77,7 +74,8 @@
       <a href="../articles/preprocess_pupil.html">Preprocess</a>
     </li>
     <li class="divider">
-    <li class="dropdown-header">Detailed Articles</li>
+    </li>
+<li class="dropdown-header">Detailed Articles</li>
     <li>
       <a href="../articles/import_pupil.html">Import Options</a>
     </li>
@@ -92,7 +90,7 @@
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
-  <a href="https://github.com/dr-JT/pupillometry/">
+  <a href="https://github.com/dr-JT/pupillometry/" class="external-link">
     <span class="fab fa-github fa-lg"></span>
      
   </a>
@@ -113,13 +111,13 @@
 
       
 
-      </header><script src="setup_pupil_files/header-attrs-2.14/header-attrs.js"></script><div class="row">
+      </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Import and Setup</h1>
             
       
-      <small class="dont-index">Source: <a href="https://github.com/dr-JT/pupillometry/blob/master/vignettes/setup_pupil.Rmd"><code>vignettes/setup_pupil.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/dr-JT/pupillometry/blob/HEAD/vignettes/setup_pupil.Rmd" class="external-link"><code>vignettes/setup_pupil.Rmd</code></a></small>
       <div class="hidden name"><code>setup_pupil.Rmd</code></div>
 
     </div>
@@ -134,9 +132,9 @@ steps:</p>
 <li><p><strong>Set Time</strong> variable relative to stimulus onset.
 <code><a href="../reference/set_timing.html">set_timing()</a></code></p></li>
 </ol>
-<div id="read-in-raw-data-file" class="section level2">
-<h2 class="hasAnchor">
-<a href="#read-in-raw-data-file" class="anchor"></a>1. Read in raw data file</h2>
+<div class="section level2">
+<h2 id="read-in-raw-data-file">1. Read in raw data file<a class="anchor" aria-label="anchor" href="#read-in-raw-data-file"></a>
+</h2>
 <p>The first step is to get the data into R and format it in a way that
 makes working with the data easier.</p>
 <p>The format and organization of your raw eye tracker data file will
@@ -187,11 +185,11 @@ easy importing:</p>
 </li>
 </ul>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">data_pupil</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/pupil_read.html">pupil_read</a></span><span class="op">(</span><span class="st">"folder/file.csv"</span>, eyetracker <span class="op">=</span> <span class="st">"smi"</span><span class="op">)</span>
-<span class="va">data_pupil</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/pupil_read.html">pupil_read</a></span><span class="op">(</span><span class="st">"folder/file.csv"</span>, eyetracker <span class="op">=</span> <span class="st">"eyelink"</span><span class="op">)</span></code></pre></div>
-<div id="eye_use" class="section level4">
-<h4 class="hasAnchor">
-<a href="#eye_use" class="anchor"></a>eye_use</h4>
+<code class="sourceCode R"><span><span class="va">data_pupil</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/pupil_read.html">pupil_read</a></span><span class="op">(</span><span class="st">"folder/file.csv"</span>, eyetracker <span class="op">=</span> <span class="st">"smi"</span><span class="op">)</span></span>
+<span><span class="va">data_pupil</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/pupil_read.html">pupil_read</a></span><span class="op">(</span><span class="st">"folder/file.csv"</span>, eyetracker <span class="op">=</span> <span class="st">"eyelink"</span><span class="op">)</span></span></code></pre></div>
+<div class="section level4">
+<h4 id="eye_use">eye_use<a class="anchor" aria-label="anchor" href="#eye_use"></a>
+</h4>
 <p>By default, this parameter is set to <code>eye_use = NULL</code>. If
 you recorded from only one eye or want to keep and preprocess data from
 both eyes then you do not need to bother with this parameter.</p>
@@ -203,12 +201,12 @@ this argument a column will be created that contains the correlation
 value between left and right eyes that you can use to report in
 publications.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">data_pupil</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/pupil_read.html">pupil_read</a></span><span class="op">(</span><span class="st">"folder/file.csv"</span>, eyetracker <span class="op">=</span> <span class="st">"eyelink"</span>,
-                         eye_use <span class="op">=</span> <span class="st">"left"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">data_pupil</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/pupil_read.html">pupil_read</a></span><span class="op">(</span><span class="st">"folder/file.csv"</span>, eyetracker <span class="op">=</span> <span class="st">"eyelink"</span>,</span>
+<span>                         eye_use <span class="op">=</span> <span class="st">"left"</span><span class="op">)</span></span></code></pre></div>
 </div>
-<div id="start_tracking_message" class="section level4">
-<h4 class="hasAnchor">
-<a href="#start_tracking_message" class="anchor"></a>start_tracking_message</h4>
+<div class="section level4">
+<h4 id="start_tracking_message">start_tracking_message<a class="anchor" aria-label="anchor" href="#start_tracking_message"></a>
+</h4>
 <p>This argument in <code><a href="../reference/pupil_read.html">pupil_read()</a></code> should correspond to the
 message string that marks the onset of a trial. In most eye tracker
 APIs, you need to include a <strong>start tracking</strong> object at
@@ -229,9 +227,9 @@ advised not to do this, but if your data was created in such a way you
 will need to specify that the string match be a <strong>pattern</strong>
 match instead of an <strong>exact</strong> match. For example:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">data_pupil</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/pupil_read.html">pupil_read</a></span><span class="op">(</span><span class="st">"folder/file.csv"</span>, eyetracker <span class="op">=</span> <span class="st">"eyelink"</span>,
-                         start_tracking_message <span class="op">=</span> <span class="st">"Fixation"</span>,
-                         start_tracking_match <span class="op">=</span> <span class="st">"pattern"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">data_pupil</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/pupil_read.html">pupil_read</a></span><span class="op">(</span><span class="st">"folder/file.csv"</span>, eyetracker <span class="op">=</span> <span class="st">"eyelink"</span>,</span>
+<span>                         start_tracking_message <span class="op">=</span> <span class="st">"Fixation"</span>,</span>
+<span>                         start_tracking_match <span class="op">=</span> <span class="st">"pattern"</span><span class="op">)</span></span></code></pre></div>
 <p>This will search for any message strings that contain the sequence of
 letters “Fixation”.</p>
 <p>Those are the main arguments you will need to specify when importing
@@ -241,9 +239,9 @@ Options</a> for more details on other arguments you may need to specify
 to properly import the data file.</p>
 </div>
 </div>
-<div id="set-the-time-variable-relative-to-stimulus-onset" class="section level2">
-<h2 class="hasAnchor">
-<a href="#set-the-time-variable-relative-to-stimulus-onset" class="anchor"></a>2. Set the time variable relative to stimulus onset</h2>
+<div class="section level2">
+<h2 id="set-the-time-variable-relative-to-stimulus-onset">2. Set the time variable relative to stimulus onset<a class="anchor" aria-label="anchor" href="#set-the-time-variable-relative-to-stimulus-onset"></a>
+</h2>
 <p>The values in the <strong>Time</strong> column are not usually
 meaningful in the context of your experiment. Instead, what you are
 really interested in is the time <strong>relative</strong> to the onset
@@ -258,7 +256,7 @@ is a “pattern” match instead of an “exact” match.</p>
 corresponds to the onset of a critical stimulus labelled as
 “Stimulus_Onset” you can use:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/set_timing.html">set_timing</a></span><span class="op">(</span>onset_message <span class="op">=</span> <span class="st">"Stimulus_Onset"</span>, match <span class="op">=</span> <span class="st">"exact"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/set_timing.html">set_timing</a></span><span class="op">(</span>onset_message <span class="op">=</span> <span class="st">"Stimulus_Onset"</span>, match <span class="op">=</span> <span class="st">"exact"</span><span class="op">)</span></span></code></pre></div>
 <p>What this will do is set Time = 0 at “Stimulus_Onset”, negative time
 values (e.g., Time = -10) for values between the
 <code>start_tracking_message</code> (e.g., “Fixation”) and
@@ -278,11 +276,13 @@ values (e.g., Time = -10) for values between the
 
 
       <footer><div class="copyright">
-  <p>Developed by <a href="https://englelab.gatech.edu/jason">Jason Tsukahara</a>.</p>
+  <p></p>
+<p>Developed by <a href="https://englelab.gatech.edu/jason" class="external-link">Jason Tsukahara</a>.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
+  <p></p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer>
