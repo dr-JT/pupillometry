@@ -47,6 +47,7 @@ set_timing <- function(x, onset_message = NULL, match = "exact",
   if ("Stimulus" %in% colnames(x)) {
     x <- dplyr::group_by(x, Trial, Stimulus)
     x <- dplyr::mutate(x,
+                       Time_EyeTracker = Time,
                        onset.time = ifelse(Stimulus == onset_message,
                                                 min(Time, na.rm = TRUE), NA))
     x <- dplyr::group_by(x, Trial)
