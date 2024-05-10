@@ -28,7 +28,7 @@
 
 pupil_deblink <- function(x, extend = 0, plot = FALSE, plot_trial = "all") {
 
-  x_before <- x
+  x_before <- dplyr::as_tibble(x)
 
   x <- dplyr::as_tibble(x)
   eyes <- eyes_detect(x)
