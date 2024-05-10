@@ -44,7 +44,7 @@ pupil_deblink <- function(x, extend = 0, plot = FALSE, plot_trial = "all") {
 
     #### Define blink + extension samples ####
     x <- dtplyr::lazy_dt(x)
-    x <- dplyr::mutate(x,
+    x <- dplyr::mutate(x, .by = Trial,
                        blink =
                          ifelse(!is.na(eye_event) & eye_event == "Blink", 1,
                                 ifelse(is.na(pupil_val), 1, 0)),
