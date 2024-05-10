@@ -160,7 +160,7 @@ pupil_baselinecorrect <- function(x, bc_onset_message = "",
 
     baseline_correct <- function(x, type) {
       x <- x |>
-        dplyr::mutate(.by = PreTarget,
+        dplyr::mutate(.by = c(Trial, PreTarget),
                       PreTarget.median = median(pupil_val, na.rm = TRUE),
                       PreTarget.median = ifelse(Time_EyeTracker != bconset.time,
                                                 as.numeric(NA), PreTarget.median)) |>
