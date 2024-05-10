@@ -90,5 +90,6 @@ set_timing <- function(x, onset_message = NULL, match = "exact",
   x <- dplyr::select(x, -onset.time, -stim_present)
   x <- dplyr::distinct(x, Trial, Time, .keep_all = TRUE)
   x <- dplyr::filter(x, !is.na(Subject))
+  x <- dplyr::relocate(x, Time_EyeTracker, .before = Time)
   return(x)
 }
