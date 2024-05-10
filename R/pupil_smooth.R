@@ -84,7 +84,7 @@
 pupil_smooth <- function(x, type = "hann", n = NULL,
                          plot = FALSE, plot_trial = "all",
                          window = NULL, hz = NULL){
-  x_before <- x
+  x_before <- dplyr::as_tibble(x)
 
   if (!is.null(window)) {
     n <- round(window / (1000 / hz))

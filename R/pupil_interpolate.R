@@ -87,7 +87,7 @@
 pupil_interpolate <- function(x, type = "cubic-spline",
                               maxgap = Inf, hz = "",
                               plot = FALSE, plot_trial = "all") {
-  x_before <- x
+  x_before <- dplyr::as_tibble(x)
 
   if ("UpSampled" %in% colnames(x)) {
     hz <- 1000

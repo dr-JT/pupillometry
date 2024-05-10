@@ -39,7 +39,7 @@
 
 pupil_artifact <- function(x, n = 16, plot = FALSE, plot_trial = "all") {
 
-  x_before <- x
+  x_before <- dplyr::as_tibble(x)
 
   speed <- function(x, y) {
     diff <- diff(x) / diff(y)
