@@ -160,6 +160,8 @@ pupil_baselinecorrect <- function(x, bc_onset_message = "",
                     Trial_lead = ifelse(Trial_lead == Trial + 1 & Time_EyeTracker <= min_time,
                                         Trial, Trial_lead))
 
+    x <- dplyr::select(x, -min_time, -onset.time)
+
     baseline_correct <- function(x, type) {
       x <- x |>
         dplyr::mutate(.by = c(Trial_lead, PreTarget),
@@ -177,7 +179,7 @@ pupil_baselinecorrect <- function(x, bc_onset_message = "",
                                              PreTarget.median) * 100)
       }
       x <- dplyr::ungroup(x)
-      #x <- dplyr::select(x, -PreTarget.median)
+      x <- dplyr::select(x, -PreTarget.median, -bconset.time)
       x <- dplyr::relocate(x, pupil_val_bc, .after = pupil_val)
     }
   }
@@ -198,7 +200,7 @@ pupil_baselinecorrect <- function(x, bc_onset_message = "",
       stringr::str_replace(real_name, "Diameter.", "Diameter_bc.")
   }
 
-  #x <- dplyr::select(x, -PreTarget)
+  x <- dplyr::select(x, -PreTarget)
 
   return(x)
 }
