@@ -155,8 +155,10 @@ pupil_baselinecorrect <- function(x, bc_onset_message = "",
                       ifelse(Time_EyeTracker >= (bconset.time - baseline_duration) &
                                Time_EyeTracker <= bconset.time, 1, PreTarget),
                     Trial_lead =
-                      ifelse(PreTarget == 1 & Time_EyeTracker > (bconset.time - baseline_duration),
-                             Trial + 1, Trial))
+                      ifelse(PreTarget == 1 & Time_EyeTracker >= (bconset.time - baseline_duration),
+                             Trial + 1, Trial),
+                    Trial_lead = ifelse(Trial_lead == Trial + 1 & Time_EyeTracker <= min_time,
+                                        Trial, Trial_lead))
 
     baseline_correct <- function(x, type) {
       x <- x |>
