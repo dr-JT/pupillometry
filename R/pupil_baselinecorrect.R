@@ -36,6 +36,9 @@
 #' @param type Do you want to use "subtractive" or "divisive"
 #'     baseline correction? default: "subtractive"
 #' @param match Is the message string an "exact" match or a "pattern" match?
+#' @param no_pretrial The design of the task did not include a pretrial period
+#'     to use for baseline correction. Therefore, use the end of the previous
+#'     trial as the baseline period. default: FALSE
 #' @param bc_onset.message deprecated. see bc_onset_message
 #' @param pre.duration deprecated. see baseline_duration.
 #' @import data.table
@@ -44,7 +47,7 @@
 
 pupil_baselinecorrect <- function(x, bc_onset_message = "",
                                   baseline_duration = 200, type = "subtractive",
-                                  match = "exact",
+                                  match = "exact", no_pretrial = FALSE,
                                   bc_onset.message = NULL,
                                   pre.duration = NULL) {
 
@@ -55,15 +58,9 @@ pupil_baselinecorrect <- function(x, bc_onset_message = "",
     baseline_duration <- pre.duration
   }
 
-  ## Check if bc_onset_message is at the
-  ## start of the trial (no pre-trial period)
-  if (min(x$Time) >= 0) {
-    x <- pupil_baselinecorrect_nopretrial(bc_onset_message = bc_onset_message,
-                                          baseline_duration = baseline_duration,
-                                          type = "subtractive", match = "exact")
-  } else {
-    x <- dplyr::as_tibble(x)
+  x <- dplyr::as_tibble(x)
 
+  if (no_pretrial == FALSE) {
     #### Setup baseline timing variables ####
     x <- dplyr::group_by(x, Trial, Stimulus)
     x <- dplyr::mutate(x, onset.time = min(Time, na.rm = TRUE))
@@ -82,7 +79,6 @@ pupil_baselinecorrect <- function(x, bc_onset_message = "",
                              ifelse(stringr::str_detect(Stimulus, m),
                                     onset.time, as.numeric(NA)))
       }
-
       x <- dplyr::mutate(x,
                          min_time = min(bconset.time, na.rm = TRUE),
                          bconset.time = ifelse(is.na(bconset.time) |
@@ -102,7 +98,7 @@ pupil_baselinecorrect <- function(x, bc_onset_message = "",
     ########################################
 
     #### Define baseline correction function ####
-    baseline_correct <- function(x, baseline_duration, type, pre.duration) {
+    baseline_correct <- function(x, type) {
       x <- dplyr::group_by(x, Trial, PreTarget)
       x <- dplyr::mutate(x,
                          PreTarget.median = median(pupil_val, na.rm = TRUE),
@@ -128,30 +124,79 @@ pupil_baselinecorrect <- function(x, bc_onset_message = "",
       }
 
       x <- dplyr::ungroup(x)
-      x <- dplyr::select(x, -PreTarget.median)
+      x <- dplyr::select(x, -PreTarget.median, -Target)
       x <- dplyr::relocate(x, pupil_val_bc, .after = pupil_val)
     }
     ############################################
-
-    x <- dplyr::as_tibble(x)
-    eyes <- eyes_detect(x)
-
-    for (eye in eyes) {
-      real_name <- eye
-      colnames(x)[which(colnames(x) == real_name)] <- "pupil_val"
-
-      x <- dtplyr::lazy_dt(x)
-      x <- baseline_correct(x, baseline_duration, type, pre.duration)
-      x <- dplyr::as_tibble(x)
-
-      colnames(x)[which(colnames(x) == "pupil_val")] <- real_name
-      colnames(x)[which(colnames(x) == "pupil_val_bc")] <-
-        stringr::str_replace(real_name, "Diameter.", "Diameter_bc.")
+  } else {
+    x <- dplyr::mutate(x, .by = c(Trial, Stimulus),
+                    onset.time = min(Time_EyeTracker, na.rm = TRUE),
+                    PreTarget = NA)
+    if (match == "exact") {
+      x <- dplyr::mutate(x, .by = Trial,
+                         bconset.time =
+                           ifelse(Stimulus == bc_onset_message,
+                                  onset.time, as.numeric(NA)))
+    } else if (match == "pattern") {
+      x <- dplyr::mutate(x, .by = Trial,
+                         bconset.time =
+                           ifelse(stringr::str_detect(Stimulus, bc_onset_message),
+                                  onset.time, as.numeric(NA)))
     }
+    x <- x |>
+      dplyr::mutate(.by = Trial,
+                    min_time = min(bconset.time, na.rm = TRUE),
+                    bconset.time = ifelse(is.na(bconset.time) |
+                                            bconset.time != min_time,
+                                          as.numeric(NA), bconset.time),
+                    bconset.time = zoo::na.locf(bconset.time, na.rm = FALSE),
+                    bconset.time = zoo::na.locf(bconset.time, na.rm = FALSE,
+                                                fromLast = TRUE),
+                    bconset.time = ifelse(is.infinite(min_time),
+                                          as.numeric(Inf), bconset.time)) |>
+      dplyr::mutate(PreTarget =
+                      ifelse(Time_EyeTracker >= (bconset.time - baseline_duration) &
+                               Time_EyeTracker <= bconset.time, 1, PreTarget))
 
-    x <- dplyr::select(x, -PreTarget, -Target)
+    baseline_correct <- function(x, type) {
+      x <- x |>
+        dplyr::mutate(.by = PreTarget,
+                      PreTarget.median = median(pupil_val, na.rm = TRUE),
+                      PreTarget.median = ifelse(Time_EyeTracker != bconset.time,
+                                                as.numeric(NA), PreTarget.median)) |>
+        dplyr::mutate(.by = Trial,
+                      PreTarget.median = zoo::na.locf(PreTarget.median, na.rm = FALSE))
+
+      if (type == "subtractive") {
+        x <- dplyr::mutate(x, pupil_val_bc = pupil_val - PreTarget.median)
+      } else if (type == "divisive") {
+        x <- dplyr::mutate(x,
+                           pupil_val_bc = ((pupil_val - PreTarget.median) /
+                                             PreTarget.median) * 100)
+      }
+      x <- dplyr::ungroup(x)
+      x <- dplyr::select(x, -PreTarget.median)
+      x <- dplyr::relocate(x, pupil_val_bc, .after = pupil_val)
+    }
   }
+
+  x <- dplyr::as_tibble(x)
+  eyes <- eyes_detect(x)
+
+  for (eye in eyes) {
+    real_name <- eye
+    colnames(x)[which(colnames(x) == real_name)] <- "pupil_val"
+
+    x <- dtplyr::lazy_dt(x)
+    x <- baseline_correct(x, type)
+    x <- dplyr::as_tibble(x)
+
+    colnames(x)[which(colnames(x) == "pupil_val")] <- real_name
+    colnames(x)[which(colnames(x) == "pupil_val_bc")] <-
+      stringr::str_replace(real_name, "Diameter.", "Diameter_bc.")
+  }
+
+  x <- dplyr::select(x, -PreTarget)
 
   return(x)
 }
-
