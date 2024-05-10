@@ -60,20 +60,21 @@ files_list <- list.files(import_dir, pattern = ".txt", full.names = TRUE)
 # ---- Preprocess --------------------------------------------------------------
 data_pupil <- files_list |>
   map(pupil_read, eyetracker = "tobii", eye_use = "left",
-      subj_prefix = "flanker", subj_suffix = "a",
       include_col = c("RT", "accuracy", "condition"),
       quality_check_dir = output_dir) |>
   map(set_timing, onset_message = "Fixation_Onset") |>
   map(pupil_deblink, extend = 75) |>
   map(pupil_artifact, n = 8) |>
+  map(pupil_artifact, n = 8) |> # recommended to do twice
   map(pupil_missing, missing_allowed = .90) |>
   map(pupil_upsample) |>
-  map(pupil_smooth, type = "hann", n = 250) |>
+  map(pupil_smooth, type = "hann", n = 200) |>
   map(pupil_interpolate, type = "cubic-spline", maxgap = 750, hz = 1000) |>
   map(pupil_baselinecorrect, bc_onset_message = "Stimulus_Onset",
       baseline_duration = 200, type = "subtractive") |>
   map(pupil_missing)
 
+# save preprocess data files
 map(data_pupil,
     function(df) {
       file_name <- paste0("eyetracker_", df$Subject[1],
@@ -85,6 +86,7 @@ map(data_pupil,
 # ---- Bin ---------------------------------------------------------------------
 data_bin <- map(data_pupil, pupil_bin, bin_length = 20)
 
+# save binned data files
 map(data_bin, 
     function(df) {
       file_name <- paste0("eyetracker_", df$Subject[1], "_binned.csv")
@@ -117,7 +119,6 @@ files_list <- list.files(import_dir, pattern = ".txt", full.names = TRUE)
 for (file in files_list) {
   data_pupil <- file |>
     pupil_read(file, eyetracker = "eyelink", eye_use = "left",
-               subj_prefix = "flanker", subj_suffix = "a",
                include_col = c("RT", "accuracy", "condition"),
                quality_check_dir = output_dir) |>
     set_timing(onset_message = "Stimulus_Onset") |>
@@ -132,12 +133,12 @@ for (file in files_list) {
                           type = "subtractive") |>
     pupil_missing()
   
-  ## save preprocessed data
+  ## save preprocessed data files
   output_file <- paste0(output_dir, "/eyetracker_", data_pupil$Subject[1], 
                        "_deblink.artifact.smooth.interpolate.bc.csv")
   write_csv(data_pupil, output_file)
   
-  ## save binned data
+  ## save binned data files
   data_bin <- pupil_bin(data_pupil, bin_length = 20)
   output_bin <- paste0(output_dir, "/eyetracker_", data_bin$Subject[1],
                        "_binned.csv")

@@ -95,6 +95,7 @@ https://dr-jt.github.io/pupillometry/ for more information.</p>
 <span>  baseline_duration <span class="op">=</span> <span class="fl">200</span>,</span>
 <span>  type <span class="op">=</span> <span class="st">"subtractive"</span>,</span>
 <span>  match <span class="op">=</span> <span class="st">"exact"</span>,</span>
+<span>  no_pretrial <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  bc_onset.message <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  pre.duration <span class="op">=</span> <span class="cn">NULL</span></span>
 <span><span class="op">)</span></span></code></pre></div>
@@ -126,6 +127,12 @@ baseline correction? default: "subtractive"</p></dd>
 
 <dt>match</dt>
 <dd><p>Is the message string an "exact" match or a "pattern" match?</p></dd>
+
+
+<dt>no_pretrial</dt>
+<dd><p>The design of the task did not include a pretrial period
+to use for baseline correction. Therefore, use the end of the previous
+trial as the baseline period. default: FALSE</p></dd>
 
 
 <dt>bc_onset.message</dt>
