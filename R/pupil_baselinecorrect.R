@@ -148,17 +148,14 @@ pupil_baselinecorrect <- function(x, bc_onset_message = "",
                     min_time = min(bconset.time, na.rm = TRUE),
                     bconset.time = ifelse(is.na(bconset.time) |
                                             bconset.time != min_time,
-                                          as.numeric(NA), bconset.time),
-                    bconset.time = zoo::na.locf(bconset.time, na.rm = FALSE),
-                    bconset.time = zoo::na.locf(bconset.time, na.rm = FALSE,
+                                          as.numeric(NA), bconset.time)) |>
+      dplyr::mutate(bconset.time = zoo::na.locf(bconset.time, na.rm = FALSE,
                                                 fromLast = TRUE),
-                    bconset.time = ifelse(is.infinite(min_time),
-                                          as.numeric(Inf), bconset.time)) |>
-      dplyr::mutate(PreTarget =
+                    PreTarget =
                       ifelse(Time_EyeTracker >= (bconset.time - baseline_duration) &
                                Time_EyeTracker <= bconset.time, 1, PreTarget),
                     Trial_lead =
-                      ifelse(PreTarget == 1 & Time_EyeTracker > bconset.time,
+                      ifelse(PreTarget == 1 & Time_EyeTracker > (bconset.time - baseline_duration),
                              Trial + 1, Trial))
 
     baseline_correct <- function(x, type) {
@@ -199,7 +196,7 @@ pupil_baselinecorrect <- function(x, bc_onset_message = "",
       stringr::str_replace(real_name, "Diameter.", "Diameter_bc.")
   }
 
-  x <- dplyr::select(x, -PreTarget)
+  #x <- dplyr::select(x, -PreTarget)
 
   return(x)
 }
