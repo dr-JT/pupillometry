@@ -175,7 +175,7 @@ pupil_baselinecorrect <- function(x, bc_onset_message = "",
                                              PreTarget.median) * 100)
       }
       x <- dplyr::ungroup(x)
-      x <- dplyr::select(x, -PreTarget.median)
+      #x <- dplyr::select(x, -PreTarget.median)
       x <- dplyr::relocate(x, pupil_val_bc, .after = pupil_val)
     }
   }
