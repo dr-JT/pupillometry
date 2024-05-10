@@ -3,7 +3,6 @@
 export(eyes_detect)
 export(pupil_artifact)
 export(pupil_baselinecorrect)
-export(pupil_baselinecorrect_nopretrial)
 export(pupil_bin)
 export(pupil_cor)
 export(pupil_deblink)

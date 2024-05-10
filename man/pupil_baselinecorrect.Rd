@@ -10,6 +10,7 @@ pupil_baselinecorrect(
   baseline_duration = 200,
   type = "subtractive",
   match = "exact",
+  no_pretrial = FALSE,
   bc_onset.message = NULL,
   pre.duration = NULL
 )
@@ -30,6 +31,10 @@ different baseline durations. default: 200}
 baseline correction? default: "subtractive"}
 
 \item{match}{Is the message string an "exact" match or a "pattern" match?}
+
+\item{no_pretrial}{The design of the task did not include a pretrial period
+to use for baseline correction. Therefore, use the end of the previous
+trial as the baseline period. default: FALSE}
 
 \item{bc_onset.message}{deprecated. see bc_onset_message}
 
