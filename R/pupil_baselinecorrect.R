@@ -236,7 +236,7 @@ pupil_baselinecorrect <- function(x, bc_onset_message = "",
     if ("pupil_val" %in% colnames(x)) message("here i am3")
     x <- dplyr::as_tibble(x)
     x <- dtplyr::lazy_dt(x)
-    if ("pupil_val" %in% colnames(x)) message("here i am4")
+    if ("pupil_val" %in% names(x)) message("here i am4")
     x <- baseline_correct(x, type)
     x <- dplyr::as_tibble(x)
 
