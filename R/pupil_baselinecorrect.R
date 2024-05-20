@@ -143,7 +143,7 @@ pupil_baselinecorrect <- function(x, bc_onset_message = "",
 
       x <- dplyr::ungroup(x)
       x <- dplyr::select(x, -PreTarget.median, -Target,
-                         -PreTarget.median_z, -pupil_val_z_bc)
+                         -PreTarget.median_z, -pupil_val_z)
       x <- dplyr::relocate(x, pupil_val_bc, .after = pupil_val)
       x <- dplyr::relocate(x, pupil_val_z_bc, .after = pupil_val_bc)
     }
@@ -210,7 +210,7 @@ pupil_baselinecorrect <- function(x, bc_onset_message = "",
       }
       x <- dplyr::ungroup(x)
       x <- dplyr::select(x, -PreTarget.median, -bconset.time, -Trial_lead,
-                         -PreTarget.median_z, -pupil_val_z_bc)
+                         -PreTarget.median_z, -pupil_val_z)
       x <- dplyr::relocate(x, pupil_val_bc, .after = pupil_val)
       x <- dplyr::relocate(x, pupil_val_z_bc, .after = pupil_val_bc)
     }
