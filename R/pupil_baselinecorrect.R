@@ -185,17 +185,22 @@ pupil_baselinecorrect <- function(x, bc_onset_message = "",
     baseline_correct <- function(x, type) {
       x <- x |>
         dplyr::mutate(.by = Trial,
-                      pupil_val_z = scale(pupil_val)[,1]) |>
+                      pupil_val_z = scale(pupil_val)[,1])
+      message("here1")
+      x <- x |>
         dplyr::mutate(.by = c(Trial_lead, PreTarget),
                       PreTarget.median = median(pupil_val, na.rm = TRUE),
                       PreTarget.median_z = median(pupil_val_z, na.rm = TRUE),
                       PreTarget.median = ifelse(Time_EyeTracker != bconset.time,
                                                 as.numeric(NA), PreTarget.median),
                       PreTarget.median_z = ifelse(Time_EyeTracker != bconset.time,
-                                                  as.numeric(NA), PreTarget.median_z)) |>
+                                                  as.numeric(NA), PreTarget.median_z))
+      message("here2")
+      x <- x |>
         dplyr::mutate(.by = Trial,
                       PreTarget.median = zoo::na.locf(PreTarget.median, na.rm = FALSE),
                       PreTarget.median_z = zoo::na.locf(PreTarget.median_z, na.rm = FALSE))
+      message("here3")
 
       if (type == "subtractive") {
         message("pupil_val_z: ", length(!is.na(x$pupil_val_z)))
