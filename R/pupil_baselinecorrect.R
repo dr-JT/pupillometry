@@ -65,8 +65,7 @@ pupil_baselinecorrect <- function(x, bc_onset_message = "",
     x <- dplyr::group_by(x, Trial, Stimulus)
     x <- dplyr::mutate(x, onset.time = min(Time, na.rm = TRUE))
     x <- dplyr::group_by(x, Trial)
-    x <- dplyr::mutate(x, PreTarget = 0, Target = 0,
-                       pupil_z = )
+    x <- dplyr::mutate(x, PreTarget = 0, Target = 0)
 
     for (m in bc_onset_message) {
       n <- match(m, bc_onset_message)
