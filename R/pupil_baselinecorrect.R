@@ -65,7 +65,8 @@ pupil_baselinecorrect <- function(x, bc_onset_message = "",
     x <- dplyr::group_by(x, Trial, Stimulus)
     x <- dplyr::mutate(x, onset.time = min(Time, na.rm = TRUE))
     x <- dplyr::group_by(x, Trial)
-    x <- dplyr::mutate(x, PreTarget = 0, Target = 0)
+    x <- dplyr::mutate(x, PreTarget = 0, Target = 0,
+                       pupil_z = )
 
     for (m in bc_onset_message) {
       n <- match(m, bc_onset_message)
@@ -99,33 +100,51 @@ pupil_baselinecorrect <- function(x, bc_onset_message = "",
 
     #### Define baseline correction function ####
     baseline_correct <- function(x, type) {
+      x <- dplyr::mutate(.by = Trial,
+                         pupil_val_z = scale(pupil_val)[,1])
       x <- dplyr::group_by(x, Trial, PreTarget)
       x <- dplyr::mutate(x,
                          PreTarget.median = median(pupil_val, na.rm = TRUE),
+                         PreTarget.median_z = median(pupil_val_z, na.rm = TRUE),
                          PreTarget.median = ifelse(is.na(PreTarget) |
                                                      PreTarget == 0,
-                                                   as.numeric(NA), PreTarget.median))
+                                                   as.numeric(NA), PreTarget.median),
+                         PreTarget.median_z = ifelse(is.na(PreTarget) |
+                                                       PreTarget == 0,
+                                                     as.numeric(NA), PreTarget.median_z))
       x <- dplyr::group_by(x, Trial)
       x <- dplyr::mutate(x,
                          PreTarget.median =
-                           zoo::na.locf(PreTarget.median, na.rm = FALSE))
+                           zoo::na.locf(PreTarget.median, na.rm = FALSE),
+                         PreTarget.median_z =
+                           zoo::na.locf(PreTarget.median_z, na.rm = FALSE))
       x <- dplyr::mutate(x,
                          PreTarget.median =
-                           ifelse(PreTarget > Target, as.numeric(NA), PreTarget.median))
+                           ifelse(PreTarget > Target, as.numeric(NA), PreTarget.median),
+                         PreTarget.median_z =
+                           ifelse(PreTarget > Target, as.numeric(NA), PreTarget.median_z))
       x <- dplyr::mutate(x,
                          PreTarget.median =
-                           zoo::na.locf(PreTarget.median, na.rm = FALSE))
+                           zoo::na.locf(PreTarget.median, na.rm = FALSE),
+                         PreTarget.median_z =
+                           zoo::na.locf(PreTarget.median_z, na.rm = FALSE))
       if (type == "subtractive") {
-        x <- dplyr::mutate(x, pupil_val_bc = pupil_val - PreTarget.median)
+        x <- dplyr::mutate(x,
+                           pupil_val_bc = pupil_val - PreTarget.median,
+                           pupil_val_z_bc = pupil_val_z - PreTarget.median_z)
       } else if (type == "divisive") {
         x <- dplyr::mutate(x,
                            pupil_val_bc = ((pupil_val - PreTarget.median) /
-                                             PreTarget.median) * 100)
+                                             PreTarget.median) * 100,
+                           pupil_val_z_bc = ((pupil_val_z - PreTarget.median_z) /
+                                               PreTarget.median_z) * 100)
       }
 
       x <- dplyr::ungroup(x)
-      x <- dplyr::select(x, -PreTarget.median, -Target)
+      x <- dplyr::select(x, -PreTarget.median, -Target,
+                         -PreTarget.median_z, -pupil_val_z_bc)
       x <- dplyr::relocate(x, pupil_val_bc, .after = pupil_val)
+      x <- dplyr::relocate(x, pupil_val_z_bc, .after = pupil_val_bc)
     }
     ############################################
   } else {
@@ -164,23 +183,35 @@ pupil_baselinecorrect <- function(x, bc_onset_message = "",
 
     baseline_correct <- function(x, type) {
       x <- x |>
+        dplyr::mutate(.by = Trial,
+                      pupil_val_z = scale(pupil_val)[,1]) |>
         dplyr::mutate(.by = c(Trial_lead, PreTarget),
                       PreTarget.median = median(pupil_val, na.rm = TRUE),
+                      PreTarget.median_z = median(pupil_val_z, na.rm = TRUE),
                       PreTarget.median = ifelse(Time_EyeTracker != bconset.time,
-                                                as.numeric(NA), PreTarget.median)) |>
+                                                as.numeric(NA), PreTarget.median),
+                      PreTarget.median_z = ifelse(Time_EyeTracker != bconset.time,
+                                                  as.numeric(NA), PreTarget.median_z)) |>
         dplyr::mutate(.by = Trial,
-                      PreTarget.median = zoo::na.locf(PreTarget.median, na.rm = FALSE))
+                      PreTarget.median = zoo::na.locf(PreTarget.median, na.rm = FALSE),
+                      PreTarget.median_z = zoo::na.locf(PreTarget.median_z, na.rm = FALSE))
 
       if (type == "subtractive") {
-        x <- dplyr::mutate(x, pupil_val_bc = pupil_val - PreTarget.median)
+        x <- dplyr::mutate(x,
+                           pupil_val_bc = pupil_val - PreTarget.median,
+                           pupil_val_z_bc = pupil_val_z - PreTarget.median_z)
       } else if (type == "divisive") {
         x <- dplyr::mutate(x,
                            pupil_val_bc = ((pupil_val - PreTarget.median) /
-                                             PreTarget.median) * 100)
+                                             PreTarget.median) * 100,
+                           pupil_val_z_bc = ((pupil_val_z - PreTarget.median_z) /
+                                               PreTarget.median_z) * 100)
       }
       x <- dplyr::ungroup(x)
-      x <- dplyr::select(x, -PreTarget.median, -bconset.time)
+      x <- dplyr::select(x, -PreTarget.median, -bconset.time, -Trial_lead,
+                         -PreTarget.median_z, -pupil_val_z_bc)
       x <- dplyr::relocate(x, pupil_val_bc, .after = pupil_val)
+      x <- dplyr::relocate(x, pupil_val_z_bc, .after = pupil_val_bc)
     }
   }
 
@@ -198,6 +229,8 @@ pupil_baselinecorrect <- function(x, bc_onset_message = "",
     colnames(x)[which(colnames(x) == "pupil_val")] <- real_name
     colnames(x)[which(colnames(x) == "pupil_val_bc")] <-
       stringr::str_replace(real_name, "Diameter.", "Diameter_bc.")
+    colnames(x)[which(colnames(x) == "pupil_val_z_bc")] <-
+      stringr::str_replace(text, "Diameter\\..*", "Diameter_bc.z")
   }
 
   x <- dplyr::select(x, -PreTarget)
