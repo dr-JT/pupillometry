@@ -183,6 +183,7 @@ pupil_baselinecorrect <- function(x, bc_onset_message = "",
     x <- dplyr::select(x, -min_time, -onset.time)
 
     baseline_correct <- function(x, type) {
+      message("here0")
       x <- x |>
         dplyr::mutate(.by = Trial,
                       pupil_val_z = scale(pupil_val)[,1])
