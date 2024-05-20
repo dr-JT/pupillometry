@@ -184,6 +184,7 @@ pupil_baselinecorrect <- function(x, bc_onset_message = "",
 
     baseline_correct <- function(x, type) {
       message("here0")
+      if ("pupil_val" %in% colnames(x)) message("here i am")
       x <- x |>
         dplyr::mutate(.by = Trial,
                       pupil_val_z = scale(pupil_val)[,1])
