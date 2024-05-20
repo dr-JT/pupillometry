@@ -100,7 +100,8 @@ pupil_baselinecorrect <- function(x, bc_onset_message = "",
 
     #### Define baseline correction function ####
     baseline_correct <- function(x, type) {
-      x <- dplyr::mutate(.by = Trial,
+      x <- dplyr::mutate(x,
+                         .by = Trial,
                          pupil_val_z = scale(pupil_val)[,1])
       x <- dplyr::group_by(x, Trial, PreTarget)
       x <- dplyr::mutate(x,
@@ -230,7 +231,7 @@ pupil_baselinecorrect <- function(x, bc_onset_message = "",
     colnames(x)[which(colnames(x) == "pupil_val_bc")] <-
       stringr::str_replace(real_name, "Diameter.", "Diameter_bc.")
     colnames(x)[which(colnames(x) == "pupil_val_z_bc")] <-
-      stringr::str_replace(text, "Diameter\\..*", "Diameter_bc.z")
+      stringr::str_replace(real_name, "Diameter\\..*", "Diameter_bc.z")
   }
 
   x <- dplyr::select(x, -PreTarget)
