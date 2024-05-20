@@ -229,15 +229,8 @@ pupil_baselinecorrect <- function(x, bc_onset_message = "",
 
   for (eye in eyes) {
     real_name <- eye
-    x <- dplyr::as_tibble(x)
-    message(real_name)
     colnames(x)[which(colnames(x) == real_name)] <- "pupil_val"
-    if ("pupil_val" %in% colnames(x)) message("here i am3")
-    x <- dplyr::as_tibble(x)
-    x <- dtplyr::lazy_dt(x)
-    names(x)[which(names(x) == real_name)] <- "pupil_val"
-    message(names(x))
-    if ("pupil_val" %in% names(x)) message("here i am4")
+    #x <- dtplyr::lazy_dt(x) not working for some reason
     x <- baseline_correct(x, type)
     x <- dplyr::as_tibble(x)
 
