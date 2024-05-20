@@ -198,6 +198,8 @@ pupil_baselinecorrect <- function(x, bc_onset_message = "",
                       PreTarget.median_z = zoo::na.locf(PreTarget.median_z, na.rm = FALSE))
 
       if (type == "subtractive") {
+        message("pupil_val_z: ", length(!is.na(x$pupil_val_z)))
+        message("PreTarget.median_z: ", length(!is.na(x$PreTarget.median_z)))
         x <- dplyr::mutate(x,
                            pupil_val_bc = pupil_val - PreTarget.median,
                            pupil_val_z_bc = pupil_val_z - PreTarget.median_z)
