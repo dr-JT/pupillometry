@@ -229,6 +229,8 @@ pupil_baselinecorrect <- function(x, bc_onset_message = "",
 
   for (eye in eyes) {
     real_name <- eye
+    message(real_name)
+    if (real_name %in% colnames(x)) message("here i am2")
     colnames(x)[which(colnames(x) == real_name)] <- "pupil_val"
 
     x <- dtplyr::lazy_dt(x)
