@@ -182,30 +182,21 @@ pupil_baselinecorrect <- function(x, bc_onset_message = "",
     x <- dplyr::select(x, -min_time, -onset.time)
 
     baseline_correct <- function(x, type) {
-      message("here0")
-      if ("pupil_val" %in% colnames(x)) message("here i am")
       x <- x |>
         dplyr::mutate(.by = Trial,
-                      pupil_val_z = scale(pupil_val)[,1])
-      message("here1")
-      x <- x |>
+                      pupil_val_z = scale(pupil_val)[,1]) |>
         dplyr::mutate(.by = c(Trial_lead, PreTarget),
                       PreTarget.median = median(pupil_val, na.rm = TRUE),
                       PreTarget.median_z = median(pupil_val_z, na.rm = TRUE),
                       PreTarget.median = ifelse(Time_EyeTracker != bconset.time,
                                                 as.numeric(NA), PreTarget.median),
                       PreTarget.median_z = ifelse(Time_EyeTracker != bconset.time,
-                                                  as.numeric(NA), PreTarget.median_z))
-      message("here2")
-      x <- x |>
+                                                  as.numeric(NA), PreTarget.median_z)) |>
         dplyr::mutate(.by = Trial,
                       PreTarget.median = zoo::na.locf(PreTarget.median, na.rm = FALSE),
                       PreTarget.median_z = zoo::na.locf(PreTarget.median_z, na.rm = FALSE))
-      message("here3")
 
       if (type == "subtractive") {
-        message("pupil_val_z: ", length(!is.na(x$pupil_val_z)))
-        message("PreTarget.median_z: ", length(!is.na(x$PreTarget.median_z)))
         x <- dplyr::mutate(x,
                            pupil_val_bc = pupil_val - PreTarget.median,
                            pupil_val_z_bc = pupil_val_z - PreTarget.median_z)
