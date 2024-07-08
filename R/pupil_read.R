@@ -755,15 +755,15 @@ pupil_read <- function(file, eyetracker = "", eye_use = NULL,
       start_tracking_match <- "exact"
     }
 
-    if (delim == "\t") {
+    if (stringr::str_detect(file, ".xlsx")) {
+      data <- readxl::read_xlsx(file, guess_max = 100000)
+    } else if (delim == "\t") {
       data <- readr::read_delim(file, delim = "\t", escape_double = FALSE,
                                 trim_ws = TRUE, guess_max = 100000,
                                 na = na)
-    }
-    if (delim == "," | delim == "csv") {
+    } else if (delim == "," | delim == "csv") {
       data <- readr::read_csv(file, guess_max = 100000, na = na)
-    }
-    if (delim == ";") {
+    } else  if (delim == ";") {
       data <- readr::read_delim(file, delim = ";", escape_double = FALSE,
                                 trim_ws = TRUE, guess_max = 100000,
                                 na = na)
