@@ -278,10 +278,19 @@ pupil_read <- function(file, eyetracker = "", eye_use = NULL,
       start_tracking_match <- "exact"
     }
 
-    header <- readr::read_table(file, col_names = FALSE)
+    # parse header information
+    header <- readr::read_csv(file, col_names = FALSE)
     if (ncol(header) >= 1) {
       samples.total <- as.numeric(strsplit(header$X1[10], "\t")[[1]][2])
       head.distance <- as.numeric(strsplit(header$X1[24], "\t")[[1]][2])/10
+      idf_converter <-
+        stringr::str_trim(
+          stringr::str_extract(
+            strsplit(header$X1[4], "\t")[[1]][2],
+            "^[^\\d]+"
+          )
+        )
+
       found <- NA
       checkrow <- 0
       while (is.na(found)) {
@@ -292,12 +301,15 @@ pupil_read <- function(file, eyetracker = "", eye_use = NULL,
     } else {
       datastart <- 0
     }
+    # import data skipping header
     data <- readr::read_delim(file, "\t", escape_double = FALSE,
                               trim_ws = TRUE, skip = datastart,
                               guess_max = 100000)
-    names(data) <- gsub(" ", "_", gsub("\\[mm\\]", "mm",
-                                       gsub("\\[px\\]", "px", names(data))))
-
+    names(data) <- gsub(" ", "_",
+                        gsub("\\[mm\\]", "mm",
+                             gsub("\\[px\\]", "px", names(data))
+                             )
+                        )
     data <- dtplyr::lazy_dt(data)
 
     if ("Time" %in% data[["vars"]]) {
@@ -317,6 +329,14 @@ pupil_read <- function(file, eyetracker = "", eye_use = NULL,
                             Message = ifelse(get(message.column) >= 0,
                                              as.character(NA),
                                              get(message.column)))
+
+      if (idf_converter == "IDF Converter") {
+        data <- data |>
+          dplyr::rename_with(~ stringr::str_replace(.x, "Mapped", "Pupil"),
+                             dplyr::contains("Mapped")) |>
+          dplyr::mutate(L_Event_Info = as.character(NA),
+                        R_Event_Info = as.character(NA))
+      }
 
       left_recorded <- "L_Pupil_Diameter_mm" %in% data[["vars"]]
       right_recorded <- "R_Pupil_Diameter_mm" %in% data[["vars"]]
@@ -378,6 +398,11 @@ pupil_read <- function(file, eyetracker = "", eye_use = NULL,
           }
         }
       }
+
+      if (idf_converter == "IDF Converter") {
+        data <- dplyr::select(data, -L_Event_Info, -R_Event_Info)
+      }
+
     }
     ###################################
 
