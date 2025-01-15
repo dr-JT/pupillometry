@@ -54,12 +54,12 @@ pupil_plot <- function(x, y, trial = "all", sub_title = "") {
     colnames(y)[which(colnames(y) == real_name)] <- "pupil_val_after"
 
     x <- dplyr::select(x, Subject, Trial, Time, pupil_val_before)
-    if (trial != "all") {
+    if (!any(trial == "all")) {
       x <- dplyr::filter(x, Trial %in% trial)
     }
 
     y <- dplyr::select(y, Subject, Trial, Time, pupil_val_after)
-    if (trial != "all") {
+    if (!any(trial == "all")) {
       y <- dplyr::filter(y, Trial %in% trial)
     }
 
