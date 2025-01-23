@@ -29,14 +29,24 @@
 pupil_missing <- function(x, missing_allowed = 1) {
 
   x <- dplyr::as_tibble(x)
-  eyes <- eyes_detect(x)
+  eyes <- eyes_detect(x, include_bc = TRUE)
 
   for (eye in eyes) {
     real_name <- eye
     eye_prefix <- stringr::str_split(real_name, "_")[[1]][1]
+
+    # if real_name contains "bc" then add "bc" label to missing name
+    if (stringr::str_detect(real_name, "bc")) {
+      bc_label <- "_bc"
+    } else {
+      bc_label <- ""
+    }
+
     missing_name <- ifelse(eye_prefix == "Pupil",
-                           paste(eye_prefix, "_Missing", sep = ""),
-                           paste(eye_prefix, "_Pupil_Missing", sep = ""))
+                           paste(eye_prefix, bc_label, "_Missing", sep = ""),
+                           paste(eye_prefix, "_Pupil", bc_label, "_Missing", sep = ""))
+
+
 
     if (missing_name %in% colnames(x)) {
       colnames(x)[which(colnames(x) == missing_name)] <-

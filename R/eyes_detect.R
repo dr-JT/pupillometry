@@ -8,16 +8,21 @@
 #' This function returns the number of eyes recorded in the data
 #'
 #' @param x dataframe
+#' @param include_bc logical, include the baseline corrected eyes
 #' @export
 #'
 
 
-eyes_detect <- function(x) {
+eyes_detect <- function(x, include_bc = FALSE) {
 
   mm_conversion <- colnames(x)[which(stringr::str_detect(colnames(x), ".mm"))]
   mm_conversion <- !identical(mm_conversion, character(0))
   eyes <- colnames(x)[which(stringr::str_detect(colnames(x), "_Diameter"))]
-  eyes <- eyes[which(!stringr::str_detect(eyes, "bc"))]
+
+  if (include_bc == FALSE) {
+    eyes <- eyes[which(!stringr::str_detect(eyes, "bc"))]
+  }
+
   if (mm_conversion == TRUE) {
     eyes <- eyes[which(stringr::str_detect(eyes, ".mm"))]
   }

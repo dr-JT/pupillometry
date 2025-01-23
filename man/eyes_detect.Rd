@@ -4,10 +4,12 @@
 \alias{eyes_detect}
 \title{Detect Eyes}
 \usage{
-eyes_detect(x)
+eyes_detect(x, include_bc = FALSE)
 }
 \arguments{
 \item{x}{dataframe}
+
+\item{include_bc}{logical, include the baseline corrected eyes}
 }
 \description{
 Detect which eyes are in the data
