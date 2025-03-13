@@ -141,7 +141,7 @@ pupil_baselinecorrect <- function(x, bc_onset_message = "",
       }
 
       x <- dplyr::ungroup(x)
-      x <- dplyr::select(x, -PreTarget.median, -Target,
+      x <- dplyr::select(x, -PreTarget.median,
                          -PreTarget.median_z, -pupil_val_z)
       x <- dplyr::relocate(x, pupil_val_bc, .after = pupil_val)
       x <- dplyr::relocate(x, pupil_val_z_bc, .after = pupil_val_bc)
@@ -232,7 +232,7 @@ pupil_baselinecorrect <- function(x, bc_onset_message = "",
       stringr::str_replace(real_name, "Diameter\\..*", "Diameter_bc.z")
   }
 
-  x <- dplyr::select(x, -PreTarget)
+  x <- dplyr::select(x, -PreTarget, -Target)
 
   return(x)
 }
