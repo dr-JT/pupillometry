@@ -232,7 +232,7 @@ pupil_baselinecorrect <- function(x, bc_onset_message = "",
       stringr::str_replace(real_name, "Diameter\\..*", "Diameter_bc.z")
   }
 
-  x <- dplyr::select(x, any_of(c("PreTarget", "Target"))
+  x <- dplyr::select(x, any_of(c("PreTarget", "Target")))
 
   return(x)
 }
