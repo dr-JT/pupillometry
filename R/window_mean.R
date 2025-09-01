@@ -87,8 +87,6 @@
 #' }
 #'
 #' @export
-#' @importFrom dplyr mutate group_by filter summarise nth first last transmute
-#' @importFrom dplyr arrange row_number n
 #' @importFrom rlang .data sym
 window_mean <- function(
     df,
