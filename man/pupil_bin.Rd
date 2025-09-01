@@ -4,14 +4,38 @@
 \alias{pupil_bin}
 \title{Bin pupil data}
 \usage{
-pupil_bin(x, bin_length = NULL)
+pupil_bin(
+  x,
+  bin_length = NULL,
+  bin_position = c("leading", "centered"),
+  na_allow = 0.5
+)
 }
 \arguments{
-\item{x}{dataframe.}
+\item{x}{data frame.}
 
 \item{bin_length}{Length of bins in milliseconds.}
+
+\item{bin_position}{Position of bins. "leading" places the time at the
+beginning of the bin, "centered" places the time at the center of the bin.}
+
+\item{na_allow}{Proportion of missing data allowed in each bin. If the proportion
+of missing data in a bin exceeds this value, the pupil value for that bin
+will be set to NA. Default is 0.5 (50%).}
 }
 \description{
+This function bins the pupil data into smaller time-bins. This is useful to
+perform time-series analyses or to just reduce the size of the data.
+
+The function works by averaging the pupil values within each bin. The
+`bin_length` argument specifies the length of the bins in milliseconds.
+
+The `bin_position` argument specifies whether the position of the bin in which
+pupil values are averaged should begin at the corresponding Time value and
+extend forward by `bin_length` milliseconds ("leading") or whether the bin
+should be centered around the corresponding Time value ("centered").
+}
+\details{
 Bin pupil data into smaller time-bins. This is useful to perform time-series
 analyses or to just reduce the size of the data. See
 https://dr-jt.github.io/pupillometry/ for more information.
