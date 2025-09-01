@@ -68,7 +68,6 @@ pupil_downsample <- function(
     real_name <- eye
     colnames(x)[which(colnames(x) == real_name)] <- "pupil_val"
 
-    x <- dtplyr::lazy_dt(x)
     x_down <- pupillometry::window_mean(x, window = window,
                                         drop_incomplete = drop,
                                         na_prop_max = na_allowed,
@@ -78,7 +77,6 @@ pupil_downsample <- function(
                                         snap_to_existing = snap_to)
     x <- dplyr::select(x, -pupil_val)
     x <- dplyr::right_join(x, x_down, by = "Time_EyeTracker")
-    x <- dplyr::as_tibble(x)
 
     colnames(x)[which(colnames(x) == "pupil_val")] <- real_name
   }
