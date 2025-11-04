@@ -21,7 +21,8 @@ Imports:
     dplR,
     ggplot2,
     grid,
-    readxl
+    readxl,
+    rlang
 URL: https://github.com/dr-JT/pupillometry, https://dr-jt.github.io/pupillometry/index.html
 BugReports: https://github.com/dr-JT/pupillometry/issues
 Encoding: UTF-8
