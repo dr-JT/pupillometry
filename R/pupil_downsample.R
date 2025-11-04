@@ -60,8 +60,6 @@ pupil_downsample <- function(
     drop <- TRUE
   }
 
-  x <- pupillometry::pupil_upsample(x)
-
   eyes <- eyes_detect(x)
 
   for (eye in eyes) {

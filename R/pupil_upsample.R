@@ -42,31 +42,59 @@
 #' interpolation was performed first anyways.
 #'
 #' @param x dataframe.
+#' @param time_cols The name(s) of the time column(s). Default is "Time".
+#' @param step The step size(s) in milliseconds for up-sampling. Default is 1.
 #' @export
 #'
 
-pupil_upsample <- function(x){
-  for (trial in unique(x$Trial)) {
-    x_trial <- dplyr::filter(x, Trial == trial)
-    time_up <- data.frame(Trial = trial,
-                          Time = min(x_trial$Time):max(x_trial$Time))
-    x <- merge(x, time_up, by = c("Trial", "Time"), all = TRUE)
+pupil_upsample <- function(x, time_cols = "Time", step = 1) {
+
+  stopifnot(all(c("Trial", time_cols) %in% names(x)))
+  if (length(step) == 1) step <- rep(step, length(time_cols))
+
+  out <- x
+
+  for (i in seq_along(time_cols)) {
+    tc     <- time_cols[i]
+    tc_sym <- rlang::sym(tc)
+    by_i   <- step[i]
+
+    # skip columns with all NA
+    if (all(is.na(x[[tc]]))) next
+
+    # build upsampled time grid for each Trial
+    time_up <- x %>%
+      dplyr::group_by(Trial) %>%
+      dplyr::reframe(
+        !!tc_sym := {
+          xmin <- min(.data[[tc]], na.rm = TRUE)
+          xmax <- max(.data[[tc]], na.rm = TRUE)
+          seq(xmin, xmax, by = by_i)
+        },
+        .groups = "drop"
+      )
+
+    # merge back to include missing time points
+    out <- dplyr::full_join(out, time_up, by = c("Trial", tc))
   }
-  x <- dplyr::relocate(x, Subject, .before = "Trial")
-  x <- tidyr::fill(x,
-                   -tidyselect::any_of(c("Pupil_Diameter.mm",
-                                         "L_Pupil_Diameter.mm",
-                                         "R_Pupil_Diameter.mm",
-                                         "Pupil_Diameter.px",
-                                         "L_Pupil_Diameter.px",
-                                         "R_Pupil_Diameter.px",
-                                         "Gaze_Position.x",
-                                         "L_Gaze_Position.x",
-                                         "R_Gaze_Position.x",
-                                         "Gaze_Position.y",
-                                         "L_Gaze_Position.y",
-                                         "R_Gaze_Position.y")),
-                   .direction = "down")
-  x <- dplyr::mutate(x, UpSampled = TRUE)
-  return(x)
+
+  out <- out |>
+    dplyr::arrange(Trial, !!!syms(time_cols)) |>
+    dplyr::relocate(Subject, .before = "Trial") |>
+    tidyr::fill(-tidyselect::any_of(c("Pupil_Diameter.mm",
+                                      "L_Pupil_Diameter.mm",
+                                      "R_Pupil_Diameter.mm",
+                                      "Pupil_Diameter.px",
+                                      "L_Pupil_Diameter.px",
+                                      "R_Pupil_Diameter.px",
+                                      "Gaze_Position.x",
+                                      "L_Gaze_Position.x",
+                                      "R_Gaze_Position.x",
+                                      "Gaze_Position.y",
+                                      "L_Gaze_Position.y",
+                                      "R_Gaze_Position.y")),
+                .direction = "down") |>
+    dplyr::mutate(UpSampled = TRUE)
+
+  return(out)
 }
