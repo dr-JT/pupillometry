@@ -53,6 +53,7 @@ pupil_upsample <- function(x, time_cols = "Time", step = 1) {
   if (length(step) == 1) step <- rep(step, length(time_cols))
 
   out <- x
+  time_up <- list()
 
   for (i in seq_along(time_cols)) {
     tc     <- time_cols[i]
@@ -63,17 +64,20 @@ pupil_upsample <- function(x, time_cols = "Time", step = 1) {
     if (all(is.na(x[[tc]]))) next
 
     # build upsampled time grid for each Trial
-    time_up <- x %>%
+    time_up[[i]] <- x %>%
       dplyr::group_by(Trial) %>%
-      dplyr::summarise(
+      dplyr::reframe(
         !!tc_sym := seq(min(.data[[tc]], na.rm = TRUE),
                         max(.data[[tc]], na.rm = TRUE)),
         .groups = "drop"
-      )
-
-    # merge back to include missing time points
-    out <- dplyr::full_join(out, time_up, by = c("Trial", tc))
+      ) |>
+      dplyr::mutate(index = row_number()) |>
+      dplyr::select(-.groups)
   }
+  # merge back to include missing time points
+  time_up <- purrr::reduce(time_up, dplyr::full_join, by = c("Trial", "index")) |>
+    dplyr::select(-index)
+  out <- dplyr::full_join(out, time_up, by = c("Trial", time_cols))
 
   out <- out |>
     dplyr::arrange(Trial, !!!syms(time_cols)) |>
