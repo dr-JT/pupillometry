@@ -65,12 +65,9 @@ pupil_upsample <- function(x, time_cols = "Time", step = 1) {
     # build upsampled time grid for each Trial
     time_up <- x %>%
       dplyr::group_by(Trial) %>%
-      dplyr::reframe(
-        !!tc_sym := {
-          xmin <- min(.data[[tc]], na.rm = TRUE)
-          xmax <- max(.data[[tc]], na.rm = TRUE)
-          seq(xmin, xmax, by = by_i)
-        },
+      dplyr::summarise(
+        !!tc_sym := seq(min(.data[[tc]], na.rm = TRUE),
+                        max(.data[[tc]], na.rm = TRUE)),
         .groups = "drop"
       )
 
