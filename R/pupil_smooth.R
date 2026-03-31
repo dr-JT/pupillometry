@@ -108,7 +108,7 @@ pupil_smooth <- function(x, type = "hann", n = NULL,
 
   #### Define smooth function ####
   smooth <- function(x, n) {
-    smooth_one_trial <- function(df_trial) {
+    smooth_one_trial <- function(df_trial, trial_id) {
       df_trial <- dplyr::arrange(df_trial, Time)
 
       out <- tryCatch(
@@ -166,12 +166,13 @@ pupil_smooth <- function(x, type = "hann", n = NULL,
           }
         }
       )
+
       out
     }
 
     x |>
       dplyr::group_by(Trial) |>
-      dplyr::group_modify(~ smooth_one_trial(.x)) |>
+      dplyr::group_modify(~ smooth_one_trial(.x, .y$Trial[[1]])) |>
       dplyr::ungroup() |>
       dplyr::arrange(Trial, Time)
   }
