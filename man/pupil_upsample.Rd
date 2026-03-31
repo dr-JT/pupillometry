@@ -4,10 +4,14 @@
 \alias{pupil_upsample}
 \title{Up-sample pupil data}
 \usage{
-pupil_upsample(x)
+pupil_upsample(x, time_cols = "Time", step = 1)
 }
 \arguments{
 \item{x}{dataframe.}
+
+\item{time_cols}{The name(s) of the time column(s). Default is "Time".}
+
+\item{step}{The step size(s) in milliseconds for up-sampling. Default is 1.}
 }
 \description{
 Increase the sampling frequency to 1000Hz. See
