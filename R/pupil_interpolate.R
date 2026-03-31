@@ -101,6 +101,8 @@ pupil_interpolate <- function(x, type = "cubic-spline",
                               maxgap = Inf, hz = "",
                               plot = FALSE, plot_trial = "all",
                               on_error = c("missing", "original")) {
+
+  on_error <- match.arg(on_error)
   x_before <- dplyr::as_tibble(x)
 
   if ("UpSampled" %in% colnames(x)) {
