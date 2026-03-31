@@ -189,7 +189,6 @@ pupil_interpolate <- function(x, type = "cubic-spline",
     real_name <- eye
     colnames(x)[which(colnames(x) == real_name)] <- "pupil_val"
 
-    x <- dtplyr::lazy_dt(x)
     x <- interpolate(x, type, maxgap)
     x <- dplyr::as_tibble(x)
 
