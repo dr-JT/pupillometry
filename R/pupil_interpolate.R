@@ -80,13 +80,27 @@
 #' @param hz The recording frequency (used to calculate maxgap).
 #' @param plot Logical. Inspect a plot of how pupil values changed?
 #' @param plot_trial what trial(s) to plot. default = "all"
+#' @param on_error How should errors be handled at the trial level?
+#'     One of:
+#'     \describe{
+#'       \item{"missing"}{If an error occurs during processing, all pupil values
+#'       for that trial are set to \code{NA}. This is the default and is the
+#'       most conservative option, ensuring that failed trials are not treated
+#'       as successfully processed.}
+#'       \item{"original"}{If an error occurs, the original (unprocessed) pupil
+#'       values for that trial are retained. A warning is still issued to
+#'       indicate that processing failed for that trial.}
+#'     }
+#'     Errors are handled independently for each trial, so a failure in one
+#'     trial will not interrupt processing of the remaining trials.
 #' @import data.table
 #' @export
 #'
 
 pupil_interpolate <- function(x, type = "cubic-spline",
                               maxgap = Inf, hz = "",
-                              plot = FALSE, plot_trial = "all") {
+                              plot = FALSE, plot_trial = "all",
+                              on_error = c("missing", "original")) {
   x_before <- dplyr::as_tibble(x)
 
   if ("UpSampled" %in% colnames(x)) {
@@ -98,28 +112,71 @@ pupil_interpolate <- function(x, type = "cubic-spline",
 
   #### Define interpolate function ####
   interpolate <- function(x, type, maxgap) {
-    x <- dplyr::group_by(x, Trial)
-    if (type == "cubic-spline") {
-      x <- dplyr::mutate(x,
-                         Missing.Total = ifelse(is.na(pupil_val), 1, 0),
-                         Missing.Total =
-                           sum(Missing.Total, na.rm = TRUE) / dplyr::n(),
-                         index =
-                           ifelse(is.na(pupil_val),
-                                  as.numeric(NA), dplyr::row_number()),
-                         index = zoo::na.approx(index, na.rm = FALSE),
-                         pupil_val = zoo::na.spline(pupil_val,
-                                                    na.rm = FALSE,
-                                                    x = index,
-                                                    maxgap = maxgap))
-      x <- dplyr::select(x, -index, -Missing.Total)
-    } else if (type == "linear") {
-      x <- dplyr::mutate(x,
-                         pupil_val = zoo::na.approx(pupil_val, na.rm = FALSE,
-                                                    maxgap = maxgap))
+    interpolate_one_trial <- function(df_trial, trial_id) {
+      df_trial <- dplyr::arrange(df_trial, Time)
+
+      out <- tryCatch(
+        {
+          if (type == "cubic-spline") {
+            df_trial <- dplyr::mutate(
+              df_trial,
+              index = ifelse(
+                is.na(pupil_val),
+                NA_real_,
+                dplyr::row_number()
+              ),
+              index = zoo::na.approx(index, na.rm = FALSE),
+              pupil_val = zoo::na.spline(
+                pupil_val,
+                na.rm = FALSE,
+                x = index,
+                maxgap = maxgap
+              )
+            ) |>
+              dplyr::select(-index)
+          }
+
+          if (type == "linear") {
+            df_trial <- dplyr::mutate(
+              df_trial,
+              pupil_val = zoo::na.approx(
+                pupil_val,
+                na.rm = FALSE,
+                maxgap = maxgap
+              )
+            )
+          }
+
+          df_trial
+        },
+        error = function(e) {
+          warning(
+            paste0(
+              "Interpolation failed for Trial ",
+              trial_id,
+              ". Returning ",
+              ifelse(on_error == "missing", "NA", "original"),
+              " pupil values."
+            ),
+            call. = FALSE
+          )
+
+          if (on_error == "missing") {
+            df_trial |> dplyr::mutate(pupil_val = NA_real_)
+          } else {
+            df_trial
+          }
+        }
+      )
+
+      out
     }
-    x <- dplyr::arrange(x, Trial, Time)
-    x <- dplyr::ungroup(x)
+
+    x |>
+      dplyr::group_by(Trial) |>
+      dplyr::group_modify(~ interpolate_one_trial(.x, .y$Trial[[1]])) |>
+      dplyr::ungroup() |>
+      dplyr::arrange(Trial, Time)
   }
   #####################################
 

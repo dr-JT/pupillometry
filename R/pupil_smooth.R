@@ -73,6 +73,19 @@
 #' @param n The size of the smoothing window in samples.
 #' @param plot Logical. Inspect a plot of how pupil values changed?
 #' @param plot_trial what trial(s) to plot. default = "all"
+#' @param on_error How should errors be handled at the trial level?
+#'     One of:
+#'     \describe{
+#'       \item{"missing"}{If an error occurs during processing, all pupil values
+#'       for that trial are set to \code{NA}. This is the default and is the
+#'       most conservative option, ensuring that failed trials are not treated
+#'       as successfully processed.}
+#'       \item{"original"}{If an error occurs, the original (unprocessed) pupil
+#'       values for that trial are retained. A warning is still issued to
+#'       indicate that processing failed for that trial.}
+#'     }
+#'     Errors are handled independently for each trial, so a failure in one
+#'     trial will not interrupt processing of the remaining trials.
 #' @param window Deprecated. Use n.
 #'     The size of the smoothing window in milliseconds.
 #' @param hz Deprecated. Use n. The recording frequency.
@@ -83,7 +96,10 @@
 
 pupil_smooth <- function(x, type = "hann", n = NULL,
                          plot = FALSE, plot_trial = "all",
+                         on_error = c("missing", "original"),
                          window = NULL, hz = NULL){
+
+  on_error <- match.arg(on_error)
   x_before <- dplyr::as_tibble(x)
 
   if (!is.null(window)) {
@@ -92,35 +108,72 @@ pupil_smooth <- function(x, type = "hann", n = NULL,
 
   #### Define smooth function ####
   smooth <- function(x, n) {
-    x <- dplyr::group_by(x, Trial)
-    x <- dplyr::mutate(x,
-                       pupil_before = pupil_val,
-                       pupil_val = zoo::na.approx(pupil_val, na.rm = FALSE,
-                                                  maxgap = Inf))
-    if (type == "hann") {
-      x <- dplyr::mutate(x,
-                         hold = dplR::hanning(pupil_val, n = n),
-                         hold = zoo::na.approx(hold, rule = 2),
-                         pupil_val =
-                           ifelse(is.na(pupil_val), as.numeric(NA), hold))
+    smooth_one_trial <- function(df_trial) {
+      df_trial <- dplyr::arrange(df_trial, Time)
+
+      out <- tryCatch(
+        {
+          df_trial <- dplyr::mutate(
+            df_trial,
+            pupil_before = pupil_val,
+            pupil_val = zoo::na.approx(
+              pupil_val,
+              na.rm = FALSE,
+              maxgap = Inf
+            )
+          )
+
+          if (type == "hann") {
+            df_trial <- dplyr::mutate(
+              df_trial,
+              hold = dplR::hanning(pupil_val, n = n),
+              hold = zoo::na.approx(hold, rule = 2),
+              pupil_val = ifelse(is.na(pupil_before), NA_real_, hold)
+            )
+          }
+
+          if (type == "mwa") {
+            df_trial <- dplyr::mutate(
+              df_trial,
+              hold = zoo::rollapply(
+                pupil_val,
+                width = n,
+                FUN = mean,
+                na.rm = TRUE,
+                partial = TRUE
+              ),
+              hold = zoo::na.approx(hold, rule = 2),
+              pupil_val = ifelse(is.na(pupil_before), NA_real_, hold)
+            )
+          }
+
+          df_trial |> dplyr::select(-pupil_before, -hold)
+        },
+        error = function(e) {
+          warning(
+            paste0(
+              "Smoothing failed for Trial ",
+              trial_id,
+              "."
+            ),
+            call. = FALSE
+          )
+
+          if (on_error == "missing") {
+            df_trial |> dplyr::mutate(pupil_val = NA_real_)
+          } else if (on_error == "original") {
+            df_trial
+          }
+        }
+      )
+      out
     }
-    if (type == "mwa") {
-      x <- dplyr::mutate(x,
-                         hold = zoo::rollapply(pupil_val,
-                                               width = n,
-                                               FUN = mean,
-                                               na.rm = TRUE,
-                                               partial = TRUE),
-                         hold = zoo::na.approx(hold, rule = 2),
-                         pupil_val =
-                           ifelse(is.na(pupil_val), as.numeric(NA), hold))
-    }
-    x <- dplyr::ungroup(x)
-    x <- dplyr::arrange(x, Trial, Time)
-    x <- dplyr::mutate(x,
-                       pupil_val =
-                         ifelse(is.na(pupil_before), as.numeric(NA), pupil_val))
-    x <- dplyr::select(x, -pupil_before, -hold)
+
+    x |>
+      dplyr::group_by(Trial) |>
+      dplyr::group_modify(~ smooth_one_trial(.x)) |>
+      dplyr::ungroup() |>
+      dplyr::arrange(Trial, Time)
   }
   ################################
 
