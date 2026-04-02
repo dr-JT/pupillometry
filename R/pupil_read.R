@@ -1047,6 +1047,7 @@ pupil_read <- function(file, eyetracker = "", eye_use = NULL,
   ## Save trial quality check ####
   if (!is.null(quality_check_dir)) {
     check <- dplyr::as_tibble(data)
+    check_total <- dplyr::as_tibble(data)
     check <- pupil_missing(check)
     if (!is.null(start_tracking_message)) {
       check <- dplyr::select(check, Subject, Time, Trial,
@@ -1073,14 +1074,14 @@ pupil_read <- function(file, eyetracker = "", eye_use = NULL,
       if ("L_Pupil_Diameter.mm" %in% data[["vars"]] &
           "R_Pupil_Diameter.mm" %in% data[["vars"]]) {
         check_total <- dplyr::mutate(
-          data,
+          check_total,
           L_Pupil_Missing.Total = sum(is.na(L_Pupil_Diameter.mm)) / dplyr::n(),
           R_Pupil_Missing.Total = sum(is.na(R_Pupil_Diameter.mm)) / dplyr::n()
         )
       } else if ("L_Pupil_Diameter.px" %in% data[["vars"]] &
                  "R_Pupil_Diameter.px" %in% data[["vars"]]) {
         check_total <- dplyr::mutate(
-          data,
+          check_total,
           L_Pupil_Missing.Total = sum(is.na(L_Pupil_Diameter.px)) / dplyr::n(),
           R_Pupil_Missing.Total = sum(is.na(R_Pupil_Diameter.px)) / dplyr::n()
         )
@@ -1093,12 +1094,12 @@ pupil_read <- function(file, eyetracker = "", eye_use = NULL,
       check <- dplyr::ungroup(check)
       if ("Pupil_Diameter.mm" %in% data[["vars"]]) {
         check_total <- dplyr::mutate(
-          data,
+          check_total,
           Pupil_Missing.Total = sum(is.na(Pupil_Diameter.mm)) / dplyr::n()
         )
       } else if ("Pupil_Diameter.px" %in% data[["vars"]]) {
         check_total <- dplyr::mutate(
-          data,
+          check_total,
           Pupil_Missing.Total = sum(is.na(Pupil_Diameter.px)) / dplyr::n()
         )
       }
