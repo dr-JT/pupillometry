@@ -1072,18 +1072,18 @@ pupil_read <- function(file, eyetracker = "", eye_use = NULL,
       check <- dplyr::ungroup(check)
       if ("L_Pupil_Diameter.mm" %in% data[["vars"]] &
           "R_Pupil_Diameter.mm" %in% data[["vars"]]) {
-        check <- dplyr::mutate(check,
-                               L_Pupil_Missing.Total =
-                                sum(is.na(L_Pupil_Diameter.mm)) / dplyr::n(),
-                               R_Pupil_Missing.Total =
-                                sum(is.na(R_Pupil_Diameter.mm)) / dplyr::n())
+        check_total <- dplyr::mutate(
+          data,
+          L_Pupil_Missing.Total = sum(is.na(L_Pupil_Diameter.mm)) / dplyr::n(),
+          R_Pupil_Missing.Total = sum(is.na(R_Pupil_Diameter.mm)) / dplyr::n()
+        )
       } else if ("L_Pupil_Diameter.px" %in% data[["vars"]] &
                  "R_Pupil_Diameter.px" %in% data[["vars"]]) {
-        check <- dplyr::mutate(check,
-                               L_Pupil_Missing.Total =
-                                 sum(is.na(L_Pupil_Diameter.px)) / dplyr::n(),
-                               R_Pupil_Missing.Total =
-                                 sum(is.na(R_Pupil_Diameter.px)) / dplyr::n())
+        check_total <- dplyr::mutate(
+          data,
+          L_Pupil_Missing.Total = sum(is.na(L_Pupil_Diameter.px)) / dplyr::n(),
+          R_Pupil_Missing.Total = sum(is.na(R_Pupil_Diameter.px)) / dplyr::n()
+        )
       }
     } else {
       check <- dplyr::summarise(check,
@@ -1092,16 +1092,19 @@ pupil_read <- function(file, eyetracker = "", eye_use = NULL,
                                   mean(Pupil_Missing, na.rm = TRUE))
       check <- dplyr::ungroup(check)
       if ("Pupil_Diameter.mm" %in% data[["vars"]]) {
-        check <- dplyr::mutate(check,
-                               Pupil_Missing.Total =
-                                 sum(is.na(Pupil_Diameter.mm)) / dplyr::n())
+        check_total <- dplyr::mutate(
+          data,
+          Pupil_Missing.Total = sum(is.na(Pupil_Diameter.mm)) / dplyr::n()
+        )
       } else if ("Pupil_Diameter.px" %in% data[["vars"]]) {
-        check <- dplyr::mutate(check,
-                               Pupil_Missing.Total =
-                                 sum(is.na(Pupil_Diameter.px)) / dplyr::n())
+        check_total <- dplyr::mutate(
+          data,
+          Pupil_Missing.Total = sum(is.na(Pupil_Diameter.px)) / dplyr::n()
+        )
       }
-
     }
+
+    check <- dplyr::left_join(check, check_total, by = "Subject")
 
 
     if (!dir.exists(quality_check_dir)) dir.create(quality_check_dir)
