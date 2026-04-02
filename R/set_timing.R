@@ -44,30 +44,36 @@ set_timing <- function(x, onset_message = NULL, match = "exact",
     onset_message <- trial_onset.message
   }
 
+  if ("Time_EyeTracker" %in% colnames(x)) {
+    x <- dplyr::mutate(x, Time_orig = Time_EyeTracker)
+  } else {
+    x <- dplyr::mutate(x, Time_orig = Time)
+  }
+
   if ("Stimulus" %in% colnames(x)) {
     x <- dplyr::group_by(x, Trial, Stimulus)
     x <- dplyr::mutate(x,
-                       Time_EyeTracker = Time,
+                       Time_EyeTracker = Time_orig,
                        onset.time = ifelse(Stimulus == onset_message,
-                                                min(Time, na.rm = TRUE), NA))
+                                                min(Time_orig, na.rm = TRUE), NA))
     x <- dplyr::group_by(x, Trial)
     x <- tidyr::fill(x, onset.time, .direction = "updown")
     x <- dplyr::mutate(x,
                        stim_present = ifelse(is.na(onset.time), "no", "yes"),
                        onset.time = ifelse(stim_present == "no",
-                                           min(Time, na.rm = TRUE), onset.time),
-                       Time = Time - onset.time)
+                                           min(Time_orig, na.rm = TRUE), onset.time),
+                       Time = Time_orig - onset.time)
   } else if ("Message" %in% colnames(x)) {
     x <- dplyr::group_by(x, Trial)
     if (match == "exact") {
       x <- dplyr::mutate(x,
                          onset.time = ifelse(Message == onset_message,
-                                                  Time, NA))
+                                                  Time_orig, NA))
     } else if (match == "pattern") {
       x <- dplyr::mutate(x,
                          onset.time =
                            ifelse(stringr::str_detect(Message, onset_message),
-                                  Time, NA))
+                                  Time_orig, NA))
     }
     x <- dplyr::mutate(x,
                        min = min(onset.time, na.rm = TRUE),
@@ -81,13 +87,13 @@ set_timing <- function(x, onset_message = NULL, match = "exact",
                                                       fromLast = TRUE),
                        stim_present = ifelse(is.na(onset.time), "no", "yes"),
                        onset.time = ifelse(stim_present == "no",
-                                           min(Time, na.rm = TRUE), onset.time),
-                       Time = Time - onset.time)
+                                           min(Time_orig, na.rm = TRUE), onset.time),
+                       Time = Time_orig - onset.time)
     x <- dplyr::select(x, -min)
   }
 
   x <- dplyr::ungroup(x)
-  x <- dplyr::select(x, -onset.time, -stim_present)
+  x <- dplyr::select(x, -onset.time, -stim_present, -Time_orig)
   x <- dplyr::distinct(x, Trial, Time, .keep_all = TRUE)
   x <- dplyr::filter(x, !is.na(Subject))
   x <- dplyr::relocate(x, Time_EyeTracker, .before = Time)
