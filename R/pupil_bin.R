@@ -41,7 +41,7 @@ pupil_bin <- function(x,
   bin_position <- match.arg(bin_position)
 
   bin <- function(x, bin_length, bin_position, na_allow) {
-    x <- dplyr::group_by(x, Subject, Trial, add = TRUE)
+    x <- dplyr::group_by(x, Subject, Trial, .add = TRUE)
 
     if (bin_position == "leading") {
       x <- dplyr::mutate(x,
@@ -58,7 +58,7 @@ pupil_bin <- function(x,
 
     x <- dplyr::mutate(x,
                        Time = TimeBin * bin_length)
-    x <- dplyr::group_by(x, TimeBin, add = TRUE)
+    x <- dplyr::group_by(x, TimeBin, .add = TRUE)
     x <- dplyr::mutate(x,
                        pupil_val = mean(pupil_val, na.rm = TRUE),
                        missing = sum(!is.na(pupil_val)),
