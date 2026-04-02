@@ -1065,17 +1065,44 @@ pupil_read <- function(file, eyetracker = "", eye_use = NULL,
          "R_Pupil_Diameter.px" %in% data[["vars"]])) {
       check <- dplyr::summarise(check,
                                 Trials = dplyr::n(),
-                                L_Pupil_Missing.mean =
+                                L_Pupil_Missing.TrialAvg =
                                   mean(L_Pupil_Missing, na.rm = TRUE),
-                                R_Pupil_Missing.mean =
+                                R_Pupil_Missing.TrialAvg =
                                   mean(R_Pupil_Missing, na.rm = TRUE))
+      check <- dplyr::ungroup(check)
+      if ("L_Pupil_Diameter.mm" %in% data[["vars"]] &
+          "R_Pupil_Diameter.mm" %in% data[["vars"]]) {
+        check <- dplyr::mutate(check,
+                               L_Pupil_Missing.Total =
+                                sum(is.na(L_Pupil_Diameter.mm)) / dplyr::n(),
+                               R_Pupil_Missing.Total =
+                                sum(is.na(R_Pupil_Diameter.mm)) / dplyr::n())
+      } else if ("L_Pupil_Diameter.px" %in% data[["vars"]] &
+                 "R_Pupil_Diameter.px" %in% data[["vars"]]) {
+        check <- dplyr::mutate(check,
+                               L_Pupil_Missing.Total =
+                                 sum(is.na(L_Pupil_Diameter.px)) / dplyr::n(),
+                               R_Pupil_Missing.Total =
+                                 sum(is.na(R_Pupil_Diameter.px)) / dplyr::n())
+      }
     } else {
       check <- dplyr::summarise(check,
                                 Trials = dplyr::n(),
-                                Pupil_Missing.mean =
+                                Pupil_Missing.TrialAvg =
                                   mean(Pupil_Missing, na.rm = TRUE))
+      check <- dplyr::ungroup(check)
+      if ("Pupil_Diameter.mm" %in% data[["vars"]]) {
+        check <- dplyr::mutate(check,
+                               Pupil_Missing.Total =
+                                 sum(is.na(Pupil_Diameter.mm)) / dplyr::n())
+      } else if ("Pupil_Diameter.px" %in% data[["vars"]]) {
+        check <- dplyr::mutate(check,
+                               Pupil_Missing.Total =
+                                 sum(is.na(Pupil_Diameter.px)) / dplyr::n())
+      }
+
     }
-    check <- dplyr::ungroup(check)
+
 
     if (!dir.exists(quality_check_dir)) dir.create(quality_check_dir)
     check_file <- paste(quality_check_dir, "quality_check.csv", sep = "/")
