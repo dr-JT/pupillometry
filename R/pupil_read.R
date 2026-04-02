@@ -1060,6 +1060,7 @@ pupil_read <- function(file, eyetracker = "", eye_use = NULL,
     }
 
     check <- dplyr::group_by(check, Subject)
+    check_total <- dplyr::group_by(check_total, Subject)
     if (("L_Pupil_Diameter.mm" %in% data[["vars"]] &
          "R_Pupil_Diameter.mm" %in% data[["vars"]]) |
         ("L_Pupil_Diameter.px" %in% data[["vars"]] &
@@ -1070,7 +1071,6 @@ pupil_read <- function(file, eyetracker = "", eye_use = NULL,
                                   mean(L_Pupil_Missing, na.rm = TRUE),
                                 R_Pupil_Missing.TrialAvg =
                                   mean(R_Pupil_Missing, na.rm = TRUE))
-      check <- dplyr::ungroup(check)
       if ("L_Pupil_Diameter.mm" %in% data[["vars"]] &
           "R_Pupil_Diameter.mm" %in% data[["vars"]]) {
         check_total <- dplyr::summarise(
@@ -1091,7 +1091,6 @@ pupil_read <- function(file, eyetracker = "", eye_use = NULL,
                                 Trials = dplyr::n(),
                                 Pupil_Missing.TrialAvg =
                                   mean(Pupil_Missing, na.rm = TRUE))
-      check <- dplyr::ungroup(check)
       if ("Pupil_Diameter.mm" %in% data[["vars"]]) {
         check_total <- dplyr::summarise(
           check_total,
@@ -1104,6 +1103,8 @@ pupil_read <- function(file, eyetracker = "", eye_use = NULL,
         )
       }
     }
+    check <- dplyr::ungroup(check)
+    check_total <- dplyr::ungroup(check_total)
 
     check <- dplyr::left_join(check, check_total, by = "Subject")
 
