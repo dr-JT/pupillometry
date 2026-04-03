@@ -42,10 +42,14 @@ pupil_artifact <- function(x, n = 16, plot = FALSE, plot_trial = "all") {
   x_before <- dplyr::as_tibble(x)
 
   speed <- function(x, y) {
-    diff <- diff(x) / diff(y)
-    pupil <- abs(cbind(c(NA, diff), c(diff, NA)))
-    pupil <- apply(pupil, 1, max, na.rm = TRUE)
-    pupil <- ifelse(pupil == -Inf, NA, pupil)
+    x_reduced <- x[!is.na(x)]
+    y_reduced <- y[!is.na(x)]
+    diff <- diff(x_reduced) / diff(y_reduced)
+    pupil_speed <- rep(NA, length(x))
+    pupil_speed[!is.na(x)] <- c(NA, diff)
+    pupil_speed <- cbind(pupil_speed, -1 * c(pupil_speed[-1], NA))
+    pupil_speed <- abs(apply(pupil_speed, 1, max, na.rm = TRUE))
+    pupil_speed <- ifelse(is.infinite(pupil_speed), NA, pupil_speed)
   }
 
   mad_removal <- function(x, n) {
@@ -55,7 +59,7 @@ pupil_artifact <- function(x, n = 16, plot = FALSE, plot_trial = "all") {
                        MAD = median(abs(pupil_speed - median_speed), na.rm = TRUE),
                        MAD_Threshold = median_speed + (n * MAD),
                        pupil_val =
-                         ifelse(pupil_speed >= MAD_Threshold,
+                         ifelse(!is.na(pupil_speed) & pupil_speed >= MAD_Threshold,
                                 as.numeric(NA), pupil_val))
     x <- dplyr::select(x, -pupil_speed, -median_speed, -MAD, -MAD_Threshold)
   }
