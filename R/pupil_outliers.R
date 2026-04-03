@@ -114,7 +114,8 @@ pupil_outliers <- function(x, threshold = 3, remove = TRUE,
             x = "Pupil Size",
             y = "Frequency") +
         ggplot2::theme_linedraw() + theme_spacious() +
-        ggplot2::theme(plot.title = ggplot2::element_text(hjust = 0.5))
+        ggplot2::theme(plot.title = ggplot2::element_text(hjust = 0.5),
+              plot.subtitle = ggplot2::element_text(hjust = 0.5))
       # Print histogram
       grid::grid.draw(histogram)
     }
