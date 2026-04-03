@@ -83,16 +83,16 @@ pupil_outliers <- function(x, threshold = 3, remove = TRUE, plot = FALSE) {
                     legend.spacing = ggplot2::unit(20, "pt"),
                     legend.text = ggplot2::element_text(size = key.size))
     }
-    ggplot2::ggplot(x, aes(x = pupil_val)) +
+    ggplot2::ggplot(x, ggplot2::aes(x = pupil_val)) +
       ggplot2::geom_histogram(binwidth = 0.1, fill = "blue", color = "black") +
-      ggplot2::geom_vline(aes(xintercept = mean(pupil_val, na.rm = TRUE)),
+      ggplot2::geom_vline(ggplot2::aes(xintercept = mean(pupil_val, na.rm = TRUE)),
                           color = "green", linetype = "dashed") +
       ggplot2::geom_vline(
-        aes(xintercept = mean(pupil_val, na.rm = TRUE) +
+        ggplot2::aes(xintercept = mean(pupil_val, na.rm = TRUE) +
                   (threshold * sd(pupil_val, na.rm = TRUE))),
         color = "red", linetype = "dashed") +
       ggplot2::geom_vline(
-        aes(xintercept = mean(pupil_val, na.rm = TRUE) -
+        ggplot2::aes(xintercept = mean(pupil_val, na.rm = TRUE) -
                   (threshold * sd(pupil_val, na.rm = TRUE))),
           color = "red", linetype = "dashed") +
       ggplot2::labs(title = "Distribution of Pupil Size with Outlier Thresholds",
