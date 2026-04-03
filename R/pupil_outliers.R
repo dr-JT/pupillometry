@@ -57,9 +57,8 @@ pupil_outliers <- function(x, threshold = 3, remove = TRUE, plot = FALSE) {
 
       colnames(x)[which(colnames(x) == "pupil_val")] <- real_name
     }
-  }
 
-  if (plot) {
+    if (plot) {
     theme_spacious <- function(font.size = 14, bold = TRUE) {
       key.size <- trunc(font.size*.8)
       if (bold == TRUE) {
@@ -83,24 +82,28 @@ pupil_outliers <- function(x, threshold = 3, remove = TRUE, plot = FALSE) {
                     legend.spacing = ggplot2::unit(20, "pt"),
                     legend.text = ggplot2::element_text(size = key.size))
     }
-    plot <- ggplot2::ggplot(x, ggplot2::aes(x = pupil_val)) +
-      ggplot2::geom_histogram(binwidth = 0.1, fill = "blue", color = "black") +
-      ggplot2::geom_vline(ggplot2::aes(xintercept = mean(pupil_val, na.rm = TRUE)),
-                          color = "green", linetype = "dashed") +
-      ggplot2::geom_vline(
-        ggplot2::aes(xintercept = mean(pupil_val, na.rm = TRUE) +
-                  (threshold * sd(pupil_val, na.rm = TRUE))),
-        color = "red", linetype = "dashed") +
-      ggplot2::geom_vline(
-        ggplot2::aes(xintercept = mean(pupil_val, na.rm = TRUE) -
-                  (threshold * sd(pupil_val, na.rm = TRUE))),
+      x_plot <- x
+      colnames(x_plot)[which(colnames(x_plot) == real_name)] <- "pupil_val"
+
+      plot <- ggplot2::ggplot(x_plot, ggplot2::aes(x = pupil_val)) +
+        ggplot2::geom_histogram(binwidth = 0.1, fill = "blue", color = "black") +
+        ggplot2::geom_vline(ggplot2::aes(xintercept = mean(pupil_val, na.rm = TRUE)),
+                            color = "green", linetype = "dashed") +
+        ggplot2::geom_vline(
+          ggplot2::aes(xintercept = mean(pupil_val, na.rm = TRUE) +
+                    (threshold * sd(pupil_val, na.rm = TRUE))),
           color = "red", linetype = "dashed") +
-      ggplot2::labs(title = "Distribution of Pupil Size with Outlier Thresholds",
-           x = "Pupil Size",
-           y = "Frequency") +
-      theme_spacious()
-    # Print plot
-    grid::grid.draw(plot)
+        ggplot2::geom_vline(
+          ggplot2::aes(xintercept = mean(pupil_val, na.rm = TRUE) -
+                    (threshold * sd(pupil_val, na.rm = TRUE))),
+            color = "red", linetype = "dashed") +
+        ggplot2::labs(title = "Distribution of Pupil Size with Outlier Thresholds",
+            x = "Pupil Size",
+            y = "Frequency") +
+        theme_spacious()
+      # Print plot
+      grid::grid.draw(plot)
+    }
   }
   return(x)
 }
