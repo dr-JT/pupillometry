@@ -4,7 +4,15 @@
 \alias{pupil_outliers}
 \title{Outlier detection and removal for pupil data}
 \usage{
-pupil_outliers(x, threshold = 3, remove = TRUE, plot = FALSE)
+pupil_outliers(
+  x,
+  threshold = 3,
+  remove = TRUE,
+  plot = FALSE,
+  plot_trial = "all",
+  histogram = FALSE,
+  binwidth = 0.1
+)
 }
 \arguments{
 \item{x}{dataframe.}
@@ -13,7 +21,13 @@ pupil_outliers(x, threshold = 3, remove = TRUE, plot = FALSE)
 
 \item{remove}{Logical. Whether to remove outliers from the data. Default is TRUE.}
 
-\item{plot}{Logical. Inspect a plot of how pupil values changed? Default is FALSE.}
+\item{plot}{Logical. Whether to create a plot showing the distribution of pupil size values with outlier thresholds. Default is FALSE.}
+
+\item{plot_trial}{What trial(s) to plot if `plot = TRUE`. Default is "all".}
+
+\item{histogram}{Logical. Inspect a histogram of how pupil values changed? Default is FALSE.}
+
+\item{binwidth}{Numeric. Bin width for the histogram if `histogram = TRUE`. Default is 0.1.}
 }
 \description{
 This function detects and removes outliers in pupil size data using

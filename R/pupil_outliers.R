@@ -29,11 +29,17 @@
 #' @param x dataframe.
 #' @param threshold Number of standard deviations from the mean to use as the outlier threshold. Default is 3.
 #' @param remove Logical. Whether to remove outliers from the data. Default is TRUE.
-#' @param plot Logical. Inspect a plot of how pupil values changed? Default is FALSE.
+#' @param plot Logical. Whether to create a plot showing the distribution of pupil size values with outlier thresholds. Default is FALSE.
+#' @param plot_trial What trial(s) to plot if `plot = TRUE`. Default is "all".
+#' @param histogram Logical. Inspect a histogram of how pupil values changed? Default is FALSE.
+#' @param binwidth Numeric. Bin width for the histogram if `histogram = TRUE`. Default is 0.1.
 #'
 #' @export
 
-pupil_outliers <- function(x, threshold = 3, remove = TRUE, plot = FALSE) {
+pupil_outliers <- function(x, threshold = 3, remove = TRUE,
+                           plot = FALSE, plot_trial = "all",
+                           histogram = FALSE, binwidth = 0.1) {
+  x_before <- dplyr::as_tibble(x)
   x <- dplyr::as_tibble(x)
   eyes <- eyes_detect(x)
 
@@ -58,7 +64,12 @@ pupil_outliers <- function(x, threshold = 3, remove = TRUE, plot = FALSE) {
       colnames(x)[which(colnames(x) == "pupil_val")] <- real_name
     }
 
-    if (plot) {
+    if (plot == TRUE) pupil_plot(x_before, x, trial = plot_trial,
+                               sub_title =
+                                 paste("pupil_outliers(threshold = ", threshold,
+                                        ")", sep = ""))
+
+    if (histogram) {
     theme_spacious <- function(font.size = 14, bold = TRUE) {
       key.size <- trunc(font.size*.8)
       if (bold == TRUE) {
@@ -85,24 +96,27 @@ pupil_outliers <- function(x, threshold = 3, remove = TRUE, plot = FALSE) {
       x_plot <- x
       colnames(x_plot)[which(colnames(x_plot) == real_name)] <- "pupil_val"
 
-      plot <- ggplot2::ggplot(x_plot, ggplot2::aes(x = pupil_val)) +
-        ggplot2::geom_histogram(binwidth = 0.1, fill = "blue", color = "black") +
+      histogram <- ggplot2::ggplot(x_plot, ggplot2::aes(x = pupil_val)) +
+        ggplot2::geom_histogram(binwidth = binwidth, fill = "blue", color = "black") +
         ggplot2::geom_vline(ggplot2::aes(xintercept = mean(pupil_val, na.rm = TRUE)),
-                            color = "green", linetype = "dashed") +
+                            color = "red", linetype = "dashed") +
         ggplot2::geom_vline(
           ggplot2::aes(xintercept = mean(pupil_val, na.rm = TRUE) +
                     (threshold * sd(pupil_val, na.rm = TRUE))),
-          color = "red", linetype = "dashed") +
+          color = "green", linetype = "dashed") +
         ggplot2::geom_vline(
           ggplot2::aes(xintercept = mean(pupil_val, na.rm = TRUE) -
                     (threshold * sd(pupil_val, na.rm = TRUE))),
-            color = "red", linetype = "dashed") +
+            color = "green", linetype = "dashed") +
         ggplot2::labs(title = "Distribution of Pupil Size with Outlier Thresholds",
+                      subtitle = paste0("Subject: ", x_plot$Subject[1], " ",
+                                        "Threshold: ", threshold, " SD"),
             x = "Pupil Size",
             y = "Frequency") +
-        theme_spacious()
-      # Print plot
-      grid::grid.draw(plot)
+        ggplot2::theme_linedraw() + theme_spacious() +
+        ggplot2::theme(plot.title = ggplot2::element_text(hjust = 0.5))
+      # Print histogram
+      grid::grid.draw(histogram)
     }
   }
   return(x)
