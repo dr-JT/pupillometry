@@ -99,6 +99,8 @@ pupil_outliers <- function(x, threshold = 3, remove = TRUE, plot = FALSE) {
            x = "Pupil Size",
            y = "Frequency") +
       theme_spacious()
+    # Print plot
+    grid::grid.draw(plot)
   }
   return(x)
 }
