@@ -4,12 +4,21 @@
 \alias{pupil_artifact}
 \title{Artifact rejection}
 \usage{
-pupil_artifact(x, n = 16, iterations = 1, plot = FALSE, plot_trial = "all")
+pupil_artifact(
+  x,
+  n = 16,
+  extend = 0,
+  iterations = 1,
+  plot = FALSE,
+  plot_trial = "all"
+)
 }
 \arguments{
 \item{x}{dataframe.}
 
 \item{n}{constant used to calculate threshold.}
+
+\item{extend}{How many milliseconds to extend artifact rejection before and after detection.}
 
 \item{iterations}{number of times to apply MAD artifact rejection. Default is 1.}
 

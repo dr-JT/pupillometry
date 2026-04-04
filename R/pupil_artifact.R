@@ -31,6 +31,7 @@
 #'
 #' @param x dataframe.
 #' @param n constant used to calculate threshold.
+#' @param extend How many milliseconds to extend artifact rejection before and after detection.
 #' @param iterations number of times to apply MAD artifact rejection. Default is 1.
 #' @param plot Logical. Inspect a plot of how pupil values changed?
 #' @param plot_trial what trial(s) to plot. default = "all"
@@ -38,7 +39,7 @@
 #' @export
 #'
 
-pupil_artifact <- function(x, n = 16, iterations = 1,
+pupil_artifact <- function(x, n = 16, extend = 0, iterations = 1,
                            plot = FALSE, plot_trial = "all") {
 
   x_before <- dplyr::as_tibble(x)
@@ -60,10 +61,16 @@ pupil_artifact <- function(x, n = 16, iterations = 1,
                        median_speed = median(pupil_speed, na.rm = TRUE),
                        MAD = median(abs(pupil_speed - median_speed), na.rm = TRUE),
                        MAD_Threshold = median_speed + (n * MAD),
-                       pupil_val =
-                         ifelse(!is.na(pupil_speed) & pupil_speed >= MAD_Threshold,
-                                as.numeric(NA), pupil_val))
-    x <- dplyr::select(x, -pupil_speed, -median_speed, -MAD, -MAD_Threshold)
+                       artifact =
+                        ifelse(!is.na(pupil_speed) & pupil_speed >= MAD_Threshold, 1, 0),
+                       artifact_time =
+                         ifelse(artifact == 1, Time, as.numeric(NA)),
+                       artifact = ifelse(!is.na(artifact_time) &
+                                  Time >= artifact_time - extend &
+                                  Time <= artifact_time + extend, 1, artifact),
+                       pupil_val = ifelse(artifact == 1, NA, pupil_val))
+    x <- dplyr::select(x, -pupil_speed, -median_speed,
+                       -MAD, -MAD_Threshold, -artifact, -artifact_time)
   }
 
   x <- dplyr::as_tibble(x)
