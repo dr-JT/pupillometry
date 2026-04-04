@@ -65,9 +65,15 @@ pupil_artifact <- function(x, n = 16, extend = 0, iterations = 1,
                         ifelse(!is.na(pupil_speed) & pupil_speed >= MAD_Threshold, 1, 0),
                        artifact_time =
                          ifelse(artifact == 1, Time, as.numeric(NA)),
-                       artifact = ifelse(!is.na(artifact_time) &
-                                  Time >= artifact_time - extend &
-                                  Time <= artifact_time + extend, 1, artifact),
+                       artifact_time.before = zoo::na.locf(artifact_time, na.rm = FALSE, fromLast = TRUE),
+                       artifact_time.after = zoo::na.locf(artifact_time, na.rm = FALSE),
+                        artifact =
+                          ifelse(!is.na(artifact_time.before) &
+                                    Time >= artifact_time.before - extend &
+                                    Time <= artifact_time.before, 1, artifact),
+                          ifelse(!is.na(artifact_time.after) &
+                                   Time <= artifact_time.after + extend &
+                                   Time >= artifact_time.after, 1, artifact),
                        pupil_val = ifelse(artifact == 1, NA, pupil_val))
     x <- dplyr::select(x, -pupil_speed, -median_speed,
                        -MAD, -MAD_Threshold, -artifact, -artifact_time)
