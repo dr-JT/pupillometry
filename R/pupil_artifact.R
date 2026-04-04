@@ -75,8 +75,8 @@ pupil_artifact <- function(x, n = 16, extend = 0, iterations = 1,
                                    Time <= artifact_time.after + extend &
                                    Time >= artifact_time.after, 1, artifact),
                        pupil_val = ifelse(artifact == 1, NA, pupil_val))
-    x <- dplyr::select(x, -pupil_speed, -median_speed,
-                       -MAD, -MAD_Threshold, -artifact, -artifact_time)
+    x <- dplyr::select(x, -pupil_speed, -median_speed, -MAD, -MAD_Threshold,
+                       -artifact, -artifact_time, -artifact_time.before, -artifact_time.after)
   }
 
   x <- dplyr::as_tibble(x)
