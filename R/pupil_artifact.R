@@ -31,13 +31,15 @@
 #'
 #' @param x dataframe.
 #' @param n constant used to calculate threshold.
+#' @param iterations number of times to apply MAD artifact rejection. Default is 1.
 #' @param plot Logical. Inspect a plot of how pupil values changed?
 #' @param plot_trial what trial(s) to plot. default = "all"
 #' @import data.table
 #' @export
 #'
 
-pupil_artifact <- function(x, n = 16, plot = FALSE, plot_trial = "all") {
+pupil_artifact <- function(x, n = 16, iterations = 1,
+                           plot = FALSE, plot_trial = "all") {
 
   x_before <- dplyr::as_tibble(x)
 
@@ -71,7 +73,9 @@ pupil_artifact <- function(x, n = 16, plot = FALSE, plot_trial = "all") {
     colnames(x)[which(colnames(x) == real_name)] <- "pupil_val"
 
     x <- dtplyr::lazy_dt(x)
-    x <- mad_removal(x, n)
+    for (i in 1:iterations) {
+      x <- mad_removal(x, n)
+    }
     x <- dplyr::as_tibble(x)
 
     colnames(x)[which(colnames(x) == "pupil_val")] <- real_name

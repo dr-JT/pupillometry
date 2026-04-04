@@ -4,12 +4,14 @@
 \alias{pupil_artifact}
 \title{Artifact rejection}
 \usage{
-pupil_artifact(x, n = 16, plot = FALSE, plot_trial = "all")
+pupil_artifact(x, n = 16, iterations = 1, plot = FALSE, plot_trial = "all")
 }
 \arguments{
 \item{x}{dataframe.}
 
 \item{n}{constant used to calculate threshold.}
+
+\item{iterations}{number of times to apply MAD artifact rejection. Default is 1.}
 
 \item{plot}{Logical. Inspect a plot of how pupil values changed?}
 
