@@ -20,13 +20,16 @@
 #' @param x dataframe.
 #' @param extend How many milliseconds to extend blinks
 #'     before and after blink detection.
+#' @param min_blink_duration Minimum duration of a blink in milliseconds.
 #' @param plot Logical. Inspect a plot of how pupil values changed?
 #' @param plot_trial what trial(s) to plot. default = "all"
 #' @import data.table
 #' @export
 #'
 
-pupil_deblink <- function(x, extend = 0, plot = FALSE, plot_trial = "all") {
+pupil_deblink <- function(x, extend = 0,
+                          min_blink_duration = 0,
+                          plot = FALSE, plot_trial = "all") {
 
   x_before <- dplyr::as_tibble(x)
 
@@ -44,10 +47,36 @@ pupil_deblink <- function(x, extend = 0, plot = FALSE, plot_trial = "all") {
 
     #### Define blink + extension samples ####
     x <- dtplyr::lazy_dt(x)
-    x <- dplyr::mutate(x, .by = Trial,
-                       blink =
-                         ifelse(!is.na(eye_event) & eye_event == "Blink", 1,
-                                ifelse(is.na(pupil_val), 1, 0)),
+    x <- x |>
+      dplyr::mutate(
+        pupil_missing = is.na(pupil_val),
+
+        missing_run = cumsum(
+          pupil_missing !=
+            dplyr::lag(pupil_missing, default = FALSE)
+        ),
+
+        .by = Trial
+      ) |>
+      dplyr::mutate(
+        missing_duration = dplyr::if_else(
+          dplyr::first(pupil_missing),
+          max(Time, na.rm = TRUE) - min(Time, na.rm = TRUE),
+          0
+        ),
+
+        .by = c(Trial, missing_run)
+      ) |>
+      dplyr::mutate(.by = Trial,
+                       blink = dplyr::if_else(
+                          (!is.na(eye_event) & eye_event == "Blink") |
+                            (
+                              pupil_missing &
+                                missing_duration >= min_blink_duration
+                            ),
+                          1L,
+                          0L
+                        ),
                        blink.lag = dplyr::lag(blink),
                        blink.lead = dplyr::lead(blink),
                        blink.start =
@@ -68,7 +97,8 @@ pupil_deblink <- function(x, extend = 0, plot = FALSE, plot_trial = "all") {
                                         Time >= blink.end, 1, blink))
 
     x <- dplyr::select(x, -blink.lag, -blink.lead,
-                       -blink.start, -blink.end)
+                       -blink.start, -blink.end,
+                       -pupil_missing, -missing_run, -missing_duration)
     ##########################################
 
     x <- dplyr::mutate(x,

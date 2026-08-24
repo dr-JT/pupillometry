@@ -4,13 +4,21 @@
 \alias{pupil_deblink}
 \title{Deblink}
 \usage{
-pupil_deblink(x, extend = 0, plot = FALSE, plot_trial = "all")
+pupil_deblink(
+  x,
+  extend = 0,
+  min_blink_duration = 0,
+  plot = FALSE,
+  plot_trial = "all"
+)
 }
 \arguments{
 \item{x}{dataframe.}
 
 \item{extend}{How many milliseconds to extend blinks
 before and after blink detection.}
+
+\item{min_blink_duration}{Minimum duration of a blink in milliseconds.}
 
 \item{plot}{Logical. Inspect a plot of how pupil values changed?}
 
