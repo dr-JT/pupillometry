@@ -10,6 +10,7 @@ pupil_smooth(
   n = NULL,
   plot = FALSE,
   plot_trial = "all",
+  on_error = c("missing", "original"),
   window = NULL,
   hz = NULL
 )
@@ -24,6 +25,20 @@ pupil_smooth(
 \item{plot}{Logical. Inspect a plot of how pupil values changed?}
 
 \item{plot_trial}{what trial(s) to plot. default = "all"}
+
+\item{on_error}{How should errors be handled at the trial level?
+One of:
+\describe{
+  \item{"missing"}{If an error occurs during processing, all pupil values
+  for that trial are set to \code{NA}. This is the default and is the
+  most conservative option, ensuring that failed trials are not treated
+  as successfully processed.}
+  \item{"original"}{If an error occurs, the original (unprocessed) pupil
+  values for that trial are retained. A warning is still issued to
+  indicate that processing failed for that trial.}
+}
+Errors are handled independently for each trial, so a failure in one
+trial will not interrupt processing of the remaining trials.}
 
 \item{window}{Deprecated. Use n.
 The size of the smoothing window in milliseconds.}
